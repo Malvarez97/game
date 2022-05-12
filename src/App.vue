@@ -1,26 +1,36 @@
 <template>
-  <img alt="Vue logo" src="./assets/logo.png">
-  <HelloWorld msg="Welcome to Your Vue.js App"/>
+	<v-row class="row" :key="I" v-for="ROW,I in 2" >
+		<v-col class="row" :key="index" v-for="col,index in 2">
+			<MyQuadrantVue/>
+		</v-col>
+	</v-row>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import MyQuadrantVue from "./components/Quadrant.vue"
 
 export default {
-  name: 'App',
-  components: {
-    HelloWorld
-  }
+	components: {
+		MyQuadrantVue
+	},
+	data: () => ({
+	})
 }
 </script>
 
-<style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
+<style scoped>
+.quadrant {
+  width:50%;
+  background-color: rgba(0, 0, 0);
+  border-width:2px ;
+  border-style:solid;
+  border-color:red;
+}
+.row {
+  width:100%;
+  height: 508px;
+  border:red;
+  background-color: black;
+  border:2px solid rgb(232, 8, 8);
 }
 </style>
