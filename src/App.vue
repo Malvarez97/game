@@ -1,9 +1,12 @@
 <template>
-	<v-row class="row" :key="I" v-for="ROW,I in 2" >
-		<v-col class="row" :key="index" v-for="col,index in 2">
+	<v-app fluid style="height: 100vh;">
+	<v-row :key="I" v-for="I in 2" >
+		<v-col class="row" :key="index" v-for="index in 2">
 			<MyQuadrantVue/>
 		</v-col>
 	</v-row>
+	</v-app>
+
 </template>
 
 <script>
@@ -19,18 +22,13 @@ export default {
 </script>
 
 <style scoped>
-.quadrant {
-  width:50%;
-  background-color: rgba(0, 0, 0);
-  border-width:2px ;
-  border-style:solid;
-  border-color:red;
-}
 .row {
-  width:100%;
-  height: 508px;
+  background-color: #2C3E50;
   border:red;
-  background-color: black;
   border:2px solid rgb(232, 8, 8);
+}
+.container {
+  background-color: gray;
+  height: 100%;
 }
 </style>
