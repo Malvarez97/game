@@ -1,14 +1,23 @@
 <template>
-   <div >
-	<div v-show=!validLetter>
-			<input class="positionUp" v-model="input">
-		</div>
-		<div v-show=validLetter>
-      <h1 class="positionUp,red">ABC ☑️</h1>
-		</div>
-     <div>
-       <input class="positionCenter" v-model="inputCenter">
-     </div>
+   <div v-show=response >
+    <div v-show=!validateShort&&shortIsEmpty>
+        <input class="positionUp inputEmpty" v-model="input">
+      </div>
+       <div v-show=!validateShort&&!shortIsEmpty>
+         <input class="positionUp inputFail" v-model="input">
+       </div>
+      <div v-show=validateShort>
+        <h1 class="positionUp">{{short.toUpperCase()}} ☑</h1>
+      </div>
+       <div v-show=!validateLong&&longIsEmpty>
+         <input class="positionCenter inputEmpty" v-model="inputCenter">
+       </div>
+       <div v-show=!validateLong&&!longIsEmpty>
+         <input class="positionCenter inputFail" v-model="inputCenter">
+       </div>
+       <div v-show=validateLong>
+         <h1 class="positionCenter">{{long.toUpperCase()}} ☑</h1>
+       </div>
     </div>
 </template>
 
@@ -16,36 +25,69 @@
 
 export default {
 	name: 'MyQuadrant',
+  props: {
+    long:{
+      default:"",
+    },
+    short:String,
+  },
   data(){
     return{
-      validLetter:false,
+      response:true,
+      validateShort:false,
+      validateLong:false,
+      shortIsEmpty:true,
+      longIsEmpty:true,
       input:"",
+      inputCenter:"",
     }
   },
   methods: {
-    isLetters: function(){
-      if("ABC"===this.input) {
+    isShort: function(){
+      if(this.short.toUpperCase()===this.input.toUpperCase()) {
         // eslint-disable-next-line no-unreachable
-        this.validLetter=true;
-        console.log(this.validLetter);
+        this.validateShort=true;
+      }
+    },
+    shortEmpty: function(){
+      if(this.input.length>=1) {
+        // eslint-disable-next-line no-unreachable
+        this.shortIsEmpty=false;
+      }
+    },
+    isLong: function(){
+      if(this.long.toUpperCase()===this.inputCenter.toUpperCase()) {
+        // eslint-disable-next-line no-unreachable
+        this.validateLong=true;
+      }
+    },
+    longEmpty: function(){
+      if(this.inputCenter.length>=1) {
+        // eslint-disable-next-line no-unreachable
+        this.longIsEmpty=false;
       }
     },
   },
   watch:{
      input() {
-      this.isLetters();
-        }
+      this.isShort();
+      this.shortEmpty();
+        },
+      inputCenter(){
+        this.isLong();
+        this.longEmpty();
+      }
     }
 }
 </script>
 
 <style scoped>
 h1{
-  font-size: 65px;
+  font-size: 75px;
   color:greenyellow;
 }
 input {
-	font-size: 65PX;
+	font-size: 75PX;
 	color:#aaa;
 	background-color: #2C3E50;
 	border:4px solid #aaa;
@@ -55,12 +97,16 @@ input {
 	box-sizing: border-box;
 
 }
-.red{
-  background-color: darkred;
-}
-input:focus {
+.inputEmpty:focus {
 	border-color:dodgerblue;
 	box-shadow:0 0 8Px 0 dodgerblue;
+}
+.inputFail{
+  color:darkred;
+}
+.inputFail:focus {
+  border-color:darkred;
+  box-shadow:0 0 8Px 0 darkred;
 }
 .positionUp{
 	position:relative;
