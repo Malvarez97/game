@@ -1,5 +1,10 @@
 <template>
-   <div v-show=response >
+  <div v-show=response >
+      <h1 class="positionUp">{{short.toUpperCase()}} </h1>
+      <h1 class="positionCenter">{{long.toUpperCase()}} </h1>
+    </div>
+
+   <div v-show=!response >
     <div v-show=!validateShort&&shortIsEmpty>
         <input class="positionUp inputEmpty" v-model="input">
       </div>
