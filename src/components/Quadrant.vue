@@ -3,7 +3,6 @@
       <h1 class="positionUp">{{short.toUpperCase()}} </h1>
       <h1 class="positionCenter">{{long.toUpperCase()}} </h1>
     </div>
-
    <div v-show=!response >
     <div v-show=!validateShort&&shortIsEmpty>
         <input class="positionUp inputEmpty" v-model="input">
@@ -35,10 +34,10 @@ export default {
       default:"",
     },
     short:String,
+    response:Boolean,
   },
   data(){
     return{
-      response:true,
       validateShort:false,
       validateLong:false,
       shortIsEmpty:true,
@@ -100,7 +99,6 @@ input {
 	outline:none;
 	padding: 2%;
 	box-sizing: border-box;
-
 }
 .inputEmpty:focus {
 	border-color:dodgerblue;
