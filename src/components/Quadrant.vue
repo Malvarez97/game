@@ -1,9 +1,23 @@
 <template>
-  <div v-show=response >
-      <h1 class="positionUp">{{short.toUpperCase()}} </h1>
-      <h1 class="positionCenter">{{long.toUpperCase()}} </h1>
+  <!-- Mostrar Valores  -->
+  <div v-show="this.state==0">
+      <h1 class="positionUp">{{ quadranId.toUpperCase() }} </h1>
+      <h1 class="positionCenter">{{ word.toUpperCase() }} </h1>
     </div>
-   <div v-show=!response >
+      <!-- Ingresar Palabra  -->
+      <div v-show="this.state==1" >
+      <div v-show=!validateLong&&longIsEmpty>
+        <input class="positionCenter inputEmpty" v-model="inputCenter">
+      </div>
+      <div v-show=!validateLong&&!longIsEmpty>
+        <input class="positionCenter inputFail" v-model="inputCenter">
+      </div>
+      <div v-show=validateLong>
+        <h1 class="positionCenter">{{ word.toUpperCase() }} ☑</h1>
+      </div>
+    </div>
+  <!-- Insertar ID CUADRANTE   -->
+   <div v-show="this.state==2" >
     <div v-show=!validateShort&&shortIsEmpty>
         <input class="positionUp inputEmpty" v-model="input">
       </div>
@@ -11,18 +25,22 @@
          <input class="positionUp inputFail" v-model="input">
        </div>
       <div v-show=validateShort>
-        <h1 class="positionUp">{{short.toUpperCase()}} ☑</h1>
+        <h1 class="positionUp">{{ quadranId.toUpperCase() }} ☑</h1>
       </div>
-       <div v-show=!validateLong&&longIsEmpty>
-         <input class="positionCenter inputEmpty" v-model="inputCenter">
-       </div>
-       <div v-show=!validateLong&&!longIsEmpty>
-         <input class="positionCenter inputFail" v-model="inputCenter">
-       </div>
-       <div v-show=validateLong>
-         <h1 class="positionCenter">{{long.toUpperCase()}} ☑</h1>
-       </div>
+     </div>
+     <!-- Insertar ID CUADRANTE   -->
+     <div v-show="this.state==3">
+       <h1 class="positionUp">{{ quadranId.toUpperCase() }} </h1>
+     </div>
+   <!-- Insertar ID CUADRANTE   -->
+    <div v-show="this.state==4">
+    <h1 class="positionCenter">Correcto</h1>
     </div>
+      <!-- Insertar ID CUADRANTE   -->
+    <div v-show="this.state==5">
+    <h1 class="positionCenter incorrect">InCorrecto</h1>
+    </div>
+
 </template>
 
 <script>
@@ -30,11 +48,11 @@
 export default {
 	name: 'MyQuadrant',
   props: {
-    long:{
+    word:{
       default:"",
     },
-    short:String,
-    response:Boolean,
+    quadranId:String,
+    state:Number,
   },
   data(){
     return{
@@ -47,25 +65,27 @@ export default {
     }
   },
   methods: {
-    isShort: function(){
-      if(this.short.toUpperCase()===this.input.toUpperCase()) {
+    idCorrect: function(){
+      if(this.quadranId.toUpperCase()===this.input.toUpperCase()) {
         // eslint-disable-next-line no-unreachable
         this.validateShort=true;
+        this.$emit('idCorrect')
       }
     },
-    shortEmpty: function(){
+    idEmpty: function(){
       if(this.input.length>=1) {
         // eslint-disable-next-line no-unreachable
         this.shortIsEmpty=false;
       }
     },
-    isLong: function(){
-      if(this.long.toUpperCase()===this.inputCenter.toUpperCase()) {
+    wordCorrect: function(){
+      if(this.word.toUpperCase()===this.inputCenter.toUpperCase()) {
         // eslint-disable-next-line no-unreachable
         this.validateLong=true;
+        this.$emit('wordCorrect')
       }
     },
-    longEmpty: function(){
+    wordEmpty: function(){
       if(this.inputCenter.length>=1) {
         // eslint-disable-next-line no-unreachable
         this.longIsEmpty=false;
@@ -74,12 +94,12 @@ export default {
   },
   watch:{
      input() {
-      this.isShort();
-      this.shortEmpty();
+      this.idCorrect();
+      this.idEmpty();
         },
       inputCenter(){
-        this.isLong();
-        this.longEmpty();
+        this.wordCorrect();
+        this.wordEmpty();
       }
     }
 }
@@ -89,6 +109,9 @@ export default {
 h1{
   font-size: 75px;
   color:greenyellow;
+}
+.incorrect{
+  color:darkred;
 }
 input {
 	font-size: 75PX;
@@ -105,7 +128,7 @@ input {
 	box-shadow:0 0 8Px 0 dodgerblue;
 }
 .inputFail{
-  color:darkred;
+  color:white;
 }
 .inputFail:focus {
   border-color:darkred;

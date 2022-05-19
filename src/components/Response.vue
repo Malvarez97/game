@@ -1,10 +1,14 @@
 <template>
+  <div>
   <div v-show="correct">
       <H1 class="correct"> CORRECTA </H1>
       <v-img
           class="image"
           src="../assets/good.jpg"
       ></v-img>
+    <v-btn @click="response(true)" rounded class="btn-finish" color="#E74C3C" >
+      Continuar
+    </v-btn>
   </div>
   <div v-show="!correct">
     <H1 class=" incorrect"> INCORRECTA </H1>
@@ -12,6 +16,10 @@
         class="image"
         src="../assets/bad.jpg"
     ></v-img>
+    <v-btn @click="response(false)" rounded class="btn-finish" color="#E74C3C" >
+      Reintentar
+    </v-btn>
+  </div>
   </div>
 </template>
 
@@ -22,10 +30,8 @@ export default {
     correct:Boolean,
   },
   methods: {
-    waitTime: function () {
-      setTimeout(3000);
-      alert('pasaron 5 segundos');
-      this.$emit('terminateWait')// faltaria mandar el tiempo que tardo en entender como parametro
+    response: function (value) {
+      this.$emit('correct',value)// faltaria mandar el tiempo que tardo en entender como parametro
     },
   },
 }
@@ -52,6 +58,17 @@ h1{
   margin-top:20%;
   left:37.5%;
   width:25%;
+}
+.btn-finish{
+  font-size: 3rem;
+  color: white;
+  padding: 2rem;
+  text-transform: none;
+  position:absolute;
+  left: 70%;
+  top:3%;
+  width:25%;
+  height:8%;
 }
 
 </style>

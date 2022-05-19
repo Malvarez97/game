@@ -1,79 +1,51 @@
 <template>
-	<v-app fluid style="height: 99vh;">
-    <div v-show=begin>
-        <Beginner @finishBegin="finishBegin"> </Beginner>
+	<v-app fluid style="height: 100vh;">
+    <div v-show="generalState==0">
+        <Beginner @finishBegin="nextState"> </Beginner>
     </div>
-    <div v-show=explication&&!begin>
-      <ExerciseInstruction @finishExplication="finishExplication"></ExerciseInstruction>
+    <div v-show="generalState==1"  >
+      <Game1 @finishExcersize="nextState"> </Game1>
     </div>
-    <div v-show=!begin&&!explication&&!finish>
-       <Game></Game>
-      <v-btn @click="exerciseResponse" rounded class="btn-finish" color="#E74C3C" >
-      Finalizar
-      </v-btn>
+    <div v-show="generalState==2" >
+      <h1> 2</h1>
     </div>
-    <div v-show=finish>
-      <Response @terminateWait=finalizeExercise :correct=responseCorrect></Response>
+    <div v-show="generalState==3" >
+      <h1> 3</h1>
+    </div>
+    <div v-show="generalState==4" >
+      <h1> 4</h1>
+    </div>
+    <div v-show="generalState==5" >
+      <h1> 5</h1>
+    </div>
+    <div v-show="generalState==6" >
+      <h1> 6</h1>
     </div>
 	</v-app>
 </template>
 <script>
 
-import Game from "@/components/MyGame";
+import Game1 from "@/Games/Game1";
 import Beginner from "@/components/Beginner";
-import ExerciseInstruction from "@/components/ExcesiceInstruction";
-import Response from "@/components/Response";
 export default {
 	components: {
     Beginner,
-    Game,
-    ExerciseInstruction,
-    Response
+    Game1,
 	},
   data(){
     return{
-        short:"a",
-        long:"palabra",
-        begin:true,
-        explication:true,
-        responseCorrect:false,
-        finish:false,
+        generalState:0,
       }
     },
   methods: {
-    finishBegin: function(){
-      this.begin=false;
-      //comienza el reloj del comienzo del juego
-    },
-    finishExplication: function(){
-      this.explication=false;
-      //guardar tiempo de respuesta del ejercicio
-    },
-    exerciseResponse:function(){
-      // logica de las variables del juego
-      this.finish=true;
-      //this.responseCorrect=true;
-      alert(this.responseCorrect);
-      this.responseCorrect=false;
-    },
-    finalizeExercise:function(){
-      this.finish=true;
-      alert("se reinicio el ejercicio");
+     nextState:function (){
+       this.generalState=this.generalState+1;
+       console.log(this.generalState);
+     }
     }
-  },
 }
 </script>
 
 <style scoped>
-.btn-finish{
-  font-size: 3rem;
-  color: white;
-  padding: 2rem;
-  text-transform: none;
-  position:absolute;
-  left: 70%;
-  top:3%;
-  width:25%;
-  height:8%;
-}
+
 </style>

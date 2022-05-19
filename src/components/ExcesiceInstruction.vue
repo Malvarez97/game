@@ -1,8 +1,8 @@
 <template>
- <h1> Ejercicio 1</h1>
-  <p> Se divide la pantalla en 4 cuadrantes.</p>
-  <p>A continuacion trate de recordadr la palabra pertenciente a la categoria X,y los cuadrantes (letra identificatoria) donde se halla. </p>
-  <p>Cuando las palabras desaparezcan de la pantalla, debe escribirlas en los cuadrantes correspondientes.</p>
+ <h1> Ejercicio {{this.exerciseNumber }}</h1>
+  <p> {{this.introduction}}</p>
+  <p>{{this.outcome }}</p>
+  <p>{{this.end }}</p>
   <v-btn  outline @click="finishExersiceInstruccion" rounded class="btn-finish" color="#E74C3C" >
     Entendido
   </v-btn>
@@ -11,6 +11,15 @@
 <script>
 export default {
   name: "ExcesiceInstruction",
+  props: {
+    exerciseNumber: {
+      type: Number,
+    },
+    introduction:String,
+    outcome:String,
+    end:String,
+  },
+
   methods: {
     finishExersiceInstruccion: function(){
       this.$emit('finishExplication')// faltaria mandar el tiempo que tardo en entender como parametro
@@ -50,6 +59,4 @@ p {
   width:25%;
   height:8%;
 }
-
-
 </style>
