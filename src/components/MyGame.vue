@@ -1,8 +1,8 @@
 <template>
   <v-app fluid style="height: 100vh;">
-    <v-row :key="I" v-for="I in 2" >
+    <v-row  :key="I" v-for="I in 2" >
       <v-col class="row" :key="index" v-for="index in 2">
-        <MyQuadrantVue :state=this.state :word=word+I+index :quadranId=quadrantId+I+index @wordCorrect="addWordCorrect" @idCorrect="addIdCorrect"  />
+        <MyQuadrantVue :state=this.state :word=word+I+index :quadranId=quadrantId+I+index @wordCorrect="addWordCorrect" @idCorrect="addIdCorrect" :inputhelp="a" />
       </v-col>
     </v-row>
   </v-app>
@@ -21,9 +21,11 @@ export default {
       type: Number,
     },
     Correct: Number,
+    inputHelp:String,
   },
   data() {
     return {
+      secondOportunity:false,
        numberCorrectWords : 2,
         numberidCorrects:4,
        quadrantId : "a",
@@ -46,6 +48,7 @@ export default {
         // agregar sonido de audio
         this.$emit('finishId');
       }
+
     },
   }
 }

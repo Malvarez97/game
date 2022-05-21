@@ -10,6 +10,7 @@
   "dependencies": {
     "@mdi/font": "5.9.55",
     "core-js": "^3.8.3",
+    "howler": "^2.2.3",
     "roboto-fontface": "*",
     "vue": "^3.2.13",
     "vuetify": "npm:@vuetify/nightly@next",
@@ -40,8 +41,7 @@
     "parserOptions": {
       "parser": "@babel/eslint-parser"
     },
-    "rules": {
-    }
+    "rules": {}
   },
   "browserslist": [
     "> 1%",

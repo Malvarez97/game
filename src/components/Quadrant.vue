@@ -32,13 +32,28 @@
      <div v-show="this.state==3">
        <h1 class="positionUp">{{ quadranId.toUpperCase() }} </h1>
      </div>
-   <!-- Insertar ID CUADRANTE   -->
+   <!-- Correcto   -->
     <div v-show="this.state==4">
     <h1 class="positionCenter">Correcto</h1>
     </div>
-      <!-- Insertar ID CUADRANTE   -->
+      <!-- Incorrecto  -->
     <div v-show="this.state==5">
     <h1 class="positionCenter incorrect">InCorrecto</h1>
+    </div>
+      <!-- Ayuda de palabra  -->
+  <!-- Ingresar Palabra  -->
+    <div v-show="this.state==6" >
+    <div v-show=!validateLong&&longIsEmpty>
+      <input class="positionCenter inputEmpty" v-model="inputCenter">
+    </div>
+    <div v-show=!validateLong&&!longIsEmpty>
+      <input class="positionCenter inputFail" v-model="inputCenter">
+    </div>
+    </div>
+  <!-- 2 op cuadrante  -->
+    <div v-show="this.state==7">
+      <H1>2 oportunidad</H1>
+      <!-- ESTE ESTADO TIENE QUE ESTAR EN LA ANTERIOR Y ESTAR POR SEGUNDOS  -->
     </div>
 
 </template>
@@ -53,6 +68,10 @@ export default {
     },
     quadranId:String,
     state:Number,
+    inputHelp:{
+      default: "",
+      type:String,
+    }
   },
   data(){
     return{
@@ -61,7 +80,7 @@ export default {
       shortIsEmpty:true,
       longIsEmpty:true,
       input:"",
-      inputCenter:"",
+      inputCenter:this.inputHelp,
     }
   },
   methods: {

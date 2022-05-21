@@ -17,7 +17,7 @@
         src="../assets/bad.jpg"
     ></v-img>
     <v-btn @click="response(false)" rounded class="btn-finish" color="#E74C3C" >
-      Reintentar
+    Segundo intento
     </v-btn>
   </div>
   </div>
@@ -30,8 +30,8 @@ export default {
     correct:Boolean,
   },
   methods: {
-    response: function (value) {
-      this.$emit('correct',value)// faltaria mandar el tiempo que tardo en entender como parametro
+    response: function () {
+      this.$emit('next',)// faltaria mandar el tiempo que tardo en entender como parametro
     },
   },
 }
