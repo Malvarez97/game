@@ -2,18 +2,18 @@
   <v-app fluid style="height: 100vh;">
     <!-- Explicacion inicial palabra  -->
     <div v-show="state==0" >
-      <ExerciseInstruction @finishExplication="nextLocalState" :introduction="explicationWord_introduction" :outcome="explicationWord_outcome" :end="explicationWord_end" :exerciseNumber="1" ></ExerciseInstruction>
+      <ExerciseInstruction @finishExplication="nextLocalState();saveValue('Time finish reading',this.exerciseNumber+'a');" :introduction="explicationWord_introduction" :outcome="explicationWord_outcome" :end="explicationWord_end" :exerciseNumber="1" ></ExerciseInstruction>
     </div>
     <!-- Mostrar cuadrantes iniciales   -->
     <div  v-show="state==1">
-      <Game :state="0" :exerciseNumber="1" ></Game>
-      <v-btn  outline @click="nextLocalState(-1,-1)" rounded class="btn-finish" color="#E74C3C" >
+      <Game :state="0" :exerciseNumber="1"></Game>
+      <v-btn  outline @click="nextLocalState(-1,-1);saveValue('Time finish see Words',this.exerciseNumber+'a');" rounded class="btn-finish" color="#E74C3C" >
         Siguiente
       </v-btn>
     </div>
     <!-- Completar Palabra  -->
     <div  v-show="state==2">
-      <Game :state="1" @finishWord="nextLocalState" :quadrants="this.quadrants" :exerciseNumber="1" ></Game>
+      <Game :state="1" @finishWord="nextLocalState();saveValue('Finish Corrects Words',this.exerciseNumber+'a');"  @firstLetter="saveValue('start Reading Word',this.exerciseNumber+'a')" :quadrants="this.quadrants" :exerciseNumber="1" ></Game>
       <v-btn outline @click="nextLocalState(2,0)" rounded class="btn-finish" color="#E74C3C" >
         Siguiente
       </v-btn>
@@ -28,14 +28,14 @@
     </div>
     <!-- Descripcion juego Cuadrante -->
     <div v-show="state==4">
-      <ExerciseInstruction @finishExplication="nextLocalState"  :outcome="explicationid" :exerciseNumber="1" ></ExerciseInstruction>
+      <ExerciseInstruction @finishExplication="nextLocalState();saveValue('Time finish reading',this.exerciseNumber+'b');"  :outcome="explicationid" :exerciseNumber="1" ></ExerciseInstruction>
       <v-btn  outline @click="state=state+1" rounded class="btn-finish" color="#E74C3C" >
         Siguiente
       </v-btn>
     </div>
     <!-- Jugar solo QuadrantId -->
     <div  v-show="state==5">
-      <Game :state="2" @finishId="nextLocalState" :exerciseNumber="1"></Game>
+      <Game :state="2" @finishId="nextLocalState();saveValue('Time finish QuadrantId',this.exerciseNumber+'b');" :exerciseNumber="1"></Game>
       <v-btn  outline @click="nextLocalState(5,1)" rounded class="btn-finish" color="#E74C3C" >
         Siguiente
       </v-btn>
@@ -106,25 +106,32 @@ export default {
       if(actualState==2){
            //  HACER EL IF corroborar si el estado actual es valido, de serlo pasar al 3
           if (this.intentWord<2){
+            // guardo el valor del tiempo del error  del primer fallo de Id
+            this.saveValue('Incorrect Word Intent'+this.intentWord,this.exerciseNumber+'a');
             this.intentWord=this.intentWord+1;
-            console.log("intento palabra"+this.intentWord)
             this.state=2;
             return;
           }
           else{ // valor para ayuda falta definir el input de la ayuda en el cuadrante
             if (this.intentWord==2){
-              this.intentWord=this.intentWord+1;
-              this.state=7;
+              // guardo el valor del tiempo del error  del primer fallo de Id
+              this.saveValue('Incorrect Word Intent 3 ',this.exerciseNumber+'a');
+              this.state=0;
+              this.intentWord=0;
               return;
             }
           }
       }
       else if(actualState==5){
         if (this.intentId<2) { // primera oportunidad
+          // guardo el valor del tiempo del error  del primer fallo de Id
+          this.saveValue('Incorrect Id Intent',this.exerciseNumber+'b');
           this.intentId = this.intentId + 1;
           this.state = 8;
         }
         else {
+          // guardo el valor del segundo error
+          this.saveValue('Incorrect Id Intent 2',this.exerciseNumber+'b');
           this.state=0;
         }
       }
@@ -134,10 +141,14 @@ export default {
     },
     // se usa para saltar estados
     finalizeExercise: function () {
-      console.log("apreto bien")
       this.$emit('finishExcersize',this.exerciseNumber, true);
     },
+    // salvar diferentes tipos de datos
+    saveValue: function(exercisenumber,value) {
+      this.$emit('saveValue',exercisenumber,value);
+    }
   },
+
   watch:{
     state() {
       if (this.state===3) {

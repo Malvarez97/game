@@ -79,6 +79,7 @@ export default {
   },
   methods: {
     idCorrect: function(){
+      this.$emit('writeId');
       if(this.quadranId.toUpperCase()===this.input.toUpperCase()) {
         // eslint-disable-next-line no-unreachable
         this.validateShort=true;
@@ -92,6 +93,7 @@ export default {
       }
     },
     wordCorrect: function(){
+      this.$emit('writeWord');
       if(this.word.toUpperCase()===this.inputCenter.toUpperCase()) {
         // eslint-disable-next-line no-unreachable
         this.validateLong=true;
@@ -113,10 +115,6 @@ export default {
       inputCenter(){
         this.wordCorrect();
         this.wordEmpty();
-      },
-      id() {
-      },
-      word() {
       },
     }
 

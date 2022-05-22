@@ -2,7 +2,7 @@
   <v-app fluid style="height: 100vh;">
     <v-row  :key="I" v-for="I in 2" >
       <v-col class="row" :key="index" v-for="index in 2">
-        <MyQuadrantVue :state=this.state :word=word :quadranId=quadrantId @wordCorrect="addWordCorrect" @idCorrect="addIdCorrect" :inputhelp="a" />
+        <MyQuadrantVue :state=this.state :word=word :quadranId=quadrantId @wordCorrect="addWordCorrect" @idCorrect="addIdCorrect" @writeWord="addLetter" :inputhelp="a" />
       </v-col>
     </v-row>
   </v-app>
@@ -33,6 +33,7 @@ export default {
        word : "",
       wordCorrect: 0,
       idCorrect:0,
+      writeLetters:0,
     }
   },
   mounted() {
@@ -40,11 +41,18 @@ export default {
       if (this.quadrants.length > 0) {
         this.word=this.quadrants[0].word.valor;
         this.quadrantId=this.quadrants[0].Id;
-        console.log(this.quadrants[0].word.valor);
+       console.log(this.quadrants[0].word.valor);
         console.log(this.quadrants[0].Id);
       }}
   },
   methods: {
+    addLetter: function(){
+      this.writeLetters=this.writeLetters+1;
+      console.log(this.writeLetters);
+        if(this.writeLetters==1) {
+          this.$emit('firstLetter');
+        }
+    },
     addWordCorrect: function () {
       this.wordCorrect = this.wordCorrect + 1;
       if (this.wordCorrect == this.numberCorrectWords) {

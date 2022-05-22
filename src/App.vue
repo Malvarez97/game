@@ -4,10 +4,10 @@
         <Beginner @finishBegin="nextState"> </Beginner>
     </div>
     <div v-show="generalState==1"  >
-      <Game1 @finishExcersize="finalize" :quadrants="this.quadrants" :exercise-number="1"> </Game1>
+      <Game1 @finishExcersize="finalize" @saveValue="writeState"  :quadrants="this.firstQuadrants" :exercise-number="1"> </Game1>
     </div>
     <div v-show="generalState==2" >
-      <h1> 2</h1>
+      <Game1 @finishExcersize="finalize" @saveValue="writeState"  :quadrants="this.firstQuadrants" :exercise-number="2"> </Game1>
     </div>
     <div v-show="generalState==3" >
       <h1> 3</h1>
@@ -69,7 +69,8 @@ export default {
         {"id": 8, "valor": "ELISEO"},
         {"id": 9, "valor": "EVARISTO"},],
       generalState: 0,
-      quadrants: [],
+      firstQuadrants: [],
+      secondQuadrants: [],
     }
   },
     created(){
@@ -93,7 +94,6 @@ export default {
     // string con el numero de ejercicio y boolean si acerto o no
     writeState:function(exerciseNumber,value){
       this.date=new Date();
-      console.log(this.date);
        this.data.push(this.date+","+value+","+exerciseNumber);
        console.log(this.data);
     },
@@ -110,23 +110,42 @@ export default {
 
     generateQuadrants: function () {
       {  //generar cuadrantes
-        this.quadrants[0] = {"Id": "a",
+        this.firstQuadrants[0] = {"Id": "a",
           "word": this.animalesMedio[Math.floor(Math.random(0) * (9))],
           "category": "animales"};
-        this.quadrants[1] = {
+        this.firstQuadrants[1] = {
           "Id": "b",
           "word": this.animalesMedio[Math.floor(Math.random(0) * (9))],
           "category": "animales"};
-        this.quadrants[2] = {
+        this.firstQuadrants[2] = {
           "Id": "c",
           "word":"",
           "category": ""
         };
-        this.quadrants[3] = {
+        this.firstQuadrants[3] = {
           "Id": "d",
           "word": "",
           "category": ""
         };
+        this.secondQuadrants[0] = {"Id": "a",
+          "word": "",
+          "category": "animales"};
+        this.secondQuadrants[1] = {
+          "Id": "b",
+          "word": "",
+          "category": ""};
+        this.secondQuadrants[2] = {
+          "Id": "c",
+          "word":this.masculinoMedio[Math.floor(Math.random(0) * (9))],
+          "category": "Masculino"
+        };
+        this.secondQuadrants[3] = {
+          "Id": "d",
+          "word": this.masculinoMedio[Math.floor(Math.random(0) * (9))],
+          "category": ""
+        };
+        console.log(this.firstQuadrants);
+        console.log(this.secondQuadrants);
       }
     },
   },
