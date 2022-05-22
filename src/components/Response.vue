@@ -6,9 +6,6 @@
           class="image"
           src="../assets/good.jpg"
       ></v-img>
-    <v-btn @click="response(true)" rounded class="btn-finish" color="#E74C3C" >
-      Continuar
-    </v-btn>
   </div>
   <div v-show="!correct">
     <H1 class=" incorrect"> INCORRECTA </H1>

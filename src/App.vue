@@ -4,10 +4,10 @@
         <Beginner @finishBegin="nextState"> </Beginner>
     </div>
     <div v-show="generalState==1"  >
-      <Game1 @finishExcersize="finalize" @saveValue="writeState"  :quadrants="this.firstQuadrants" :exercise-number="1"> </Game1>
+      <Game1 @finishExcersize="finalize" @saveValue="writeState"  :quadrants="this.firstQuadrants" :category="'animales'" :exercise-number="1"> </Game1>
     </div>
     <div v-show="generalState==2" >
-      <Game1 @finishExcersize="finalize" @saveValue="writeState"  :quadrants="this.firstQuadrants" :exercise-number="2"> </Game1>
+      <Game1 @finishExcersize="finalize" @saveValue="writeState"  :quadrants="this.secondQuadrants" :category="' nombres masculino'" :exercise-number="2"> </Game1>
     </div>
     <div v-show="generalState==3" >
       <h1> 3</h1>
@@ -128,7 +128,7 @@ export default {
           "category": ""
         };
         this.secondQuadrants[0] = {"Id": "a",
-          "word": "",
+          "word": this.masculinoMedio[Math.floor(Math.random(0) * (9))],
           "category": "animales"};
         this.secondQuadrants[1] = {
           "Id": "b",
