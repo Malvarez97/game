@@ -6,14 +6,14 @@
     </div>
     <!-- Mostrar cuadrantes iniciales   -->
     <div  v-show="state==1">
-      <Game :state="0" ></Game>
+      <Game :state="0" :exerciseNumber="1" ></Game>
       <v-btn  outline @click="nextLocalState(-1,-1)" rounded class="btn-finish" color="#E74C3C" >
         Siguiente
       </v-btn>
     </div>
     <!-- Completar Palabra  -->
     <div  v-show="state==2">
-      <Game :state="1" @finishWord="nextLocalState" ></Game>
+      <Game :state="1" @finishWord="nextLocalState" :quadrants="this.quadrants" :exerciseNumber="1" ></Game>
       <v-btn outline @click="nextLocalState(2,0)" rounded class="btn-finish" color="#E74C3C" >
         Siguiente
       </v-btn>
@@ -35,7 +35,7 @@
     </div>
     <!-- Jugar solo QuadrantId -->
     <div  v-show="state==5">
-      <Game :state="2" @finishId="nextLocalState"></Game>
+      <Game :state="2" @finishId="nextLocalState" :exerciseNumber="1"></Game>
       <v-btn  outline @click="nextLocalState(5,1)" rounded class="btn-finish" color="#E74C3C" >
         Siguiente
       </v-btn>
@@ -49,7 +49,7 @@
     </div>
     <!-- ayuda ejercicio de palabra 3er intento  -->
     <div  v-show="state==7">
-        <Game :state="6" :inputhelp="a"></Game>
+        <Game :state="6" :inputhelp="a" :exerciseNumber="1"></Game>
       </div>
     <!-- 2 intento id   -->
     <div  v-show="state==8">
@@ -66,7 +66,6 @@
 import Game from "@/components/MyGame";
 import ExerciseInstruction from "@/components/ExcesiceInstruction";
 import MyResponse from "@/components/Response";
-
 export default {
   name: 'MyGame1',
   components: {
@@ -81,23 +80,27 @@ export default {
     },
     category:{
       default: "Categoriarandom "
-    }
+    },
+    exerciseNumber: Number,
+    quadrants:Array
   },
   data() {
     return {
       correctResponse:false,
-     intentId:1,
-     intentWord:0,
+      intentId:1,
+      intentWord:0,
       explicationWord_introduction:" Se divide la pantalla en 4 cuadrantes.",
       explicationWord_outcome:" A continuacion trate de recordar la palabra perteneciente a la categoria "+this.category+" y los cuadrantes (letra identificatoria) donde se halla.",
       explicationWord_end: "Cuando las palabras desaparezcan de la pantalla, debe escribirlas en los cuadrantes correspondientes",
       explicationid:"Escriba las letras que identifican a cada cuadrante",
       state: 0,
-      quadrantId: "a",
-      word: "p"
     }
   },
   methods: {
+    //se Guarda cada vez que fallo el ejercicio
+    failure:function (){
+
+    },
     //avanzar a siguiente estado, se usa para estados correctos
     nextLocalState(actualState ){
       if(actualState==2){
@@ -131,7 +134,8 @@ export default {
     },
     // se usa para saltar estados
     finalizeExercise: function () {
-      this.$emit('finishExcersize')
+      console.log("apreto bien")
+      this.$emit('finishExcersize',this.exerciseNumber, true);
     },
   },
   watch:{

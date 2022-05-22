@@ -2,7 +2,7 @@
   <v-app fluid style="height: 100vh;">
     <v-row  :key="I" v-for="I in 2" >
       <v-col class="row" :key="index" v-for="index in 2">
-        <MyQuadrantVue :state=this.state :word=word+I+index :quadranId=quadrantId+I+index @wordCorrect="addWordCorrect" @idCorrect="addIdCorrect" :inputhelp="a" />
+        <MyQuadrantVue :state=this.state :word=word :quadranId=quadrantId @wordCorrect="addWordCorrect" @idCorrect="addIdCorrect" :inputhelp="a" />
       </v-col>
     </v-row>
   </v-app>
@@ -22,17 +22,27 @@ export default {
     },
     Correct: Number,
     inputHelp:String,
+    quadrants:Array,
   },
   data() {
     return {
       secondOportunity:false,
        numberCorrectWords : 2,
         numberidCorrects:4,
-       quadrantId : "a",
-       word : "palabra",
+       quadrantId : "",
+       word : "",
       wordCorrect: 0,
       idCorrect:0,
     }
+  },
+  mounted() {
+    if (typeof this.quadrants != "undefined") {
+      if (this.quadrants.length > 0) {
+        this.word=this.quadrants[0].word.valor;
+        this.quadrantId=this.quadrants[0].Id;
+        console.log(this.quadrants[0].word.valor);
+        console.log(this.quadrants[0].Id);
+      }}
   },
   methods: {
     addWordCorrect: function () {
@@ -48,7 +58,6 @@ export default {
         // agregar sonido de audio
         this.$emit('finishId');
       }
-
     },
   }
 }

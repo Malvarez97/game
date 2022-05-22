@@ -50,12 +50,6 @@
       <input class="positionCenter inputFail" v-model="inputCenter">
     </div>
     </div>
-  <!-- 2 op cuadrante  -->
-    <div v-show="this.state==7">
-      <H1>2 oportunidad</H1>
-      <!-- ESTE ESTADO TIENE QUE ESTAR EN LA ANTERIOR Y ESTAR POR SEGUNDOS  -->
-    </div>
-
 </template>
 
 <script>
@@ -119,8 +113,13 @@ export default {
       inputCenter(){
         this.wordCorrect();
         this.wordEmpty();
-      }
+      },
+      id() {
+      },
+      word() {
+      },
     }
+
 }
 </script>
 
