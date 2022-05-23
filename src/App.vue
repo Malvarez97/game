@@ -71,9 +71,16 @@ export default {
       generalState: 0,
       firstQuadrants: [],
       secondQuadrants: [],
+      quadrants: [],
+      quadrantsArrangement: [],
+      quadrantIds: [4],
+      idsOrder: [4],
+      idsValue: [4],
     }
   },
     created(){
+    this.generateRandomIds(this.idsOrder);
+    this.generateQuadrantsIds();
     this.generateQuadrants();
   },
 
@@ -97,7 +104,7 @@ export default {
        this.data.push(this.date+","+value+","+exerciseNumber);
        console.log(this.data);
     },
-    generateRandomString :function (num) {
+    generateRandomIds :function (num) {
       const charactersD ='ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
       //const easyCharacters='ABCDEFGHIJKLMNOPQRSTUVWXYZ';
       let result1= ' ';
@@ -108,8 +115,73 @@ export default {
       return result1;
     },
 
+    generateQuadrantsIds : function (idsArray)
+    {
+      while(this.idsOrder.length < 4){
+        //Genera numero aleatorio
+        let r = Math.floor(Math.random() * 4);
+        //Si el numero no existe en el arreglo, lo pushea
+        if(idsArray.indexOf(r) === -1) idsArray.push(r);
+      }
+      console.log(idsArray);
+    },
+
+    rearrrengeQuadrants : function ()
+    {
+      let idsArray = new Array[4];
+      this.generateRandomIds(idsArray);
+      let quadrantsDuplicate = this.quadrants.clone();
+      for (let i = 0; i < idsArray.length; i++)
+      {
+        quadrantsDuplicate[idsArray[i]] = this.quadrants[i];
+      }
+      return quadrantsDuplicate;
+    },
+
     generateQuadrants: function () {
-      {  //generar cuadrantes
+      {  //generar cuadrantes originales
+        let firstCategory = "nombresMasculino";
+        let secondCategory = "animales";
+
+        this.quadrants[this.idsOrder[0]] = {  "Id" : this.idsValue[0],
+                                              "word": this.masculinoMedio[Math.floor(Math.random(0) * (9))],
+                                              "category": firstCategory
+        };
+        this.quadrants[this.idsOrder[1]] = {  "Id" : this.idsValue[1],
+                                              "word": this.masculinoMedio[Math.floor(Math.random(0) * (9))],
+                                              "category": firstCategory
+        };
+        this.quadrants[this.idsOrder[2]] = {  "Id" : this.idsValue[2],
+                                              "word": this.animalesMedio[Math.floor(Math.random(0) * (9))],
+                                              "category": secondCategory
+        };
+        this.quadrants[this.idsOrder[3]] = {  "Id" : this.idsValue[3],
+                                              "word": this.animalesMedio[Math.floor(Math.random(0) * (9))],
+                                              "category": secondCategory
+        };
+
+        //Añadir copia de cuadrantes originales (disposicion numero 0)
+        this.quadrantsArrangement.push(this.quadrants.clone());
+        console.log("Quadrantes numero 0");
+        console.log(this.quadrantsArrangement[0]);
+        //Reordenar cuadrantes originales (disposicion numero 1)
+        this.quadrantsArrangement.push(this.rearrrengeQuadrants);
+        console.log("Quadrantes numero 1");
+        console.log(this.quadrantsArrangement[1]);
+        //Reordenar cuadrantes originales (disposicion numero 2)
+        this.quadrantsArrangement.push(this.rearrrengeQuadrants);
+        console.log("Quadrantes numero 2");
+        console.log(this.quadrantsArrangement[2]);
+
+
+
+
+
+
+
+
+
+
         this.firstQuadrants[0] = {"Id": "a",
           "word": this.animalesMedio[Math.floor(Math.random(0) * (9))],
           "category": "animales"};
