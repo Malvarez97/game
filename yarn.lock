@@ -6001,6 +6001,11 @@
   "resolved" "https://registry.npmjs.org/@vuetify/nightly/-/nightly-3.0.0-next-20220515.0.tgz"
   "version" "3.0.0-next-20220515.0"
 
+"wagner-fischer@^1.0.0":
+  "integrity" "sha1-OKlFJMgFMyFqHoKXgT+S9C7RvfQ="
+  "resolved" "https://registry.npmjs.org/wagner-fischer/-/wagner-fischer-1.0.0.tgz"
+  "version" "1.0.0"
+
 "watchpack@^2.3.1":
   "integrity" "sha512-x0t0JuydIo8qCNctdDrn1OzH/qDzk2+rdCOC3YzumZ42fiMqmQ7T3xQurykYMhYfHaPHTp4ZxAx2NfUo1K6QaA=="
   "resolved" "https://registry.npmjs.org/watchpack/-/watchpack-2.3.1.tgz"

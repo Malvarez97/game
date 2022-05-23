@@ -53,6 +53,7 @@
 </template>
 
 <script>
+var wagnerFischer = require('wagner-fischer');
 
 export default {
 	name: 'MyQuadrant',
@@ -65,6 +66,10 @@ export default {
     inputHelp:{
       default: "",
       type:String,
+    },
+    check: {
+      default: false,
+      type:Boolean,
     }
   },
   data(){
@@ -106,6 +111,12 @@ export default {
         this.longIsEmpty=false;
       }
     },
+    checkWord(){
+      console.log("se chequeo la palabra, dio"+wagnerFischer(this.inputCenter.toString().toUpperCase(),this.word.toUpperCase()))
+      if ((this.check===true)&&(wagnerFischer(this.inputCenter.toString().toUpperCase(),this.word.toUpperCase())<=2)){
+        this.$emit('wordCorrect');
+      }
+    }
   },
   watch:{
      input() {
@@ -116,6 +127,9 @@ export default {
         this.wordCorrect();
         this.wordEmpty();
       },
+      check(){
+          this.checkWord();
+      }
     }
 
 }

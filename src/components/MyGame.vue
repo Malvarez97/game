@@ -2,7 +2,7 @@
   <v-app fluid style="height: 100vh;">
     <v-row  :key="I" v-for="I in 2" >
       <v-col class="row" :key="index" v-for="index in 2">
-        <MyQuadrantVue :state=this.state :word=word :quadranId=quadrantId @wordCorrect="addWordCorrect" @idCorrect="addIdCorrect" @writeWord="addLetter" :inputhelp="a" />
+        <MyQuadrantVue :state=this.state :word="word" :quadranId="quadrantId" :check="this.check" @wordCorrect="addWordCorrect" @idCorrect="addIdCorrect" @writeWord="addLetter" :inputhelp="a" />
       </v-col>
     </v-row>
   </v-app>
@@ -23,6 +23,10 @@ export default {
     Correct: Number,
     inputHelp:String,
     quadrants:Array,
+    check:{
+      type:Boolean,
+      default:false,
+    }
   },
   data() {
     return {
@@ -36,7 +40,7 @@ export default {
       writeLetters:0,
     }
   },
-  mounted() {
+  created() {
     if (typeof this.quadrants != "undefined") {
       if (this.quadrants.length > 0) {
         this.word=this.quadrants[0].word.valor;
@@ -48,13 +52,14 @@ export default {
   methods: {
     addLetter: function(){
       this.writeLetters=this.writeLetters+1;
-      console.log(this.writeLetters);
+     // console.log(this.writeLetters);
         if(this.writeLetters==1) {
           this.$emit('firstLetter');
         }
     },
     addWordCorrect: function () {
       this.wordCorrect = this.wordCorrect + 1;
+      console.log("se anadio "+this.wordCorrect);
       if (this.wordCorrect == this.numberCorrectWords) {
         // agregar sonido de audio
         this.$emit('finishWord');

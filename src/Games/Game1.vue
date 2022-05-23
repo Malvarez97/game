@@ -13,8 +13,8 @@
     </div>
     <!-- Completar Palabra  -->
     <div  v-show="state==2">
-      <Game :state="1" @finishWord="nextLocalState();saveValue('Finish Corrects Words',this.exerciseNumber+'a');"  @firstLetter="saveValue('start Reading Word',this.exerciseNumber+'a')" :quadrants="this.quadrants" :exerciseNumber="this.exerciseNumber" ></Game>
-      <v-btn outline @click="nextLocalState(2,0)" rounded class="btn-finish" color="#E74C3C" >
+      <Game :state="1" @finishWord="nextLocalState();saveValue('Finish Corrects Words',this.exerciseNumber+'a');" :check="this.check" @firstLetter="saveValue('start Reading Word',this.exerciseNumber+'a')" :quadrants="this.quadrants" :exerciseNumber="this.exerciseNumber" ></Game>
+      <v-btn outline @click="nextLocalState(2,0);this.check=true;" rounded class="btn-finish" color="#E74C3C" >
         Siguiente
       </v-btn>
     </div>
@@ -95,6 +95,7 @@ export default {
       explicationWord_end: "Cuando las palabras desaparezcan de la pantalla, debe escribirlas en los cuadrantes correspondientes",
       explicationid:"Escriba las letras que identifican a cada cuadrante",
       state: 0,
+      check:false,
     }
   },
   methods: {
