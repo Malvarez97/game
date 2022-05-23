@@ -15,7 +15,8 @@
     "vue": "^3.2.13",
     "vuetify": "npm:@vuetify/nightly@next",
     "wagner-fischer": "^1.0.0",
-    "webfontloader": "^1.0.0"
+    "webfontloader": "^1.0.0",
+    "yarn": "^1.22.18"
   },
   "devDependencies": {
     "@babel/core": "^7.12.16",

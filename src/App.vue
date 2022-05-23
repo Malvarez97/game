@@ -73,14 +73,14 @@ export default {
       secondQuadrants: [],
       quadrants: [],
       quadrantsArrangement: [],
-      quadrantIds: [4],
-      idsOrder: [4],
-      idsValue: [4],
+      //quadrantIds: this.generateRandomIds(4),
+      idsOrder: this.generateQuadrantsPosition(4),
+      idsValue: this.generateRandomIds(4,'Facil'),
     }
   },
     created(){
-    this.generateRandomIds(this.idsOrder);
-    this.generateQuadrantsIds();
+    //this.idsOrder = this.generateQuadrantsPosition(4);
+    //this.generateRandomIds(this.quadrantIds,4);
     this.generateQuadrants();
   },
 
@@ -104,39 +104,73 @@ export default {
        this.data.push(this.date+","+value+","+exerciseNumber);
        console.log(this.data);
     },
-    generateRandomIds :function (num) {
-      const charactersD ='ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+    generateRandomIds :function (size, difficulty) {
+      let idsArray = new Array(size);
+      let i = 0;
+      const letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+      //const numbers = '0123456789';
+      while (i < size)
+      {
+        switch(difficulty){
+          case 'Facil': { let letter = letters.charAt(Math.floor(Math.random() * letters.length));
+                          if (idsArray.indexOf(letter) == -1) {
+                            idsArray[i] = letter;
+                            i++;
+                          }
+                          break;}
+          case 'Medio': break;
+          case 'Dificil' : break;
+        }
+      }
+      return idsArray;
+
+      /*const charactersD ='ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
       //const easyCharacters='ABCDEFGHIJKLMNOPQRSTUVWXYZ';
       let result1= ' ';
+      //difficulty = 'Perro';
       const charactersLength = charactersD.length;
-      for ( let i = 0; i < num; i++ ) {
+      for ( let i = 0; i < size; i++ ) {
         result1 += charactersD.charAt(Math.floor(Math.random() * charactersLength));
       }
-      return result1;
+      return result1;*/
     },
-
-    generateQuadrantsIds : function (idsArray)
+    generateQuadrantsPosition : function(size)
     {
-      while(this.idsOrder.length < 4){
+      let idsArray = new Array(size);
+      let i = 0;
+      while (i<size){
         //Genera numero aleatorio
         let r = Math.floor(Math.random() * 4);
         //Si el numero no existe en el arreglo, lo pushea
-        if(idsArray.indexOf(r) === -1) idsArray.push(r);
+        if(idsArray.indexOf(r) === -1)
+        {
+          idsArray[i] = r;
+          i++;
+        }
       }
-      console.log(idsArray);
+      return idsArray;
     },
 
     rearrrengeQuadrants : function ()
     {
-      let idsArray = new Array[4];
-      this.generateRandomIds(idsArray);
-      let quadrantsDuplicate = this.quadrants.clone();
+      let idsArray = this.generateQuadrantsPosition(4);
+      let quadrantsDuplicate = this.copyArray(this.quadrants);
       for (let i = 0; i < idsArray.length; i++)
       {
         quadrantsDuplicate[idsArray[i]] = this.quadrants[i];
       }
       return quadrantsDuplicate;
     },
+
+    copyArray : function (arrayToCopy) {
+    var itemsCopy = new Array(arrayToCopy.length);
+    for (var i=0; i<arrayToCopy.length; i++) {
+      itemsCopy[i] = {  "Id" : arrayToCopy[i].Id,
+                        "word": arrayToCopy[i].word,
+                        "category": arrayToCopy[i].category};
+    }
+    return itemsCopy
+  },
 
     generateQuadrants: function () {
       {  //generar cuadrantes originales
@@ -161,15 +195,15 @@ export default {
         };
 
         //Añadir copia de cuadrantes originales (disposicion numero 0)
-        this.quadrantsArrangement.push(this.quadrants.clone());
+        this.quadrantsArrangement.push(this.copyArray(this.quadrants));
         console.log("Quadrantes numero 0");
         console.log(this.quadrantsArrangement[0]);
         //Reordenar cuadrantes originales (disposicion numero 1)
-        this.quadrantsArrangement.push(this.rearrrengeQuadrants);
+        this.quadrantsArrangement.push(this.rearrrengeQuadrants());
         console.log("Quadrantes numero 1");
         console.log(this.quadrantsArrangement[1]);
         //Reordenar cuadrantes originales (disposicion numero 2)
-        this.quadrantsArrangement.push(this.rearrrengeQuadrants);
+        this.quadrantsArrangement.push(this.rearrrengeQuadrants());
         console.log("Quadrantes numero 2");
         console.log(this.quadrantsArrangement[2]);
 
