@@ -2,7 +2,7 @@
   <v-app fluid style="height: 100vh;">
     <v-row  :key="col" v-for="col in 2" >
       <v-col class="row" :key="row" v-for="row in 2">
-        <MyQuadrantVue :state=this.state : quadrants="quadrants[row+col*2]" :check="this.check" @wordCorrect="addWordCorrect" @idCorrect="addIdCorrect" @writeWord="addLetter" :inputhelp="a" />
+        <MyQuadrantVue :state=this.state :quadrant="quadrants[row+col*2]" :check="this.check" @wordCorrect="addWordCorrect" @idCorrect="addIdCorrect" @writeWord="addLetter" :inputhelp="a" />
       </v-col>
     </v-row>
   </v-app>

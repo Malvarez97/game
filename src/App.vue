@@ -182,25 +182,25 @@ export default {
         let secondCategory = "animales";
 
         this.quadrants[this.idsOrder[0]] = {  "Id" : this.idsValue[0],
-                                              "word": this.masculinoMedio[Math.floor(Math.random(0) * (9))],
+                                              "word": this.masculinoMedio[Math.floor(Math.random(0) * (9))].valor,
                                               "category": firstCategory,
                                               "showId" : true,
                                               "showWord" : true,
         };
         this.quadrants[this.idsOrder[1]] = {  "Id" : this.idsValue[1],
-                                              "word": this.masculinoMedio[Math.floor(Math.random(0) * (9))],
+                                              "word": this.masculinoMedio[Math.floor(Math.random(0) * (9))].valor,
                                               "category": firstCategory,
                                               "showId" : true,
                                               "showWord" : true,
         };
         this.quadrants[this.idsOrder[2]] = {  "Id" : this.idsValue[2],
-                                              "word": this.animalesMedio[Math.floor(Math.random(0) * (9))],
+                                              "word": this.animalesMedio[Math.floor(Math.random(0) * (9))].valor,
                                               "category": secondCategory,
                                               "showId" : true,
                                               "showWord" : false,
         };
         this.quadrants[this.idsOrder[3]] = {  "Id" : this.idsValue[3],
-                                              "word": this.animalesMedio[Math.floor(Math.random(0) * (9))],
+                                              "word": this.animalesMedio[Math.floor(Math.random(0) * (9))].valor,
                                               "category": secondCategory,
                                               "showId" : true,
                                               "showWord" : false,
@@ -208,62 +208,10 @@ export default {
 
         //Añadir copia de cuadrantes originales (disposicion numero 0)
         this.quadrantsArrangement.push(this.copyArray(this.quadrants));
-        console.log("Quadrantes numero 0");
-        console.log(this.quadrantsArrangement[0]);
         //Reordenar cuadrantes originales (disposicion numero 1)
         this.quadrantsArrangement.push(this.rearrrengeQuadrants());
-        console.log("Quadrantes numero 1");
-        console.log(this.quadrantsArrangement[1]);
         //Reordenar cuadrantes originales (disposicion numero 2)
         this.quadrantsArrangement.push(this.rearrrengeQuadrants());
-        console.log("Quadrantes numero 2");
-        console.log(this.quadrantsArrangement[2]);
-
-
-
-
-
-
-
-
-
-
-        this.firstQuadrants[0] = {"Id": "a",
-          "word": this.animalesMedio[Math.floor(Math.random(0) * (9))],
-          "category": "animales"};
-        this.firstQuadrants[1] = {
-          "Id": "b",
-          "word": this.animalesMedio[Math.floor(Math.random(0) * (9))],
-          "category": "animales"};
-        this.firstQuadrants[2] = {
-          "Id": "c",
-          "word":"",
-          "category": ""
-        };
-        this.firstQuadrants[3] = {
-          "Id": "d",
-          "word": "",
-          "category": ""
-        };
-        this.secondQuadrants[0] = {"Id": "a",
-          "word": this.masculinoMedio[Math.floor(Math.random(0) * (9))],
-          "category": "animales"};
-        this.secondQuadrants[1] = {
-          "Id": "b",
-          "word": "",
-          "category": ""};
-        this.secondQuadrants[2] = {
-          "Id": "c",
-          "word":this.masculinoMedio[Math.floor(Math.random(0) * (9))],
-          "category": "Masculino"
-        };
-        this.secondQuadrants[3] = {
-          "Id": "d",
-          "word": this.masculinoMedio[Math.floor(Math.random(0) * (9))],
-          "category": ""
-        };
-        console.log(this.firstQuadrants);
-        console.log(this.secondQuadrants);
       }
     },
   },

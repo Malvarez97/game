@@ -1,12 +1,12 @@
 <template>
   <!-- Mostrar Valores  -->
-  <div v-show="this.state==0">
-      <h1 class="positionUp">{{ quadrantId.toUpperCase() }} </h1>
-      <h1 class="positionCenter">{{ word.toUpperCase() }} </h1>
-    </div>
-  <div v-show="this.state==-1">
-    <h1 class="positionUp">{{ quadrantId.toUpperCase() }} </h1>
-  </div>
+      <div v-show="this.state==0">
+            <h1 v-if="this.showWord" class="positionCenter">{{ this.word.toUpperCase() }} </h1>
+            <h1 v-if="this.showId" class="positionUp">{{ this.quadrantId.toUpperCase() }} </h1>
+        </div>
+      <div v-show="this.state==-1">
+        <h1 class="positionUp">{{ quadrantId.toUpperCase() }} </h1>
+      </div>
       <!-- Ingresar Palabra  -->
       <div v-show="this.state==1" >
       <div v-show=!validateLong&&longIsEmpty>
@@ -61,10 +61,6 @@ var wagnerFischer = require('wagner-fischer');
 export default {
 	name: 'MyQuadrant',
   props: {
-    word:{
-      default:"",
-    },
-    quadrantId:String,
     state:Number,
     inputHelp:{
       default: "",
@@ -73,16 +69,29 @@ export default {
     check: {
       default: false,
       type:Boolean,
+    },
+    quadrant:{
+      type:Array,
     }
+  },
+  created() {
+    this.word=this.quadrant.word.toString();
+    this.quadrantId=this.quadrant.Id.toString();
+    this.showWord=this.quadrant.showWord;
+    this.showId=this.quadrant.showId;
   },
   data(){
     return{
+      quadrantId:"",
+      word:"",
       validateShort:false,
       validateLong:false,
       shortIsEmpty:true,
       longIsEmpty:true,
       input:"",
       inputCenter:this.inputHelp,
+      showWord:"false",
+      showId:"false",
     }
   },
   methods: {
