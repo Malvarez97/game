@@ -6,7 +6,7 @@
     </div>
     <!-- Mostrar cuadrantes iniciales   -->
     <div  v-show="state==1">
-      <Game :state="0" :exerciseNumber="1"></Game>
+      <Game :state="0" :exerciseNumber="1" :quadrants="this.quadrants"></Game>
       <v-btn  outline @click="nextLocalState(-1,-1);saveValue('Time finish see Words',this.exerciseNumber+'a');" rounded class="btn-finish" color="#E74C3C" >
         Siguiente
       </v-btn>

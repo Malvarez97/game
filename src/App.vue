@@ -4,10 +4,10 @@
         <Beginner @finishBegin="nextState"> </Beginner>
     </div>
     <div v-show="generalState==1"  >
-      <Game1 @finishExcersize="finalize" @saveValue="writeState"  :quadrants="this.firstQuadrants" :category="'animales'" :exercise-number="1"> </Game1>
+      <Game1 @finishExcersize="finalize" @saveValue="writeState"  :quadrants="this.quadrantsArrangement[0]" :category="'animales'" :exercise-number="1"> </Game1>
     </div>
     <div v-show="generalState==2" >
-      <Game1 @finishExcersize="finalize" @saveValue="writeState"  :quadrants="this.secondQuadrants" :category="' nombres masculino'" :exercise-number="2"> </Game1>
+      <Game1 @finishExcersize="finalize" @saveValue="writeState"  :quadrants="this.quadrantsArrangement[0]" :category="' nombres masculino'" :exercise-number="2"> </Game1>
     </div>
     <div v-show="generalState==3" >
       <h1> 3</h1>
