@@ -10,10 +10,10 @@
       <Game1 @finishExcersize="finalize" @saveValue="writeState"  :quadrants="this.quadrantsArrangement[1]" :category="' nombres masculino'" :exercise-number="2"> </Game1>
     </div>
     <div v-show="generalState==3" >
-      <h1> 3</h1>
+      <Game2 @finishExcersize="finalize" @saveValue="writeState"  :quadrants="this.quadrantsArrangement[2]" :category="'animales'" :exercise-number="3"></Game2>
     </div>
     <div v-show="generalState==4" >
-      <h1> 4</h1>
+      <Game2 @finishExcersize="finalize" @saveValue="writeState"  :quadrants="this.quadrantsArrangement[3]" :category="'nombres masculinos'" :exercise-number="4"></Game2>
     </div>
     <div v-show="generalState==5" >
       <h1> 5</h1>
@@ -26,6 +26,7 @@
 <script>
 
 import Game1 from "@/Games/Game1";
+import Game2 from "@/Games/Game2";
 import Beginner from "@/components/Beginner";
 
 
@@ -33,6 +34,7 @@ export default {
 	components: {
     Beginner,
     Game1,
+    Game2,
 	},
   data() {
     return {
@@ -68,7 +70,7 @@ export default {
         {"id": 7, "valor": "EDUARDO"},
         {"id": 8, "valor": "ELISEO"},
         {"id": 9, "valor": "EVARISTO"},],
-      generalState: 0,
+      generalState: 3,
       firstQuadrants: [],
       secondQuadrants: [],
       quadrants: [],
@@ -82,6 +84,7 @@ export default {
     //this.idsOrder = this.generateQuadrantsPosition(4);
     //this.generateRandomIds(this.quadrantIds,4);
     this.generateQuadrants();
+    console.log(this.quadrantsArrangement);
   },
 
   methods: {

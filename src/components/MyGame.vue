@@ -30,19 +30,39 @@ export default {
       default:false,
     }
   },
+  created() {
+    this.getCorrectWords();
+    this.getCorrectIds();
+  },
   data() {
     return {
       secondOportunity:false,
-       numberCorrectWords : 2,
-        numberidCorrects:4,
+       idCorrect : 0,
+      wordCorrect:0,
        quadrantId : "",
        word : "",
-      wordCorrect: 0,
-      idCorrect:0,
       writeLetters:0,
     }
   },
   methods: {
+    getCorrectWords :function (){
+      for (let i=0; i<this.quadrants.length; i++)
+      {
+        if (!this.quadrants[i].showWord)
+        {
+          this.wordCorrect++;
+        }
+      }
+    },
+    getCorrectIds :function (){
+      for (let i=0; i<this.quadrants.length; i++)
+      {
+        if (!this.quadrants[i].showId)
+        {
+          this.idCorrect++;
+        }
+      }
+    },
     addLetter: function(){
       this.writeLetters=this.writeLetters+1;
      // console.log(this.writeLetters);
@@ -52,15 +72,16 @@ export default {
     },
     addWordCorrect: function () {
       this.wordCorrect = this.wordCorrect + 1;
-      console.log("se anadio "+this.wordCorrect);
-      if (this.wordCorrect == this.numberCorrectWords) {
+      console.log('este es el id'+this.wordCorrect)
+      if (this.wordCorrect === 4) {
         // agregar sonido de audio
         this.$emit('finishWord');
       }
     },
     addIdCorrect: function () {
       this.idCorrect = this.idCorrect + 1;
-      if (this.idCorrect == this.numberidCorrects) {
+      console.log('este es el id'+this.idCorrect)
+      if (this.idCorrect === 4) {
         // agregar sonido de audio
         this.$emit('finishId');
       }

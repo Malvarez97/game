@@ -74,13 +74,7 @@ export default {
       type:Array,
     }
   },
-  created() {
-    console.log("Quadrant = "+this.quadrant);
-    /*this.word=this.quadrant.word.toString();
-    this.quadrantId=this.quadrant.Id.toString();
-    this.showWord=this.quadrant.showWord;
-    this.showId=this.quadrant.showId;*/
-  },
+
   data(){
     return{
       quadrantId:"",
@@ -98,7 +92,7 @@ export default {
   methods: {
     idCorrect: function(){
       this.$emit('writeId');
-      if(this.quadrantId.toUpperCase()===this.input.toUpperCase()) {
+      if(this.quadrantId.toUpperCase()===this.input.toUpperCase()&&this.quadrant.showId) {
         // eslint-disable-next-line no-unreachable
         this.validateShort=true;
         this.$emit('idCorrect')
@@ -112,7 +106,7 @@ export default {
     },
     wordCorrect: function(){
       this.$emit('writeWord');
-      if(this.word.toUpperCase()===this.inputCenter.toUpperCase()) {
+      if(this.word.toUpperCase()===this.inputCenter.toUpperCase()&&this.quadrant.showWord) {
         // eslint-disable-next-line no-unreachable
         this.validateLong=true;
         this.$emit('wordCorrect')
