@@ -7,7 +7,7 @@
       <Game1 @finishExcersize="finalize" @saveValue="writeState"  :quadrants="this.quadrantsArrangement[0]" :category="'animales'" :exercise-number="1"> </Game1>
     </div>
     <div v-show="generalState==2" >
-      <Game1 @finishExcersize="finalize" @saveValue="writeState"  :quadrants="this.quadrantsArrangement[0]" :category="' nombres masculino'" :exercise-number="2"> </Game1>
+      <Game1 @finishExcersize="finalize" @saveValue="writeState"  :quadrants="this.quadrantsArrangement[1]" :category="' nombres masculino'" :exercise-number="2"> </Game1>
     </div>
     <div v-show="generalState==3" >
       <h1> 3</h1>
@@ -76,7 +76,6 @@ export default {
       //quadrantIds: this.generateRandomIds(4),
       idsOrder: this.generateQuadrantsPosition(4),
       idsValue: this.generateRandomIds(4,'Facil'),
-      states : [],
     }
   },
     created(){
@@ -177,6 +176,21 @@ export default {
     return itemsCopy
   },
 
+    copyAndInvertShowWords : function (quadrantToInvert)
+    {
+      var itemsCopy = new Array(quadrantToInvert.length);
+      for (var i=0; i<quadrantToInvert.length; i++) {
+        itemsCopy[i] = {  "Id" : quadrantToInvert[i].Id,
+          "word": quadrantToInvert[i].word,
+          "category": quadrantToInvert[i].category,
+          "showId" : quadrantToInvert[i].showId,
+          "showWord" : !quadrantToInvert[i].showWord,
+          //"showCategory" : quadrantToInvert[i].showCategory
+        };
+      }
+      return itemsCopy
+    },
+
     generateQuadrants: function () {
       {  //generar cuadrantes originales
         let firstCategory = "nombresMasculino";
@@ -203,7 +217,7 @@ export default {
                                               "showWord" : false,
         };
         this.quadrants[this.idsOrder[3]] = {  "Id" : this.idsValue[3],
-                                              "word": this.animalesMedio[Math.floor(Math.random(0) * (9))].valor,
+                                              "word": secondName,
                                               "category": secondCategory,
                                               "showId" : true,
                                               "showWord" : false,
@@ -211,14 +225,13 @@ export default {
 
         //Añadir copia de cuadrantes originales (disposicion numero 0)
         this.quadrantsArrangement.push(this.copyArray(this.quadrants));
+        this.quadrantsArrangement.push(this.copyAndInvertShowWords(this.quadrants));
         //Reordenar cuadrantes originales (disposicion numero 1)
         this.quadrantsArrangement.push(this.rearrrengeQuadrants());
         //Reordenar cuadrantes originales (disposicion numero 2)
         this.quadrantsArrangement.push(this.rearrrengeQuadrants());
       }
     },
-
-
   },
 
 }
