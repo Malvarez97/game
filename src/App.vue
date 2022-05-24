@@ -76,6 +76,7 @@ export default {
       //quadrantIds: this.generateRandomIds(4),
       idsOrder: this.generateQuadrantsPosition(4),
       idsValue: this.generateRandomIds(4,'Facil'),
+      states : [],
     }
   },
     created(){
@@ -180,21 +181,23 @@ export default {
       {  //generar cuadrantes originales
         let firstCategory = "nombresMasculino";
         let secondCategory = "animales";
+        let firstName = this.masculinoMedio[Math.floor(Math.random(0) * (9))].valor;
+        let secondName = this.animalesMedio[Math.floor(Math.random(0) * (9))].valor;
 
         this.quadrants[this.idsOrder[0]] = {  "Id" : this.idsValue[0],
-                                              "word": this.masculinoMedio[Math.floor(Math.random(0) * (9))].valor,
+                                              "word": firstName,
                                               "category": firstCategory,
                                               "showId" : true,
                                               "showWord" : true,
         };
         this.quadrants[this.idsOrder[1]] = {  "Id" : this.idsValue[1],
-                                              "word": this.masculinoMedio[Math.floor(Math.random(0) * (9))].valor,
+                                              "word": firstName,
                                               "category": firstCategory,
                                               "showId" : true,
                                               "showWord" : true,
         };
         this.quadrants[this.idsOrder[2]] = {  "Id" : this.idsValue[2],
-                                              "word": this.animalesMedio[Math.floor(Math.random(0) * (9))].valor,
+                                              "word": secondName,
                                               "category": secondCategory,
                                               "showId" : true,
                                               "showWord" : false,
@@ -214,6 +217,8 @@ export default {
         this.quadrantsArrangement.push(this.rearrrengeQuadrants());
       }
     },
+
+
   },
 
 }

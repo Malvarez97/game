@@ -32,7 +32,7 @@
     </div>
     <!-- Jugar solo QuadrantId -->
     <div  v-show="state==5">
-      <Game :state="2" @finishId="nextLocalState();saveValue('Time finish QuadrantId',this.exerciseNumber+'b');" :exerciseNumber="this.exerciseNumber"></Game>
+      <Game :state="2" @finishId="nextLocalState();saveValue('Time finish QuadrantId',this.exerciseNumber+'b');" :exerciseNumber="this.exerciseNumber" :quadrants="this.quadrants"></Game>
       <v-btn  outline @click="nextLocalState(5,1)" rounded class="btn-finish" color="#E74C3C" >
         Siguiente
       </v-btn>
@@ -47,7 +47,7 @@
     <!-- ayuda ejercicio de palabra 3er intento  -->
     <div  v-show="state==7">
       <h1>ayuda</h1>
-        <Game :state="6" :inputhelp="a" :exerciseNumber="this.exerciseNumber"></Game>
+        <Game :state="6" :inputhelp="a" :exerciseNumber="this.exerciseNumber" :quadrants="this.quadrants"></Game>
         <v-btn  outline @click="this.state=0" rounded class="btn-finish" color="#E74C3C" >
           Siguiente
         </v-btn>

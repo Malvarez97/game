@@ -1,11 +1,11 @@
 <template>
   <!-- Mostrar Valores  -->
       <div v-show="this.state==0">
-            <h1 v-if="this.showWord" class="positionCenter">{{ this.word.toUpperCase() }} </h1>
-            <h1 v-if="this.showId" class="positionUp">{{ this.quadrantId.toUpperCase() }} </h1>
+            <h1 v-if="this.quadrant.showId" class="positionUp">{{ this.quadrant.Id.toUpperCase() }} </h1>
+            <h1 v-if="this.quadrant.showWord" class="positionCenter">{{ this.quadrant.word.toUpperCase() }} </h1>
         </div>
       <div v-show="this.state==-1">
-        <h1 class="positionUp">{{ quadrantId.toUpperCase() }} </h1>
+        <h1 class="positionUp">{{ this.quadrant.Id.toUpperCase() }} </h1>
       </div>
       <!-- Ingresar Palabra  -->
       <div v-show="this.state==1" >
@@ -16,7 +16,7 @@
         <input class="positionCenter inputFail" v-model="inputCenter">
       </div>
       <div v-show=validateLong>
-        <h1 class="positionCenter">{{ word.toUpperCase() }} ☑</h1>
+        <h1 class="positionCenter">{{ this.quadrant.word.toUpperCase() }} ☑</h1>
       </div>
     </div>
   <!-- Insertar ID CUADRANTE   -->
@@ -28,12 +28,12 @@
          <input class="positionUp inputFail" v-model="input">
        </div>
       <div v-show=validateShort>
-        <h1 class="positionUp">{{ quadrantId.toUpperCase() }} ☑</h1>
+        <h1 class="positionUp">{{ this.quadrant.Id.toUpperCase() }} ☑</h1>
       </div>
      </div>
      <!-- Insertar ID CUADRANTE   -->
      <div v-show="this.state==3">
-       <h1 class="positionUp">{{ quadrantId.toUpperCase() }} </h1>
+       <h1 class="positionUp">{{ this.quadrant.Id.toUpperCase() }} </h1>
      </div>
    <!-- Correcto   -->
     <div v-show="this.state==4">
@@ -75,10 +75,11 @@ export default {
     }
   },
   created() {
-    this.word=this.quadrant.word.toString();
+    console.log("Quadrant = "+this.quadrant);
+    /*this.word=this.quadrant.word.toString();
     this.quadrantId=this.quadrant.Id.toString();
     this.showWord=this.quadrant.showWord;
-    this.showId=this.quadrant.showId;
+    this.showId=this.quadrant.showId;*/
   },
   data(){
     return{
