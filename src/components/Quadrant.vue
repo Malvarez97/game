@@ -1,9 +1,12 @@
 <template>
   <!-- Mostrar Valores  -->
   <div v-show="this.state==0">
-      <h1 class="positionUp">{{ quadranId.toUpperCase() }} </h1>
+      <h1 class="positionUp">{{ quadrantId.toUpperCase() }} </h1>
       <h1 class="positionCenter">{{ word.toUpperCase() }} </h1>
     </div>
+  <div v-show="this.state==-1">
+    <h1 class="positionUp">{{ quadrantId.toUpperCase() }} </h1>
+  </div>
       <!-- Ingresar Palabra  -->
       <div v-show="this.state==1" >
       <div v-show=!validateLong&&longIsEmpty>
@@ -25,12 +28,12 @@
          <input class="positionUp inputFail" v-model="input">
        </div>
       <div v-show=validateShort>
-        <h1 class="positionUp">{{ quadranId.toUpperCase() }} ☑</h1>
+        <h1 class="positionUp">{{ quadrantId.toUpperCase() }} ☑</h1>
       </div>
      </div>
      <!-- Insertar ID CUADRANTE   -->
      <div v-show="this.state==3">
-       <h1 class="positionUp">{{ quadranId.toUpperCase() }} </h1>
+       <h1 class="positionUp">{{ quadrantId.toUpperCase() }} </h1>
      </div>
    <!-- Correcto   -->
     <div v-show="this.state==4">
@@ -61,7 +64,7 @@ export default {
     word:{
       default:"",
     },
-    quadranId:String,
+    quadrantId:String,
     state:Number,
     inputHelp:{
       default: "",
@@ -85,7 +88,7 @@ export default {
   methods: {
     idCorrect: function(){
       this.$emit('writeId');
-      if(this.quadranId.toUpperCase()===this.input.toUpperCase()) {
+      if(this.quadrantId.toUpperCase()===this.input.toUpperCase()) {
         // eslint-disable-next-line no-unreachable
         this.validateShort=true;
         this.$emit('idCorrect')

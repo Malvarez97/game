@@ -167,7 +167,11 @@ export default {
     for (var i=0; i<arrayToCopy.length; i++) {
       itemsCopy[i] = {  "Id" : arrayToCopy[i].Id,
                         "word": arrayToCopy[i].word,
-                        "category": arrayToCopy[i].category};
+                        "category": arrayToCopy[i].category,
+                        "showId" : arrayToCopy[i].showId,
+                        "showWord" : arrayToCopy[i].showWord,
+                        //"showCategory" : arrayToCopy[i].showCategory
+      };
     }
     return itemsCopy
   },
@@ -179,19 +183,27 @@ export default {
 
         this.quadrants[this.idsOrder[0]] = {  "Id" : this.idsValue[0],
                                               "word": this.masculinoMedio[Math.floor(Math.random(0) * (9))],
-                                              "category": firstCategory
+                                              "category": firstCategory,
+                                              "showId" : true,
+                                              "showWord" : true,
         };
         this.quadrants[this.idsOrder[1]] = {  "Id" : this.idsValue[1],
                                               "word": this.masculinoMedio[Math.floor(Math.random(0) * (9))],
-                                              "category": firstCategory
+                                              "category": firstCategory,
+                                              "showId" : true,
+                                              "showWord" : true,
         };
         this.quadrants[this.idsOrder[2]] = {  "Id" : this.idsValue[2],
                                               "word": this.animalesMedio[Math.floor(Math.random(0) * (9))],
-                                              "category": secondCategory
+                                              "category": secondCategory,
+                                              "showId" : true,
+                                              "showWord" : false,
         };
         this.quadrants[this.idsOrder[3]] = {  "Id" : this.idsValue[3],
                                               "word": this.animalesMedio[Math.floor(Math.random(0) * (9))],
-                                              "category": secondCategory
+                                              "category": secondCategory,
+                                              "showId" : true,
+                                              "showWord" : false,
         };
 
         //Añadir copia de cuadrantes originales (disposicion numero 0)

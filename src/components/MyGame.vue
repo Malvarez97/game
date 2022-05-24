@@ -1,8 +1,8 @@
 <template>
   <v-app fluid style="height: 100vh;">
-    <v-row  :key="I" v-for="I in 2" >
-      <v-col class="row" :key="index" v-for="index in 2">
-        <MyQuadrantVue :state=this.state :word="word" :quadranId="quadrantId" :check="this.check" @wordCorrect="addWordCorrect" @idCorrect="addIdCorrect" @writeWord="addLetter" :inputhelp="a" />
+    <v-row  :key="col" v-for="col in 2" >
+      <v-col class="row" :key="row" v-for="row in 2">
+        <MyQuadrantVue :state=this.state : quadrants="quadrants[row+col*2]" :check="this.check" @wordCorrect="addWordCorrect" @idCorrect="addIdCorrect" @writeWord="addLetter" :inputhelp="a" />
       </v-col>
     </v-row>
   </v-app>
@@ -39,15 +39,6 @@ export default {
       idCorrect:0,
       writeLetters:0,
     }
-  },
-  created() {
-    if (typeof this.quadrants != "undefined") {
-      if (this.quadrants.length > 0) {
-        this.word=this.quadrants[0].word.valor;
-        this.quadrantId=this.quadrants[0].Id;
-       console.log(this.quadrants[0].word.valor);
-        console.log(this.quadrants[0].Id);
-      }}
   },
   methods: {
     addLetter: function(){
