@@ -154,7 +154,7 @@ export default {
     rearrrengeQuadrants : function ()
     {
       let idsArray = this.generateQuadrantsPosition(4);
-      let quadrantsDuplicate = this.copyArray(this.quadrants);
+      let quadrantsDuplicate = this.copyQuadrant(this.quadrants,'equal','equal');
       for (let i = 0; i < idsArray.length; i++)
       {
         quadrantsDuplicate[idsArray[i]] = this.quadrants[i];
@@ -162,34 +162,37 @@ export default {
       return quadrantsDuplicate;
     },
 
-    copyArray : function (arrayToCopy) {
-    var itemsCopy = new Array(arrayToCopy.length);
-    for (var i=0; i<arrayToCopy.length; i++) {
-      itemsCopy[i] = {  "Id" : arrayToCopy[i].Id,
-                        "word": arrayToCopy[i].word,
-                        "category": arrayToCopy[i].category,
-                        "showId" : arrayToCopy[i].showId,
-                        "showWord" : arrayToCopy[i].showWord,
+    copyQuadrant : function (quadrantToCopy,showIds,showWords) {
+    var itemsCopy = new Array(quadrantToCopy.length);
+    for (var i=0; i<quadrantToCopy.length; i++) {
+      let ids = "";
+      let words = "";
+
+      switch (showIds){
+        case 'show' :  ids = true; break;
+        case 'hide' : ids = false; break;
+        case 'first' : if (quadrantToCopy[i].position == 'first') ids = true; else ids = false; break;
+        case 'second' : if (quadrantToCopy[i].position == 'second') ids = true; else ids = false; break;
+        case 'equal' : ids = quadrantToCopy[i].showId; break;
+      }
+
+      switch (showWords){
+        case 'show' :  words = true; break;
+        case 'hide' : words = false; break;
+        case 'first' : if (quadrantToCopy[i].position == 'first') words = true; else words = false; break;
+        case 'second' : if (quadrantToCopy[i].position == 'second') words = true; else words = false; break;
+        case 'equal' : ids = quadrantToCopy[i].showWord; break;
+      }
+      itemsCopy[i] = {  "Id" : quadrantToCopy[i].Id,
+                        "word": quadrantToCopy[i].word,
+                        "category": quadrantToCopy[i].category,
+                        "showId" : ids,
+                        "showWord" : words,
                         //"showCategory" : arrayToCopy[i].showCategory
       };
     }
     return itemsCopy
   },
-
-    copyAndInvertShowWords : function (quadrantToInvert)
-    {
-      var itemsCopy = new Array(quadrantToInvert.length);
-      for (var i=0; i<quadrantToInvert.length; i++) {
-        itemsCopy[i] = {  "Id" : quadrantToInvert[i].Id,
-          "word": quadrantToInvert[i].word,
-          "category": quadrantToInvert[i].category,
-          "showId" : quadrantToInvert[i].showId,
-          "showWord" : !quadrantToInvert[i].showWord,
-          //"showCategory" : quadrantToInvert[i].showCategory
-        };
-      }
-      return itemsCopy
-    },
 
     generateQuadrants: function () {
       {  //generar cuadrantes originales
@@ -203,29 +206,35 @@ export default {
                                               "category": firstCategory,
                                               "showId" : true,
                                               "showWord" : true,
+                                              "position" : "first",
         };
         this.quadrants[this.idsOrder[1]] = {  "Id" : this.idsValue[1],
                                               "word": firstName,
                                               "category": firstCategory,
                                               "showId" : true,
                                               "showWord" : true,
+                                              "position" : "first",
         };
         this.quadrants[this.idsOrder[2]] = {  "Id" : this.idsValue[2],
                                               "word": secondName,
                                               "category": secondCategory,
                                               "showId" : true,
                                               "showWord" : false,
+                                              "position" : "second",
         };
         this.quadrants[this.idsOrder[3]] = {  "Id" : this.idsValue[3],
                                               "word": secondName,
                                               "category": secondCategory,
                                               "showId" : true,
                                               "showWord" : false,
+                                              "position" : "second",
         };
 
         //Añadir copia de cuadrantes originales (disposicion numero 0)
-        this.quadrantsArrangement.push(this.copyArray(this.quadrants));
-        this.quadrantsArrangement.push(this.copyAndInvertShowWords(this.quadrants));
+        this.quadrantsArrangement.push(this.copyQuadrant(this.quadrants,"show","first"));
+        this.quadrantsArrangement.push(this.copyQuadrant(this.quadrants,"show","second"));
+        this.quadrantsArrangement.push(this.copyQuadrant(this.quadrants,"first","hide"));
+        this.quadrantsArrangement.push(this.copyQuadrant(this.quadrants,"second","hide"));
         //Reordenar cuadrantes originales (disposicion numero 1)
         this.quadrantsArrangement.push(this.rearrrengeQuadrants());
         //Reordenar cuadrantes originales (disposicion numero 2)
