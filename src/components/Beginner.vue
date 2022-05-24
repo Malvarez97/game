@@ -62,7 +62,6 @@ export default {
   padding: 2rem;
   text-transform: none;
 }
-
 .btn-centered {
   top: 50%;
   position: absolute;

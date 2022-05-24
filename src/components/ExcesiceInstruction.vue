@@ -9,6 +9,8 @@
 </template>
 
 <script>
+import '../assets/common.scss'
+
 export default {
   name: "ExcesiceInstruction",
   props: {
@@ -29,7 +31,7 @@ export default {
 
 </script>
 
-<style scoped>
+<style lang="scss"  scoped>
 h1 {
   display: flex;
   font-family: "Roboto", sans-serif;
@@ -48,15 +50,5 @@ p {
   color: #e74c3c;
   margin:auto;
 }
-.btn-finish{
-  font-size: 3rem;
-  color: white;
-  padding: 2rem;
-  text-transform: none;
-  position:relative;
-  left: 70%;
-  buttom:5%;
-  width:25%;
-  height:8%;
-}
+
 </style>

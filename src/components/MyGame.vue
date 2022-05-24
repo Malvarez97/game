@@ -90,11 +90,10 @@ export default {
 }
 </script>
 
-<style scoped>
+<style  scoped>
 .row {
   background-color: #2C3E50;
   border:white;
   border:2px solid greenyellow;
 }
-
 </style>

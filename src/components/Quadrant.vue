@@ -56,6 +56,7 @@
 </template>
 
 <script>
+import '../assets/common.scss'
 var wagnerFischer = require('wagner-fischer');
 
 export default {
@@ -142,7 +143,7 @@ export default {
 }
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 h1{
   font-size: 75px;
   color:greenyellow;
@@ -171,17 +172,5 @@ input {
   border-color:darkred;
   box-shadow:0 0 8Px 0 darkred;
 }
-.positionUp{
-	position:relative;
-	left: 2%;
-	top:5%;
-	width:25%;
-}
-.positionCenter {
-	position:relative;
-	left:15%;
-	top:150px;
-	width:50%;
-	padding: 2%;
-}
+
 </style>
