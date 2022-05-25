@@ -84,11 +84,13 @@ export default {
       validateLong:false,
       shortIsEmpty:true,
       longIsEmpty:true,
-      input:"",
-      inputCenter:this.inputHelp,
+      inputCenter:"",
       showWord:"false",
       showId:"false",
     }
+  },
+  created() {
+    this.helpWord();
   },
   methods: {
     idCorrect: function(){
@@ -120,9 +122,17 @@ export default {
       }
     },
     checkWord(){
-      console.log("se chequeo la palabra, dio"+wagnerFischer(this.inputCenter.toString().toUpperCase(),this.word.toUpperCase()))
-      if ((this.check===true)&&(wagnerFischer(this.inputCenter.toString().toUpperCase(),this.word.toUpperCase())<=2)){
-        this.$emit('wordCorrect');
+      //console.log("se chequeo la palabra, dio"+wagnerFischer(this.inputCenter.toString().toUpperCase(),this.word.toUpperCase()))
+      if (this.inputCenter!='') {
+        if ((this.check === true) && (wagnerFischer(this.inputCenter.toString().toUpperCase(), this.word.toUpperCase()) <= 2)) {
+          this.$emit('wordCorrect');
+        }
+      }
+    },
+    helpWord(){
+      if ((this.help===true)&& (this.showWord)){
+        this.inputCenter=this.quadrant.word.charAt(0);
+        console.log(this.inputCenter);
       }
     }
   },

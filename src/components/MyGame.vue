@@ -4,7 +4,7 @@
       <v-col class="row" :key="row" v-for="row in 2">
         <MyQuadrantVue :state=this.state
                        :quadrant="quadrants[(row-1)+(col-1)*2]"
-                       :check="this.check" @wordCorrect="addWordCorrect" @idCorrect="addIdCorrect" @writeWord="addLetter" :inputhelp="a" />
+                       :check="this.check" @wordCorrect="addWordCorrect" @idCorrect="addIdCorrect" @writeWord="addLetter" :help="this.help" />
       </v-col>
     </v-row>
   </v-app>
@@ -23,7 +23,10 @@ export default {
       type: Number,
     },
     Correct: Number,
-    inputHelp:String,
+     help:{
+      type :Boolean,
+       default:false,
+     },
     quadrants:Array,
     check:{
       type:Boolean,

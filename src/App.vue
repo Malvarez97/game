@@ -70,7 +70,7 @@ export default {
         {"id": 7, "valor": "EDUARDO"},
         {"id": 8, "valor": "ELISEO"},
         {"id": 9, "valor": "EVARISTO"},],
-      generalState: 3,
+      generalState: 0,
       firstQuadrants: [],
       secondQuadrants: [],
       quadrants: [],

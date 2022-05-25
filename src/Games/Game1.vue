@@ -7,14 +7,14 @@
     <!-- Mostrar cuadrantes iniciales   -->
     <div  v-show="state==1">
       <Game :state="0" :exerciseNumber="1" :quadrants="this.quadrants"></Game>
-      <v-btn  outline @click="nextLocalState(-1,-1);saveValue('Time finish see Words',this.exerciseNumber+'a');" rounded class="btn-finish" color="#E74C3C" >
+      <v-btn  outline @click="nextLocalState(1,-1);saveValue('Time finish see Words',this.exerciseNumber+'a');" rounded class="btn-finish" color="#E74C3C" >
         Siguiente
       </v-btn>
     </div>
     <!-- Completar Palabra  -->
     <div  v-show="state==2">
       <Game :state="1" @finishWord="nextLocalState();saveValue('Finish Corrects Words',this.exerciseNumber+'a');" :check="this.check" @firstLetter="saveValue('start Reading Word',this.exerciseNumber+'a')" :quadrants="this.quadrants" :exerciseNumber="this.exerciseNumber" ></Game>
-      <v-btn outline @click="nextLocalState(2,0);this.check=true;" rounded class="btn-finish" color="#E74C3C" >
+      <v-btn outline @click="nextLocalState();this.check=true;" rounded class="btn-finish" color="#E74C3C" >
         Siguiente
       </v-btn>
     </div>
@@ -47,7 +47,7 @@
     <!-- ayuda ejercicio de palabra 3er intento  -->
     <div  v-show="state==7">
       <h1>ayuda</h1>
-        <Game :state="6" :inputhelp="a" :exerciseNumber="this.exerciseNumber" :quadrants="this.quadrants"></Game>
+        <Game :state="6" :help="true" :exerciseNumber="this.exerciseNumber" :quadrants="this.quadrants"></Game>
         <v-btn  outline @click="this.state=0" rounded class="btn-finish" color="#E74C3C" >
           Siguiente
         </v-btn>
@@ -100,12 +100,12 @@ export default {
   },
   methods: {
     //avanzar a siguiente estado, se usa para estados correctos
-    nextLocalState(actualState ){
-      if(actualState==2){
+    nextLocalState( ){
+      if(this.state==2){
            //  HACER EL IF corroborar si el estado actual es valido, de serlo pasar al 3
           if (this.intentWord<2){
             // guardo el valor del tiempo del error  del primer fallo de Id
-            this.saveValue('Incorrect Word Intent'+this.intentWord,this.exerciseNumber+'a');
+            this.saveValue('Incorrect Word Intent '+(parseInt(this.intentWord,10)+1),this.exerciseNumber+'a');
             this.intentWord=this.intentWord+1;
             this.state=2;
             return;
@@ -120,7 +120,7 @@ export default {
             }
           }
       }
-      else if(actualState==5){
+      else if(this.state==5){
         if (this.intentId<2) { // primera oportunidad
           // guardo el valor del tiempo del error  del primer fallo de Id
           this.saveValue('Incorrect Id Intent',this.exerciseNumber+'b');
