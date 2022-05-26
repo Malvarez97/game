@@ -4,7 +4,12 @@
       <v-col class="row" :key="row" v-for="row in 2">
         <MyQuadrantVue :state=this.state
                        :quadrant="quadrants[(row-1)+(col-1)*2]"
-                       :check="this.check" @wordCorrect="addWordCorrect" @idCorrect="addIdCorrect" @writeWord="addLetter" :help="this.help" />
+                       :check="this.check"
+                       @wordCorrect="addWordCorrect"
+                       @idCorrect="addIdCorrect"
+                       @writeWord="addLetter"
+                       :help="this.help"
+                       @wordIncorrect="addIncorrectWord"/>
       </v-col>
     </v-row>
   </v-app>
@@ -39,11 +44,10 @@ export default {
   },
   data() {
     return {
+      incorrectWord:0,
       secondOportunity:false,
        idCorrect : 0,
       wordCorrect:0,
-       quadrantId : "",
-       word : "",
       writeLetters:0,
     }
   },
@@ -75,16 +79,24 @@ export default {
     },
     addWordCorrect: function () {
       this.wordCorrect = this.wordCorrect + 1;
-      console.log('este es el id'+this.wordCorrect)
       if (this.wordCorrect === 4) {
         // agregar sonido de audio
         this.$emit('finishWord');
+      }
+    },
+    addIncorrectWord:function (){
+      this.incorrectWord++;
+      if (this.incorrectWord==3){
+        console.log("emiti incorrecto"+this.incorrectWord);
+        this.incorrectWord=0;
+        this.$emit('redo');
       }
     },
     addIdCorrect: function () {
       this.idCorrect = this.idCorrect + 1;
       console.log('este es el id'+this.idCorrect)
       if (this.idCorrect === 4) {
+        alert("funciona bien");
         // agregar sonido de audio
         this.$emit('finishId');
       }

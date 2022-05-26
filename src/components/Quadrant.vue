@@ -78,13 +78,12 @@ export default {
 
   data(){
     return{
-      quadrantId:"",
-      word:"",
       validateShort:false,
       validateLong:false,
       shortIsEmpty:true,
       longIsEmpty:true,
       inputCenter:"",
+      input:"",
       showWord:"false",
       showId:"false",
     }
@@ -95,7 +94,7 @@ export default {
   methods: {
     idCorrect: function(){
       this.$emit('writeId');
-      if(this.quadrantId.toUpperCase()===this.input.toUpperCase()&&this.quadrant.showId) {
+      if(this.quadrant.Id.toUpperCase()===this.input.toUpperCase()&&this.quadrant.showId) {
         // eslint-disable-next-line no-unreachable
         this.validateShort=true;
         this.$emit('idCorrect')
@@ -109,24 +108,25 @@ export default {
     },
     wordCorrect: function(){
       this.$emit('writeWord');
-      if(this.word.toUpperCase()===this.inputCenter.toUpperCase()&&this.quadrant.showWord) {
+      if(this.quadrant.word.toUpperCase()===this.inputCenter.toUpperCase()&&this.quadrant.showWord) {
         // eslint-disable-next-line no-unreachable
         this.validateLong=true;
         this.$emit('wordCorrect')
       }
     },
+    wordIncorrect(){this.$emit('wordIncorrect');},
     wordEmpty: function(){
       if(this.inputCenter.length>=1) {
         // eslint-disable-next-line no-unreachable
         this.longIsEmpty=false;
       }
     },
-    checkWord(){
+    checkWord() {
       //console.log("se chequeo la palabra, dio"+wagnerFischer(this.inputCenter.toString().toUpperCase(),this.word.toUpperCase()))
-      if (this.inputCenter!='') {
-        if ((this.check === true) && (wagnerFischer(this.inputCenter.toString().toUpperCase(), this.word.toUpperCase()) <= 2)) {
-          this.$emit('wordCorrect');
-        }
+      if ((this.check === true) && (wagnerFischer(this.inputCenter.toString().toUpperCase(), this.quadrant.word.toUpperCase()) <= 2)) {
+        this.$emit('wordCorrect');
+      } else if (this.check === true){
+        this.$emit('wordIncorrect');
       }
     },
     helpWord(){

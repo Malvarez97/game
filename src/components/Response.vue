@@ -8,14 +8,11 @@
       ></v-img>
   </div>
   <div v-show="!correct">
-    <H1 class=" incorrect"> INCORRECTA </H1>
+    <H1 class=" incorrect"> INCORRECTA,AUN TE QUEDAN INTENTOS</H1>
     <v-img
         class="image"
         src="../assets/bad.jpg"
     ></v-img>
-    <v-btn @click="response(false)" rounded class="btn-finish" color="#E74C3C" >
-    Segundo intento
-    </v-btn>
   </div>
   </div>
 </template>
@@ -40,15 +37,15 @@ h1{
   margin-top:10%;
   position: absolute;
   font-size: 8REM;
-
 }
 .correct{
   color:#3BB449;
   left:32.5%;
 }
 .incorrect{
+  font-size: 4REM;
   color:#D1494B;
-  left:30%;
+  left:20%;
 }
 .image {
   position:absolute;
@@ -56,16 +53,4 @@ h1{
   left:37.5%;
   width:25%;
 }
-.btn-finish{
-  font-size: 3rem;
-  color: white;
-  padding: 2rem;
-  text-transform: none;
-  position:absolute;
-  left: 70%;
-  top:3%;
-  width:25%;
-  height:8%;
-}
-
 </style>
