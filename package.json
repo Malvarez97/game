@@ -13,6 +13,7 @@
     "howler": "^2.2.3",
     "roboto-fontface": "*",
     "vue": "^3.2.13",
+    "vue-sweetalert2": "^5.0.5",
     "vuetify": "npm:@vuetify/nightly@next",
     "wagner-fischer": "^1.0.0",
     "webfontloader": "^1.0.0",

@@ -1,7 +1,7 @@
 <template>
 	<v-app fluid style="height: 100vh;">
     <div v-show="generalState==0">
-        <Beginner @finishBegin="nextState"> </Beginner>
+        <Beginner @finishBegin="nextState(1)"> </Beginner>
     </div>
     <div v-show="generalState==1"  >
       <Game1 @finishExcersize="finalize" @saveValue="writeState"  :quadrants="this.quadrantsArrangement[0]" :category="'animales'" :exercise-number="1"> </Game1>
@@ -88,18 +88,18 @@ export default {
   },
 
   methods: {
-      finalize:function(exerciseNumber,value){
+      finalize:function(exerciseNumber,value,nextState){
         this.writeState(exerciseNumber,value);
-        this.nextState();
+        this.nextState(nextState);
       },
-     nextState:function (){
+     nextState:function (nextState){
        if (this.generalState===0){
          this.start =new Date();
          console.log(this.start);
          this.data.push(this.start+", ,inicial");
          console.log(this.data);
        }
-       this.generalState=this.generalState+1;
+       this.generalState=nextState;
      },
     // string con el numero de ejercicio y boolean si acerto o no
     writeState:function(exerciseNumber,value){

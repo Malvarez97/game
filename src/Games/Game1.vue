@@ -70,6 +70,7 @@
 import Game from "@/components/MyGame";
 import ExerciseInstruction from "@/components/ExcesiceInstruction";
 import MyResponse from "@/components/Response";
+const Swal = require('sweetalert2')
 export default {
   name: 'MyGame1',
   components: {
@@ -100,13 +101,38 @@ export default {
       explicationid:"Escriba las letras que identifican a cada cuadrante",
       state: 0,
       check:false,
+      nextGeneralState:1,
     }
   },
   methods: {
+    showError(){
+      Swal.fire({
+        icon: 'error',
+        title: 'Nefasto',
+        text: 'Te caiste a los pedazos master!',
+        //timer: 2000,
+        footer: '<a href="">¿Como no caerse a los pedazos?</a>'
+      })
+    },
+    showWarning(){
+      Swal.fire({
+        icon: 'warning',
+        title: 'Te queda 1 solo intento!',
+        showCloseButton: true
+      })
+    },
+    showCorrect(){
+      Swal.fire({
+        icon: 'success',
+        title: 'Buena!',
+        text: 'Segui asi fiera, idolo, titan, mastodonte, pura sangre',
+      })
+    },
     //avanzar a siguiente estado, se usa para estados correctos
     nextLocalState( ){
       console.log("entro",this.state)
       if(this.state==2 &&!this.correctResponse){
+          this.showAlert();
            //  HACER EL IF corroborar si el estado actual es valido, de serlo pasar al 3
           if (this.intentWord<=1){
             // guardo el valor del tiempo del error  del primer fallo de Id
@@ -121,13 +147,15 @@ export default {
             if (this.intentWord===2 &&!this.correctResponse){
               // guardo el valor del tiempo del error  del primer fallo de Id
               this.saveValue('Incorrect Word Intent 3 ',this.exerciseNumber+'a');
-              alert("te queda un intento, si erras el ejercicio se reiniciara");
+              this.showWarning();
               this.state=7;
               this.intentWord=0;
               this.check=false;
               return;
             }
             else{
+              this.showError();
+              this.nextGeneralState = 0;
               return;
             }
           }
@@ -148,7 +176,11 @@ export default {
     },
     // se usa para saltar estados
     finalizeExercise: function () {
-      this.$emit('finishExcersize',this.exerciseNumber, true);
+      this.nextGeneralState += 1;
+      if (this.nextGeneralState != 1){
+        this.showCorrect();
+      }
+      this.$emit('finishExcersize',this.exerciseNumber, true, this.nextGeneralState);
     },
     // salvar diferentes tipos de datos
     saveValue: function(exercisenumber,value) {

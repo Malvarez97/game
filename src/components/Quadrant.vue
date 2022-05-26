@@ -124,10 +124,16 @@ export default {
     checkWord() {
       //console.log("se chequeo la palabra, dio"+wagnerFischer(this.inputCenter.toString().toUpperCase(),this.word.toUpperCase()))
       if ((this.check === true) && (wagnerFischer(this.inputCenter.toString().toUpperCase(), this.quadrant.word.toUpperCase()) <= 2)) {
+        this.clearQuadrant();
         this.$emit('wordCorrect');
       } else if (this.check === true){
+        this.clearQuadrant();
         this.$emit('wordIncorrect');
       }
+    },
+    clearQuadrant(){
+      this.inputCenter = "";
+      //this.quadrant.word = " ";
     },
     helpWord(){
       if ((this.help===true)&& (this.showWord)){
