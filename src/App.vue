@@ -1,12 +1,12 @@
 <template>
 	<v-app fluid style="height: 100vh;">
-    <div v-show="generalState==0">
-        <Beginner @finishBegin="nextState(1)"> </Beginner>
+    <div v-show="$store.state.generalState==0">
+        <Beginner @finishBegin="$store.dispatch('next')" ></Beginner>
     </div>
-    <div v-show="generalState==1"  >
+    <div v-show="$store.state.generalState==1"  >
       <Game1 @finishExcersize="finalize" @saveValue="writeState"  :quadrants="this.quadrantsArrangement[0]" :category="'animales'" :exercise-number="1"> </Game1>
     </div>
-    <div v-show="generalState==2" >
+    <div v-show="$store.state.generalState==1" >
       <Game1 @finishExcersize="finalize" @saveValue="writeState"  :quadrants="this.quadrantsArrangement[1]" :category="' nombres masculino'" :exercise-number="2"> </Game1>
     </div>
     <div v-show="generalState==3" >

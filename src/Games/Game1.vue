@@ -3,6 +3,7 @@
     <!-- Explicacion inicial palabra  -->
     <div v-show="state==0" >
       <ExerciseInstruction @finishExplication="this.state++;saveValue('Time finish reading',this.exerciseNumber+'a');" :introduction="explicationWord_introduction" :outcome="explicationWord_outcome" :end="explicationWord_end" :exerciseNumber="this.exerciseNumber" ></ExerciseInstruction>
+      <v-btn @click="$store.state.generalState=0">hola </v-btn>
     </div>
     <!-- Mostrar cuadrantes iniciales   -->
     <div  v-show="state==1">
