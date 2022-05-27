@@ -1,7 +1,7 @@
 <template>
 	<v-app fluid style="height: 100vh;">
     <div v-show="$store.state.generalState==0">
-        <Beginner @finishBegin="$store.commit('changeGeneralState',1)"  ></Beginner>
+      <Beginner @finishBegin="$store.commit('changeGeneralState',1)"  ></Beginner>
     </div>
     <div v-show="$store.state.generalState==1"  >
       <Game1 @finishExcersize="finalize" @saveValue="writeState"  :quadrants="this.quadrantsArrangement[0]" :category="'animales'" :exercise-number="1"> </Game1>
@@ -19,7 +19,7 @@
       <h1> 5</h1>
     </div>
     <div v-show="$store.state.generalState==6" >
-      <h1> 6</h1>
+      <Beginner></Beginner>
     </div>
 	</v-app>
 </template>
@@ -27,6 +27,7 @@
 
 import Game1 from "@/Games/Game1";
 import Game2 from "@/Games/Game2";
+//import Game3 from "@/Games/Game3";
 import Beginner from "@/components/Beginner";
 
 
@@ -35,6 +36,7 @@ export default {
     Beginner,
     Game1,
     Game2,
+    //Game3,
 	},
   data() {
     return {
