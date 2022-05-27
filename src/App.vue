@@ -1,24 +1,24 @@
 <template>
 	<v-app fluid style="height: 100vh;">
     <div v-show="$store.state.generalState==0">
-        <Beginner @finishBegin="$store.dispatch('next')" ></Beginner>
+        <Beginner @finishBegin="$store.commit('changeGeneralState',1)"  ></Beginner>
     </div>
     <div v-show="$store.state.generalState==1"  >
       <Game1 @finishExcersize="finalize" @saveValue="writeState"  :quadrants="this.quadrantsArrangement[0]" :category="'animales'" :exercise-number="1"> </Game1>
     </div>
-    <div v-show="$store.state.generalState==1" >
+    <div v-show="$store.state.generalState==2" >
       <Game1 @finishExcersize="finalize" @saveValue="writeState"  :quadrants="this.quadrantsArrangement[1]" :category="' nombres masculino'" :exercise-number="2"> </Game1>
     </div>
-    <div v-show="generalState==3" >
+    <div v-show="$store.state.generalState==3" >
       <Game2 @finishExcersize="finalize" @saveValue="writeState"  :quadrants="this.quadrantsArrangement[2]" :category="'animales'" :exercise-number="3"></Game2>
     </div>
-    <div v-show="generalState==4" >
+    <div v-show="$store.state.generalState==4" >
       <Game2 @finishExcersize="finalize" @saveValue="writeState"  :quadrants="this.quadrantsArrangement[3]" :category="'nombres masculinos'" :exercise-number="4"></Game2>
     </div>
-    <div v-show="generalState==5" >
+    <div v-show="$store.state.generalState==5" >
       <h1> 5</h1>
     </div>
-    <div v-show="generalState==6" >
+    <div v-show="$store.state.generalState==6" >
       <h1> 6</h1>
     </div>
 	</v-app>
@@ -89,24 +89,22 @@ export default {
 
   methods: {
       finalize:function(exerciseNumber,value,nextState){
-        this.writeState(exerciseNumber,value);
-        this.nextState(nextState);
+        //this.writeState(exerciseNumber,value);
+        this.$store.commit('writeTimes',this.exerciseNumber+this.subExerciseNumber,value);
+        //console.log(exerciseNumber+" "+value+" "+nextState);
+        this.$store.commit('changeGeneralState', nextState);
       },
      nextState:function (nextState){
        if (this.generalState===0){
          this.start =new Date();
-         console.log(this.start);
+         //console.log(this.start);
          this.data.push(this.start+", ,inicial");
-         console.log(this.data);
+         //console.log(this.data);
        }
        this.generalState=nextState;
      },
     // string con el numero de ejercicio y boolean si acerto o no
-    writeState:function(exerciseNumber,value){
-      this.date=new Date();
-       this.data.push(this.date+","+value+","+exerciseNumber);
-       console.log(this.data);
-    },
+
     generateRandomIds :function (size, difficulty) {
       let idsArray = new Array(size);
       let i = 0;

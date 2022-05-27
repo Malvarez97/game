@@ -2,10 +2,10 @@
   <v-app fluid style="height: 100vh;">
     <v-row  :key="col" v-for="col in 2" >
       <v-col class="row" :key="row" v-for="row in 2">
-        <MyQuadrantVue :state=this.state
-                       :quadrant="quadrants[(row-1)+(col-1)*2]"
+        <MyQuadrantVue :quadrant="quadrants[(row-1)+(col-1)*2]"
+                       :correct="!quadrants[(row-1)+(col-1)*2].showWord"
                        :check="this.check"
-                       @wordCorrect="addWordCorrect"
+                       @wordCorrect="addAndCheckWords"
                        @idCorrect="addIdCorrect"
                        @writeWord="addLetter"
                        :help="this.help"
@@ -23,10 +23,6 @@ export default {
     MyQuadrantVue
   },
   props: {
-    state: {
-      default: 0,
-      type: Number,
-    },
     Correct: Number,
      help:{
       type :Boolean,
@@ -39,8 +35,8 @@ export default {
     }
   },
   created() {
-    this.getCorrectWords();
-    this.getCorrectIds();
+    this.setCorrectWords();
+    this.setCorrectIds();
   },
   data() {
     return {
@@ -52,53 +48,55 @@ export default {
     }
   },
   methods: {
-    getCorrectWords :function (){
-      for (let i=0; i<this.quadrants.length; i++)
-      {
-        if (!this.quadrants[i].showWord)
-        {
+    setCorrectWords: function () {
+      for (let i = 0; i < this.quadrants.length; i++) {
+        if (!this.quadrants[i].showWord) {
           this.wordCorrect++;
         }
       }
     },
-    getCorrectIds :function (){
-      for (let i=0; i<this.quadrants.length; i++)
-      {
-        if (!this.quadrants[i].showId)
-        {
+    setCorrectIds: function () {
+      for (let i = 0; i < this.quadrants.length; i++) {
+        if (!this.quadrants[i].showId) {
           this.idCorrect++;
         }
       }
     },
-    addLetter: function(){
-      this.writeLetters=this.writeLetters+1;
-     // console.log(this.writeLetters);
-        if(this.writeLetters==1) {
-          this.$emit('firstLetter');
-        }
+    addLetter: function () {
+      this.writeLetters = this.writeLetters + 1;
+      // console.log(this.writeLetters);
+      if (this.writeLetters == 1) {
+        this.$emit('firstLetter');
+      }
     },
-    addWordCorrect: function () {
+    addAndCheckWords: function () {
       this.wordCorrect = this.wordCorrect + 1;
-      if (this.wordCorrect === 4) {
-        // agregar sonido de audio
-        this.$emit('finishWord');
-      }
+      this.checkWords();
     },
-    addIncorrectWord:function (){
-      this.incorrectWord++;
-      if (this.incorrectWord==3){
-        console.log("emiti incorrecto"+this.incorrectWord);
-        this.incorrectWord=0;
-        this.$emit('redo');
-      }
+    addIncorrectWord: function () {
+      //this.incorrectWord++;
+      //if (this.incorrectWord==3){
+      //console.log("emiti incorrecto"+this.incorrectWord);
+      //this.incorrectWord=0;
+      console.log("estoy añadiendo incorrect word");
+      this.$store.commit('changeCorrectResponse', false);
+      this.$emit('finishCheck');
+      //}
     },
     addIdCorrect: function () {
       this.idCorrect = this.idCorrect + 1;
-      console.log('este es el id'+this.idCorrect)
+      console.log("Estoy miradno cuantas correct hay "+this.idCorrect);
       if (this.idCorrect === 4) {
-        alert("funciona bien");
         // agregar sonido de audio
-        this.$emit('finishId');
+        this.$store.commit('changeCorrectResponse',true);
+        this.$emit('finishCheck');
+      }
+    },
+    checkWords: function () {
+      if (this.wordCorrect === 4) {
+        // agregar sonido de audio
+        this.$store.commit('changeCorrectResponse', true);
+        this.$emit('finishCheck');
       }
     },
   }

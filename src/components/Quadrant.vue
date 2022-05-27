@@ -1,14 +1,11 @@
 <template>
   <!-- Mostrar Valores  -->
-      <div v-show="this.state==0">
+      <div v-show="$store.state.quadrantState==0">
             <h1 v-if="this.quadrant.showId" class="positionUp">{{ this.quadrant.Id.toUpperCase() }} </h1>
             <h1 v-if="this.quadrant.showWord" class="positionCenter">{{ this.quadrant.word.toUpperCase() }} </h1>
         </div>
-      <div v-show="this.state==-1">
-        <h1 class="positionUp">{{ this.quadrant.Id.toUpperCase() }} </h1>
-      </div>
       <!-- Ingresar Palabra  -->
-      <div v-show="this.state==1" >
+      <div v-show="$store.state.quadrantState==1" >
       <div v-show=!validateLong&&longIsEmpty>
         <input class="positionCenter inputEmpty" v-model="inputCenter">
       </div>
@@ -20,7 +17,7 @@
       </div>
     </div>
   <!-- Insertar ID CUADRANTE   -->
-   <div v-show="this.state==2" >
+   <div v-show="$store.state.quadrantState==2" >
     <div v-show=!validateShort&&shortIsEmpty>
         <input class="positionUp inputEmpty" v-model="input">
       </div>
@@ -32,20 +29,20 @@
       </div>
      </div>
      <!-- Insertar ID CUADRANTE   -->
-     <div v-show="this.state==3">
+     <div v-show="$store.state.quadrantState==3">
        <h1 class="positionUp">{{ this.quadrant.Id.toUpperCase() }} </h1>
      </div>
    <!-- Correcto   -->
-    <div v-show="this.state==4">
+    <div v-show="$store.state.quadrantState==4">
     <h1 class="positionCenter">Correcto</h1>
     </div>
       <!-- Incorrecto  -->
-    <div v-show="this.state==5">
+    <div v-show="$store.state.quadrantState==5">
     <h1 class="positionCenter incorrect">InCorrecto</h1>
     </div>
       <!-- Ayuda de palabra  -->
   <!-- Ingresar Palabra  -->
-    <div v-show="this.state==6" >
+    <div v-show="$store.state.quadrantState==6" >
     <div v-show=!validateLong&&longIsEmpty>
       <input class="positionCenter inputEmpty" v-model="inputCenter">
     </div>
@@ -62,7 +59,6 @@ var wagnerFischer = require('wagner-fischer');
 export default {
 	name: 'MyQuadrant',
   props: {
-    state:Number,
     inputHelp:{
       default: "",
       type:String,
@@ -73,7 +69,10 @@ export default {
     },
     quadrant:{
       type:Array,
-    }
+    },
+    defaultCorrect:{
+      type:Boolean,
+    },
   },
 
   data(){
@@ -86,6 +85,7 @@ export default {
       input:"",
       showWord:"false",
       showId:"false",
+      correct:false,
     }
   },
   created() {
@@ -106,34 +106,43 @@ export default {
         this.shortIsEmpty=false;
       }
     },
+    //Chequeo que la palabra escrita por el usuario sea igual a la que pide el ejercicio
     wordCorrect: function(){
       this.$emit('writeWord');
       if(this.quadrant.word.toUpperCase()===this.inputCenter.toUpperCase()&&this.quadrant.showWord) {
         // eslint-disable-next-line no-unreachable
         this.validateLong=true;
-        this.$emit('wordCorrect')
+        this.correct = true;
+        this.$emit('wordCorrect');
       }
     },
     wordIncorrect(){this.$emit('wordIncorrect');},
+    //No se bien que hace, no deja gris el campo donde escribe el usuario
     wordEmpty: function(){
       if(this.inputCenter.length>=1) {
         // eslint-disable-next-line no-unreachable
         this.longIsEmpty=false;
       }
     },
+    //Chequeo que el ejercicio esté completado correctamente
     checkWord() {
-      //console.log("se chequeo la palabra, dio"+wagnerFischer(this.inputCenter.toString().toUpperCase(),this.word.toUpperCase()))
-      if ((this.check === true) && (wagnerFischer(this.inputCenter.toString().toUpperCase(), this.quadrant.word.toUpperCase()) <= 2)) {
-        this.clearQuadrant();
-        this.$emit('wordCorrect');
-      } else if (this.check === true){
-        this.clearQuadrant();
-        this.$emit('wordIncorrect');
+      console.log("entra a check word");
+      if( !this.correct || !this.defaultCorrect || this.inputCenter.toString().trim().length != 0) {
+        if ((wagnerFischer(this.inputCenter.toString().toUpperCase(), this.quadrant.word.toUpperCase()) <= 2)) {
+          //luego de chequear, limpio el cuadrante por si se vuelve a usar
+          this.clearQuadrant();
+          this.$emit('wordCorrect');
+        } else if (this.check === true){
+          console.log("añade word incorrect");
+          this.clearQuadrant();
+          this.$emit('wordIncorrect');
+        }
       }
+
     },
     clearQuadrant(){
       this.inputCenter = "";
-      //this.quadrant.word = " ";
+      this.$store.commit('changeQuadrantState',1);
     },
     helpWord(){
       if ((this.help===true)&& (this.showWord)){
@@ -147,10 +156,12 @@ export default {
       this.idCorrect();
       this.idEmpty();
         },
+      //Observo lo que va escribiendo el usuario
       inputCenter(){
         this.wordCorrect();
         this.wordEmpty();
       },
+      //Observo la varibale check que será verdadera cuando termine un ejercicio
       check(){
           this.checkWord();
       }

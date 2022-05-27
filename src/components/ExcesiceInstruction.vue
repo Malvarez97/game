@@ -12,10 +12,14 @@
 import '../assets/common.scss'
 
 export default {
-  name: "ExcesiceInstruction",
+  name: "ExcerciseInstruction",
   props: {
     exerciseNumber: {
       type: Number,
+    },
+    subExerciseNumber : {
+      default : .1,
+      type : Number,
     },
     introduction:String,
     outcome:String,
@@ -24,7 +28,9 @@ export default {
 
   methods: {
     finishExersiceInstruccion: function(){
-      this.$emit('finishExplication')// faltaria mandar el tiempo que tardo en entender como parametro
+      this.$store.commit('changeGameState',(parseInt(this.$store.state.gameState,10)+1));
+      this.$store.commit('writeTimes',this.exerciseNumber+this.subExerciseNumber,'Time finish reading');
+      this.$emit('finishExplanation');
     }
   },
 }
