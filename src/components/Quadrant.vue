@@ -1,9 +1,9 @@
 <template>
   <!-- Mostrar Valores  -->
       <div v-show="$store.state.quadrantState==0">
-            <h1 v-if="this.quadrant.showId" class="positionUp">{{ this.quadrant.Id.toUpperCase() }} </h1>
-            <h1 v-if="this.quadrant.showWord" class="positionCenter">{{ this.quadrant.word.toUpperCase() }} </h1>
-        </div>
+        <h1 v-if="this.quadrant.showId" class="positionUp">{{ this.quadrant.Id.toUpperCase() }} </h1>
+        <h1 v-if="this.quadrant.showWord" class="positionCenter">{{ this.quadrant.word.toUpperCase() }} </h1>
+      </div>
       <!-- Ingresar Palabra  -->
       <div v-show="$store.state.quadrantState==1" >
       <div v-show=!validateLong&&longIsEmpty>
@@ -49,6 +49,13 @@
     <div v-show=!validateLong&&!longIsEmpty>
       <input class="positionCenter inputFail" v-model="inputCenter">
     </div>
+      <!-- Ejemplo de botones falta funcionalidad   -->
+      <div v-show="$store.state.quadrantState==7">
+        <v-btn outline rounded class="positionCenter btn-correct btn-centered" fab
+               color="indigo" >
+          {{this.quadrant.word.toUpperCase()}}
+        </v-btn>
+      </div>
     </div>
 </template>
 
@@ -198,6 +205,21 @@ input {
 .inputFail:focus {
   border-color:darkred;
   box-shadow:0 0 8Px 0 darkred;
+}
+.btn-centered{
+  font-size: 3rem;
+  color: white;
+  padding: 2rem;
+  width:30%;
+  height:20%;
+}
+.btn-incorrect:focus {
+  border-color:darkred;
+  box-shadow:0 0 25Px 0 darkred;
+}
+.btn-correct:focus {
+  border-color:springgreen;
+  box-shadow:0 0 25Px 0 springgreen;
 }
 
 </style>
