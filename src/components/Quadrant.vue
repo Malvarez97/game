@@ -101,7 +101,8 @@ export default {
   methods: {
     idCorrect: function(){
       this.$emit('writeId');
-      if(this.quadrant.Id.toUpperCase()===this.input.toUpperCase()&&this.quadrant.showId) {
+      console.log("id que tengo = "+this.input.toUpperCase()+" \n id real = "+this.quadrant.Id.toUpperCase()+" \n id showeable? "+this.quadrant.showId);
+      if(this.quadrant.Id.toUpperCase()===this.input.toUpperCase() && this.quadrant.showId) {
         // eslint-disable-next-line no-unreachable
         this.validateShort=true;
         this.$emit('idCorrect')
@@ -133,19 +134,36 @@ export default {
     },
     //Chequeo que el ejercicio esté completado correctamente
     checkWord() {
-      console.log("entra a check word");
-      if( !this.correct || !this.defaultCorrect || this.inputCenter.toString().trim().length != 0) {
-        if ((wagnerFischer(this.inputCenter.toString().toUpperCase(), this.quadrant.word.toUpperCase()) <= 2)) {
-          //luego de chequear, limpio el cuadrante por si se vuelve a usar
-          this.clearQuadrant();
-          this.$emit('wordCorrect');
-        } else if (this.check === true){
-          console.log("añade word incorrect");
-          this.clearQuadrant();
-          this.$emit('wordIncorrect');
+      if (this.check){
+        console.log("estado actual del juego = "+this.$store.state.gameState);
+        console.log("check = "+this.check);
+        console.log("word que tengo = "+this.inputCenter.toUpperCase()+" \n word real = "+this.quadrant.word.toUpperCase()+" \n word showeable? "+this.quadrant.showWord);
+        //Si la palabra no se verifico como como correcta anteriormente
+        if( !this.correct){
+          console.log("La palabra no era correcta");
+          //Si la palabra no es por defecto correcta (era necesario completarla para el ejercicio)
+          if (!this.defaultCorrect){
+            console.log("La palabra no era por defecto correcta");
+            //Si la palabra necesita ser chequeada en caso de que el usuario pueda haberla escrito mal
+            if ((wagnerFischer(this.inputCenter.toString().toUpperCase(), this.quadrant.word.toUpperCase()) <= 2)) {
+              //Añado palabra correcta
+              console.log("emito correcta");
+              this.$emit('wordCorrect');
+            } else {
+              console.log("emito incorrecta");
+              //Añado palabra incorrecta
+              this.$emit('wordIncorrect');
+            }
+          }
+          else{
+            //Añado palabra por defecto
+            console.log("emito default");
+            this.$emit('defaultWord');
+          }
         }
       }
-
+      //Se deja el cuadrante vacio por si hay que volver a realizar el ejercicio
+      this.clearQuadrant();
     },
     clearQuadrant(){
       this.inputCenter = "";

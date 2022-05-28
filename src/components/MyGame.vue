@@ -3,13 +3,14 @@
     <v-row  :key="col" v-for="col in 2" >
       <v-col class="row" :key="row" v-for="row in 2">
         <MyQuadrantVue :quadrant="quadrants[(row-1)+(col-1)*2]"
-                       :correct="!quadrants[(row-1)+(col-1)*2].showWord"
+                       :defaultCorrect="!quadrants[(row-1)+(col-1)*2].showWord"
                        :check="this.check"
-                       @wordCorrect="addAndCheckWords"
+                       @wordCorrect="addCorrectWord"
                        @idCorrect="addIdCorrect"
                        @writeWord="addLetter"
                        :help="this.help"
-                       @wordIncorrect="addIncorrectWord"/>
+                       @wordIncorrect="addIncorrectWord"
+                       @defaultWord="addDefaultWord"/>
       </v-col>
     </v-row>
   </v-app>
@@ -42,26 +43,31 @@ export default {
     return {
       incorrectWord:0,
       secondOportunity:false,
-       idCorrect : 0,
-      wordCorrect:0,
+      idsCorrect : 0,
+      wordsCorrect:0,
       writeLetters:0,
+      wordsChecked:0,
+      idsChecked:0,
     }
   },
   methods: {
+    //Seteo la cantidad de palabras que no son necesarias escribir
     setCorrectWords: function () {
       for (let i = 0; i < this.quadrants.length; i++) {
         if (!this.quadrants[i].showWord) {
-          this.wordCorrect++;
+          this.wordsCorrect++;
         }
       }
     },
+    //Seteo la cantidad de ids que no son necesarios escribir
     setCorrectIds: function () {
       for (let i = 0; i < this.quadrants.length; i++) {
         if (!this.quadrants[i].showId) {
-          this.idCorrect++;
+          this.idsCorrect++;
         }
       }
     },
+    //Añado el tiempo de escritura de la primer letra de una palabra
     addLetter: function () {
       this.writeLetters = this.writeLetters + 1;
       // console.log(this.writeLetters);
@@ -69,34 +75,71 @@ export default {
         this.$emit('firstLetter');
       }
     },
-    addAndCheckWords: function () {
-      this.wordCorrect = this.wordCorrect + 1;
-      this.checkWords();
-    },
-    addIncorrectWord: function () {
-      //this.incorrectWord++;
-      //if (this.incorrectWord==3){
-      //console.log("emiti incorrecto"+this.incorrectWord);
-      //this.incorrectWord=0;
-      console.log("estoy añadiendo incorrect word");
-      this.$store.commit('changeCorrectResponse', false);
-      this.$emit('finishCheck');
-      //}
-    },
-    addIdCorrect: function () {
-      this.idCorrect = this.idCorrect + 1;
-      console.log("Estoy miradno cuantas correct hay "+this.idCorrect);
-      if (this.idCorrect === 4) {
-        // agregar sonido de audio
-        this.$store.commit('changeCorrectResponse',true);
-        this.$emit('finishCheck');
+    //Añado palabra correcta y sumo 1 a la cantidad de palabras chequeadas
+    addCorrectWord: function () {
+      this.wordsCorrect = this.wordsCorrect + 1;
+      this.wordsChecked +=1;
+      console.log("words correct = "+this.wordsCorrect+" \nwords Checked = "+this.wordsChecked);
+      if (this.wordsChecked != 4 && this.wordsCorrect == 4){
+        this.finishCheck(true);
       }
     },
-    checkWords: function () {
-      if (this.wordCorrect === 4) {
-        // agregar sonido de audio
-        this.$store.commit('changeCorrectResponse', true);
-        this.$emit('finishCheck');
+    //Añado palabra chequeada
+    addIncorrectWord: function () {
+      console.log("añado incorrecta");
+      this.wordsChecked+=1;
+    },
+    //Añado id correcto y una palabra chequeada
+    addIdCorrect: function () {
+      this.idsCorrect += 1;
+      // agregar sonido de audio
+      this.idsChecked += 1;
+      console.log("ids correct = "+this.idsCorrect+" \nids Checked = "+this.idsChecked);
+      if (this.idsChecked != 4 && this.idsCorrect == 4){
+        this.finishCheck(true);
+      }
+    },
+    addDefaultWord: function(){
+      //Añado la palabra por defecto solo si no todas estan bien, para no tener problemas de hacer chequeos dobles
+      if (this.wordsCorrect !== 4){
+        console.log("add default word");
+        this.wordsChecked +=1;
+      }
+    },
+    finishCheck : function(response) {
+      this.$store.commit('changeCorrectResponse',response);
+      this.restoreVariables();
+      this.$emit('finishCheck');
+    },
+    restoreVariables: function() {
+      this.wordsCorrect = 0;
+      this.wordsCorrect = this.setCorrectWords();
+      this.idsCorrect = 0;
+      this.idsCorrect = this.setCorrectIds();
+    },
+  },
+
+  watch:{
+    //Se fija constantemente si las 4 palabras ya fueron chequeadas y si las 4 son correctas, la response es true
+    wordsChecked(){
+      if (this.wordsChecked == 4){
+        if (this.wordsCorrect == 4){
+          this.finishCheck(true);
+        }
+        else{
+          this.finishCheck(false);
+        }
+      }
+    },
+    idsChecked(){
+      console.log("ids checked = "+this.idsChecked);
+      if (this.idsChecked == 4){
+        if (this.idsCorrect == 4){
+          this.finishCheck(true);
+        }
+        else{
+          this.finishCheck(false);
+        }
       }
     },
   }

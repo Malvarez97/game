@@ -133,8 +133,10 @@ export default {
     },
     //avanzar a siguiente estado, se usa para estados correctos
     nextLocalState() {
-      //this.wordCorrect = false;
+      console.log("se emitio finish check");
       this.check = false;
+      //this.wordCorrect = false;
+      //Si la respuesta es correcta
       if (this.$store.state.correctResponse){
         this.$store.commit('changeCorrectResponse',false);
         this.showCorrect();
@@ -142,7 +144,7 @@ export default {
         //Si estamos en el de la palabra cambiamos al del id
         if (this.idsExercise == false) {
           this.idsExercise = true;
-          this.$store.dispatch('waitingStateToNextState',{miliseconds: 2000,waitingState: 8,nextGameState: this.$store.state.gameState+1});
+          this.$store.dispatch('waitingStateToNextState',{miliseconds: 2000,waitingState: 8,nextGameState: (parseInt(this.$store.state.gameState,10)+1)});
         }
         //Si estamos en el del id pasamos al ejercicio siguiente
         else{
@@ -154,26 +156,27 @@ export default {
       //Si fue incorrecta
       else
       {
-          console.log("La respuesta fue incorrecta");
         // Si fue incorrecta la palabra
           this.intentWord = this.intentWord + 1;
           //Si fue el primer intento
           if (this.intentWord < 2)
           {
+            console.log("primera incorrecta");
             //Si es el ejercicio de las ids
             if (this.idsExercise){
-              this.$store.dispatch('waitingStateToNextState',{miliseconds: 2000,waitingState: 9,nextGameState: this.$store.state.lastGameState});
               this.showWarning();
             }
             //Si es el ejercicio de las palabras
             else{
+              console.log("entro al else");
               // guardo el valor del tiempo del error  del primer fallo de Id
-              this.saveValue('Incorrect Word Intent ' + (parseInt(this.intentWord, 10) + 1), this.exerciseNumber + 'a');
-              this.$store.dispatch('waitingStateToNextState',{miliseconds: 2000,waitingState: 9,nextGameState: this.$store.state.lastGameState});
+              //this.saveValue('Incorrect Word Intent ' + (parseInt(this.intentWord, 10) + 1), this.exerciseNumber + 'a');
             }
+            this.$store.dispatch('waitingStateToNextState',{miliseconds: 2000,waitingState: 9,nextGameState: (parseInt(this.$store.state.lastGameState,10)+1)});
           }
           else
           {
+            console.log("segunda incorrecta");
             // Si es el segundo intento
             if (this.intentWord == 2) {
               //Si es el juego de las ids, entonces se vuelve al ej 1

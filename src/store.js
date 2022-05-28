@@ -19,7 +19,6 @@ export default new Vuex.Store({
             this.state.gameState = nextGameState;
         },
         changeQuadrantState(state,nextQuadrantState){
-            console.log("cambio el quadrant state a "+nextQuadrantState);
             this.state.quadrantState = nextQuadrantState;
         },
         changeExerciseExplanation(state,nextExerciseExplanation){
