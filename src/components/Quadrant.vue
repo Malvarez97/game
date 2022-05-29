@@ -4,59 +4,66 @@
         <h1 v-if="this.quadrant.showId" class="positionUp">{{ this.quadrant.Id.toUpperCase() }} </h1>
         <h1 v-if="this.quadrant.showWord" class="positionCenter">{{ this.quadrant.word.toUpperCase() }} </h1>
       </div>
-      <!-- Ingresar Palabra  -->
+  <!-- Ingresar Palabra  -->
       <div v-show="$store.state.quadrantState==1" >
-      <div v-show=!validateLong&&longIsEmpty>
-        <input class="positionCenter inputEmpty" v-model="inputCenter">
-      </div>
-      <div v-show=!validateLong&&!longIsEmpty>
-        <input class="positionCenter inputFail" v-model="inputCenter">
-      </div>
-      <div v-show=validateLong>
-        <h1 class="positionCenter">{{ this.quadrant.word.toUpperCase() }} ☑</h1>
-      </div>
+        <div v-show=!validateLong&&longIsEmpty>
+          <input class="positionCenter inputEmpty" v-model="inputCenter">
+        </div>
+        <div v-show=!validateLong&&!longIsEmpty>
+          <input class="positionCenter inputFail" v-model="inputCenter">
+        </div>
+        <div v-show=validateLong>
+          <h1 class="positionCenter">{{ this.quadrant.word.toUpperCase() }} ☑</h1>
+        </div>
     </div>
   <!-- Insertar ID CUADRANTE   -->
    <div v-show="$store.state.quadrantState==2" >
-    <div v-show=!validateShort&&shortIsEmpty>
-        <input class="positionUp inputEmpty" v-model="input">
-      </div>
-       <div v-show=!validateShort&&!shortIsEmpty>
-         <input class="positionUp inputFail" v-model="input">
-       </div>
-      <div v-show=validateShort>
-        <h1 class="positionUp">{{ this.quadrant.Id.toUpperCase() }} ☑</h1>
-      </div>
+     <div v-show=!validateShort&&shortIsEmpty>
+       <input class="positionUp inputEmpty" v-model="input">
      </div>
+        <div v-show=!validateShort&&!shortIsEmpty>
+           <input class="positionUp inputFail" v-model="input">
+         </div>
+        <div v-show=validateShort>
+          <h1 class="positionUp">{{ this.quadrant.Id.toUpperCase() }} ☑</h1>
+        </div>
+       </div>
      <!-- Insertar ID CUADRANTE   -->
      <div v-show="$store.state.quadrantState==3">
        <h1 class="positionUp">{{ this.quadrant.Id.toUpperCase() }} </h1>
      </div>
    <!-- Correcto   -->
     <div v-show="$store.state.quadrantState==4">
-    <h1 class="positionCenter">Correcto</h1>
+        <h1 class="positionCenter">Correcto</h1>
     </div>
       <!-- Incorrecto  -->
     <div v-show="$store.state.quadrantState==5">
-    <h1 class="positionCenter incorrect">InCorrecto</h1>
+      <h1 class="positionCenter incorrect">InCorrecto</h1>
     </div>
       <!-- Ayuda de palabra  -->
-  <!-- Ingresar Palabra  -->
-    <div v-show="$store.state.quadrantState==6" >
+  <div v-show="$store.state.quadrantState==6" >
     <div v-show=!validateLong&&longIsEmpty>
       <input class="positionCenter inputEmpty" v-model="inputCenter">
     </div>
     <div v-show=!validateLong&&!longIsEmpty>
       <input class="positionCenter inputFail" v-model="inputCenter">
     </div>
+    <div v-show=validateLong>
+      <h1 class="positionCenter">{{ this.quadrant.word.toUpperCase() }} ☑</h1>
+    </div>
+  </div>
       <!-- Ejemplo de botones falta funcionalidad   -->
-      <div v-show="$store.state.quadrantState==7">
-        <v-btn outline rounded class="positionCenter btn-correct btn-centered" fab
-               color="indigo" >
+    <div v-show="$store.state.quadrantState==7">
+        <v-btn outline rounded class="positionCenter btn-correct btn-centered" fab color="indigo" >
           {{this.quadrant.word.toUpperCase()}}
         </v-btn>
       </div>
-    </div>
+  <!-- Ejemplo de botones -->
+  <div v-show="$store.state.quadrantState==8">
+    <v-btn outline rounded class="positionCenter btn-correct btn-centered" fab color="#4758B8" >
+      {{this.quadrant.word.toUpperCase()}}
+    </v-btn>
+  </div>
 </template>
 
 <script>
@@ -170,9 +177,8 @@ export default {
       this.$store.commit('changeQuadrantState',1);
     },
     helpWord(){
-      if ((this.help===true)&& (this.showWord)){
+      if ((this.$store.state.quadrantState==0)&&(this.quadrant.showWord)){
         this.inputCenter=this.quadrant.word.charAt(0);
-        console.log(this.inputCenter);
       }
     }
   },
@@ -197,8 +203,9 @@ export default {
 
 <style lang="scss" scoped>
 h1{
-  font-size: 75px;
+  font-size: 4.5rem;
   color:greenyellow;
+
 }
 .incorrect{
   color:darkred;
@@ -225,10 +232,10 @@ input {
   box-shadow:0 0 8Px 0 darkred;
 }
 .btn-centered{
+  padding: 20PX;
   font-size: 3rem;
   color: white;
   padding: 2rem;
-  width:30%;
   height:20%;
 }
 .btn-incorrect:focus {
@@ -238,6 +245,16 @@ input {
 .btn-correct:focus {
   border-color:springgreen;
   box-shadow:0 0 25Px 0 springgreen;
+}
+.btn-incorrect:focus {
+  border-color:darkred;
+  box-shadow:0 0 40Px 0 darkred;
+  color:darkred;
+}
+.btn-correct:focus {
+  border-color:springgreen;
+  box-shadow:0 0 40Px 0 springgreen;
+  color:springgreen;
 }
 
 </style>

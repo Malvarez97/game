@@ -1,19 +1,19 @@
 <template>
-  <v-app fluid style="height: 100vh;">
-    <v-row  :key="col" v-for="col in 2" >
-      <v-col class="row" :key="row" v-for="row in 2">
-        <MyQuadrantVue :quadrant="quadrants[(row-1)+(col-1)*2]"
-                       :defaultCorrect="!quadrants[(row-1)+(col-1)*2].showWord"
-                       :check="this.check"
-                       @wordCorrect="addCorrectWord"
-                       @idCorrect="addIdCorrect"
-                       @writeWord="addLetter"
-                       :help="this.help"
-                       @wordIncorrect="addIncorrectWord"
-                       @defaultWord="addDefaultWord"/>
-      </v-col>
-    </v-row>
-  </v-app>
+    <v-app fluid style="height: 100vh;">
+      <v-row  :key="col" v-for="col in 2" >
+        <v-col class="row" :key="row" v-for="row in 2">
+          <MyQuadrantVue :quadrant="quadrants[(row-1)+(col-1)*2]"
+                         :defaultCorrect="!quadrants[(row-1)+(col-1)*2].showWord"
+                         :check="this.check"
+                         @wordCorrect="addCorrectWord"
+                         @idCorrect="addIdCorrect"
+                         @writeWord="addLetter"
+                         :help="this.help"
+                         @wordIncorrect="addIncorrectWord"
+                         @defaultWord="addDefaultWord"/>
+        </v-col>
+      </v-row>
+    </v-app>
 </template>
 <script>
 import MyQuadrantVue from "./Quadrant.vue"
