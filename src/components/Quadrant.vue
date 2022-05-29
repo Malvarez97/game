@@ -1,6 +1,6 @@
 <template>
   <!-- Mostrar Valores  -->
-      <div v-show="$store.state.quadrantState==0">
+      <div v-show="$store.state.quadrantState==0||$store.state.quadrantState==6">
         <h1 v-if="this.quadrant.showId" class="positionUp">{{ this.quadrant.Id.toUpperCase() }} </h1>
         <h1 v-if="this.quadrant.showWord" class="positionCenter">{{ this.quadrant.word.toUpperCase() }} </h1>
       </div>
@@ -40,18 +40,6 @@
     <div v-show="$store.state.quadrantState==5">
       <h1 class="positionCenter incorrect">InCorrecto</h1>
     </div>
-      <!-- Ayuda de palabra  -->
-  <div v-show="$store.state.quadrantState==6" >
-    <div v-show=!validateLong&&longIsEmpty>
-      <input class="positionCenter inputEmpty" v-model="inputCenter">
-    </div>
-    <div v-show=!validateLong&&!longIsEmpty>
-      <input class="positionCenter inputFail" v-model="inputCenter">
-    </div>
-    <div v-show=validateLong>
-      <h1 class="positionCenter">{{ this.quadrant.word.toUpperCase() }} ☑</h1>
-    </div>
-  </div>
       <!-- Ejemplo de botones falta funcionalidad   -->
     <div v-show="$store.state.quadrantState==7">
         <v-btn outline rounded class="positionCenter btn-correct btn-centered" fab color="indigo" >
@@ -73,10 +61,6 @@ var wagnerFischer = require('wagner-fischer');
 export default {
 	name: 'MyQuadrant',
   props: {
-    inputHelp:{
-      default: "",
-      type:String,
-    },
     check: {
       default: false,
       type:Boolean,
