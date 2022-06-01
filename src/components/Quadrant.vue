@@ -61,24 +61,20 @@ var wagnerFischer = require('wagner-fischer');
 export default {
 	name: 'MyQuadrant',
   props: {
-    check: {
-      default: false,
-      type:Boolean,
-    },
     quadrant:{
       type:Array,
     },
-    defaultCorrect:{
-      type:Boolean,
-    },
+  },
+  created() {
+    this.$store.commit('setQuadrant',this);
   },
   computed: {
-    help (){
+    help(){
+      console.log("Entro al help");
       return this.$store.state.help;
     },
-    restore() {
-      console.log("se ejecuta el computed");
-      return this.$store.state.restore;
+    check(){
+      return this.$store.state.check;
     }
   },
     data(){
@@ -128,11 +124,11 @@ export default {
     },
     //Chequeo que el ejercicio esté completado correctamente
     checkWord() {
-      if (this.check){
+      if (this.$store.state.check){
         //Si la palabra no se verifico como como correcta anteriormente
         if(!this.correct){
-          //Si la palabra no es por defecto correcta (era necesario completarla para el ejercicio)
-          if (!this.defaultCorrect){
+          //Si la palabra se mostró, entonces se tiene que chequear que sea correcta)
+          if (this.quadrant.showWord){
             //Si la palabra necesita ser chequeada en caso de que el usuario pueda haberla escrito mal
             if ((wagnerFischer(this.inputCenter.toString().toUpperCase(), this.quadrant.word.toUpperCase()) <= 2)) {
               //Añado palabra correcta
@@ -149,16 +145,26 @@ export default {
         }
       }
     },
+    restoreQuadrant : function() {
+      console.log("Pregunto por " + this.input.toString());
+      console.log("Pregunto por " + this.inputCenter.toString());
+      console.log("Hago el restore" + this.input.toString());
+      this.inputCenter = "";
+      this.input = "";
+      this.longIsEmpty = true;
+      this.validateLong = false;
+      this.shortIsEmpty = true;
+      this.validateShort = false;
+      this.correct = false;
+    }
   },
   watch:{
      input() {
-       console.log("entro al input");
       this.idCorrect();
       this.idEmpty();
         },
       //Observo lo que va escribiendo el usuario
       inputCenter(){
-       console.log("entro al input center");
         this.wordCorrect();
         this.wordEmpty();
       },
@@ -166,7 +172,8 @@ export default {
       check(){
           this.checkWord();
       },
-      help() {
+      //Observo la variable help que cuando sea verdadera dará una ayuda al usuario para el siguiente intento del ejercicio
+      help(){
         if (this.$store.state.help && this.$store.state.quadrantState == 1 && this.quadrant.showWord){
           console.log("llamo al help word");
           this.inputCenter=this.quadrant.word.charAt(0);
@@ -176,18 +183,6 @@ export default {
             this.inputCenter="";
           }
         }
-      },
-      restore(){
-       if(this.$store.state.restore){
-         console.log("Entre al restore "+this.input.toString());
-         this.inputCenter = "";
-         this.input = "";
-         this.longIsEmpty=true;
-         this.validateLong=false;
-         this.shortIsEmpty=true;
-         this.validateShort=false;
-         this.correct=false;
-       }
       },
     }
 

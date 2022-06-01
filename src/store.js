@@ -10,10 +10,29 @@ export default new Vuex.Store({
         times : [],
         correctResponse: false,
         help: false,
-        restore: false,
+        check: false,
+        quadrantsArrangement: [],
+        quadrants: [],
+        quadrant1: null,
+        quadrant2: null,
+        quadrant3: null,
+        quadrant4: null,
+        introduction: null,
+        outcome: null,
+        end: null,
     },
     mutations:{
+        setIntroduction(state,introduction){
+            this.state.introduction = introduction;
+        },
+        setOutcome(state,outcome){
+            this.state.outcome = outcome;
+        },
+        setEnd(state,end){
+            this.state.end = end;
+        },
         changeGeneralState(state,nextGeneralState){
+            console.log("cambio al general state = "+nextGeneralState);
             this.state.generalState = nextGeneralState;
         },
         changeGameState(state,nextGameState){
@@ -53,12 +72,54 @@ export default new Vuex.Store({
                 ,)
         },
         changeHelp(state, help){
+            console.log("Cambie el help");
             this.state.help = help;
         },
-        changeRestore(state, restore){
-            console.log("restore = "+restore );
-            this.state.restore = restore;
-        }
+        restore(){
+            console.log("Hago el restore");
+            this.state.quadrant1.restoreQuadrant();
+            this.state.quadrant2.restoreQuadrant();
+            this.state.quadrant3.restoreQuadrant();
+            this.state.quadrant4.restoreQuadrant();
+        },
+        changeCheck(state,check){
+            console.log("cambie el check");
+            this.state.check = check;
+        },
+        setQuadrantsArrangement(state, quadrantsArrangement){
+          this.state.quadrantsArrangement = quadrantsArrangement;
+          console.log(this.state.quadrantsArrangement);
+          this.state.quadrants = this.state.quadrantsArrangement[parseInt(this.state.generalState,10)];
+        },
+        setQuadrants(state, generalState){
+            this.state.quadrants = this.state.quadrantsArrangement[generalState-1];
+            /*this.state.quadrant1 = this.state.quadrants[0];
+            this.state.quadrant2 = this.state.quadrants[1];
+            this.state.quadrant3 = this.state.quadrants[2];
+            this.state.quadrant4 = this.state.quadrants[3];*/
+        },
+        setQuadrant(state, quadrant){
+            if (this.state.quadrant1 == null){
+                console.log("se vuelve quadrant 1");
+                this.state.quadrant1 = quadrant;
+            }
+            else{
+                if (this.state.quadrant2 == null){
+                    console.log("se vuelve quadrant 2");
+                    this.state.quadrant2 = quadrant;
+                }
+                else{
+                    if (this.state.quadrant3 == null){
+                        console.log("se vuelve quadrant 3");
+                        this.state.quadrant3 = quadrant;
+                    }
+                    else{
+                        console.log("se vuelve quadrant 4");
+                        this.state.quadrant4 = quadrant;
+                    }
+                }
+            }
+        },
     },
     actions:{
         waitingStateToNextState(context,data){
@@ -68,6 +129,14 @@ export default new Vuex.Store({
                     console.log("El game state es "+this.state.gameState);
                 },data.miliseconds
                 ,)
+        },
+        changeGeneralState(context,nextGeneralState){
+            context.commit('changeGeneralState',nextGeneralState);
+            context.commit('setQuadrants',nextGeneralState);
+        },
+        restore(context, words){
+            console.log("Estoy en el dispatch restore");
+            context.commit('restore',words);
         },
     }
 })

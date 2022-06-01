@@ -1,19 +1,16 @@
 <template>
 	<v-app fluid style="height: 100vh;">
-    <div v-show="$store.state.generalState==0">
-      <Beginner @finishBegin="$store.commit('changeGeneralState',1)"  ></Beginner>
+    <div v-show="$store.state.generalState == 0">
+      <Beginner @finishBegin="$store.dispatch('changeGeneralState',1)"  ></Beginner>
     </div>
-    <div v-show="$store.state.generalState==1"  >
-      <Game1 @finishExcersize="finalize" @saveValue="writeState"  :quadrants="this.quadrantsArrangement[0]" :category="'nombres masculino'" :exercise-number="1"> </Game1>
-    </div>
-    <div v-show="$store.state.generalState==2" >
-      <Game1 @finishExcersize="finalize" @saveValue="writeState"  :quadrants="this.quadrantsArrangement[1]" :category="' animales'" :exercise-number="2"> </Game1>
+    <div v-show="$store.state.generalState == 1 || $store.state.generalState == 2"  >
+      <Game1 @finishExcersize="finalize" @saveValue="writeState" :category="'nombres masculino'" :exercise-number="1"> </Game1>
     </div>
     <div v-show="$store.state.generalState==3" >
-      <Game2 @finishExcersize="finalize" @saveValue="writeState"  :quadrants="this.quadrantsArrangement[2]" :category="'animales'" :exercise-number="3"></Game2>
+      <Game2 @finishExcersize="finalize" @saveValue="writeState"  :category="'animales'" :exercise-number="3"></Game2>
     </div>
     <div v-show="$store.state.generalState==4" >
-      <Game2 @finishExcersize="finalize" @saveValue="writeState"  :quadrants="this.quadrantsArrangement[3]" :category="'nombres masculinos'" :exercise-number="4"></Game2>
+      <Game2 @finishExcersize="finalize" @saveValue="writeState"  :category="'nombres masculinos'" :exercise-number="4"></Game2>
     </div>
     <div v-show="$store.state.generalState==5" >
       <h1> 5</h1>
@@ -26,7 +23,7 @@
 <script>
 
 import Game1 from "@/Games/Game1";
-import Game2 from "@/Games/Game2";
+//import Game2 from "@/Games/Game2";
 //import Game3 from "@/Games/Game3";
 import Beginner from "@/components/Beginner";
 
@@ -35,7 +32,7 @@ export default {
 	components: {
     Beginner,
     Game1,
-    Game2,
+    //Game2,
     //Game3,
 	},
   data() {
@@ -86,7 +83,6 @@ export default {
     //this.idsOrder = this.generateQuadrantsPosition(4);
     //this.generateRandomIds(this.quadrantIds,4);
     this.generateQuadrants();
-    console.log(this.quadrantsArrangement);
   },
 
   methods: {
@@ -242,6 +238,9 @@ export default {
         this.quadrantsArrangement.push(this.rearrrengeQuadrants());
         //Reordenar cuadrantes originales (disposicion numero 2)
         this.quadrantsArrangement.push(this.rearrrengeQuadrants());
+
+        this.$store.commit('setQuadrantsArrangement',this.quadrantsArrangement);
+
       }
     },
   },

@@ -2,10 +2,7 @@
     <v-app fluid style="height: 100vh;">
       <v-row  :key="col" v-for="col in 2" >
         <v-col class="row" :key="row" v-for="row in 2">
-          <MyQuadrantVue :quadrant="quadrants[(row-1)+(col-1)*2]"
-                         :defaultCorrect="!quadrants[(row-1)+(col-1)*2].showWord"
-                         :check="this.check"
-                         :help="this.help"
+          <MyQuadrantVue :quadrant="this.$store.state.quadrants[(row-1)+(col-1)*2]"
                          @wordCorrect="addCorrectWord"
                          @idCorrect="addIdCorrect"
                          @writeWord="addLetter"
@@ -24,7 +21,6 @@ export default {
     MyQuadrantVue
   },
   props: {
-    quadrants:Array,
     check:{
       type:Boolean,
       default:false,
@@ -48,16 +44,16 @@ export default {
   methods: {
     //Seteo la cantidad de palabras que no son necesarias escribir
     setCorrectWords: function () {
-      for (let i = 0; i < this.quadrants.length; i++) {
-        if (!this.quadrants[i].showWord) {
+      for (let i = 0; i < this.$store.state.quadrants.length; i++) {
+        if (!this.$store.state.quadrants[i].showWord) {
           this.wordsCorrect++;
         }
       }
     },
     //Seteo la cantidad de ids que no son necesarios escribir
     setCorrectIds: function () {
-      for (let i = 0; i < this.quadrants.length; i++) {
-        if (!this.quadrants[i].showId) {
+      for (let i = 0; i < this.$store.state.quadrants.length; i++) {
+        if (!this.$store.state.quadrants[i].showId) {
           this.idsCorrect++;
         }
       }
@@ -104,6 +100,8 @@ export default {
     finishCheck : function(response) {
       this.$store.commit('changeCorrectResponse',response);
       this.restoreVariables();
+      console.log("Se emite finishcheck");
+      console.log("estado actual = "+this.$store.state.gameState);
       this.$emit('finishCheck');
     },
     restoreVariables: function() {

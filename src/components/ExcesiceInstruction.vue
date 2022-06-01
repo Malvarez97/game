@@ -1,8 +1,8 @@
 <template>
  <h1> Ejercicio {{this.exerciseNumber }}</h1>
-  <p> {{this.introduction}}</p>
-  <p>{{this.outcome }}</p>
-  <p>{{this.end }}</p>
+  <p> {{this.$store.state.introduction}}</p>
+  <p>{{this.$store.state.outcome }}</p>
+  <p>{{this.$store.state.end }}</p>
   <v-btn  outline @click="finishExersiceInstruccion" rounded class="btn-finish" color="#E74C3C" >
     Entendido
   </v-btn>
@@ -21,17 +21,10 @@ export default {
       default : .1,
       type : Number,
     },
-    introduction:String,
-    outcome:String,
-    end:String,
   },
 
   methods: {
     finishExersiceInstruccion: function(){
-      this.$store.commit('changeGameState',(parseInt(this.$store.state.gameState,10)+1));
-      console.log("cambio al game state = "+this.$store.state.gameState);
-      this.$store.commit("changeQuadrantState",0);
-      this.$store.commit('writeTimes',this.exerciseNumber+this.subExerciseNumber,'Time finish reading');
       this.$emit('finishExplanation');
     }
   },
