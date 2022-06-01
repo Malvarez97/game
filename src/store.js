@@ -9,6 +9,8 @@ export default new Vuex.Store({
         exerciseExplanation: 0,
         times : [],
         correctResponse: false,
+        help: false,
+        restore: false,
     },
     mutations:{
         changeGeneralState(state,nextGeneralState){
@@ -33,6 +35,7 @@ export default new Vuex.Store({
             this.state.exerciseNumber = nextExerciseNumber;
         },
         changeCorrectResponse(state,response){
+            console.log(this.state);
             this.state.correctResponse = response;
         },
         //Estado del juego donde se espera unos segundos
@@ -48,6 +51,13 @@ export default new Vuex.Store({
                 this.state.gameState = this.state.lastGameState;
                 },2000
                 ,)
+        },
+        changeHelp(state, help){
+            this.state.help = help;
+        },
+        changeRestore(state, restore){
+            console.log("restore = "+restore );
+            this.state.restore = restore;
         }
     },
     actions:{
@@ -55,6 +65,7 @@ export default new Vuex.Store({
             context.commit('changeGameState',data.waitingState);
             setTimeout ( ()=> {
                     context.commit('changeGameState',data.nextGameState);
+                    console.log("El game state es "+this.state.gameState);
                 },data.miliseconds
                 ,)
         },

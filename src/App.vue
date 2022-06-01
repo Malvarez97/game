@@ -4,10 +4,10 @@
       <Beginner @finishBegin="$store.commit('changeGeneralState',1)"  ></Beginner>
     </div>
     <div v-show="$store.state.generalState==1"  >
-      <Game1 @finishExcersize="finalize" @saveValue="writeState"  :quadrants="this.quadrantsArrangement[0]" :category="'animales'" :exercise-number="1"> </Game1>
+      <Game1 @finishExcersize="finalize" @saveValue="writeState"  :quadrants="this.quadrantsArrangement[0]" :category="'nombres masculino'" :exercise-number="1"> </Game1>
     </div>
     <div v-show="$store.state.generalState==2" >
-      <Game1 @finishExcersize="finalize" @saveValue="writeState"  :quadrants="this.quadrantsArrangement[1]" :category="' nombres masculino'" :exercise-number="2"> </Game1>
+      <Game1 @finishExcersize="finalize" @saveValue="writeState"  :quadrants="this.quadrantsArrangement[1]" :category="' animales'" :exercise-number="2"> </Game1>
     </div>
     <div v-show="$store.state.generalState==3" >
       <Game2 @finishExcersize="finalize" @saveValue="writeState"  :quadrants="this.quadrantsArrangement[2]" :category="'animales'" :exercise-number="3"></Game2>

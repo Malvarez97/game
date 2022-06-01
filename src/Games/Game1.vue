@@ -7,7 +7,7 @@
     <!-- Mostrar cuadrantes iniciales   -->
     <div  v-show="$store.state.gameState==1">
       <Game :exerciseNumber="1" :quadrants="this.quadrants"></Game>
-      <v-btn  outline @click="saveValue(this.exerciseNumber+this.subExerciseNumber,'Time finish see Words'); changeQuadrantState(1); changeGameState(2); " rounded class="btn-finish" color="#E74C3C" >
+      <v-btn  outline @click="saveValue(this.exerciseNumber+this.subExerciseNumber,'Time finish see Words'); changeRestore(true); changeQuadrantState(1); changeGameState(2); " rounded class="btn-finish" color="#E74C3C" >
         Siguiente
       </v-btn>
     </div>
@@ -38,9 +38,8 @@
     </div>
     <!-- ayuda ejercicio de palabra 3er intento  -->
     <div  v-show="$store.state.gameState==6">
-      <h1>ayuda</h1>
-        <Game :state="6" :help="true" :exerciseNumber="this.exerciseNumber" :quadrants="this.quadrants"></Game>
-        <v-btn  outline @click="this.state=0" rounded class="btn-finish" color="#E74C3C" >
+        <Game @finishCheck="nextLocalState()" :exerciseNumber="this.exerciseNumber" :quadrants="this.quadrants"></Game>
+        <v-btn  outline @click="this.check=true;" :help="false" rounded class="btn-finish" color="#E74C3C" >
           Siguiente
         </v-btn>
       </div>
@@ -116,11 +115,11 @@ export default {
         footer: '<a href="">¿Como no caerse a los pedazos?</a>'
       })
     },
-    showWarning() {
+    showWarning(text) {
       Swal.fire({
         icon: 'warning',
         title: 'Te queda 1 solo intento!',
-        text: 'Recibiras una ayuda',
+        text: text,
         showCloseButton: true
       })
     },
@@ -144,19 +143,23 @@ export default {
         //Si estamos en el de la palabra cambiamos al del id
         if (this.idsExercise == false) {
           this.idsExercise = true;
+          this.$store.commit('changeRestore',true);
           this.$store.dispatch('waitingStateToNextState',{miliseconds: 2000,waitingState: 8,nextGameState: (parseInt(this.$store.state.gameState,10)+1)});
         }
         //Si estamos en el del id pasamos al ejercicio siguiente
         else{
+          this.idsExercise = false;
           this.changeQuadrantState(1);
+          this.$store.commit('changeRestore',true);
+          this.$store.commit('changeHelp',false);
           this.$store.dispatch('waitingStateToNextState',{miliseconds: 2000,waitingState: 8,nextGameState: 0});
           this.$store.commit('changeGeneralState',(parseInt(this.$store.state.generalState,10)+1));
+
         }
       }
-      //Si fue incorrecta
+      //Si fue incorrecta (primera)
       else
       {
-        // Si fue incorrecta la palabra
           this.intentWord = this.intentWord + 1;
           //Si fue el primer intento
           if (this.intentWord < 2)
@@ -164,7 +167,7 @@ export default {
             console.log("primera incorrecta");
             //Si es el ejercicio de las ids
             if (this.idsExercise){
-              this.showWarning();
+              this.showWarning('Si fallas se restaura el ejercicio');
             }
             //Si es el ejercicio de las palabras
             else{
@@ -172,24 +175,29 @@ export default {
               // guardo el valor del tiempo del error  del primer fallo de Id
               //this.saveValue('Incorrect Word Intent ' + (parseInt(this.intentWord, 10) + 1), this.exerciseNumber + 'a');
             }
+            this.$store.commit('changeRestore',true);
             this.$store.dispatch('waitingStateToNextState',{miliseconds: 2000,waitingState: 9,nextGameState: (parseInt(this.$store.state.lastGameState,10)+1)});
           }
           else
           {
-            console.log("segunda incorrecta");
-            // Si es el segundo intento
+            // Si fue incorrecta (segunda)
             if (this.intentWord == 2) {
               //Si es el juego de las ids, entonces se vuelve al ej 1
               if (this.idsExercise){
                 this.showError();
                 this.intentWord = 0;
+                this.$store.commit('changeRestore',true);
                 this.$store.dispatch('waitingStateToNextState',{miliseconds: 2000,waitingState: 9,nextGameState: 0});
                 this.$store.commit('changeGeneralState',1);
               }
               //Si es el juego de las palabras
               else{
-                this.showWarning();
-                this.$store.dispatch('waitingStateToNextState',{miliseconds: 2000,waitingState: 9,nextGameState: this.$store.state.lastGameState});
+                this.showWarning('Último intento. Recibirás una ayuda');
+                this.$store.commit('changeRestore',true);
+                this.$store.dispatch('waitingStateToNextState',{miliseconds: 2000,waitingState: 9,nextGameState: 6});
+                this.$store.commit('changeQuadrantState',1);
+                this.$store.commit('changeHelp',true);
+                console.log("El quadrant state es "+this.$store.state.quadrantState);
                 //Ayudar
                 //this.saveValue('Incorrect Word Intent 3 ', this.exerciseNumber + 'a');
                 //this.state = 7;
@@ -200,6 +208,8 @@ export default {
             else {
               this.showError();
               this.intentWord = 0;
+              this.$store.commit('changeHelp',false);
+              this.$store.commit('changeRestore',true);
               this.$store.dispatch('waitingStateToNextState',{miliseconds: 2000,waitingState: 9,nextGameState: 0});
               this.$store.commit('changeGeneralState',1);
             }
@@ -235,6 +245,9 @@ export default {
     },
     changeGameState: function (nextGameState) {
       this.$store.commit('changeGameState', nextGameState);
+    },
+    changeRestore : function(restore){
+      this.$store.commit('changeRestore',restore);
     },
   },
 

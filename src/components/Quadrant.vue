@@ -1,6 +1,6 @@
 <template>
   <!-- Mostrar Valores  -->
-      <div v-show="$store.state.quadrantState==0||$store.state.quadrantState==6">
+      <div v-show="$store.state.quadrantState==0">
         <h1 v-if="this.quadrant.showId" class="positionUp">{{ this.quadrant.Id.toUpperCase() }} </h1>
         <h1 v-if="this.quadrant.showWord" class="positionCenter">{{ this.quadrant.word.toUpperCase() }} </h1>
       </div>
@@ -72,8 +72,16 @@ export default {
       type:Boolean,
     },
   },
-
-  data(){
+  computed: {
+    help (){
+      return this.$store.state.help;
+    },
+    restore() {
+      console.log("se ejecuta el computed");
+      return this.$store.state.restore;
+    }
+  },
+    data(){
     return{
       validateShort:false,
       validateLong:false,
@@ -81,13 +89,8 @@ export default {
       longIsEmpty:true,
       inputCenter:"",
       input:"",
-      showWord:"false",
-      showId:"false",
       correct:false,
     }
-  },
-  created() {
-    this.helpWord();
   },
   methods: {
     idCorrect: function(){
@@ -126,61 +129,68 @@ export default {
     //Chequeo que el ejercicio esté completado correctamente
     checkWord() {
       if (this.check){
-        console.log("estado actual del juego = "+this.$store.state.gameState);
-        console.log("check = "+this.check);
-        console.log("word que tengo = "+this.inputCenter.toUpperCase()+" \n word real = "+this.quadrant.word.toUpperCase()+" \n word showeable? "+this.quadrant.showWord);
         //Si la palabra no se verifico como como correcta anteriormente
-        if( !this.correct){
-          console.log("La palabra no era correcta");
+        if(!this.correct){
           //Si la palabra no es por defecto correcta (era necesario completarla para el ejercicio)
           if (!this.defaultCorrect){
-            console.log("La palabra no era por defecto correcta");
             //Si la palabra necesita ser chequeada en caso de que el usuario pueda haberla escrito mal
             if ((wagnerFischer(this.inputCenter.toString().toUpperCase(), this.quadrant.word.toUpperCase()) <= 2)) {
               //Añado palabra correcta
-              console.log("emito correcta");
               this.$emit('wordCorrect');
             } else {
-              console.log("emito incorrecta");
               //Añado palabra incorrecta
               this.$emit('wordIncorrect');
             }
           }
           else{
             //Añado palabra por defecto
-            console.log("emito default");
             this.$emit('defaultWord');
           }
         }
       }
-      //Se deja el cuadrante vacio por si hay que volver a realizar el ejercicio
-      this.clearQuadrant();
     },
-    clearQuadrant(){
-      this.inputCenter = "";
-      this.$store.commit('changeQuadrantState',1);
-    },
-    helpWord(){
-      if ((this.$store.state.quadrantState==0)&&(this.quadrant.showWord)){
-        this.inputCenter=this.quadrant.word.charAt(0);
-      }
-    }
   },
   watch:{
      input() {
+       console.log("entro al input");
       this.idCorrect();
       this.idEmpty();
         },
       //Observo lo que va escribiendo el usuario
       inputCenter(){
+       console.log("entro al input center");
         this.wordCorrect();
         this.wordEmpty();
       },
       //Observo la varibale check que será verdadera cuando termine un ejercicio
       check(){
           this.checkWord();
-      }
+      },
+      help() {
+        if (this.$store.state.help && this.$store.state.quadrantState == 1 && this.quadrant.showWord){
+          console.log("llamo al help word");
+          this.inputCenter=this.quadrant.word.charAt(0);
+        }
+        else {
+          if (!this.$store.state.help){
+            this.inputCenter="";
+          }
+        }
+      },
+      restore(){
+       if(this.$store.state.restore){
+         console.log("Entre al restore "+this.input.toString());
+         this.inputCenter = "";
+         this.input = "";
+         this.longIsEmpty=true;
+         this.validateLong=false;
+         this.shortIsEmpty=true;
+         this.validateShort=false;
+         this.correct=false;
+       }
+      },
     }
+
 
 }
 </script>

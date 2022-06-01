@@ -5,10 +5,10 @@
           <MyQuadrantVue :quadrant="quadrants[(row-1)+(col-1)*2]"
                          :defaultCorrect="!quadrants[(row-1)+(col-1)*2].showWord"
                          :check="this.check"
+                         :help="this.help"
                          @wordCorrect="addCorrectWord"
                          @idCorrect="addIdCorrect"
                          @writeWord="addLetter"
-                         :help="this.help"
                          @wordIncorrect="addIncorrectWord"
                          @defaultWord="addDefaultWord"/>
         </v-col>
@@ -24,11 +24,6 @@ export default {
     MyQuadrantVue
   },
   props: {
-    Correct: Number,
-     help:{
-      type :Boolean,
-       default:false,
-     },
     quadrants:Array,
     check:{
       type:Boolean,
@@ -113,9 +108,11 @@ export default {
     },
     restoreVariables: function() {
       this.wordsCorrect = 0;
-      this.wordsCorrect = this.setCorrectWords();
+      this.setCorrectWords();
       this.idsCorrect = 0;
-      this.idsCorrect = this.setCorrectIds();
+      this.setCorrectIds();
+      console.log("Se restauraron las x variables \n correct words = "+this.wordsCorrect+" \n ids correct = "+this.idsCorrect);
+      this.wordsChecked = 0;
     },
   },
 

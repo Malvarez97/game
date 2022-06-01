@@ -29,6 +29,8 @@ export default {
   methods: {
     finishExersiceInstruccion: function(){
       this.$store.commit('changeGameState',(parseInt(this.$store.state.gameState,10)+1));
+      console.log("cambio al game state = "+this.$store.state.gameState);
+      this.$store.commit("changeQuadrantState",0);
       this.$store.commit('writeTimes',this.exerciseNumber+this.subExerciseNumber,'Time finish reading');
       this.$emit('finishExplanation');
     }
