@@ -4,7 +4,7 @@
       <Beginner @finishBegin="$store.dispatch('changeGeneralState',1)"  ></Beginner>
     </div>
     <div v-show="$store.state.generalState == 1 || $store.state.generalState == 2"  >
-      <Game1 @finishExcersize="finalize" @saveValue="writeState" :category="'nombres masculino'" :exercise-number="1"> </Game1>
+      <Game1 @finishExcersize="finalize" @saveValue="writeState" :category="this.$store.state.category" :exercise-number="this.$store.state.generalState"> </Game1>
     </div>
     <div v-show="$store.state.generalState==3" >
       <Game2 @finishExcersize="finalize" @saveValue="writeState"  :category="'animales'" :exercise-number="3"></Game2>
@@ -86,9 +86,9 @@ export default {
   },
 
   methods: {
-      finalize:function(exerciseNumber,value,nextState){
+      finalize:function(value,nextState){
         //this.writeState(exerciseNumber,value);
-        this.$store.commit('writeTimes',this.exerciseNumber+this.subExerciseNumber,value);
+        this.$store.commit('writeTimes',this.exerciseNumber+this.subExerciseNumber+1,value);
         //console.log(exerciseNumber+" "+value+" "+nextState);
         this.$store.commit('changeGeneralState', nextState);
       },
@@ -195,35 +195,37 @@ export default {
 
     generateQuadrants: function () {
       {  //generar cuadrantes originales
-        let firstCategory = "nombresMasculino";
-        let secondCategory = "animales";
+        console.log("seteo las categorias");
+        this.$store.state.firstCategory = "nombresMasculino";
+        this.$store.state.secondCategory = "animales";
+        this.$store.commit("setCategory","nombresMasculino");
         let firstName = this.masculinoMedio[Math.floor(Math.random(0) * (9))].valor;
         let secondName = this.animalesMedio[Math.floor(Math.random(0) * (9))].valor;
 
         this.quadrants[this.idsOrder[0]] = {  "Id" : this.idsValue[0],
                                               "word": firstName,
-                                              "category": firstCategory,
+                                              "category": this.$store.state.firstCategory,
                                               "showId" : true,
                                               "showWord" : true,
                                               "position" : "first",
         };
         this.quadrants[this.idsOrder[1]] = {  "Id" : this.idsValue[1],
                                               "word": firstName,
-                                              "category": firstCategory,
+                                              "category": this.$store.state.firstCategory,
                                               "showId" : true,
                                               "showWord" : true,
                                               "position" : "first",
         };
         this.quadrants[this.idsOrder[2]] = {  "Id" : this.idsValue[2],
                                               "word": secondName,
-                                              "category": secondCategory,
+                                              "category": this.$store.state.secondCategory,
                                               "showId" : true,
                                               "showWord" : false,
                                               "position" : "second",
         };
         this.quadrants[this.idsOrder[3]] = {  "Id" : this.idsValue[3],
                                               "word": secondName,
-                                              "category": secondCategory,
+                                              "category": this.$store.state.secondCategory,
                                               "showId" : true,
                                               "showWord" : false,
                                               "position" : "second",

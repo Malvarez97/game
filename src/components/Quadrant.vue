@@ -77,6 +77,7 @@ export default {
       inputCenter:"",
       input:"",
       correct:false,
+      idCompleted:false,
     }
   },
   methods: {
@@ -86,6 +87,7 @@ export default {
       if(this.quadrant.Id.toUpperCase()===this.input.toUpperCase() && this.quadrant.showId) {
         // eslint-disable-next-line no-unreachable
         this.validateShort=true;
+        this.idCompleted = true;
         this.$emit('idCorrect')
       }
     },
@@ -115,7 +117,6 @@ export default {
     },
     //Chequeo que el ejercicio esté completado correctamente
     checkWord() {
-      if (this.$store.state.check){
         //Si la palabra no se verifico como como correcta anteriormente
         if(!this.correct){
           //Si la palabra se mostró, entonces se tiene que chequear que sea correcta)
@@ -134,6 +135,11 @@ export default {
             this.$emit('defaultWord');
           }
         }
+    },
+    //Chequeo que el ejercicio esté completado correctamente
+    checkId() {
+      if (!this.idCompleted){
+        this.$emit('idIncorrect');
       }
     },
     restoreQuadrant : function() {
@@ -147,6 +153,7 @@ export default {
       this.shortIsEmpty = true;
       this.validateShort = false;
       this.correct = false;
+      this.idCompleted = false;
     },
     //Observo la variable help que cuando sea verdadera dará una ayuda al usuario para el siguiente intento del ejercicio
     helpQuadrant() {

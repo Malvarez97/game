@@ -9,8 +9,6 @@ export default new Vuex.Store({
         exerciseExplanation: 0,
         times : [],
         correctResponse: false,
-        help: false,
-        check: false,
         quadrantsArrangement: [],
         quadrants: [],
         quadrant1: null,
@@ -20,6 +18,10 @@ export default new Vuex.Store({
         introduction: null,
         outcome: null,
         end: null,
+        typeOfExercise: "",
+        firstCategory: "",
+        secondCategory: "",
+        category: "",
     },
     mutations:{
         setIntroduction(state,introduction){
@@ -85,12 +87,23 @@ export default new Vuex.Store({
             this.state.quadrant3.restoreQuadrant();
             this.state.quadrant4.restoreQuadrant();
         },
-        changeCheck(state,check){
-            this.state.check = check;
-            this.state.quadrant1.checkWord();
-            this.state.quadrant2.checkWord();
-            this.state.quadrant3.checkWord();
-            this.state.quadrant4.checkWord();
+        checkExercise(){
+            console.log("Type of exercise = "+this.state.typeOfExercise);
+            if (this.state.typeOfExercise == "words"){
+                console.log("Hago el check de words");
+                this.state.quadrant1.checkWord();
+                this.state.quadrant2.checkWord();
+                this.state.quadrant3.checkWord();
+                this.state.quadrant4.checkWord();
+            }
+            else{
+                if (this.state.typeOfExercise == "ids"){
+                    this.state.quadrant1.checkId();
+                    this.state.quadrant2.checkId();
+                    this.state.quadrant3.checkId();
+                    this.state.quadrant4.checkId();
+                }
+            }
         },
         setQuadrantsArrangement(state, quadrantsArrangement){
           this.state.quadrantsArrangement = quadrantsArrangement;
@@ -126,6 +139,25 @@ export default new Vuex.Store({
                 }
             }
         },
+        setTypeOfExercise(state,typeOfExercise){
+            this.state.typeOfExercise = typeOfExercise;
+        },
+        setCategory(state,category){
+            this.state.category = category;
+        },
+        changeCategory(state,nextGeneralState){
+            console.log("Entro a changeCategory");
+            if (nextGeneralState % 2 == 0){
+                console.log("cambio a la segunda categoria");
+                console.log("Segunda categoria = "+this.state.secondCategory);
+                this.state.category = this.state.secondCategory;
+            }
+            else{
+                console.log("cambio a la primera categoria");
+                console.log("Primera categoria = "+this.state.firstCategory);
+                this.state.category = this.state.firstCategory;
+            }
+        }
     },
     actions:{
         waitingStateToNextState(context,data){

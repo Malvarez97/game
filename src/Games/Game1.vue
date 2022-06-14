@@ -58,9 +58,9 @@ export default {
       correctResponse: false,
       intentId: 1,
       intentWord: 0,
-      explicationWord_introduction: " Se divide la pantalla en 4 cuadrantes.",
-      explicationWord_outcome: " A continuacion trate de recordar la palabra perteneciente a la categoria " + this.category + " y los cuadrantes (letra identificatoria) donde se halla.",
-      explicationWord_end: "Cuando las palabras desaparezcan de la pantalla, debe escribirlas en los cuadrantes correspondientes",
+      //explicationWord_introduction: " Se divide la pantalla en 4 cuadrantes.",
+      //explicationWord_outcome: " A continuacion trate de recordar la palabra perteneciente a la categoria " + this.$store.state.category + " y los cuadrantes (letra identificatoria) donde se halla.",
+      //explicationWord_end: "Cuando las palabras desaparezcan de la pantalla, debe escribirlas en los cuadrantes correspondientes",
       explicationid: "Escriba las letras que identifican a cada cuadrante",
       check: false,
       nextGeneralState: 1,
@@ -181,9 +181,9 @@ export default {
       this.$emit('finishExcersize', this.exerciseNumber, true, this.nextGeneralState);
     },
     setInitialExplanation : function(){
-      this.$store.state.introduction = this.explicationWord_introduction;
-      this.$store.state.outcome = this.explicationWord_outcome;
-      this.$store.state.end = this.explicationWord_end;
+      this.$store.state.introduction = " Se divide la pantalla en 4 cuadrantes.";
+      this.$store.state.outcome = " A continuacion trate de recordar la palabra perteneciente a la categoria " + this.$store.state.category + " y los cuadrantes (letra identificatoria) donde se halla.";
+      this.$store.state.end = "Cuando las palabras desaparezcan de la pantalla, debe escribirlas en los cuadrantes correspondientes";
     },
     // salvar diferentes tipos de datos
     saveValue: function (exercisenumber, value) {
@@ -193,22 +193,21 @@ export default {
       this.$store.commit('changeQuadrantState', nextQuadrantState);
     },
     transition : function(waitingState,nextGameState){
-      if (nextGameState == 0){
-        this.setInitialExplanation();
-      }
-      if (nextGameState == 3){
-        this.$store.commit('setIntroduction',this.explicationid);
-        this.$store.commit('setOutcome',"");
-        this.$store.commit('setEnd',"");
-      }
       switch(parseInt(this.$store.state.gameState,10)){
         //Estado de completar palabras
         case 2:
           console.log("transiciono del 2 al "+waitingState+" al "+nextGameState);
           this.restore();
           this.waitAndNextState(waitingState,nextGameState);
+          //Si voy al estado de ayuda
           if(nextGameState==6){
             this.changeHelp();
+          }
+          console.log("Next game state es "+nextGameState);
+          if (nextGameState == 3){
+            this.$store.commit('setIntroduction',this.explicationid);
+            this.$store.commit('setOutcome',"");
+            this.$store.commit('setEnd',"");
           }
           break;
         //Estado de completar ids
@@ -233,6 +232,7 @@ export default {
           console.log("Estoy cambiando desde el estado 0");
           this.changeGameState(1);
           this.changeQuadrantState(0);
+          this.setTypeExercise("words");
           break;
           //Descripcion de la segunda parte del ejercicio
           //Muestra de todas las palabras e ids
@@ -245,9 +245,11 @@ export default {
           console.log("Estoy cambiando desde el estado 3");
           this.changeGameState(4);
           this.changeQuadrantState(2);
+          this.setTypeExercise("ids");
           break;
         default:
-          this.$store.commit('changeCheck');
+          console.log("entro a check exercise")
+          this.$store.commit('checkExercise');
       }
     },
     waitAndNextState: function (waitingState, nextGameState) {
@@ -260,10 +262,15 @@ export default {
       this.$store.commit('restore');
     },
     changeGeneralState : function (nextGeneralState){
+      this.$store.commit('changeCategory',nextGeneralState);
       this.$store.dispatch('changeGeneralState',(nextGeneralState));
+      this.setInitialExplanation();
     },
     changeHelp: function(){
       this.$store.commit('changeHelp');
+    },
+    setTypeExercise: function(typeOfExercise){
+      this.$store.commit('setTypeOfExercise',typeOfExercise);
     },
   },
 

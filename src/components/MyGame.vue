@@ -5,6 +5,7 @@
           <MyQuadrantVue :quadrant="this.$store.state.quadrants[(row-1)+(col-1)*2]"
                          @wordCorrect="addCorrectWord"
                          @idCorrect="addIdCorrect"
+                         @idIncorrect="addIdIncorrect"
                          @writeWord="addLetter"
                          @wordIncorrect="addIncorrectWord"
                          @defaultWord="addDefaultWord"/>
@@ -90,6 +91,10 @@ export default {
         this.finishCheck(true);
       }
     },
+    addIdIncorrect: function () {
+      // agregar sonido de audio
+      this.idsChecked += 1;
+    },
     addDefaultWord: function(){
       //Añado la palabra por defecto solo si no todas estan bien, para no tener problemas de hacer chequeos dobles
       if (this.wordsCorrect !== 4){
@@ -111,6 +116,7 @@ export default {
       this.setCorrectIds();
       console.log("Se restauraron las x variables \n correct words = "+this.wordsCorrect+" \n ids correct = "+this.idsCorrect);
       this.wordsChecked = 0;
+      this.idsChecked = 0;
     },
   },
 
