@@ -2,13 +2,17 @@
     <v-app fluid style="height: 100vh;">
       <v-row  :key="col" v-for="col in 2" >
         <v-col class="row" :key="row" v-for="row in 2">
-          <MyQuadrantVue :quadrant="this.$store.state.quadrants[(row-1)+(col-1)*2]"
+          <MyQuadrantVue :quadrant="this.$store.state.quadrantsArrangement[parseInt(this.id,10)][(row-1)+(col-1)*2]"
+                         :idMyGame="this.id"
+                         :idQuadrant="(row-1)+(col-1)*2"
                          @wordCorrect="addCorrectWord"
                          @idCorrect="addIdCorrect"
                          @idIncorrect="addIdIncorrect"
                          @writeWord="addLetter"
                          @wordIncorrect="addIncorrectWord"
-                         @defaultWord="addDefaultWord"/>
+                         @defaultWord="addDefaultWord"
+                         @setWordsAndIds="setCorrectWordsAndIds"
+                         @quadrantCreated="addQuadrantCreated"/>
         </v-col>
       </v-row>
     </v-app>
@@ -22,14 +26,7 @@ export default {
     MyQuadrantVue
   },
   props: {
-    check:{
-      type:Boolean,
-      default:false,
-    }
-  },
-  created() {
-    this.setCorrectWords();
-    this.setCorrectIds();
+    id: String,
   },
   data() {
     return {
@@ -40,22 +37,29 @@ export default {
       writeLetters:0,
       wordsChecked:0,
       idsChecked:0,
+      quadrantsCreated:0,
     }
   },
   methods: {
-    //Seteo la cantidad de palabras que no son necesarias escribir
-    setCorrectWords: function () {
-      for (let i = 0; i < this.$store.state.quadrants.length; i++) {
-        if (!this.$store.state.quadrants[i].showWord) {
-          this.wordsCorrect++;
-        }
-      }
+    addQuadrantCreated: function(){
+      this.quadrantsCreated+=1;
     },
-    //Seteo la cantidad de ids que no son necesarios escribir
-    setCorrectIds: function () {
-      for (let i = 0; i < this.$store.state.quadrants.length; i++) {
-        if (!this.$store.state.quadrants[i].showId) {
-          this.idsCorrect++;
+    //Seteo la cantidad de palabras que no son necesarias escribir
+    setCorrectWordsAndIds: function () {
+      if (this.quadrantsCreated == 4){
+        for (let i = 0; i < 4; i++) {
+          //Seteo las words
+          //console.log("seteo "+this.id+" "+i);
+          //console.log(this.$store.state.quadrantsMatrix[this.id*4+i].quadrant);
+          if (!this.$store.state.quadrantsMatrix[this.id*4+i].quadrant.showWord) {
+            //console.log("es falsa la word");
+            this.wordsCorrect+=1;
+          }
+          //Seteo las ids
+          if (!this.$store.state.quadrantsMatrix[this.id*4+i].quadrant.showId) {
+            //console.log("es falsa la id");
+            this.idsCorrect+=1;
+          }
         }
       }
     },
@@ -111,9 +115,8 @@ export default {
     },
     restoreVariables: function() {
       this.wordsCorrect = 0;
-      this.setCorrectWords();
       this.idsCorrect = 0;
-      this.setCorrectIds();
+      this.setCorrectWordsAndIds();
       console.log("Se restauraron las x variables \n correct words = "+this.wordsCorrect+" \n ids correct = "+this.idsCorrect);
       this.wordsChecked = 0;
       this.idsChecked = 0;

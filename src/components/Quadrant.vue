@@ -64,9 +64,13 @@ export default {
     quadrant:{
       type:Array,
     },
+    idMyGame:String,
+    idQuadrant:String,
   },
-  created() {
+  created(){
     this.$store.commit('setQuadrant',this);
+    this.$emit('quadrantCreated');
+    this.$emit('setWordsAndIds');
   },
   data(){
     return{

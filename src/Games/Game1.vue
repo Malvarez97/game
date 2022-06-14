@@ -2,11 +2,11 @@
   <v-app fluid style="height: 100vh;">
     <!-- Explicacion del juego  -->
     <div v-show="$store.state.gameState==0 || $store.state.gameState == 3" >
-      <ExerciseInstruction @finishExplanation="changeValues(); saveValue(this.exerciseNumber+this.subExerciseNumber,'nose');" :exerciseNumber="this.exerciseNumber" :subExerciseNumber=".1"  ></ExerciseInstruction>
+      <ExerciseInstruction @finishExplanation="changeValues(); saveValue(this.exerciseNumber+this.subExerciseNumber,'nose');" :introduction="explicationWord_introduction" :outcome="explicationWord_outcome" :end="explicationWord_end" :exerciseNumber="this.exerciseNumber" :subExerciseNumber=".1" ></ExerciseInstruction>
     </div>
     <!-- 1) Mostrar cuadrantes iniciales 2)Completar palabra 4)Jugar solo QuadrantId 5)Ayuda Palabra -->
     <div  v-show="$store.state.gameState==1 || $store.state.gameState==2 || $store.state.gameState==4 || $store.state.gameState==6">
-      <Game @finishCheck="nextLocalState();" :exerciseNumber="1" ></Game>
+      <Game @finishCheck="nextLocalState();" :id="this.id" ></Game>
       <v-btn  outline @click="changeValues(); saveValue(this.exerciseNumber+this.subExerciseNumber,'Time finish see Words');" rounded class="btn-finish" color="#E74C3C" >
         Siguiente
       </v-btn>
@@ -48,6 +48,7 @@ export default {
       default: "Categoriarandom "
     },
     exerciseNumber: Number,
+    id: String,
   },
   created(){
     this.setInitialExplanation();
@@ -58,11 +59,10 @@ export default {
       correctResponse: false,
       intentId: 1,
       intentWord: 0,
-      //explicationWord_introduction: " Se divide la pantalla en 4 cuadrantes.",
-      //explicationWord_outcome: " A continuacion trate de recordar la palabra perteneciente a la categoria " + this.$store.state.category + " y los cuadrantes (letra identificatoria) donde se halla.",
-      //explicationWord_end: "Cuando las palabras desaparezcan de la pantalla, debe escribirlas en los cuadrantes correspondientes",
+      explicationWord_introduction: " Se divide la pantalla en 4 cuadrantes.",
+      explicationWord_outcome: " A continuacion trate de recordar la palabra perteneciente a la categoria " + this.$store.state.category + " y los cuadrantes (letra identificatoria) donde se halla.",
+      explicationWord_end: "Cuando las palabras desaparezcan de la pantalla, debe escribirlas en los cuadrantes correspondientes",
       explicationid: "Escriba las letras que identifican a cada cuadrante",
-      check: false,
       nextGeneralState: 1,
       idsExercise: false,
       nextQuadrantState: 0,
@@ -111,7 +111,6 @@ export default {
         else{
           console.log("En el ejercicio de ids");
           this.idsExercise = false;
-          this.changeHelp(false);
           this.transition(8,0);
           this.changeGeneralState(parseInt(this.$store.state.generalState,10)+1);
         }
@@ -180,11 +179,6 @@ export default {
         this.showCorrect();
       }
       this.$emit('finishExcersize', this.exerciseNumber, true, this.nextGeneralState);
-    },
-    setInitialExplanation : function(){
-      this.$store.state.introduction = " Se divide la pantalla en 4 cuadrantes.";
-      this.$store.state.outcome = " A continuacion trate de recordar la palabra perteneciente a la categoria " + this.$store.state.category + " y los cuadrantes (letra identificatoria) donde se halla.";
-      this.$store.state.end = "Cuando las palabras desaparezcan de la pantalla, debe escribirlas en los cuadrantes correspondientes";
     },
     // salvar diferentes tipos de datos
     saveValue: function (exercisenumber, value) {

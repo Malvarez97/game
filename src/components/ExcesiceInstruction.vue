@@ -1,8 +1,8 @@
 <template>
  <h1> Ejercicio {{this.exerciseNumber }}</h1>
-  <p> {{this.$store.state.introduction}}</p>
-  <p>{{this.$store.state.outcome }}</p>
-  <p>{{this.$store.state.end }}</p>
+  <p> {{this.introduction}}</p>
+  <p>{{this.outcome }}</p>
+  <p>{{this.end }}</p>
   <v-btn  outline @click="finishExersiceInstruccion" rounded class="btn-finish" color="#E74C3C" >
     Entendido
   </v-btn>
@@ -21,6 +21,9 @@ export default {
       default : .1,
       type : Number,
     },
+    introduction: String,
+    outcome: String,
+    end: String,
   },
 
   methods: {

@@ -3,14 +3,17 @@
     <div v-show="$store.state.generalState == 0">
       <Beginner @finishBegin="$store.dispatch('changeGeneralState',1)"  ></Beginner>
     </div>
-    <div v-show="$store.state.generalState == 10 || $store.state.generalState == 20">
-      <Game1 @finishExcersize="finalize" @saveValue="writeState" :category="this.$store.state.category" :exercise-number="this.$store.state.generalState"> </Game1>
+    <div v-show="$store.state.generalState == 1">
+      <Game1 @finishExcersize="finalize" @saveValue="writeState" :id="0" :category="this.$store.state.category" :exercise-number="this.$store.state.generalState"> </Game1>
     </div>
-    <div v-show="$store.state.generalState==1 || $store.state.generalState == 2">
-      <Game2 @finishExcersize="finalize" @saveValue="writeState"  :category="this.$store.state.category" :exercise-number="this.$store.state.generalState"></Game2>
+    <div v-show="$store.state.generalState == 2">
+      <Game1 @finishExcersize="finalize" @saveValue="writeState" :id="1" :category="this.$store.state.category" :exercise-number="this.$store.state.generalState"> </Game1>
     </div>
-    <div v-show="$store.state.generalState==4" >
-      <Game2 @finishExcersize="finalize" @saveValue="writeState"  :category="'nombres masculinos'" :exercise-number="4"></Game2>
+    <div v-show="$store.state.generalState==3">
+      <Game2 @finishExcersize="finalize" @saveValue="writeState" :id="2" :category="this.$store.state.category" :exercise-number="this.$store.state.generalState"></Game2>
+    </div>
+    <div v-show="$store.state.generalState==4">
+      <Game2 @finishExcersize="finalize" @saveValue="writeState" :id="3" :category="this.$store.state.category" :exercise-number="this.$store.state.generalState"></Game2>
     </div>
     <div v-show="$store.state.generalState==5" >
       <h1> 5</h1>
