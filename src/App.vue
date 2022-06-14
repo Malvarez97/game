@@ -3,11 +3,11 @@
     <div v-show="$store.state.generalState == 0">
       <Beginner @finishBegin="$store.dispatch('changeGeneralState',1)"  ></Beginner>
     </div>
-    <div v-show="$store.state.generalState == 1 || $store.state.generalState == 2 || $store.state.generalState == 3 ||$store.state.generalState == 4">
+    <div v-show="$store.state.generalState == 10 || $store.state.generalState == 20">
       <Game1 @finishExcersize="finalize" @saveValue="writeState" :category="this.$store.state.category" :exercise-number="this.$store.state.generalState"> </Game1>
     </div>
-    <div v-show="$store.state.generalState==3" >
-      <Game2 @finishExcersize="finalize" @saveValue="writeState"  :category="'animales'" :exercise-number="3"></Game2>
+    <div v-show="$store.state.generalState==1 || $store.state.generalState == 2">
+      <Game2 @finishExcersize="finalize" @saveValue="writeState"  :category="this.$store.state.category" :exercise-number="this.$store.state.generalState"></Game2>
     </div>
     <div v-show="$store.state.generalState==4" >
       <Game2 @finishExcersize="finalize" @saveValue="writeState"  :category="'nombres masculinos'" :exercise-number="4"></Game2>
@@ -23,7 +23,7 @@
 <script>
 
 import Game1 from "@/Games/Game1";
-//import Game2 from "@/Games/Game2";
+import Game2 from "@/Games/Game2";
 //import Game3 from "@/Games/Game3";
 import Beginner from "@/components/Beginner";
 
@@ -32,7 +32,7 @@ export default {
 	components: {
     Beginner,
     Game1,
-    //Game2,
+    Game2,
     //Game3,
 	},
   data() {
