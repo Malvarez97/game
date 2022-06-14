@@ -68,16 +68,7 @@ export default {
   created() {
     this.$store.commit('setQuadrant',this);
   },
-  computed: {
-    help(){
-      console.log("Entro al help");
-      return this.$store.state.help;
-    },
-    check(){
-      return this.$store.state.check;
-    }
-  },
-    data(){
+  data(){
     return{
       validateShort:false,
       validateLong:false,
@@ -156,6 +147,13 @@ export default {
       this.shortIsEmpty = true;
       this.validateShort = false;
       this.correct = false;
+    },
+    //Observo la variable help que cuando sea verdadera dará una ayuda al usuario para el siguiente intento del ejercicio
+    helpQuadrant() {
+      if (this.quadrant.showWord) {
+        console.log("llamo al help word");
+        this.inputCenter = this.quadrant.word.charAt(0);
+      }
     }
   },
   watch:{
@@ -169,21 +167,9 @@ export default {
         this.wordEmpty();
       },
       //Observo la varibale check que será verdadera cuando termine un ejercicio
-      check(){
+      /*check(){
           this.checkWord();
-      },
-      //Observo la variable help que cuando sea verdadera dará una ayuda al usuario para el siguiente intento del ejercicio
-      help(){
-        if (this.$store.state.help && this.$store.state.quadrantState == 1 && this.quadrant.showWord){
-          console.log("llamo al help word");
-          this.inputCenter=this.quadrant.word.charAt(0);
-        }
-        else {
-          if (!this.$store.state.help){
-            this.inputCenter="";
-          }
-        }
-      },
+      },*/
     }
 
 

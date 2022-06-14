@@ -71,9 +71,12 @@ export default new Vuex.Store({
                 },2000
                 ,)
         },
-        changeHelp(state, help){
-            console.log("Cambie el help");
-            this.state.help = help;
+        changeHelp(){
+            console.log("se activo el help");
+            this.state.quadrant1.helpQuadrant();
+            this.state.quadrant2.helpQuadrant();
+            this.state.quadrant3.helpQuadrant();
+            this.state.quadrant4.helpQuadrant();
         },
         restore(){
             console.log("Hago el restore");
@@ -83,8 +86,11 @@ export default new Vuex.Store({
             this.state.quadrant4.restoreQuadrant();
         },
         changeCheck(state,check){
-            console.log("cambie el check");
             this.state.check = check;
+            this.state.quadrant1.checkWord();
+            this.state.quadrant2.checkWord();
+            this.state.quadrant3.checkWord();
+            this.state.quadrant4.checkWord();
         },
         setQuadrantsArrangement(state, quadrantsArrangement){
           this.state.quadrantsArrangement = quadrantsArrangement;

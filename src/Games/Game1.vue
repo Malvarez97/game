@@ -129,14 +129,15 @@ export default {
             if (this.idsExercise){
               console.log("en el de ids");
               this.showWarning('Si fallas se restaura el ejercicio');
+              this.transition(9,4);
             }
             //Si es el ejercicio de las palabras
             else{
               console.log("en el de las palabras");
+              this.transition(9,2);
               // guardo el valor del tiempo del error  del primer fallo de Id
               //this.saveValue('Incorrect Word Intent ' + (parseInt(this.intentWord, 10) + 1), this.exerciseNumber + 'a');
             }
-            this.transition(9,2);
           }
           else
           {
@@ -155,7 +156,7 @@ export default {
               else{
                 console.log("En el de las palabras");
                 this.showWarning('Último intento. Recibirás una ayuda');
-                this.transition(9,5);
+                this.transition(9,6);
                 //this.saveValue('Incorrect Word Intent 3 ', this.exerciseNumber + 'a');
                 console.log("voy al estado de la ayuda")
               }
@@ -165,7 +166,6 @@ export default {
               console.log("Tercer error");
               this.showError();
               this.intentWord = 0;
-              this.$store.commit('changeHelp',false);
               this.transition(9,0);
               this.changeGeneralState(1);
             }
@@ -207,6 +207,9 @@ export default {
           console.log("transiciono del 2 al "+waitingState+" al "+nextGameState);
           this.restore();
           this.waitAndNextState(waitingState,nextGameState);
+          if(nextGameState==6){
+            this.changeHelp();
+          }
           break;
         //Estado de completar ids
         case 4:
@@ -215,10 +218,9 @@ export default {
           this.waitAndNextState(waitingState,nextGameState);
           break;
         //Estado de la ayuda
-        case 5:
-          console.log("transiciono del 5 al "+waitingState+" al "+nextGameState);
+        case 6:
+          console.log("transiciono del 6 al "+waitingState+" al "+nextGameState);
           this.restore();
-          this.changeHelp(true);
           this.waitAndNextState(waitingState,nextGameState);
           break;
       }
@@ -245,7 +247,7 @@ export default {
           this.changeQuadrantState(2);
           break;
         default:
-          this.$store.commit('changeCheck',true);
+          this.$store.commit('changeCheck');
       }
     },
     waitAndNextState: function (waitingState, nextGameState) {
@@ -260,8 +262,8 @@ export default {
     changeGeneralState : function (nextGeneralState){
       this.$store.dispatch('changeGeneralState',(nextGeneralState));
     },
-    changeHelp: function(help){
-      this.$store.commit('changeHelp',help);
+    changeHelp: function(){
+      this.$store.commit('changeHelp');
     },
   },
 
