@@ -4,14 +4,14 @@
       <H1 class="correct"> CORRECTA </H1>
       <v-img
           class="image"
-          src="../assets/good.jpg"
+          src="../assets/good.png"
       ></v-img>
   </div>
   <div v-show="!correct">
     <H1 class=" incorrect"> INCORRECTA,AUN TE QUEDAN INTENTOS</H1>
     <v-img
         class="image"
-        src="../assets/bad.jpg"
+        src="../assets/bad.png"
     ></v-img>
   </div>
   </div>
