@@ -148,6 +148,7 @@ export default {
               if (this.idsExercise){
                 console.log("En el de los ids");
                 this.showError();
+                this.idsExercise = false;
                 this.intentWord = 0;
                 this.transition(9,0);
                 this.changeGeneralState(1);
