@@ -48,13 +48,13 @@
       </div>
   <!-- Ejemplo de botones -->
   <div v-show="$store.state.quadrantState==8">
-    <v-btn v-show=!clicked outline rounded class="positionCenter btn-centered" fab color="#4758B8" @click="clickedWord() " >
+    <v-btn v-show=!clicked @click="this.clicked=true" outline rounded class="positionCenter btn-centered" fab color="#4758B8"  >
       {{this.quadrant.word.toUpperCase()}}
     </v-btn>
-    <v-btn v-show=clicked&&correctClick outline rounded class="positionCenter btn-correct btn-centered" fab color="#4758B8" @click="clickedWord()" >
+    <v-btn v-show=clicked&&correctClick :disabled="!this.select" outline rounded class="positionCenter btn-correct btn-centered" fab color="#4758B8"  >
       {{this.quadrant.word.toUpperCase()}}
     </v-btn>
-    <v-btn v-show=clicked&&!correctClick outline rounded class="positionCenter btn-incorrect btn-centered" fab color="#4758B8" @click="clickedWord()" >
+    <v-btn v-show=clicked&&!correctClick :disabled="!this.select"  outline rounded class="positionCenter btn-incorrect btn-centered" fab color="#4758B8"  >
       {{this.quadrant.word.toUpperCase()}}
     </v-btn>
   </div>
@@ -87,6 +87,7 @@ export default {
     idQuadrant:String,
   },
   created(){
+    this.clicked=true;
     this.$store.commit('setQuadrant',this);
     this.$emit('quadrantCreated');
     this.$emit('setWordsAndIds');
@@ -103,6 +104,7 @@ export default {
       idCompleted:false,
       clicked:false,
       correctClick:false,
+      select:false,
     }
   },
   methods: {
@@ -188,7 +190,8 @@ export default {
       }
     },
     clickedWord(){
-      this.clicked = true;
+      this.select=true;
+      console.log("entro al click bien");
       if (this.quadrant.category != this.$store.state.firstCategory && this.quadrant.category != this.$store.state.secondCategory){
         console.log("Correcto");
         this.correctClick = true;
@@ -209,9 +212,9 @@ export default {
         this.wordCorrect();
         this.wordEmpty();
       },
-      /*clicked(){
+      clicked(){
         this.clickedWord();
-      }*/
+      },
       //Observo la varibale check que será verdadera cuando termine un ejercicio
       /*check(){
           this.checkWord();
