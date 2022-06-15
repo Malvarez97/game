@@ -52,6 +52,19 @@
       {{this.quadrant.word.toUpperCase()}}
     </v-btn>
   </div>
+  <!-- Ingresar Palabras mostrando ids  -->
+  <div v-show="$store.state.quadrantState==9" >
+    <h1 v-if="this.quadrant.showId" class="positionUp">{{ this.quadrant.Id.toUpperCase() }} </h1>
+    <div v-show=!validateLong&&longIsEmpty>
+      <input class="positionCenter inputEmpty" v-model="inputCenter">
+    </div>
+    <div v-show=!validateLong&&!longIsEmpty>
+      <input class="positionCenter inputFail" v-model="inputCenter">
+    </div>
+    <div v-show=validateLong>
+      <h1 class="positionCenter">{{ this.quadrant.word.toUpperCase() }} ☑</h1>
+    </div>
+  </div>
 </template>
 
 <script>

@@ -155,7 +155,8 @@ export default new Vuex.Store({
         changeGeneralState(context,nextGeneralState){
             context.commit('changeGeneralState',nextGeneralState);
             context.commit('setQuadrants',nextGeneralState);
-            console.log("mis cuadrantes actuales son: ");
+            console.log(context.state.quadrantsMatrix);
+            console.log("mis cuadrantes actuales son: "+nextGeneralState);
             console.log(context.state.quadrant1);
             console.log(context.state.quadrant2);
             console.log(context.state.quadrant3);

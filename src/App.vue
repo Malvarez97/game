@@ -1,25 +1,28 @@
 <template>
 	<v-app fluid style="height: 100vh;">
     <div v-show="$store.state.generalState == 0">
-      <Beginner @finishBegin="$store.dispatch('changeGeneralState',1)"  ></Beginner>
+      <Beginner @finishBegin="$store.dispatch('changeGeneralState',6)"  ></Beginner>
     </div>
     <div v-show="$store.state.generalState == 1">
-      <Game1 @finishExcersize="finalize" @saveValue="writeState" :id="0" :category="this.$store.state.category" :exercise-number="this.$store.state.generalState"> </Game1>
+      <Game1 @finishExcersize="finalize" @saveValue="writeState" :id="0" :category="this.$store.state.firstCategory" :exercise-number="this.$store.state.generalState"> </Game1>
     </div>
     <div v-show="$store.state.generalState == 2">
-      <Game1 @finishExcersize="finalize" @saveValue="writeState" :id="1" :category="this.$store.state.category" :exercise-number="this.$store.state.generalState"> </Game1>
+      <Game1 @finishExcersize="finalize" @saveValue="writeState" :id="1" :category="this.$store.state.secondCategory" :exercise-number="this.$store.state.generalState"> </Game1>
     </div>
     <div v-show="$store.state.generalState==3">
-      <Game2 @finishExcersize="finalize" @saveValue="writeState" :id="2" :category="this.$store.state.category" :exercise-number="this.$store.state.generalState"></Game2>
+      <Game2 @finishExcersize="finalize" @saveValue="writeState" :id="2" :category="this.$store.state.firstCategory" :exercise-number="this.$store.state.generalState"></Game2>
     </div>
     <div v-show="$store.state.generalState==4">
-      <Game2 @finishExcersize="finalize" @saveValue="writeState" :id="3" :category="this.$store.state.category" :exercise-number="this.$store.state.generalState"></Game2>
+      <Game2 @finishExcersize="finalize" @saveValue="writeState" :id="3" :category="this.$store.state.secondCategory" :exercise-number="this.$store.state.generalState"></Game2>
     </div>
     <div v-show="$store.state.generalState==5" >
-      <h1> 5</h1>
+      <Game2 @finishExcersize="finalize" @saveValue="writeState" :id="4" :category="this.$store.state.category" :exercise-number="this.$store.state.generalState"></Game2>
     </div>
     <div v-show="$store.state.generalState==6" >
-      <Beginner></Beginner>
+      <Game4 @finishExcersize="finalize" @saveValue="writeState" :id="5" :category="this.$store.state.firstCategory+' y '+this.$store.state.secondCategory" :exercise-number="this.$store.state.generalState"></Game4>
+    </div>
+    <div v-show="$store.state.generalState==7" >
+      <Game4 @finishExcersize="finalize" @saveValue="writeState" :id="6" :category="this.$store.state.firstCategory+' y '+this.$store.state.secondCategory" :exercise-number="this.$store.state.generalState"></Game4>
     </div>
 	</v-app>
 </template>
@@ -28,6 +31,7 @@
 import Game1 from "@/Games/Game1";
 import Game2 from "@/Games/Game2";
 //import Game3 from "@/Games/Game3";
+import Game4 from "@/Games/Game4";
 import Beginner from "@/components/Beginner";
 
 
@@ -37,6 +41,7 @@ export default {
     Game1,
     Game2,
     //Game3,
+    Game4,
 	},
   data() {
     return {
@@ -240,9 +245,11 @@ export default {
         this.quadrantsArrangement.push(this.copyQuadrant(this.quadrants,"first","hide"));
         this.quadrantsArrangement.push(this.copyQuadrant(this.quadrants,"second","hide"));
         //Reordenar cuadrantes originales (disposicion numero 1)
-        this.quadrantsArrangement.push(this.rearrrengeQuadrants());
+        this.quadrantsArrangement.push(this.copyQuadrant(this.rearrrengeQuadrants(),"show","show"));
+        this.quadrantsArrangement.push(this.copyQuadrant(this.rearrrengeQuadrants(),"show","show"));
+        this.quadrantsArrangement.push(this.copyQuadrant(this.rearrrengeQuadrants(),"show","show"));
         //Reordenar cuadrantes originales (disposicion numero 2)
-        this.quadrantsArrangement.push(this.rearrrengeQuadrants());
+        //this.quadrantsArrangement.push(this.rearrrengeQuadrants());
 
         this.$store.commit('setQuadrantsArrangement',this.quadrantsArrangement);
 

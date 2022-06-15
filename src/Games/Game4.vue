@@ -1,11 +1,14 @@
 <template>
   <v-app fluid style="height: 100vh;">
     <!-- Explicacion del juego  -->
-    <div v-show="$store.state.gameState==0 " >
+    <div v-show="$store.state.gameState==0" >
       <ExerciseInstruction @finishExplanation="changeValues(); saveValue(this.exerciseNumber+this.subExerciseNumber,'nose');" :introduction="explicationWord_introduction" :outcome="explicationWord_outcome" :end="explicationWord_end" :exerciseNumber="this.exerciseNumber" :subExerciseNumber=".1"  ></ExerciseInstruction>
     </div>
+    <div v-show="$store.state.gameState==3" >
+      <ExerciseInstruction @finishExplanation="changeValues(); saveValue(this.exerciseNumber+this.subExerciseNumber,'nose');" :introduction="explicationSecondGame" :outcome="explicationWord_outcome" :end="explicationWord_end" :exerciseNumber="this.exerciseNumber" :subExerciseNumber=".1"  ></ExerciseInstruction>
+    </div>
     <!-- 1) Jugar solo QuadrantId -->
-    <div  v-show="$store.state.gameState==1">
+    <div  v-show="$store.state.gameState==1 || $store.state.gameState==6">
       <Game @finishCheck="nextLocalState();" :id="this.id" ></Game>
       <v-btn  outline @click="changeValues(); saveValue(this.exerciseNumber+this.subExerciseNumber,'Time finish see Words');" rounded class="btn-finish" color="#E74C3C" >
         Siguiente
@@ -33,7 +36,7 @@ import MyResponse from "@/components/Response";
 const Swal = require('sweetalert2');
 
 export default {
-  name: 'MyGame2',
+  name: 'MyGame4',
   components: {
     MyResponse,
     Game,
@@ -50,15 +53,19 @@ export default {
     exerciseNumber: Number,
     id: String,
   },
+  created(){
+    this.setInitialExplanation();
+  },
   data() {
     return {
       correctId: false,
       correctResponse: false,
       intentId: 1,
       intentWord: 0,
-      explicationWord_introduction: "Escriba las letras de los cuadrantes en los que aparecieron las palabras de "+this.category,
-      explicationWord_outcome: "",
-      explicationWord_end: "",
+      explicationWord_introduction: "Escriba en los cuadrantes las palabras pertenecientes a las categorias "+this.category+", anteriormente memorizadas",
+      explicationWord_outcome: "Tenga en cuenta que cambió la posición de las letras",
+      explicationWord_end: "Debe poner las palabras de acuerdo a las letras identificatorias, sin importar la posición de las mismas",
+      explicationSecondGame: "Al igual que en el ejercicio anterior, escriba las palabras pertenecientes a las categorias "+this.category+" anteriormente memorizadas",
       nextGeneralState: 1,
       nextQuadrantState: 0,
     }
@@ -98,7 +105,7 @@ export default {
         this.intentWord = 0;
         //Si el usuario contesta correctamente se pasa al ejercicio siguiente
         console.log("Pasamos al ejercicio siguiente");
-        this.transition(8,0);
+        this.transition(8,3);
         this.changeGeneralState(parseInt(this.$store.state.generalState,10)+1);
       }
       //Si fue incorrecta
@@ -107,9 +114,9 @@ export default {
         console.log("Respuesta incorrecta");
         this.intentWord = this.intentWord + 1;
         //Si no fue el ultimo intento
-        if (this.intentWord < 3)
+        if (this.intentWord == 1)
         {
-          console.log("primera o segunda incorrecta");
+          console.log("primera incorrecta");
           this.transition(9,1);
           // guardo el valor del tiempo del error  del primer fallo de Id
           //this.saveValue('Incorrect Word Intent ' + (parseInt(this.intentWord, 10) + 1), this.exerciseNumber + 'a');
@@ -117,17 +124,24 @@ export default {
         //Si es el ultimo intento
         else
         {
-          console.log("Tercera incorrecta")
-          this.showError();
-          this.intentWord = 0;
-          this.transition(9,0);
-          if (parseInt(this.$store.state.generalState,10) == 3) {
-            //Si perdi en el juego 3 vuelvo al 1
-            this.changeGeneralState(1);
+          if (this.intentWord == 2){
+            console.log("Segunda incorrecta");
+            this.showWarning("Último intento. Recibirás una ayuda");
+            this.transition(9,6);
           }
-          else {
-            //Si perdi en el juego 4 voy al 2
-            this.changeGeneralState(2);
+          else{
+            console.log("Tercera incorrecta")
+            this.showError();
+            this.intentWord = 0;
+            this.transition(9,0);
+            if (parseInt(this.$store.state.generalState,10) == 6) {
+              //Si perdi en el juego 6 vuelvo al 1
+              this.changeGeneralState(1);
+            }
+            else {
+              //Si perdi en el juego 7 voy al 6
+              this.changeGeneralState(6);
+            }
           }
         }
       }
@@ -140,6 +154,11 @@ export default {
       }
       this.$emit('finishExcersize', this.exerciseNumber, true, this.nextGeneralState);
     },*/
+    setInitialExplanation : function(){
+      this.$store.state.introduction = "Escriba en los cuadrantes las palabras pertenecientes a las categorias "+this.$store.state.firstCategory+" y "+this.$store.state.secondCategory +", anteriormente memorizadas"
+      this.$store.state.outcome = "Tenga en cuenta que cambió la posición de las letras";
+      this.$store.state.end = "Debe poner las palabras de acuerdo a las letras identificatorias, sin importar la posición de las mismas";
+    },
     // salvar diferentes tipos de datos
     saveValue: function (exercisenumber, value) {
       this.$store.commit('writeTimes', exercisenumber, value);
@@ -149,9 +168,19 @@ export default {
     },
     transition : function(waitingState,nextGameState){
       switch(parseInt(this.$store.state.gameState,10)){
-        //Estado de completar ids
+          //Estado de completar ids
         case 1:
           console.log("transiciono del 1 al "+waitingState+" al "+nextGameState);
+          this.restore();
+          this.waitAndNextState(waitingState,nextGameState);
+          //Si voy al estado de ayuda
+          if(nextGameState==6){
+            this.changeHelp();
+          }
+          break;
+        //Estado de la ayuda
+        case 6:
+          console.log("transiciono del 6 al "+waitingState+" al "+nextGameState);
           this.restore();
           this.waitAndNextState(waitingState,nextGameState);
           break;
@@ -164,8 +193,14 @@ export default {
         case 0:
           console.log("Estoy cambiando desde el estado 0");
           this.changeGameState(1);
-          this.changeQuadrantState(2);
-          this.setTypeExercise("ids");
+          this.changeQuadrantState(9);
+          this.setTypeExercise("words");
+          break;
+        case 3:
+          console.log("Estoy cambiando desde el estado 3");
+          this.changeGameState(1);
+          this.changeQuadrantState(9);
+          this.setTypeExercise("words");
           break;
         default:
           console.log("entro a check exercise")
@@ -184,6 +219,7 @@ export default {
     changeGeneralState : function (nextGeneralState){
       this.$store.commit('changeCategory',nextGeneralState);
       this.$store.dispatch('changeGeneralState',(nextGeneralState));
+      this.setInitialExplanation();
     },
     changeHelp: function(){
       this.$store.commit('changeHelp');
