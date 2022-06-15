@@ -1,7 +1,7 @@
 <template>
 	<v-app fluid style="height: 100vh;">
     <div v-show="$store.state.generalState == 0">
-      <Beginner @finishBegin="$store.dispatch('changeGeneralState',8)"  ></Beginner>
+      <Beginner @finishBegin="$store.dispatch('changeGeneralState',9)"  ></Beginner>
     </div>
     <div v-show="$store.state.generalState == 1">
       <Game1 @finishExcersize="finalize" @saveValue="writeState" :id="0" :category="this.$store.state.firstCategory" :exercise-number="this.$store.state.generalState"> </Game1>
@@ -27,6 +27,9 @@
     <div v-show="$store.state.generalState==8" >
       <Game5 @finishExcersize="finalize" @saveValue="writeState" :id="7" :category="this.$store.state.firstCategory+' y '+this.$store.state.secondCategory" :exercise-number="this.$store.state.generalState"></Game5>
     </div>
+    <div v-show="$store.state.generalState==9" >
+      <Game6 @finishExcersize="finalize" @saveValue="writeState" :id="8" :category="this.$store.state.firstCategory+' y '+this.$store.state.secondCategory" :exercise-number="this.$store.state.generalState"></Game6>
+    </div>
 	</v-app>
 </template>
 <script>
@@ -36,6 +39,7 @@ import Game2 from "@/Games/Game2";
 //import Game3 from "@/Games/Game3";
 import Game4 from "@/Games/Game4";
 import Game5 from "@/Games/Game5";
+import Game6 from "@/Games/Game6";
 import Beginner from "@/components/Beginner";
 
 
@@ -47,6 +51,7 @@ export default {
     //Game3,
     Game4,
     Game5,
+    Game6,
 	},
   data() {
     return {
@@ -185,10 +190,10 @@ export default {
         var newValue1 = this.coloresMedio[Math.floor(Math.random(0) * (2))].valor;
         var newValue2 = this.frutasMedio[Math.floor(Math.random(0) * (2))].valor;
         //Variable que decide si se cambia la primer palabra de la primera categoria o la segunda
-        var trueorfalse = Math.floor(Math.random(0) * (1));
+        var trueorfalse = Math.floor(Math.random(0) * (2));
         var value1change = trueorfalse == 0 ? false : true;
         //Variable que decide si se cambia la primer palabra de la segunda categoria o la segunda
-        trueorfalse = Math.floor(Math.random(0) * (1));
+        trueorfalse = Math.floor(Math.random(0) * (2));
         var value2change = trueorfalse == 0 ? false : true;
         //Cuadrante resultado
         var itemsCopy = new Array(quadrantToCopy.length);
@@ -328,6 +333,16 @@ export default {
         this.quadrantsArrangement.push(this.copyQuadrant(this.rearrrengeQuadrants(),"show","show"));
         //Crear cuadrantes con dos palabras nuevas para clickable
         this.quadrantsArrangement.push(this.copyQuadrant(this.copyQuadrantWithNewWords(this.quadrants),"hide","show"));
+        //Ejercicio nro 9, el de las categorias
+        var trueorfalse = Math.floor(Math.random(0) * (2));
+        var firstCategory = trueorfalse == 0 ? false : true;
+        if (firstCategory){
+          this.quadrantsArrangement.push(this.copyQuadrant(this.quadrants,"hide","first"));
+        }
+        else{
+          this.quadrantsArrangement.push(this.copyQuadrant(this.quadrants,"hide","second"));
+        }
+
 
         this.$store.commit('setQuadrantsArrangement',this.quadrantsArrangement);
 

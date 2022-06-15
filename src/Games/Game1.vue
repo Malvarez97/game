@@ -69,13 +69,13 @@ export default {
     }
   },
   methods: {
-    showError() {
+    showError(nroEjercicio) {
       Swal.fire({
         icon: 'error',
-        title: 'Nefasto',
-        text: 'Te caiste a los pedazos master!',
+        title: 'Inténtalo nuevamente. Volverás al ejercicio '+nroEjercicio,
+        //text: 'Inténtalo nuevamente. Volverás al ejercicio '+nroEjercicio,
         //timer: 2000,
-        footer: '<a href="">¿Como no caerse a los pedazos?</a>'
+        //footer: '<a href="">¿Como no caerse a los pedazos?</a>'
       })
     },
     showWarning(text) {
@@ -90,7 +90,7 @@ export default {
       Swal.fire({
         icon: 'success',
         title: 'Buena!',
-        text: 'Segui asi fiera, idolo, titan, mastodonte, pura sangre',
+        //text: 'Segui asi fiera, idolo, titan, mastodonte, pura sangre',
       })
     },
     //avanzar a siguiente estado, se usa para estados correctos
@@ -164,7 +164,7 @@ export default {
             //Si fallo 3 veces en el de las palabras
             else {
               console.log("Tercer error");
-              this.showError();
+              this.showError(1);
               this.intentWord = 0;
               this.transition(9,0);
               this.changeGeneralState(1);

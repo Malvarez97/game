@@ -51,10 +51,10 @@
     <v-btn v-show=!clicked @click="this.clicked=true" outline rounded class="positionCenter btn-centered" fab color="#4758B8"  >
       {{this.quadrant.word.toUpperCase()}}
     </v-btn>
-    <v-btn v-show=clicked&&correctClick :disabled="!this.select" outline rounded class="positionCenter btn-correct btn-centered" fab color="#4758B8"  >
+    <v-btn v-show=clicked&&correctClick outline rounded class="positionCenter btn-correct btn-centered" fab color="#4758B8"  >
       {{this.quadrant.word.toUpperCase()}}
     </v-btn>
-    <v-btn v-show=clicked&&!correctClick :disabled="!this.select"  outline rounded class="positionCenter btn-incorrect btn-centered" fab color="#4758B8"  >
+    <v-btn v-show=clicked&&!correctClick outline rounded class="positionCenter btn-incorrect btn-centered" fab color="#4758B8"  >
       {{this.quadrant.word.toUpperCase()}}
     </v-btn>
   </div>
@@ -69,6 +69,15 @@
     </div>
     <div v-show=validateLong>
       <h1 class="positionCenter">{{ this.quadrant.word.toUpperCase() }} ☑</h1>
+    </div>
+  </div>
+  <!-- Ingresar palabras  -->
+  <div v-show="$store.state.quadrantState==10" >
+    <div v-show=!this.quadrant.showWord >
+      <input class="positionCenter {{this.quadrant.word.toUpperCase() }}" v-model="inputCenter">
+    </div>
+    <div v-show=this.quadrant.showWord >
+      <input class="positionCenter inputEmpty" v-model="inputCenter">
     </div>
   </div>
 </template>
@@ -87,10 +96,10 @@ export default {
     idQuadrant:String,
   },
   created(){
-    this.clicked=true;
     this.$store.commit('setQuadrant',this);
     this.$emit('quadrantCreated');
     this.$emit('setWordsAndIds');
+    //this.clicked=true;
   },
   data(){
     return{
@@ -104,7 +113,6 @@ export default {
       idCompleted:false,
       clicked:false,
       correctClick:false,
-      select:false,
     }
   },
   methods: {
@@ -169,6 +177,25 @@ export default {
         this.$emit('idIncorrect');
       }
     },
+    checkCategory(){
+      //Si la palabra no se verifico como correcta anteriormente
+      if (!this.correct){
+        //Si hay que completar la categoria hay que chequear que sea correcta
+        if (this.quadrant.showWord){
+          if ((wagnerFischer(this.inputCenter.toString().toUpperCase(), this.quadrant.category.toUpperCase()) <= 2)) {
+            //Añado palabra correcta
+            this.$emit('wordCorrect');
+            } else {
+              //Añado palabra incorrecta
+              this.$emit('wordIncorrect');
+            }
+          }
+          else{
+            //Añado palabra por defecto
+            this.$emit('defaultWord');
+          }
+        }
+      },
     restoreQuadrant : function() {
       console.log("Pregunto por " + this.input.toString());
       console.log("Pregunto por " + this.inputCenter.toString());
@@ -181,6 +208,7 @@ export default {
       this.validateShort = false;
       this.correct = false;
       this.idCompleted = false;
+      this.correctClick = false;
     },
     //Observo la variable help que cuando sea verdadera dará una ayuda al usuario para el siguiente intento del ejercicio
     helpQuadrant() {
@@ -190,17 +218,19 @@ export default {
       }
     },
     clickedWord(){
-      this.select=true;
+      //this.clicked = true;
       console.log("entro al click bien");
       if (this.quadrant.category != this.$store.state.firstCategory && this.quadrant.category != this.$store.state.secondCategory){
         console.log("Correcto");
         this.correctClick = true;
+        this.$emit('correctClick');
       }
       else{
         console.log("Incorrecto");
         this.correctClick = false;
+        this.$emit('incorrectClick');
       }
-    }
+    },
   },
   watch:{
      input() {

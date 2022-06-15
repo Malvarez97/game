@@ -12,7 +12,9 @@
                          @wordIncorrect="addIncorrectWord"
                          @defaultWord="addDefaultWord"
                          @setWordsAndIds="setCorrectWordsAndIds"
-                         @quadrantCreated="addQuadrantCreated"/>
+                         @quadrantCreated="addQuadrantCreated"
+                         @correctClick="addCorrectClick"
+                         @incorrectClick="addIncorrectClick"/>
         </v-col>
       </v-row>
     </v-app>
@@ -38,11 +40,21 @@ export default {
       wordsChecked:0,
       idsChecked:0,
       quadrantsCreated:0,
+      correctClick:0,
     }
   },
   methods: {
     addQuadrantCreated: function(){
       this.quadrantsCreated+=1;
+    },
+    addCorrectClick: function(){
+      this.correctClick += 1;
+      if (this.correctClick == 2){
+        this.finishCheck(true);
+      }
+    },
+    addIncorrectClick: function(){
+      this.finishCheck(false);
     },
     //Seteo la cantidad de palabras que no son necesarias escribir
     setCorrectWordsAndIds: function () {
@@ -120,6 +132,7 @@ export default {
       console.log("Se restauraron las x variables \n correct words = "+this.wordsCorrect+" \n ids correct = "+this.idsCorrect);
       this.wordsChecked = 0;
       this.idsChecked = 0;
+      this.correctClick = 0;
     },
   },
 

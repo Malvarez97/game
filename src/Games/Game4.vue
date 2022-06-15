@@ -70,13 +70,13 @@ export default {
     }
   },
   methods: {
-    showError() {
+    showError(nroEjercicio) {
       Swal.fire({
         icon: 'error',
-        title: 'Nefasto',
-        text: 'Te caiste a los pedazos master!',
+        title: 'Inténtalo nuevamente. Volverás al ejercicio '+nroEjercicio,
+        //text: 'Inténtalo nuevamente. Volverás al ejercicio '+nroEjercicio,
         //timer: 2000,
-        footer: '<a href="">¿Como no caerse a los pedazos?</a>'
+        //footer: '<a href="">¿Como no caerse a los pedazos?</a>'
       })
     },
     showWarning(text) {
@@ -91,7 +91,7 @@ export default {
       Swal.fire({
         icon: 'success',
         title: 'Buena!',
-        text: 'Segui asi fiera, idolo, titan, mastodonte, pura sangre',
+        //text: 'Segui asi fiera, idolo, titan, mastodonte, pura sangre',
       })
     },
     //avanzar a siguiente estado, se usa para estados correctos
@@ -104,7 +104,12 @@ export default {
         this.intentWord = 0;
         //Si el usuario contesta correctamente se pasa al ejercicio siguiente
         console.log("Pasamos al ejercicio siguiente");
-        this.transition(8,3);
+        if (parseInt(this.$store.state.gameState,10) == 0){
+          this.transition(8,3);
+        }
+        else{
+          this.transition(8,0);
+        }
         this.changeGeneralState(parseInt(this.$store.state.generalState,10)+1);
       }
       //Si fue incorrecta
@@ -130,15 +135,16 @@ export default {
           }
           else{
             console.log("Tercera incorrecta")
-            this.showError();
             this.intentWord = 0;
             this.transition(9,0);
             if (parseInt(this.$store.state.generalState,10) == 6) {
               //Si perdi en el juego 6 vuelvo al 1
+              this.showError(1);
               this.changeGeneralState(1);
             }
             else {
               //Si perdi en el juego 7 voy al 6
+              this.showError(6);
               this.changeGeneralState(6);
             }
           }

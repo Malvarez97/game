@@ -63,13 +63,13 @@ export default {
     }
   },
   methods: {
-    showError() {
+    showError(nroEjercicio) {
       Swal.fire({
         icon: 'error',
-        title: 'Nefasto',
-        text: 'Te caiste a los pedazos master!',
+        title: 'Inténtalo nuevamente. Volverás al ejercicio '+nroEjercicio,
+        //text: 'Te caiste a los pedazos master!',
         //timer: 2000,
-        footer: '<a href="">¿Como no caerse a los pedazos?</a>'
+        //footer: '<a href="">¿Como no caerse a los pedazos?</a>'
       })
     },
     showWarning(text) {
@@ -84,7 +84,7 @@ export default {
       Swal.fire({
         icon: 'success',
         title: 'Buena!',
-        text: 'Segui asi fiera, idolo, titan, mastodonte, pura sangre',
+        //text: 'Segui asi fiera, idolo, titan, mastodonte, pura sangre',
       })
     },
     //avanzar a siguiente estado, se usa para estados correctos
@@ -117,15 +117,16 @@ export default {
         else
         {
           console.log("Tercera incorrecta")
-          this.showError();
           this.intentWord = 0;
           this.transition(9,0);
           if (parseInt(this.$store.state.generalState,10) == 3) {
             //Si perdi en el juego 3 vuelvo al 1
+            this.showError(1);
             this.changeGeneralState(1);
           }
           else {
             //Si perdi en el juego 4 voy al 2
+            this.showError(2);
             this.changeGeneralState(2);
           }
         }

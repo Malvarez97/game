@@ -4,11 +4,8 @@
     <div v-show="$store.state.gameState==0" >
       <ExerciseInstruction @finishExplanation="changeValues(); saveValue(this.exerciseNumber+this.subExerciseNumber,'nose');" :introduction="explicationWord_introduction" :outcome="explicationWord_outcome" :end="explicationWord_end" :exerciseNumber="this.exerciseNumber" :subExerciseNumber=".1"  ></ExerciseInstruction>
     </div>
-    <div v-show="$store.state.gameState==3" >
-      <ExerciseInstruction @finishExplanation="changeValues(); saveValue(this.exerciseNumber+this.subExerciseNumber,'nose');" :introduction="explicationSecondGame" :outcome="explicationWord_outcome" :end="explicationWord_end" :exerciseNumber="this.exerciseNumber" :subExerciseNumber=".1"  ></ExerciseInstruction>
-    </div>
-    <!-- 1) Jugar solo QuadrantId -->
-    <div  v-show="$store.state.gameState==1 || $store.state.gameState==6">
+    <!-- 1) Jugar categorias -->
+    <div  v-show="$store.state.gameState==1">
       <Game @finishCheck="nextLocalState();" :id="this.id" ></Game>
       <v-btn  outline @click="changeValues(); saveValue(this.exerciseNumber+this.subExerciseNumber,'Time finish see Words');" rounded class="btn-finish" color="#E74C3C" >
         Siguiente
@@ -61,9 +58,9 @@ export default {
       correctId: false,
       correctResponse: false,
       intentWord: 0,
-      explicationWord_introduction: "Haga click en aquellas palabras que no aparecieron previamente",
-      explicationWord_outcome: "",
-      explicationWord_end: "",
+      explicationWord_introduction: "En los ejercicios anteriores se presentaron palabras pertenecientes a dos categorías",
+      explicationWord_outcome: "A continuación escriba la categoría que falta en los lugares donde se encontraba la palabra",
+      explicationWord_end: "Debe escribir el nombre de la categoria, NO de la palabra. Las categorías posibles son: "+this.$store.state.firstCategory+", "+this.$store.state.secondCategory,
       nextGeneralState: 1,
       nextQuadrantState: 0,
     }
@@ -127,8 +124,8 @@ export default {
           this.intentWord = 0;
           this.transition(9,0);
           this.changeGeneralState(5);
-          }
         }
+      }
     },
     // se usa para saltar estados
     /*finalizeExercise: function () {
@@ -177,8 +174,8 @@ export default {
         case 0:
           console.log("Estoy cambiando desde el estado 0");
           this.changeGameState(1);
-          this.changeQuadrantState(8);
-          this.setTypeExercise("words");
+          this.changeQuadrantState(10);
+          this.setTypeExercise("category");
           break;
         default:
           console.log("entro a check exercise")

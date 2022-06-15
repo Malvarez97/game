@@ -104,6 +104,14 @@ export default new Vuex.Store({
                     this.state.quadrant3.checkId();
                     this.state.quadrant4.checkId();
                 }
+                else{
+                    if (this.state.typeOfExerceise == "category"){
+                        this.state.quadrant1.checkCategory();
+                        this.state.quadrant2.checkCategory();
+                        this.state.quadrant3.checkCategory();
+                        this.state.quadrant4.checkCategory();
+                    }
+                }
             }
         },
         setQuadrantsArrangement(state, quadrantsArrangement){
