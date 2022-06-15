@@ -48,7 +48,13 @@
       </div>
   <!-- Ejemplo de botones -->
   <div v-show="$store.state.quadrantState==8">
-    <v-btn outline rounded class="positionCenter btn-correct btn-centered" fab color="#4758B8" >
+    <v-btn v-show=!clicked outline rounded class="positionCenter btn-centered" fab color="#4758B8" @click="clickedWord() " >
+      {{this.quadrant.word.toUpperCase()}}
+    </v-btn>
+    <v-btn v-show=clicked&&correctClick outline rounded class="positionCenter btn-correct btn-centered" fab color="#4758B8" @click="clickedWord()" >
+      {{this.quadrant.word.toUpperCase()}}
+    </v-btn>
+    <v-btn v-show=clicked&&!correctClick outline rounded class="positionCenter btn-incorrect btn-centered" fab color="#4758B8" @click="clickedWord()" >
       {{this.quadrant.word.toUpperCase()}}
     </v-btn>
   </div>
@@ -95,6 +101,8 @@ export default {
       input:"",
       correct:false,
       idCompleted:false,
+      clicked:false,
+      correctClick:false,
     }
   },
   methods: {
@@ -178,6 +186,17 @@ export default {
         console.log("llamo al help word");
         this.inputCenter = this.quadrant.word.charAt(0);
       }
+    },
+    clickedWord(){
+      this.clicked = true;
+      if (this.quadrant.category != this.$store.state.firstCategory && this.quadrant.category != this.$store.state.secondCategory){
+        console.log("Correcto");
+        this.correctClick = true;
+      }
+      else{
+        console.log("Incorrecto");
+        this.correctClick = false;
+      }
     }
   },
   watch:{
@@ -190,6 +209,9 @@ export default {
         this.wordCorrect();
         this.wordEmpty();
       },
+      /*clicked(){
+        this.clickedWord();
+      }*/
       //Observo la varibale check que será verdadera cuando termine un ejercicio
       /*check(){
           this.checkWord();

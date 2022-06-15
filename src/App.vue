@@ -1,7 +1,7 @@
 <template>
 	<v-app fluid style="height: 100vh;">
     <div v-show="$store.state.generalState == 0">
-      <Beginner @finishBegin="$store.dispatch('changeGeneralState',6)"  ></Beginner>
+      <Beginner @finishBegin="$store.dispatch('changeGeneralState',8)"  ></Beginner>
     </div>
     <div v-show="$store.state.generalState == 1">
       <Game1 @finishExcersize="finalize" @saveValue="writeState" :id="0" :category="this.$store.state.firstCategory" :exercise-number="this.$store.state.generalState"> </Game1>
@@ -24,6 +24,9 @@
     <div v-show="$store.state.generalState==7" >
       <Game4 @finishExcersize="finalize" @saveValue="writeState" :id="6" :category="this.$store.state.firstCategory+' y '+this.$store.state.secondCategory" :exercise-number="this.$store.state.generalState"></Game4>
     </div>
+    <div v-show="$store.state.generalState==8" >
+      <Game5 @finishExcersize="finalize" @saveValue="writeState" :id="7" :category="this.$store.state.firstCategory+' y '+this.$store.state.secondCategory" :exercise-number="this.$store.state.generalState"></Game5>
+    </div>
 	</v-app>
 </template>
 <script>
@@ -32,6 +35,7 @@ import Game1 from "@/Games/Game1";
 import Game2 from "@/Games/Game2";
 //import Game3 from "@/Games/Game3";
 import Game4 from "@/Games/Game4";
+import Game5 from "@/Games/Game5";
 import Beginner from "@/components/Beginner";
 
 
@@ -42,6 +46,7 @@ export default {
     Game2,
     //Game3,
     Game4,
+    Game5,
 	},
   data() {
     return {
@@ -66,7 +71,7 @@ export default {
         {"id": 6, "valor": "ELEFANTE"},
         {"id": 7, "valor": "GALLINA"},
         {"id": 8, "valor": "JABALÍ"},
-        {"id": 9, "valor": "JIRABA"}],
+        {"id": 9, "valor": "JIRAFA"}],
       masculinoMedio: [{"id": 0, "valor": "BENJAMÍN"},
         {"id": 1, "valor": "VICENTE"},
         {"id": 2, "valor": "ALBERTO"},
@@ -77,6 +82,12 @@ export default {
         {"id": 7, "valor": "EDUARDO"},
         {"id": 8, "valor": "ELISEO"},
         {"id": 9, "valor": "EVARISTO"},],
+      coloresMedio: [{"id": 0, "valor": "ROJO"},
+        {"id": 1, "valor": "VERDE"},
+        {"id": 2, "valor": "AZUL"}, ],
+      frutasMedio: [{"id": 0, "valor": "NARANJA"},
+      {"id": 1, "valor": "MANZANA"},
+      {"id": 2, "valor": "BANANA"}, ],
       generalState: 0,
       firstQuadrants: [],
       secondQuadrants: [],
@@ -169,6 +180,71 @@ export default {
       return quadrantsDuplicate;
     },
 
+    copyQuadrantWithNewWords : function(quadrantToCopy){
+        //Nuevos valores
+        var newValue1 = this.coloresMedio[Math.floor(Math.random(0) * (2))].valor;
+        var newValue2 = this.frutasMedio[Math.floor(Math.random(0) * (2))].valor;
+        //Variable que decide si se cambia la primer palabra de la primera categoria o la segunda
+        var trueorfalse = Math.floor(Math.random(0) * (1));
+        var value1change = trueorfalse == 0 ? false : true;
+        //Variable que decide si se cambia la primer palabra de la segunda categoria o la segunda
+        trueorfalse = Math.floor(Math.random(0) * (1));
+        var value2change = trueorfalse == 0 ? false : true;
+        //Cuadrante resultado
+        var itemsCopy = new Array(quadrantToCopy.length);
+        for (var i=0; i<quadrantToCopy.length; i++) {
+          let ids = "";
+          let words = "";
+          if (quadrantToCopy[i].category == this.$store.state.firstCategory){
+            if (value1change == true){
+              itemsCopy[i] = {
+                "Id": quadrantToCopy[i].Id,
+                "word": newValue1,
+                "category": "coloresMedio",
+                "showId": ids,
+                "showWord": words,
+              };
+              value1change = !value1change;
+          }
+          else{
+              itemsCopy[i] = {
+                "Id": quadrantToCopy[i].Id,
+                "word": quadrantToCopy[i].word,
+                "category": quadrantToCopy[i].category,
+                "showId": ids,
+                "showWord": words,
+                //"showCategory" : arrayToCopy[i].showCategory
+              };
+              value1change = !value1change;
+            }
+          }
+          else{
+            if (value2change == true){
+              itemsCopy[i] = {
+                "Id": quadrantToCopy[i].Id,
+                "word": newValue2,
+                "category": "frutasMedio",
+                "showId": ids,
+                "showWord": words,
+              };
+              value2change = !value2change;
+            }
+            else{
+              itemsCopy[i] = {
+                "Id": quadrantToCopy[i].Id,
+                "word": quadrantToCopy[i].word,
+                "category": quadrantToCopy[i].category,
+                "showId": ids,
+                "showWord": words,
+                //"showCategory" : arrayToCopy[i].showCategory
+              };
+              value2change = !value2change;
+            }
+          }
+        }
+        return itemsCopy;
+    },
+
     copyQuadrant : function (quadrantToCopy,showIds,showWords) {
     var itemsCopy = new Array(quadrantToCopy.length);
     for (var i=0; i<quadrantToCopy.length; i++) {
@@ -244,12 +320,14 @@ export default {
         this.quadrantsArrangement.push(this.copyQuadrant(this.quadrants,"show","second"));
         this.quadrantsArrangement.push(this.copyQuadrant(this.quadrants,"first","hide"));
         this.quadrantsArrangement.push(this.copyQuadrant(this.quadrants,"second","hide"));
+        //Reordenar cuadrantes originales para dragable
+        this.quadrantsArrangement.push(this.copyQuadrant(this.rearrrengeQuadrants(),"show","show"));
         //Reordenar cuadrantes originales (disposicion numero 1)
         this.quadrantsArrangement.push(this.copyQuadrant(this.rearrrengeQuadrants(),"show","show"));
-        this.quadrantsArrangement.push(this.copyQuadrant(this.rearrrengeQuadrants(),"show","show"));
-        this.quadrantsArrangement.push(this.copyQuadrant(this.rearrrengeQuadrants(),"show","show"));
         //Reordenar cuadrantes originales (disposicion numero 2)
-        //this.quadrantsArrangement.push(this.rearrrengeQuadrants());
+        this.quadrantsArrangement.push(this.copyQuadrant(this.rearrrengeQuadrants(),"show","show"));
+        //Crear cuadrantes con dos palabras nuevas para clickable
+        this.quadrantsArrangement.push(this.copyQuadrant(this.copyQuadrantWithNewWords(this.quadrants),"hide","show"));
 
         this.$store.commit('setQuadrantsArrangement',this.quadrantsArrangement);
 

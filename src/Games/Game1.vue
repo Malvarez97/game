@@ -58,7 +58,6 @@ export default {
     return {
       correctId: false,
       correctResponse: false,
-      intentId: 1,
       intentWord: 0,
       explicationWord_introduction: " Se divide la pantalla en 4 cuadrantes.",
       explicationWord_outcome: " A continuacion trate de recordar la palabra perteneciente a la categoria " + this.category + " y los cuadrantes (letra identificatoria) donde se halla.",

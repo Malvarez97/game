@@ -61,10 +61,9 @@ export default {
       correctId: false,
       correctResponse: false,
       intentWord: 0,
-      explicationWord_introduction: "Escriba en los cuadrantes las palabras pertenecientes a las categorias "+this.category+", anteriormente memorizadas",
-      explicationWord_outcome: "Tenga en cuenta que cambió la posición de las letras",
-      explicationWord_end: "Debe poner las palabras de acuerdo a las letras identificatorias, sin importar la posición de las mismas",
-      explicationSecondGame: "Al igual que en el ejercicio anterior, escriba las palabras pertenecientes a las categorias "+this.category+" anteriormente memorizadas",
+      explicationWord_introduction: "Haga click en aquellas palabras que no aparecieron previamente",
+      explicationWord_outcome: "",
+      explicationWord_end: "",
       nextGeneralState: 1,
       nextQuadrantState: 0,
     }
@@ -177,7 +176,7 @@ export default {
             this.changeHelp();
           }
           break;
-        //Estado de la ayuda
+          //Estado de la ayuda
         case 6:
           console.log("transiciono del 6 al "+waitingState+" al "+nextGameState);
           this.restore();
@@ -192,13 +191,7 @@ export default {
         case 0:
           console.log("Estoy cambiando desde el estado 0");
           this.changeGameState(1);
-          this.changeQuadrantState(9);
-          this.setTypeExercise("words");
-          break;
-        case 3:
-          console.log("Estoy cambiando desde el estado 3");
-          this.changeGameState(1);
-          this.changeQuadrantState(9);
+          this.changeQuadrantState(8);
           this.setTypeExercise("words");
           break;
         default:

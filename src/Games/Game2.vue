@@ -54,7 +54,6 @@ export default {
     return {
       correctId: false,
       correctResponse: false,
-      intentId: 1,
       intentWord: 0,
       explicationWord_introduction: "Escriba las letras de los cuadrantes en los que aparecieron las palabras de "+this.category,
       explicationWord_outcome: "",
