@@ -25,7 +25,7 @@
     </div>
     <!-- Pantalla de felicitaciones  -->
     <div v-show="$store.state.gameState==10" >
-      <ExerciseInstruction @finishExplanation="changeGameState(0); changeGeneralState(1); saveValue(this.exerciseNumber+this.subExerciseNumber,'nose');" :introduction="congratulations_introduction" :outcome="congratulations_outcome" :exerciseNumber="congratulations_title" :subExerciseNumber=".1"  ></ExerciseInstruction>
+      <ExerciseInstruction :win="true" @finishExplanation="changeGameState(0); changeGeneralState(1); saveValue(this.exerciseNumber+this.subExerciseNumber,'nose');" :introduction="congratulations_introduction" :outcome="congratulations_outcome" :exerciseNumber="congratulations_title" :subExerciseNumber=".1"  ></ExerciseInstruction>
     </div>
   </v-app>
 </template>
