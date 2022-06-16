@@ -1,5 +1,5 @@
 <template>
- <h1> Ejercicio {{this.exerciseNumber }}</h1>
+ <h1> {{this.exerciseNumber }}</h1>
   <p> {{this.introduction}}</p>
   <p>{{this.outcome }}</p>
   <p>{{this.end }}</p>

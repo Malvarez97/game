@@ -1,7 +1,7 @@
 <template>
 	<v-app fluid style="height: 100vh;">
     <div v-show="$store.state.generalState == 0">
-      <Beginner @finishBegin="$store.dispatch('changeGeneralState',13)"  ></Beginner>
+      <Beginner @finishBegin="$store.dispatch('changeGeneralState',14)"  ></Beginner>
     </div>
     <div v-show="$store.state.generalState == 1">
       <Game1 @finishExcersize="finalize" @saveValue="writeState" :id="0" :category="this.$store.state.firstCategory" :exercise-number="this.$store.state.generalState"> </Game1>
@@ -42,6 +42,9 @@
     <div v-show="$store.state.generalState==13" >
       <Game8 @finishExcersize="finalize" @saveValue="writeState" :id="12" :category="this.$store.state.firstCategory+' y '+this.$store.state.secondCategory" :exercise-number="this.$store.state.generalState"></Game8>
     </div>
+    <div v-show="$store.state.generalState==14" >
+      <Game9 @finishExcersize="finalize" @saveValue="writeState" :id="13" :category="this.$store.state.firstCategory+' y '+this.$store.state.secondCategory" :exercise-number="this.$store.state.generalState"></Game9>
+    </div>
 	</v-app>
 </template>
 <script>
@@ -54,6 +57,7 @@ import Game5 from "@/Games/Game5";
 import Game6 from "@/Games/Game6";
 import Game7 from "@/Games/Game7";
 import Game8 from "@/Games/Game8";
+import Game9 from "@/Games/Game9";
 import Beginner from "@/components/Beginner";
 
 
@@ -68,6 +72,7 @@ export default {
     Game6,
     Game7,
     Game8,
+    Game9,
 	},
   data() {
     return {
@@ -383,6 +388,7 @@ export default {
         this.quadrantsArrangement.push(this.copyQuadrant(this.quadrantsArrangement[7],"show","three",this.randoms[2]));
         //Cuadrantes para ejercicio nro 13
         this.quadrantsArrangement.push(this.copyQuadrant(this.quadrantsArrangement[7],"show","show",""));
+        this.quadrantsArrangement.push(this.copyQuadrant(this.quadrantsArrangement[7],"show","hide",""));
         this.$store.commit('setQuadrantsArrangement',this.quadrantsArrangement);
 
       }

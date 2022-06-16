@@ -4,8 +4,8 @@
     <div v-show="$store.state.gameState==0" >
       <ExerciseInstruction @finishExplanation="changeValues(); saveValue(this.exerciseNumber+this.subExerciseNumber,'nose');" :introduction="explicationWord_introduction" :outcome="explicationWord_outcome" :end="explicationWord_end" :exerciseNumber="'Ejercicio '+this.exerciseNumber" :subExerciseNumber=".1"  ></ExerciseInstruction>
     </div>
-    <!-- 1) Jugar solo QuadrantId -->
-    <div  v-show="$store.state.gameState==1">
+    <!-- 2) Completar ids -->
+    <div  v-show="$store.state.gameState==2">
       <Game @finishCheck="nextLocalState();" :id="this.id" ></Game>
       <v-btn  outline @click="changeValues(); saveValue(this.exerciseNumber+this.subExerciseNumber,'Time finish see Words');" rounded class="btn-finish" color="#E74C3C" >
         Siguiente
@@ -23,6 +23,10 @@
     <div  v-show="$store.state.gameState==9">
       <MyResponse :correct="false" ></MyResponse>
     </div>
+    <!-- Pantalla de felicitaciones  -->
+    <div v-show="$store.state.gameState==10" >
+      <ExerciseInstruction @finishExplanation="changeGameState(0); changeGeneralState(1); saveValue(this.exerciseNumber+this.subExerciseNumber,'nose');" :introduction="congratulations_introduction" :outcome="congratulations_outcome" :exerciseNumber="congratulations_title" :subExerciseNumber=".1"  ></ExerciseInstruction>
+    </div>
   </v-app>
 </template>
 <script>
@@ -33,7 +37,7 @@ import MyResponse from "@/components/Response";
 const Swal = require('sweetalert2');
 
 export default {
-  name: 'MyGame5',
+  name: 'MyGame8',
   components: {
     MyResponse,
     Game,
@@ -58,9 +62,12 @@ export default {
       correctId: false,
       correctResponse: false,
       intentWord: 0,
-      explicationWord_introduction: "Haga click en aquellas palabras que no aparecieron previamente",
+      explicationWord_introduction: "Complete las letras que identifican cada cuadrante como estaban en los últimos ejercicios",
       explicationWord_outcome: "",
       explicationWord_end: "",
+      congratulations_title:"¡Felicitaciones!",
+      congratulations_introduction:"¡Ha completado con éxito los ejercicios!.",
+      congratulations_outcome:"A continuación debe presionar el botón si quiere comenzar una nueva partida",
       nextGeneralState: 1,
       nextQuadrantState: 0,
     }
@@ -70,6 +77,15 @@ export default {
       Swal.fire({
         icon: 'error',
         title: 'Inténtalo nuevamente. Volverás al ejercicio '+nroEjercicio,
+        //text: 'Inténtalo nuevamente. Volverás al ejercicio '+nroEjercicio,
+        //timer: 2000,
+        //footer: '<a href="">¿Como no caerse a los pedazos?</a>'
+      })
+    },
+    showRightAnswer(rightAnswer) {
+      Swal.fire({
+        icon: 'error',
+        title: 'La respuesta correcta era '+rightAnswer,
         //text: 'Inténtalo nuevamente. Volverás al ejercicio '+nroEjercicio,
         //timer: 2000,
         //footer: '<a href="">¿Como no caerse a los pedazos?</a>'
@@ -99,33 +115,32 @@ export default {
         this.showCorrect();
         this.intentWord = 0;
         //Si el usuario contesta correctamente se pasa al ejercicio siguiente
-        console.log("Pasamos al ejercicio siguiente");
-        this.transition(8,0);
-        this.changeGeneralState(parseInt(this.$store.state.generalState,10)+1);
+        console.log("Terminamos el juego");
+        this.transition(8,10);
+        //this.changeGeneralState(parseInt(this.$store.state.generalState,10)+1);
       }
       //Si fue incorrecta
-      else
-      {
+      else {
         console.log("Respuesta incorrecta");
         this.intentWord = this.intentWord + 1;
-        //Si no fue el ultimo intento
-        if (this.intentWord == 1)
-        {
-          console.log("primera incorrecta");
-          this.showWarning("Último intento. Recibirás una ayuda");
-          this.transition(9,1);
-          // guardo el valor del tiempo del error  del primer fallo de Id
-          //this.saveValue('Incorrect Word Intent ' + (parseInt(this.intentWord, 10) + 1), this.exerciseNumber + 'a');
+        if (this.intentWord == 1) {
+          this.transition(9, 2);
         }
-        //Si es el ultimo intento
         else{
-          console.log("Segunda incorrecta")
-          this.showError(5);
-          this.intentWord = 0;
-          this.transition(9,0);
-          this.changeGeneralState(5);
+          if (this.intentWord == 2){
+            this.showWarning();
+            this.transition(9, 2);
+          }
+          //Si es el error numero 3
+          else {
+            console.log("Tercera incorrecta");
+            this.showError(10);
+            this.intentWord = 0;
+            this.transition(9, 0);
+            this.changeGeneralState(10);
           }
         }
+      }
     },
     // se usa para saltar estados
     /*finalizeExercise: function () {
@@ -148,20 +163,10 @@ export default {
       this.$store.commit('changeQuadrantState', nextQuadrantState);
     },
     transition : function(waitingState,nextGameState){
+      console.log("Game state = "+this.$store.state.gameState);
       switch(parseInt(this.$store.state.gameState,10)){
-          //Estado de completar ids
-        case 1:
-          console.log("transiciono del 1 al "+waitingState+" al "+nextGameState);
-          this.restore();
-          this.waitAndNextState(waitingState,nextGameState);
-          //Si voy al estado de ayuda
-          if(nextGameState==6){
-            this.changeHelp();
-          }
-          break;
-          //Estado de la ayuda
-        case 6:
-          console.log("transiciono del 6 al "+waitingState+" al "+nextGameState);
+        case 2:
+          console.log("transiciono del 2 al "+waitingState+" al "+nextGameState);
           this.restore();
           this.waitAndNextState(waitingState,nextGameState);
           break;
@@ -173,9 +178,9 @@ export default {
           //Descripcion inicial del ejercicio
         case 0:
           console.log("Estoy cambiando desde el estado 0");
-          this.changeGameState(1);
-          this.changeQuadrantState(8);
-          this.setTypeExercise("words");
+          this.changeGameState(2);
+          this.changeQuadrantState(2);
+          this.setTypeExercise("ids");
           break;
         default:
           console.log("entro a check exercise")
@@ -192,6 +197,7 @@ export default {
       this.$store.commit('restore');
     },
     changeGeneralState : function (nextGeneralState){
+      console.log("Cambio el gral state a "+nextGeneralState);
       this.$store.commit('changeCategory',nextGeneralState);
       this.$store.dispatch('changeGeneralState',(nextGeneralState));
       this.setInitialExplanation();
