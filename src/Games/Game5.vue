@@ -4,11 +4,8 @@
     <div v-show="$store.state.gameState==0" >
       <ExerciseInstruction @finishExplanation="changeValues(); saveValue(this.exerciseNumber+this.subExerciseNumber,'nose');" :introduction="explicationWord_introduction" :outcome="explicationWord_outcome" :end="explicationWord_end" :exerciseNumber="this.exerciseNumber" :subExerciseNumber=".1"  ></ExerciseInstruction>
     </div>
-    <div v-show="$store.state.gameState==3" >
-      <ExerciseInstruction @finishExplanation="changeValues(); saveValue(this.exerciseNumber+this.subExerciseNumber,'nose');" :introduction="explicationSecondGame" :outcome="explicationWord_outcome" :end="explicationWord_end" :exerciseNumber="this.exerciseNumber" :subExerciseNumber=".1"  ></ExerciseInstruction>
-    </div>
     <!-- 1) Jugar solo QuadrantId -->
-    <div  v-show="$store.state.gameState==1 || $store.state.gameState==6">
+    <div  v-show="$store.state.gameState==1">
       <Game @finishCheck="nextLocalState();" :id="this.id" ></Game>
       <v-btn  outline @click="changeValues(); saveValue(this.exerciseNumber+this.subExerciseNumber,'Time finish see Words');" rounded class="btn-finish" color="#E74C3C" >
         Siguiente
@@ -36,7 +33,7 @@ import MyResponse from "@/components/Response";
 const Swal = require('sweetalert2');
 
 export default {
-  name: 'MyGame4',
+  name: 'MyGame5',
   components: {
     MyResponse,
     Game,

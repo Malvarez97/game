@@ -20,6 +20,10 @@ export default new Vuex.Store({
         secondCategory: "",
         category: "",
         quadrantsMatrix: [],
+        responseExercise10: [],
+        responseExercise11: [],
+        responseExercise12: [],
+        responseExercise13: [],
     },
     mutations:{
         setIntroduction(state,introduction){
@@ -41,6 +45,7 @@ export default new Vuex.Store({
             this.state.gameState = nextGameState;
         },
         changeQuadrantState(state,nextQuadrantState){
+            console.log("cambio al quadrant state = "+nextQuadrantState);
             this.state.quadrantState = nextQuadrantState;
         },
         changeExerciseExplanation(state,nextExerciseExplanation){
@@ -99,13 +104,15 @@ export default new Vuex.Store({
             }
             else{
                 if (this.state.typeOfExercise == "ids"){
+                    console.log("Hago el check de ids");
                     this.state.quadrant1.checkId();
                     this.state.quadrant2.checkId();
                     this.state.quadrant3.checkId();
                     this.state.quadrant4.checkId();
                 }
                 else{
-                    if (this.state.typeOfExerceise == "category"){
+                    if (this.state.typeOfExercise == "category"){
+                        console.log("Hago el check de category");
                         this.state.quadrant1.checkCategory();
                         this.state.quadrant2.checkCategory();
                         this.state.quadrant3.checkCategory();
@@ -149,7 +156,23 @@ export default new Vuex.Store({
                 console.log("Primera categoria = "+this.state.firstCategory);
                 this.state.category = this.state.firstCategory;
             }
-        }
+        },
+        setReponseExercise10(state,response){
+            console.log("Reponse exercise 10 = "+response);
+            this.state.responseExercise10 = response;
+        },
+        setReponseExercise11(state,response){
+            console.log("Reponse exercise 11 = "+response);
+            this.state.responseExercise11 = response;
+        },
+        setReponseExercise12(state,response){
+            console.log("Reponse exercise 12 = "+response);
+            this.state.responseExercise12 = response;
+        },
+        setReponseExercise13(state,response){
+            console.log("Reponse exercise 13 = "+response);
+            this.state.responseExercise13 = response;
+        },
     },
     actions:{
         waitingStateToNextState(context,data){

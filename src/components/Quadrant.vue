@@ -71,13 +71,40 @@
       <h1 class="positionCenter">{{ this.quadrant.word.toUpperCase() }} ☑</h1>
     </div>
   </div>
-  <!-- Ingresar palabras  -->
+  <!-- Ingresar palabras y chequear por categorias -->
   <div v-show="$store.state.quadrantState==10" >
     <div v-show=!this.quadrant.showWord >
-      <input class="positionCenter {{this.quadrant.word.toUpperCase() }}" v-model="inputCenter">
+      <h1 class="positionCenter" > {{this.quadrant.word.toUpperCase() }} </h1>
     </div>
-    <div v-show=this.quadrant.showWord >
+    <div v-show=this.quadrant.showWord&&!validateLong&&longIsEmpty>
       <input class="positionCenter inputEmpty" v-model="inputCenter">
+    </div>
+    <div v-show=this.quadrant.showWord&&!validateLong&&!longIsEmpty>
+      <input class="positionCenter inputFail" v-model="inputCenter">
+    </div>
+    <div v-show=this.quadrant.showWord&&validateLong>
+      <h1 class="positionCenter">{{ this.quadrant.category.toUpperCase() }} ☑</h1>
+    </div>
+  </div>
+  <!-- Mostrar t0do -->
+  <div v-show="$store.state.quadrantState==11">
+    <h1 class="positionUp">{{ this.quadrant.Id.toUpperCase() }} </h1>
+    <h1 class="positionCenter">{{ this.quadrant.word.toUpperCase() }} </h1>
+  </div>
+  <!-- Ingresar palabras y chequear por palabra -->
+  <div v-show="$store.state.quadrantState==12" >
+    <h1 class="positionUp">{{ this.quadrant.Id.toUpperCase() }} </h1>
+    <div v-show=!this.quadrant.showWord >
+      <h1 class="positionCenter" > {{this.quadrant.word.toUpperCase() }} </h1>
+    </div>
+    <div v-show=this.quadrant.showWord&&!validateLong&&longIsEmpty>
+      <input class="positionCenter inputEmpty" v-model="inputCenter">
+    </div>
+    <div v-show=this.quadrant.showWord&&!validateLong&&!longIsEmpty>
+      <input class="positionCenter inputFail" v-model="inputCenter">
+    </div>
+    <div v-show=this.quadrant.showWord&&validateLong>
+      <h1 class="positionCenter">{{ this.quadrant.word.toUpperCase() }} ☑</h1>
     </div>
   </div>
 </template>
@@ -135,11 +162,20 @@ export default {
     //Chequeo que la palabra escrita por el usuario sea igual a la que pide el ejercicio
     wordCorrect: function(){
       this.$emit('writeWord');
-      if(this.quadrant.word.toUpperCase()===this.inputCenter.toUpperCase()&&this.quadrant.showWord) {
+      if(this.$store.state.typeOfExercise=="words"&&this.quadrant.word.toUpperCase()===this.inputCenter.toUpperCase()&&this.quadrant.showWord) {
         // eslint-disable-next-line no-unreachable
+        console.log("La palabra es correcta");
         this.validateLong=true;
         this.correct = true;
         this.$emit('wordCorrect');
+      }
+      else{
+        if(this.$store.state.typeOfExercise=="category"&&this.quadrant.category.toUpperCase()===this.inputCenter.toUpperCase()&&this.quadrant.showWord) {
+          // eslint-disable-next-line no-unreachable
+          this.validateLong=true;
+          this.correct = true;
+          this.$emit('wordCorrect');
+        }
       }
     },
     wordIncorrect(){this.$emit('wordIncorrect');},
@@ -179,6 +215,9 @@ export default {
     },
     checkCategory(){
       //Si la palabra no se verifico como correcta anteriormente
+      console.log("palabra = "+this.inputCenter.toString());
+      console.log("ES correcta? "+this.correct);
+      console.log("This show word? "+this.showWord);
       if (!this.correct){
         //Si hay que completar la categoria hay que chequear que sea correcta
         if (this.quadrant.showWord){

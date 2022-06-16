@@ -1,7 +1,7 @@
 <template>
 	<v-app fluid style="height: 100vh;">
     <div v-show="$store.state.generalState == 0">
-      <Beginner @finishBegin="$store.dispatch('changeGeneralState',9)"  ></Beginner>
+      <Beginner @finishBegin="$store.dispatch('changeGeneralState',13)"  ></Beginner>
     </div>
     <div v-show="$store.state.generalState == 1">
       <Game1 @finishExcersize="finalize" @saveValue="writeState" :id="0" :category="this.$store.state.firstCategory" :exercise-number="this.$store.state.generalState"> </Game1>
@@ -30,6 +30,18 @@
     <div v-show="$store.state.generalState==9" >
       <Game6 @finishExcersize="finalize" @saveValue="writeState" :id="8" :category="this.$store.state.firstCategory+' y '+this.$store.state.secondCategory" :exercise-number="this.$store.state.generalState"></Game6>
     </div>
+    <div v-show="$store.state.generalState==10" >
+      <Game7 @finishExcersize="finalize" @saveValue="writeState" :id="9" :category="this.$store.state.firstCategory+' y '+this.$store.state.secondCategory" :exercise-number="this.$store.state.generalState"></Game7>
+    </div>
+    <div v-show="$store.state.generalState==11" >
+      <Game7 @finishExcersize="finalize" @saveValue="writeState" :id="10" :category="this.$store.state.firstCategory+' y '+this.$store.state.secondCategory" :exercise-number="this.$store.state.generalState"></Game7>
+    </div>
+    <div v-show="$store.state.generalState==12" >
+      <Game7 @finishExcersize="finalize" @saveValue="writeState" :id="11" :category="this.$store.state.firstCategory+' y '+this.$store.state.secondCategory" :exercise-number="this.$store.state.generalState"></Game7>
+    </div>
+    <div v-show="$store.state.generalState==13" >
+      <Game8 @finishExcersize="finalize" @saveValue="writeState" :id="12" :category="this.$store.state.firstCategory+' y '+this.$store.state.secondCategory" :exercise-number="this.$store.state.generalState"></Game8>
+    </div>
 	</v-app>
 </template>
 <script>
@@ -40,6 +52,8 @@ import Game2 from "@/Games/Game2";
 import Game4 from "@/Games/Game4";
 import Game5 from "@/Games/Game5";
 import Game6 from "@/Games/Game6";
+import Game7 from "@/Games/Game7";
+import Game8 from "@/Games/Game8";
 import Beginner from "@/components/Beginner";
 
 
@@ -52,6 +66,8 @@ export default {
     Game4,
     Game5,
     Game6,
+    Game7,
+    Game8,
 	},
   data() {
     return {
@@ -98,12 +114,14 @@ export default {
       secondQuadrants: [],
       quadrants: [],
       quadrantsArrangement: [],
+      randoms: [],
       //quadrantIds: this.generateRandomIds(4),
       idsOrder: this.generateQuadrantsPosition(4),
       idsValue: this.generateRandomIds(4,'Facil'),
     }
   },
     created(){
+    console.log("Teto");
     //this.idsOrder = this.generateQuadrantsPosition(4);
     //this.generateRandomIds(this.quadrantIds,4);
     this.generateQuadrants();
@@ -250,7 +268,7 @@ export default {
         return itemsCopy;
     },
 
-    copyQuadrant : function (quadrantToCopy,showIds,showWords) {
+    copyQuadrant : function (quadrantToCopy,showIds,showWords,hidePosition) {
     var itemsCopy = new Array(quadrantToCopy.length);
     for (var i=0; i<quadrantToCopy.length; i++) {
       let ids = "";
@@ -261,6 +279,7 @@ export default {
         case 'hide' : ids = false; break;
         case 'first' : if (quadrantToCopy[i].position == 'first') ids = true; else ids = false; break;
         case 'second' : if (quadrantToCopy[i].position == 'second') ids = true; else ids = false; break;
+        case 'three' : if (i == hidePosition) ids = true; else ids = false; break;
         case 'equal' : ids = quadrantToCopy[i].showId; break;
       }
 
@@ -269,6 +288,7 @@ export default {
         case 'hide' : words = false; break;
         case 'first' : if (quadrantToCopy[i].position == 'first') words = true; else words = false; break;
         case 'second' : if (quadrantToCopy[i].position == 'second') words = true; else words = false; break;
+        case 'three' : if (i == hidePosition) words = true; else words = false; break;
         case 'equal' : ids = quadrantToCopy[i].showWord; break;
       }
       itemsCopy[i] = {  "Id" : quadrantToCopy[i].Id,
@@ -321,29 +341,48 @@ export default {
         };
 
         //Añadir copia de cuadrantes originales (disposicion numero 0)
-        this.quadrantsArrangement.push(this.copyQuadrant(this.quadrants,"show","first"));
-        this.quadrantsArrangement.push(this.copyQuadrant(this.quadrants,"show","second"));
-        this.quadrantsArrangement.push(this.copyQuadrant(this.quadrants,"first","hide"));
-        this.quadrantsArrangement.push(this.copyQuadrant(this.quadrants,"second","hide"));
+        this.quadrantsArrangement.push(this.copyQuadrant(this.quadrants,"show","first",""));
+        this.quadrantsArrangement.push(this.copyQuadrant(this.quadrants,"show","second",""));
+        this.quadrantsArrangement.push(this.copyQuadrant(this.quadrants,"first","hide",""));
+        this.quadrantsArrangement.push(this.copyQuadrant(this.quadrants,"second","hide",""));
         //Reordenar cuadrantes originales para dragable
-        this.quadrantsArrangement.push(this.copyQuadrant(this.rearrrengeQuadrants(),"show","show"));
+        this.quadrantsArrangement.push(this.copyQuadrant(this.rearrrengeQuadrants(),"show","show",""));
         //Reordenar cuadrantes originales (disposicion numero 1)
-        this.quadrantsArrangement.push(this.copyQuadrant(this.rearrrengeQuadrants(),"show","show"));
+        this.quadrantsArrangement.push(this.copyQuadrant(this.rearrrengeQuadrants(),"show","show",""));
         //Reordenar cuadrantes originales (disposicion numero 2)
-        this.quadrantsArrangement.push(this.copyQuadrant(this.rearrrengeQuadrants(),"show","show"));
+        this.quadrantsArrangement.push(this.copyQuadrant(this.rearrrengeQuadrants(),"show","show",""));
         //Crear cuadrantes con dos palabras nuevas para clickable
-        this.quadrantsArrangement.push(this.copyQuadrant(this.copyQuadrantWithNewWords(this.quadrants),"hide","show"));
+        this.quadrantsArrangement.push(this.copyQuadrant(this.copyQuadrantWithNewWords(this.quadrants),"hide","show",""));
         //Ejercicio nro 9, el de las categorias
         var trueorfalse = Math.floor(Math.random(0) * (2));
         var firstCategory = trueorfalse == 0 ? false : true;
         if (firstCategory){
-          this.quadrantsArrangement.push(this.copyQuadrant(this.quadrants,"hide","first"));
+          this.quadrantsArrangement.push(this.copyQuadrant(this.quadrants,"hide","first",""));
         }
         else{
-          this.quadrantsArrangement.push(this.copyQuadrant(this.quadrants,"hide","second"));
+          this.quadrantsArrangement.push(this.copyQuadrant(this.quadrants,"hide","second",""));
         }
-
-
+        //Ejercicio nro 10, 11, 12, desaparecer palabra
+        var random;
+        while (this.randoms.length < 4) {
+          random = Math.floor(Math.random(0) * (4));
+          if (!this.randoms.includes(random)) {
+            this.randoms.push(random);
+          }
+        }
+        this.$store.commit('setReponseExercise10',{word: this.quadrantsArrangement[7][this.randoms[0]].word, id: this.quadrantsArrangement[7][this.randoms[0]].Id});
+        this.$store.commit('setReponseExercise11',{word: this.quadrantsArrangement[7][this.randoms[1]].word, id: this.quadrantsArrangement[7][this.randoms[3]].Id});
+        this.$store.commit('setReponseExercise12',{word: this.quadrantsArrangement[7][this.randoms[2]].word, id: this.quadrantsArrangement[7][this.randoms[2]].Id});
+        this.$store.commit('setReponseExercise13',{word: this.quadrantsArrangement[7][this.randoms[3]].word, id: this.quadrantsArrangement[7][this.randoms[1]].Id});
+        /*this.$store.commit('setReponseExercise10',this.quadrantsArrangement[7][this.randoms[0]].word);
+        this.$store.commit('setReponseExercise11',this.quadrantsArrangement[7][this.randoms[1]].word);
+        this.$store.commit('setReponseExercise12',this.quadrantsArrangement[7][this.randoms[2]].word);
+        this.$store.commit('setReponseExercise13',this.quadrantsArrangement[7][this.randoms[3]].word);*/
+        this.quadrantsArrangement.push(this.copyQuadrant(this.quadrantsArrangement[7],"show","three",this.randoms[0]));
+        this.quadrantsArrangement.push(this.copyQuadrant(this.quadrantsArrangement[7],"show","three",this.randoms[1]));
+        this.quadrantsArrangement.push(this.copyQuadrant(this.quadrantsArrangement[7],"show","three",this.randoms[2]));
+        //Cuadrantes para ejercicio nro 13
+        this.quadrantsArrangement.push(this.copyQuadrant(this.quadrantsArrangement[7],"show","show",""));
         this.$store.commit('setQuadrantsArrangement',this.quadrantsArrangement);
 
       }
