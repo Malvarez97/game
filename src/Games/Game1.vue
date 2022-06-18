@@ -301,14 +301,17 @@ export default {
 <style scoped>
 
 .btn-finish{
+  margin: 0 auto;
   font-size: 3rem;
   color: white;
-  padding: 2rem;
+  padding: 3rem;
   text-transform: none;
+  border-radius: 12px;
   position:absolute;
-  left: 70%;
+  left: 80%;
   top:3%;
-  width:25%;
-  height:8%;
+}
+.btn-finish:hover{
+  color:#2C3E50;
 }
 </style>

@@ -1,5 +1,5 @@
 <template>
-    <v-app fluid style="height: 100vh;">
+    <v-app fluid style="height: 99vh;">
       <v-row  :key="col" v-for="col in 2" >
         <v-col class="row" :key="row" v-for="row in 2">
           <MyQuadrantVue :quadrant="this.$store.state.quadrantsArrangement[parseInt(this.id,10)][(row-1)+(col-1)*2]"
@@ -163,7 +163,7 @@ export default {
 }
 </script>
 
-<style  scoped>
+<style scoped>
 .row {
   background-color: #2C3E50;
   border:white;

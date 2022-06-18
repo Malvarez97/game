@@ -1,7 +1,7 @@
 <template>
 	<v-app fluid style="height: 100vh;">
     <div v-show="$store.state.generalState == 0">
-      <Beginner @finishBegin="$store.dispatch('changeGeneralState',15)"  ></Beginner>
+      <Beginner @finishBegin="$store.dispatch('changeGeneralState',1)"  ></Beginner>
     </div>
     <div v-show="$store.state.generalState == 1">
       <Game1 @finishExcersize="finalize" @saveValue="writeState" :id="0" :category="this.$store.state.firstCategory" :exercise-number="this.$store.state.generalState"> </Game1>
@@ -45,9 +45,6 @@
     <div v-show="$store.state.generalState==14" >
       <Game9 @finishExcersize="finalize" @saveValue="writeState" :id="13" :category="this.$store.state.firstCategory+' y '+this.$store.state.secondCategory" :exercise-number="this.$store.state.generalState"></Game9>
     </div>
-    <div v-show="$store.state.generalState==15" >
-      <Response :correct="true" ></Response>
-    </div>
 	</v-app>
 </template>
 <script>
@@ -62,7 +59,6 @@ import Game7 from "@/Games/Game7";
 import Game8 from "@/Games/Game8";
 import Game9 from "@/Games/Game9";
 import Beginner from "@/components/Beginner";
-import Response from "@/components/Response";
 
 
 export default {
@@ -77,7 +73,6 @@ export default {
     Game7,
     Game8,
     Game9,
-    Response,
 	},
   data() {
     return {

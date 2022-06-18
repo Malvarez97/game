@@ -1,7 +1,7 @@
 <template>
     <div class="background game-container">
       <h1 class="game-title">Rehabilitación Cognitiva</h1>
-      <v-btn @click="finishBegin()" rounded class="btn-global btn-centered" color="#E74C3C" >
+      <v-btn @click="finishBegin()" rounded class="btn-global global-btn" color="#E74C3C" >
         Comenzar
       </v-btn>
       <div>
@@ -65,7 +65,7 @@ export default {
   grid-column-start: 1;
   grid-column-end: 4 ;
 }
-.btn-centered {
+.global-btn {
   grid-row: 2/3;
   grid-column: 2/3;
 }

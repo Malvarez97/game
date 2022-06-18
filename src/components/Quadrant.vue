@@ -1,65 +1,66 @@
 <template>
+  <div >
   <!-- Mostrar Valores  -->
-      <div v-show="$store.state.quadrantState==0">
+      <div v-show="$store.state.quadrantState==0" class="game-container">
         <h1 v-if="this.quadrant.showId" class="positionUp">{{ this.quadrant.Id.toUpperCase() }} </h1>
         <h1 v-if="this.quadrant.showWord" class="positionCenter">{{ this.quadrant.word.toUpperCase() }} </h1>
       </div>
   <!-- Ingresar Palabra  -->
-      <div v-show="$store.state.quadrantState==1" >
-        <div v-show=!validateLong&&longIsEmpty>
+      <div v-show="$store.state.quadrantState==1"  >
+        <div v-show=!validateLong&&longIsEmpty class="game-container">
           <input class="positionCenter inputEmpty" v-model="inputCenter">
         </div>
-        <div v-show=!validateLong&&!longIsEmpty>
+        <div v-show=!validateLong&&!longIsEmpty class="game-container">
           <input class="positionCenter inputFail" v-model="inputCenter">
         </div>
-        <div v-show=validateLong>
+        <div v-show=validateLong class="game-container">
           <h1 class="positionCenter">{{ this.quadrant.word.toUpperCase() }} ☑</h1>
         </div>
     </div>
   <!-- Insertar ID CUADRANTE   -->
-   <div v-show="$store.state.quadrantState==2" >
-     <div v-show=!validateShort&&shortIsEmpty>
+   <div v-show="$store.state.quadrantState==2"  >
+     <div v-show=!validateShort&&shortIsEmpty class="game-container">
        <input class="positionUp inputEmpty" v-model="input">
      </div>
-        <div v-show=!validateShort&&!shortIsEmpty>
+        <div v-show=!validateShort&&!shortIsEmpty class="game-container">
            <input class="positionUp inputFail" v-model="input">
          </div>
-        <div v-show=validateShort>
+        <div v-show=validateShort class="game-container">
           <h1 class="positionUp">{{ this.quadrant.Id.toUpperCase() }} ☑</h1>
         </div>
        </div>
      <!-- Insertar ID CUADRANTE   -->
-     <div v-show="$store.state.quadrantState==3">
+     <div v-show="$store.state.quadrantState==3" class="game-container" >
        <h1 class="positionUp">{{ this.quadrant.Id.toUpperCase() }} </h1>
      </div>
    <!-- Correcto   -->
-    <div v-show="$store.state.quadrantState==4">
+    <div v-show="$store.state.quadrantState==4" class="game-container">
         <h1 class="positionCenter">Correcto</h1>
     </div>
       <!-- Incorrecto  -->
-    <div v-show="$store.state.quadrantState==5">
+    <div v-show="$store.state.quadrantState==5" class="game-container">
       <h1 class="positionCenter incorrect">InCorrecto</h1>
     </div>
       <!-- Ejemplo de botones falta funcionalidad   -->
-    <div v-show="$store.state.quadrantState==7">
-        <v-btn outline rounded class="positionCenter btn-correct btn-centered" fab color="indigo" >
+    <div v-show="$store.state.quadrantState==7" class="game-container" >
+        <v-btn outline rounded class="positionCenter btn-correct btn-global-8" fab color="indigo" >
           {{this.quadrant.word.toUpperCase()}}
         </v-btn>
       </div>
   <!-- Ejemplo de botones -->
-  <div v-show="$store.state.quadrantState==8">
-    <v-btn v-show=!clicked @click="this.clicked=true" outline rounded class="positionCenter btn-centered" fab color="#4758B8"  >
+  <div v-show="$store.state.quadrantState==8" class="game-container">
+    <v-btn v-show=!clicked @click="this.clicked=true" outline rounded class="game-container positionCenter btn-global-8" fab color="#4758B8"  >
       {{this.quadrant.word.toUpperCase()}}
     </v-btn>
-    <v-btn v-show=clicked&&correctClick outline rounded class="positionCenter btn-correct btn-centered" fab color="#4758B8"  >
+    <v-btn v-show=clicked&&correctClick outline rounded class="game-container positionCenter btn-correct btn-global-8" fab color="#4758B8"  >
       {{this.quadrant.word.toUpperCase()}}
     </v-btn>
-    <v-btn v-show=clicked&&!correctClick outline rounded class="positionCenter btn-incorrect btn-centered" fab color="#4758B8"  >
+    <v-btn v-show=clicked&&!correctClick outline rounded class="game-container positionCenter btn-incorrect btn-global-8" fab color="#4758B8"  >
       {{this.quadrant.word.toUpperCase()}}
     </v-btn>
   </div>
   <!-- Ingresar Palabras mostrando ids  -->
-  <div v-show="$store.state.quadrantState==9" >
+  <div v-show="$store.state.quadrantState==9" class="game-container" >
     <h1 v-if="this.quadrant.showId" class="positionUp">{{ this.quadrant.Id.toUpperCase() }} </h1>
     <div v-show=!validateLong&&longIsEmpty>
       <input class="positionCenter inputEmpty" v-model="inputCenter">
@@ -72,7 +73,7 @@
     </div>
   </div>
   <!-- Ingresar palabras y chequear por categorias -->
-  <div v-show="$store.state.quadrantState==10" >
+  <div v-show="$store.state.quadrantState==10" class="game-container" >
     <div v-show=!this.quadrant.showWord >
       <h1 class="positionCenter" > {{this.quadrant.word.toUpperCase() }} </h1>
     </div>
@@ -87,12 +88,12 @@
     </div>
   </div>
   <!-- Mostrar t0do -->
-  <div v-show="$store.state.quadrantState==11">
+  <div v-show="$store.state.quadrantState==11" class="game-container">
     <h1 class="positionUp">{{ this.quadrant.Id.toUpperCase() }} </h1>
     <h1 class="positionCenter">{{ this.quadrant.word.toUpperCase() }} </h1>
   </div>
   <!-- Ingresar palabras y chequear por palabra -->
-  <div v-show="$store.state.quadrantState==12" >
+  <div v-show="$store.state.quadrantState==12" class="game-container" >
     <h1 class="positionUp">{{ this.quadrant.Id.toUpperCase() }} </h1>
     <div v-show=!this.quadrant.showWord >
       <h1 class="positionCenter" > {{this.quadrant.word.toUpperCase() }} </h1>
@@ -106,6 +107,7 @@
     <div v-show=this.quadrant.showWord&&validateLong>
       <h1 class="positionCenter">{{ this.quadrant.word.toUpperCase() }} ☑</h1>
     </div>
+  </div>
   </div>
 </template>
 
@@ -295,23 +297,38 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.game-container {
+  height: 100vh;
+  position: absolute;
+  display: grid;
+  grid-template-columns : repeat(5,1fr);
+  grid-template-rows: repeat(5,1fr);
+}
+.positionUp{
+  grid-column-start: 1;
+  grid-column-end: -1;
+  grid-row-start: 1;
+}
+.positionCenter {
+  grid-column-start: 2;
+  grid-row-start: 2;
+}
 h1{
   font-size: 4.5rem;
   color:greenyellow;
-
 }
 .incorrect{
   color:darkred;
 }
 input {
-	font-size: 75PX;
+  height: 150px;
+  width:500px;
+	font-size:6rem;
 	color:#aaa;
-	background-color: #2C3E50;
 	border:4px solid #aaa;
 	border-radius: 20px;
 	outline:none;
 	padding: 2%;
-	box-sizing: border-box;
 }
 .inputEmpty:focus {
 	border-color:dodgerblue;
@@ -324,12 +341,17 @@ input {
   border-color:darkred;
   box-shadow:0 0 8Px 0 darkred;
 }
-.btn-centered{
-  padding: 20PX;
+
+.btn-global-8{
+  margin: 0 auto;
   font-size: 3rem;
   color: white;
-  padding: 2rem;
-  height:20%;
+  padding: 3rem;
+  text-transform: none;
+  border-radius: 12px;
+}
+.btn-global-8:hover {
+  color:#2C3E50;
 }
 .btn-incorrect:focus {
   border-color:darkred;
@@ -349,5 +371,4 @@ input {
   box-shadow:0 0 40Px 0 springgreen;
   color:springgreen;
 }
-
 </style>
