@@ -1,7 +1,7 @@
 <template>
     <div class="firstStep-bground game-container">
       <h1 class="game-title">Rehabilitación Cognitiva</h1>
-      <v-btn @click="finishBegin()" rounded class="begin-btn btn-centered" color="#E74C3C" >
+      <v-btn @click="finishBegin()" rounded class="btn-global btn-centered" color="#E74C3C" >
         Comenzar
       </v-btn>
       <div>
@@ -27,6 +27,7 @@
 </template>
 
 <script>
+import '../assets/common.scss'
 export default {
   name: "MyStart",
   methods: {
@@ -38,7 +39,7 @@ export default {
 
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 .firstStep-bground {
   background: url("../assets/background.png") no-repeat
   center center;
@@ -57,25 +58,13 @@ export default {
   justify-content: center;
   text-align: center;
   align-items: center;
-  font-size: 4rem;
+  font-size: 6rem;
   color: #e74c3c;
   padding-top: 3rem;
-  margin-bottom: 8rem;
+  margin-bottom: 10rem;
   grid-column-start: 1;
   grid-column-end: 4 ;
 }
-.begin-btn {
-  margin: 0 auto;
-  font-size: 3rem;
-  color: white;
-  padding: 3rem;
-  text-transform: none;
-  border-radius: 12px;
-}
-.begin-btn:hover{
-  color: #2C3E50;
-}
-
 .btn-centered {
   grid-row: 2/3;
   grid-column: 2/3;
@@ -87,9 +76,19 @@ export default {
   width: 100%;
   height: 15%;
 }
-
+.btn-global {
+  margin: 0 auto;
+  font-size: 3rem;
+  color: white;
+  padding: 3rem;
+  text-transform: none;
+  border-radius: 12px;
+}
+.btn-global:hover{
+  color:#2C3E50;
+}
 @media screen and (max-width: 960px) and (min-width:480px ) {
-  .begin-btn {
+  .btn-global {
     margin: 4px auto;
     font-size: 2rem;
     padding: 2rem;
@@ -98,7 +97,7 @@ export default {
   }
 }
 @media screen and (max-width: 480px) {
-  .begin-btn {
+  .btn-global {
     margin: 4px auto;
     font-size: 1.5rem;
     padding: 1.5rem;
@@ -116,7 +115,7 @@ export default {
   margin-bottom: 6rem;
   grid-column-start: 1;
   grid-column-end: -1 ;
-}
+  }
 }
 
 </style>

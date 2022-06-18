@@ -1,18 +1,16 @@
 <template>
   <div class="firstStep-bground game-container">
-    <div style="display: flex; align-items: center; justify-content: center; ">
-        <v-img  class="image"
-               width="20%"
-               height="30%"
+    <div  class="title">
+        <v-img v-show="this.win" class="image"
             src="../assets/cup.png"
         >
         </v-img>
     <h1> {{this.exerciseNumber }}</h1>
     </div>
-  <p> {{this.introduction}}</p>
-  <p>{{this.outcome }}</p>
-  <p>{{this.end }}</p>
-  <v-btn  outline @click="finishExersiceInstruccion" rounded class="btn-finish" color="#E74C3C" >
+  <p class="introduction"> {{this.introduction}}</p>
+  <p class="outcome">{{this.outcome }}</p>
+  <p class="end">{{this.end }}</p>
+    <v-btn  outline @click="finishExersiceInstruccion" rounded class="btn-global" color="#E74C3C" >
     Entendido
   </v-btn>
   </div>
@@ -29,7 +27,7 @@ export default {
     },
     win:{
       type:Boolean,
-      default:true,
+      default:false,
     },
     subExerciseNumber : {
       default : .1,
@@ -58,14 +56,23 @@ h1 {
   color: #e74c3c;
 }
 p {
-  padding: 2%;
-  display: flex;
   font-family: "Roboto", sans-serif;
   font-weight: bold;
   font-size: 4Rem ;
-  justify-content: center;
   color: #e74c3c;
-  margin:auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.v-btn{
+  margin-top:1rem;
+  color:white;
+  grid-column-start:7 ;
+  grid-row-start: 5;
+  margin-left: -2rem;
+}
+.v-btn:hover{
+  color:#2C3E50;
 }
 .firstStep-bground {
   background: url("../assets/copia2.png") no-repeat
@@ -74,11 +81,81 @@ p {
 }
 .game-container {
   height: 100vh;
-  position: absolute;
+  display: grid;
+  grid-template-columns : repeat(7,1fr);
+  grid-template-rows: repeat(5,1fr);
 }
-.image {
-  max-width: 8rem;
-  width: 10% !important;
+
+.title{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  grid-row-start:1;
+  grid-row-end: 1;
+  grid-column-start:2 ;
+  grid-column-end:6;
 }
+p.introduction {
+  grid-row-start:2;
+  grid-row-end: 3;
+  grid-column-start:1 ;
+  grid-column-end:7;
+}
+p.outcome {
+  grid-row-start:3;
+  grid-row-end: 4;
+  grid-column-start:1 ;
+  grid-column-end:7;
+}
+p.end {
+  grid-row-start:4;
+  grid-row-end: 5;
+  grid-column-start:1 ;
+  grid-column-end:7;
+}
+
+.image{
+  height: 8rem;
+  margin-right: -15rem;
+}
+@media screen and (min-width:960px )and (max-width: 1363px) {
+  h1{
+    font-size: 4rem;
+  }
+  p {
+    font-size: 2.5rem ;
+  }
+  .v-btn{
+    margin: 4px auto;
+    font-size: 1rem;
+    padding: 2rem;
+    text-transform: none;
+    color:white;
+    grid-column-start:7 ;
+    grid-row-start: 5;
+    margin-left: -2rem;
+  }
+}
+@media screen and (max-width: 960px) {
+  h1{
+    font-size: 3rem;
+  }
+  p {
+    font-size: 2rem ;
+  }
+  .v-btn{
+    margin: 4px auto;
+    font-size: 0.75rem;
+    padding: 2rem;
+    text-transform: none;
+    grid-column-start:7 ;
+    grid-row-start: 5;
+    margin-left: -2rem;
+  }
+}
+
+@media screen and (max-width: 480px) {
+
+  }
 
 </style>
