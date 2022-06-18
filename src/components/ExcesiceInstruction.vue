@@ -68,7 +68,7 @@ p {
   margin:auto;
 }
 .firstStep-bground {
-  background: url("../assets/background.png") no-repeat
+  background: url("../assets/copia2.png") no-repeat
   center center;
   background-size: cover;
 }
