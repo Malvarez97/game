@@ -1,13 +1,13 @@
 <template>
-  <div>
-  <div v-show="correct">
+  <div class="background">
+  <div v-show="correct" class="game-container" >
       <H1 class="correct"> CORRECTA </H1>
       <v-img
           class="image"
           src="../assets/good.png"
       ></v-img>
   </div>
-  <div v-show="!correct">
+  <div  v-show="!correct" class="game-container">
     <H1 class=" incorrect"> INCORRECTA,AUN TE QUEDAN INTENTOS</H1>
     <v-img
         class="image"
@@ -32,25 +32,46 @@ export default {
 </script>
 
 <style scoped>
-
+.game-container {
+  height: 100vh;
+  position: relative;
+  display: grid;
+  grid-template-columns : repeat(7,1fr);
+  grid-template-rows: repeat(3,1fr);
+}
+.background {
+  background: url("../assets/copia2.png") no-repeat
+  center center;
+  background-size: cover;
+}
 h1{
-  margin-top:10%;
-  position: absolute;
-  font-size: 8REM;
+  grid-column-start: 2;
+  grid-column-end: -1;
+  grid-row-start: 1;
+  font-size: 6REM;
 }
 .correct{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 8REM;
   color:#3BB449;
-  left:32.5%;
+  margin-left: -15rem;
 }
 .incorrect{
-  font-size: 4REM;
   color:#D1494B;
-  left:20%;
 }
 .image {
-  position:absolute;
-  margin-top:20%;
-  left:37.5%;
-  width:25%;
+  grid-column-start: 1;
+  grid-column-end: -1;
+  grid-row-start: 2;
+  grid-row-end: 3;
 }
+
+@media screen and (max-width: 960px) and (min-width:480px ) {
+h1{
+  font-size: 3.5rem;
+}
+}
+
 </style>

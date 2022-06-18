@@ -1,5 +1,5 @@
 <template>
-    <div class="firstStep-bground game-container">
+    <div class="background game-container">
       <h1 class="game-title">Rehabilitación Cognitiva</h1>
       <v-btn @click="finishBegin()" rounded class="btn-global btn-centered" color="#E74C3C" >
         Comenzar
@@ -40,7 +40,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.firstStep-bground {
+.background {
   background: url("../assets/background.png") no-repeat
   center center;
   background-size: cover;

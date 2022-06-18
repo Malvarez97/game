@@ -1,5 +1,5 @@
 <template>
-  <div class="firstStep-bground game-container">
+  <div class="background game-container">
     <div  class="title">
         <v-img v-show="this.win" class="image"
             src="../assets/cup.png"
@@ -74,7 +74,7 @@ p {
 .v-btn:hover{
   color:#2C3E50;
 }
-.firstStep-bground {
+.background {
   background: url("../assets/copia2.png") no-repeat
   center center;
   background-size: cover;
@@ -154,8 +154,5 @@ p.end {
   }
 }
 
-@media screen and (max-width: 480px) {
-
-  }
 
 </style>
