@@ -308,7 +308,8 @@ export default {
   },
 
     generateQuadrants: function () {
-      {  //generar cuadrantes originales
+      { console.log("nada");
+        //generar cuadrantes originales
         console.log("seteo las categorias");
         this.$store.state.firstCategory = "nombresMasculino";
         this.$store.state.secondCategory = "animales";
