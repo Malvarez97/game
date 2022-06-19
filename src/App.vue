@@ -1,5 +1,5 @@
 <template>
-	<v-app fluid style="height: 100vh;">
+	<v-app fluid class="container">
     <div v-show="$store.state.generalState == 0">
       <Beginner @finishBegin="$store.dispatch('changeGeneralState',1)"  ></Beginner>
     </div>
@@ -401,5 +401,10 @@ export default {
 <style scoped lang="scss">
 
 @import 'assets/common.scss';
-
+.container{
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 </style>

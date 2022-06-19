@@ -11,7 +11,7 @@
     <!-- 1) Mostrar cuadrantes iniciales 2)Completar palabra 4)Jugar solo QuadrantId 5)Ayuda Palabra -->
     <div  v-show="$store.state.gameState==1 || $store.state.gameState==2 || $store.state.gameState==4 || $store.state.gameState==6">
       <Game @finishCheck="nextLocalState();" :id="this.id" ></Game>
-      <v-btn  outline @click="changeValues(); saveValue(this.exerciseNumber+this.subExerciseNumber,'Time finish see Words');" rounded class="btn-finish" color="#E74C3C" >
+      <v-btn  outline @click="changeValues(); saveValue(this.exerciseNumber+this.subExerciseNumber,'Time finish see Words');"  class="btn-global nextposition" color="#E74C3C" >
         Siguiente
       </v-btn>
     </div>

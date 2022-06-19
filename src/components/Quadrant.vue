@@ -1,5 +1,5 @@
 <template>
-  <div >
+  <div class="container">
   <!-- Mostrar Valores  -->
       <div v-show="$store.state.quadrantState==0" class="game-container">
         <h1 v-if="this.quadrant.showId" class="positionUp">{{ this.quadrant.Id.toUpperCase() }} </h1>
@@ -20,17 +20,17 @@
   <!-- Insertar ID CUADRANTE   -->
    <div v-show="$store.state.quadrantState==2"  >
      <div v-show=!validateShort&&shortIsEmpty class="game-container">
-       <input class="positionUp inputEmpty" v-model="input">
+       <input class="positionUp inputEmpty id" v-model="input">
      </div>
         <div v-show=!validateShort&&!shortIsEmpty class="game-container">
-           <input class="positionUp inputFail" v-model="input">
+           <input class="positionUp inputFail id" v-model="input">
          </div>
         <div v-show=validateShort class="game-container">
           <h1 class="positionUp">{{ this.quadrant.Id.toUpperCase() }} ☑</h1>
         </div>
        </div>
      <!-- Insertar ID CUADRANTE   -->
-     <div v-show="$store.state.quadrantState==3" class="game-container" >
+     <div v-show="$store.state.quadrantState==3" class="game-container id " >
        <h1 class="positionUp">{{ this.quadrant.Id.toUpperCase() }} </h1>
      </div>
    <!-- Correcto   -->
@@ -49,13 +49,13 @@
       </div>
   <!-- Ejemplo de botones -->
   <div v-show="$store.state.quadrantState==8" class="game-container">
-    <v-btn v-show=!clicked @click="this.clicked=true" outline rounded class="game-container positionCenter btn-global-8" fab color="#4758B8"  >
+    <v-btn v-show=!clicked @click="this.clicked=true" outline rounded class=" positionCenter btn-global-8" fab color="#4758B8"  >
       {{this.quadrant.word.toUpperCase()}}
     </v-btn>
-    <v-btn v-show=clicked&&correctClick outline rounded class="game-container positionCenter btn-correct btn-global-8" fab color="#4758B8"  >
+    <v-btn v-show=clicked&&correctClick outline rounded class=" positionCenter btn-correct btn-global-8" fab color="#4758B8"  >
       {{this.quadrant.word.toUpperCase()}}
     </v-btn>
-    <v-btn v-show=clicked&&!correctClick outline rounded class="game-container positionCenter btn-incorrect btn-global-8" fab color="#4758B8"  >
+    <v-btn v-show=clicked&&!correctClick outline rounded class=" positionCenter btn-incorrect btn-global-8" fab color="#4758B8"  >
       {{this.quadrant.word.toUpperCase()}}
     </v-btn>
   </div>
@@ -314,21 +314,24 @@ export default {
   grid-row-start: 2;
 }
 h1{
-  font-size: 4.5rem;
+  font-size: 4rem;
   color:greenyellow;
 }
 .incorrect{
   color:darkred;
 }
 input {
-  height: 150px;
-  width:500px;
-	font-size:6rem;
+  height: 8rem;
+  width:25rem;
+	font-size:4rem;
 	color:#aaa;
 	border:4px solid #aaa;
 	border-radius: 20px;
 	outline:none;
 	padding: 2%;
+}
+input.id{
+width: 10rem;
 }
 .inputEmpty:focus {
 	border-color:dodgerblue;
@@ -343,13 +346,15 @@ input {
 }
 
 .btn-global-8{
-  margin: 0 auto;
+  width: 20rem;
+  height: 4rem;
   font-size: 3rem;
   color: white;
-  padding: 3rem;
+  padding: 2.5rem 1rem;
   text-transform: none;
   border-radius: 12px;
 }
+
 .btn-global-8:hover {
   color:#2C3E50;
 }
@@ -371,4 +376,62 @@ input {
   box-shadow:0 0 40Px 0 springgreen;
   color:springgreen;
 }
+
+@media screen and (min-width:960px )  and (max-width: 1328px) {
+  input {
+    height: 6rem;
+    width:16rem;
+    font-size:3rem;
+  }
+  h1{
+    font-size: 4rem;
+  }
+  .btn-global-8{
+    width: 18rem;
+    height: 4rem;
+    font-size: 3rem;
+  }
+}
+@media screen and (min-width:740px )  and (max-width: 960px) {
+  input {
+    height: 5rem;
+    width:14rem;
+    font-size:2rem;
+  }
+  h1{
+    font-size: 2.5rem;
+  }
+  .btn-global-8{
+    width: 10rem;
+    height: 2.5rem;
+    font-size: 1.65rem;
+  }
+
+}
+@media screen  and (max-width: 740px) {
+  input {
+    height: 4rem;
+    width:10rem;
+    font-size:2rem;
+  }
+  h1{
+    font-size: 2rem;
+  }
+  .btn-global-8{
+    width: 8rem;
+    height: 2rem;
+    font-size: 1.35rem;
+  }
+}
+@media screen and (max-width:540px )  {
+  input {
+    height: 3rem;
+    width:8rem;
+    font-size:1.5rem;
+  }
+  h1{
+    font-size: 1.5rem;
+  }
+}
+
 </style>

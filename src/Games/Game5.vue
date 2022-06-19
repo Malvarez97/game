@@ -1,5 +1,5 @@
 <template>
-  <v-app fluid style="height: 100vh;">
+  <v-app fluid class="container">
     <!-- Explicacion del juego  -->
     <div v-show="$store.state.gameState==0" >
       <ExerciseInstruction @finishExplanation="changeValues(); saveValue(this.exerciseNumber+this.subExerciseNumber,'nose');" :introduction="explicationWord_introduction" :outcome="explicationWord_outcome" :end="explicationWord_end" :exerciseNumber="'Ejercicio '+this.exerciseNumber" :subExerciseNumber=".1"  ></ExerciseInstruction>
@@ -7,7 +7,7 @@
     <!-- 1) Jugar solo QuadrantId -->
     <div  v-show="$store.state.gameState==1">
       <Game @finishCheck="nextLocalState();" :id="this.id" ></Game>
-      <v-btn  outline @click="changeValues(); saveValue(this.exerciseNumber+this.subExerciseNumber,'Time finish see Words');" rounded class="btn-finish" color="#E74C3C" >
+      <v-btn  outline @click="changeValues(); saveValue(this.exerciseNumber+this.subExerciseNumber,'Time finish see Words');" class="btn-global nextposition" color="#E74C3C" >
         Siguiente
       </v-btn>
     </div>
@@ -236,15 +236,6 @@ export default {
 
 <style scoped>
 
-.btn-finish{
-  font-size: 3rem;
-  color: white;
-  padding: 2rem;
-  text-transform: none;
-  position:absolute;
-  left: 70%;
-  top:3%;
-  width:25%;
-  height:8%;
-}
+
+
 </style>
