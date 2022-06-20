@@ -188,6 +188,9 @@ export default {
       }
     },
     idEmpty: function(){
+      if(this.input.length==1){
+        this.saveLetter((this.exerciseNumber+"."+1),' start writing',"0");
+      }
       if(this.input.length>=1) {
         // eslint-disable-next-line no-unreachable
         this.shortIsEmpty=false;
@@ -215,6 +218,9 @@ export default {
     wordIncorrect(){this.$emit('wordIncorrect');},
     //No se bien que hace, no deja gris el campo donde escribe el usuario
     wordEmpty: function(){
+      if(this.inputCenter.length==1){
+        this.saveLetter((this.exerciseNumber),'start writing');
+      }
       if(this.inputCenter.length>=1) {
         // eslint-disable-next-line no-unreachable
         this.longIsEmpty=false;
@@ -352,6 +358,10 @@ export default {
       console.log("on drop "+this.quadrant.Id);
       this.$store.commit('setFinalQuadrant',this);
     }
+    // salvar diferentes tipos de datos
+    saveLetter: function (exercisenumberT, actionT ,intentT ) {
+      this.$store.commit('writeTimes', {exercisenumber:exercisenumberT, action:actionT,intent:intentT});
+    },
   },
   watch:{
      input() {
@@ -479,6 +489,10 @@ width: 10rem;
     width:14rem;
     font-size:2rem;
   }
+  input.id{
+    width: 6rem;
+    heigth:5rem;
+  }
   h1{
     font-size: 2.5rem;
   }
@@ -502,6 +516,10 @@ width: 10rem;
     width: 8rem;
     height: 2rem;
     font-size: 1.35rem;
+  }
+  input.id{
+    width: 6rem;
+    heigth:5rem;
   }
 }
 @media screen and (max-width:540px )  {

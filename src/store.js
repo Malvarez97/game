@@ -2,6 +2,8 @@ import Vuex from 'vuex'
 
 export default new Vuex.Store({
     state:{
+        firstLetter:true,
+        firstLetterWord:false,
         generalState: 0,
         gameState: 0,
         quadrantState: 0,
@@ -58,8 +60,22 @@ export default new Vuex.Store({
         },
         writeTimes(state,data){
             let date = new Date();
-            this.state.times.push({exercise:data.exercisenumber,action:data.action,intent: data.intent,time:date});
-            console.log(this.state.times);
+            if (data.action===("start write")){
+                if(this.firstLetter){
+                    console.log("entro");
+                    this.firsLetter=false;
+                    this.state.times.push({exercise:this.generalstate,action:data.action,intent: data.intent,time:date});
+               }
+            }
+            else {
+                this.state.times.push({
+                    exercise: data.exercisenumber,
+                    action: data.action,
+                    intent: data.intent,
+                    time: date
+                });
+                console.log(this.state.times);
+            }
         },
         changeExerciseNumber(state,nextExerciseNumber){
             this.state.exerciseNumber = nextExerciseNumber;
