@@ -3,7 +3,7 @@
   height: 4rem;
   font-size: 3rem;
   color: white;
-  padding: 2.5rem 1rem;
+  padding: 2rem 0.5rem;
   text-transform: none;
   border-radius: 12px;
 }
@@ -12,14 +12,14 @@
 }
 .nextposition{
   position: absolute;
-  left:70%;
+  left:75%;
   top :3%;
 }
 @media screen and (min-width:960px )  and (max-width: 1328px) {
   .btn-global{
-    width: 18rem;
+    width: 16rem;
     height: 4rem;
-    font-size: 3rem;
+    font-size: 2.5rem;
   }
 }
 @media screen and (min-width:740px )  and (max-width: 960px) {
@@ -28,13 +28,21 @@
     height: 2.5rem;
     font-size: 1.65rem;
   }
+  .nextposition{
+    top :2%;
+    left:75%;
+  }
 
 }
 @media screen and (max-width: 740px) {
   .btn-global{
     width: 8rem;
-    height: 2rem;
+    height: 1.5rem;
     font-size: 1.35rem;
+  }
+  .nextposition{
+    top :1%;
+    left:80%;
   }
 }
 @media screen and (max-width:540px )  {

@@ -398,6 +398,10 @@ width: 10rem;
     width:14rem;
     font-size:2rem;
   }
+  input.id{
+    width: 6rem;
+    heigth:5rem;
+  }
   h1{
     font-size: 2.5rem;
   }
@@ -421,6 +425,10 @@ width: 10rem;
     width: 8rem;
     height: 2rem;
     font-size: 1.35rem;
+  }
+  input.id{
+    width: 6rem;
+    heigth:5rem;
   }
 }
 @media screen and (max-width:540px )  {

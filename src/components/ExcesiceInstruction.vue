@@ -10,7 +10,7 @@
   <p class="introduction"> {{this.introduction}}</p>
   <p class="outcome">{{this.outcome }}</p>
   <p class="end">{{this.end }}</p>
-    <v-btn  outline @click="finishExersiceInstruccion" rounded class="btn-global" color="#E74C3C" >
+    <v-btn  outline @click="finishExersiceInstruccion" rounded class="btn-global nextposition" color="#E74C3C" >
     Entendido
   </v-btn>
   </div>
@@ -47,10 +47,9 @@ export default {
 
 </script>
 
-<style lang="scss"  scoped>
+<style lang="scss" scoped>
 h1 {
-  margin-left: 1rem;
-  width:60%;
+  margin-left: 15rem;
   font-family: "Roboto", sans-serif;
   font-size: 6REM ;
   color: #e74c3c;
@@ -64,16 +63,7 @@ p {
   align-items: center;
   justify-content: center;
 }
-.v-btn{
-  margin-top:1rem;
-  color:white;
-  grid-column-start:7 ;
-  grid-row-start: 5;
-  margin-left: -2rem;
-}
-.v-btn:hover{
-  color:#2C3E50;
-}
+
 .background {
   background: url("../assets/copia2.png") no-repeat
   center center;
@@ -125,16 +115,6 @@ p.end {
   p {
     font-size: 2.5rem ;
   }
-  .v-btn{
-    margin: 4px auto;
-    font-size: 1rem;
-    padding: 2rem;
-    text-transform: none;
-    color:white;
-    grid-column-start:7 ;
-    grid-row-start: 5;
-    margin-left: -2rem;
-  }
 }
 @media screen and (max-width: 960px) {
   h1{
@@ -143,15 +123,7 @@ p.end {
   p {
     font-size: 2rem ;
   }
-  .v-btn{
-    margin: 4px auto;
-    font-size: 0.75rem;
-    padding: 2rem;
-    text-transform: none;
-    grid-column-start:7 ;
-    grid-row-start: 5;
-    margin-left: -2rem;
-  }
+
 }
 
 
