@@ -108,11 +108,18 @@
       <h1 class="positionCenter">{{ this.quadrant.word.toUpperCase() }} ☑</h1>
     </div>
   </div>
+  <!-- Quadrant draggable -->
+  <div v-show="$store.state.quadrantState==13" class="game-container" >
+    <draggable @move="onMove" @drop="onDrop" @start="onStart" @add="onAdd" @remove="onRemove" @update="onUpdate" @end="onEnd" @choose="onChoose" @unchoose="onUnchoose" @sort="onSort" @clone="onClone">
+      <h1 class="positionCenter">{{ this.quadrant.Id.toUpperCase() }} </h1>
+    </draggable>
+  </div>
   </div>
 </template>
 
 <script>
 import '../assets/common.scss'
+import { VueDraggableNext } from 'vue-draggable-next'
 var wagnerFischer = require('wagner-fischer');
 
 export default {
@@ -123,12 +130,37 @@ export default {
     },
     idMyGame:String,
     idQuadrant:String,
+    value: {
+      Type: Array,
+      Required: false,
+      Default: null,
+    },
+    /*move: {
+      Type: Function,
+      Required: false,
+      Default: null,
+    }*/
+  },
+  components:{
+    draggable: VueDraggableNext,
   },
   created(){
     this.$store.commit('setQuadrant',this);
     this.$emit('quadrantCreated');
     this.$emit('setWordsAndIds');
     //this.clicked=true;
+  },
+  computed: {
+    myList: {
+      get() {
+        console.log("Estoy llamando al get");
+        return this.$store.state.quadrants[this.idQuadrant];
+      },
+      set(value) {
+        console.log("Estoy llamando al set");
+        this.$store.dispatch('updateQuadrants', value)
+      }
+    }
   },
   data(){
     return{
@@ -237,6 +269,17 @@ export default {
           }
         }
       },
+    checkDrag : function(){
+      console.log("Checkeo el drag");
+    if (this.quadrant.Id == this.$store.state.quadrantsArrangement[0][this.idQuadrant].Id)
+      {
+        console.log("El cuadrante con el id "+this.idQuadrant+" esta bien");
+        this.$emit('checkDrag',true);
+      }
+    else{
+      this.$emit('checkDrag',false);
+    }
+    },
     restoreQuadrant : function() {
       console.log("Pregunto por " + this.input.toString());
       console.log("Pregunto por " + this.inputCenter.toString());
@@ -272,6 +315,43 @@ export default {
         this.$emit('incorrectClick');
       }
     },
+    onMove : function(){
+      console.log("on move "+this.quadrant.Id);
+    },
+    onStart : function(){
+      console.log("on start "+this.quadrant.Id);
+    },
+    onAdd : function(){
+      console.log("on add "+this.quadrant.Id);
+    },
+    onRemove : function(){
+      console.log("on remove "+this.quadrant.Id);
+    },
+    onUpdate : function(){
+      console.log("on update "+this.quadrant.Id);
+    },
+    onEnd : function(){
+      console.log("on end "+this.quadrant.Id);
+      this.$store.commit('updateQuadrants');
+      this.$store.commit('checkExercise');
+    },
+    onChoose : function(){
+      console.log("on choose "+this.quadrant.Id);
+      this.$store.commit('setInitialQuadrant',this);
+    },
+    onUnchoose : function(){
+      console.log("onunchoose "+this.quadrant.Id);
+    },
+    onSort : function(){
+      console.log("on sort "+this.quadrant.Id);
+    },
+    onClone : function (){
+      console.log("on clone "+this.quadrant.Id);
+    },
+    onDrop : function(){
+      console.log("on drop "+this.quadrant.Id);
+      this.$store.commit('setFinalQuadrant',this);
+    }
   },
   watch:{
      input() {
@@ -309,6 +389,7 @@ export default {
   grid-column-end: -1;
   grid-row-start: 1;
 }
+
 .positionCenter {
   grid-column-start: 2;
   grid-row-start: 2;

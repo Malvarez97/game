@@ -1,7 +1,7 @@
 <template>
 	<v-app fluid class="container">
     <div v-show="$store.state.generalState == 0">
-      <Beginner @finishBegin="$store.dispatch('changeGeneralState',3)"  ></Beginner>
+      <Beginner @finishBegin="$store.dispatch('changeGeneralState',5)"  ></Beginner>
     </div>
     <div v-show="$store.state.generalState == 1">
       <Game1 @finishExcersize="finalize" @saveValue="writeState" :id="0" :category="this.$store.state.firstCategory" :exercise-number="this.$store.state.generalState"> </Game1>
@@ -16,7 +16,7 @@
       <Game2 @finishExcersize="finalize" @saveValue="writeState" :id="3" :category="this.$store.state.secondCategory" :exercise-number="this.$store.state.generalState"></Game2>
     </div>
     <div v-show="$store.state.generalState==5" >
-      <Game2 @finishExcersize="finalize" @saveValue="writeState" :id="4" :category="this.$store.state.category" :exercise-number="this.$store.state.generalState"></Game2>
+      <Game3 @finishExcersize="finalize" @saveValue="writeState" :id="4" :category="this.$store.state.category" :exercise-number="this.$store.state.generalState"></Game3>
     </div>
     <div v-show="$store.state.generalState==6" >
       <Game4 @finishExcersize="finalize" @saveValue="writeState" :id="5" :category="this.$store.state.firstCategory+' y '+this.$store.state.secondCategory" :exercise-number="this.$store.state.generalState"></Game4>
@@ -51,7 +51,7 @@
 
 import Game1 from "@/Games/Game1";
 import Game2 from "@/Games/Game2";
-//import Game3 from "@/Games/Game3";
+import Game3 from "@/Games/Game3";
 import Game4 from "@/Games/Game4";
 import Game5 from "@/Games/Game5";
 import Game6 from "@/Games/Game6";
@@ -66,7 +66,7 @@ export default {
     Beginner,
     Game1,
     Game2,
-    //Game3,
+    Game3,
     Game4,
     Game5,
     Game6,
@@ -129,6 +129,24 @@ export default {
     //this.idsOrder = this.generateQuadrantsPosition(4);
     //this.generateRandomIds(this.quadrantIds,4);
     this.generateQuadrants();
+   /* addEventListener("mousedown", () => {
+      if (this.$store.state.generalState == 5){
+        let mousex = event.clientX; // Gets Mouse X
+        let mousey = event.clientY; // Gets Mouse Y
+        this.$store.commit('setMouseInitialPosition', {x:mousex,y:mousey});
+        console.log("Initial position = "+[mousex, mousey]); // Prints data
+      }
+    });
+    addEventListener("mousemove", () => {
+      if (this.$store.state.generalState == 5){
+        if (this.$store.state.initialDragObject != null){
+          let mousex = event.clientX; // Gets Mouse X
+          let mousey = event.clientY; // Gets Mouse Y
+          this.$store.commit('moveQuadrant', {x:mousex,y:mousey});
+          console.log("Final position = "+[mousex, mousey]); // Prints data
+        }
+      }
+    });*/
   },
 
   methods: {

@@ -24,6 +24,11 @@ export default new Vuex.Store({
         responseExercise11: [],
         responseExercise12: [],
         responseExercise13: [],
+        initialDragObject: null,
+        finalDragObject: null,
+        mouseInitialPosition : {x:0,y:0},
+        mouseFinalPosition : {x:0,y:0},
+        dragging : false,
     },
     mutations:{
         setIntroduction(state,introduction){
@@ -118,6 +123,15 @@ export default new Vuex.Store({
                         this.state.quadrant3.checkCategory();
                         this.state.quadrant4.checkCategory();
                     }
+                    else{
+                        if (this.state.typeOfExercise == "drag"){
+                            console.log("Hago el check de drag");
+                            this.state.quadrant1.checkDrag();
+                            this.state.quadrant2.checkDrag();
+                            this.state.quadrant3.checkDrag();
+                            this.state.quadrant4.checkDrag();
+                        }
+                    }
                 }
             }
         },
@@ -173,6 +187,43 @@ export default new Vuex.Store({
             console.log("Reponse exercise 13 = "+response);
             this.state.responseExercise13 = response;
         },
+        setInitialQuadrant(state,initialQuadrant){
+            this.state.initialDragObject = initialQuadrant;
+        },
+        setFinalQuadrant(state,finalQuadrant){
+            this.state.finalDragObject = finalQuadrant;
+        },
+        updateQuadrants(){
+            if (this.state.finalDragObject != null){
+                let initialQuadrant = this.state.initialDragObject.quadrant.Id;
+                this.state.initialDragObject.quadrant.Id = this.state.finalDragObject.quadrant.Id;
+                this.state.finalDragObject.quadrant.Id = initialQuadrant;
+                this.state.initialDragObject = null;
+                this.state.finalDragObject = null;
+            }
+            else{
+                this.state.initialDragObject = null;
+            }
+        },
+        setMouseInitialPosition(state,positions){
+          this.state.mouseInitialPosition.x = positions.x;
+          this.state.mouseInitialPosition.y = positions.y;
+        },
+        setMouseFinalPosition(state,positions){
+            this.state.mouseFinalPosition.x = positions.x;
+            this.state.mouseFinalPosition.y = positions.y;
+        },
+        changeDragging(){
+            this.state.dragging = !this.state.dragging;
+        },
+        moveQuadrant(){
+            //console.log("initial drag object = "+this.state.initialDragObject.idQuadrant);
+            //this.state.initialDragObject.style.left = positions.x - this.state.initialDragObject.offsetWidth / 2 + 'px';
+            //this.state.initialDragObject.style.top = positions.y - this.state.initialDragObject.offsetHeight / 2 + 'px';
+            //console.log(this.state.initialDragObject.input);
+            //console.log("Deberia mover a "+ positions.x - this.state.initialDragObject.offsetWidth / 2 + 'px');
+           // console.log("Deberia mover a "+ positions.y //- this.state.initialDragObject.offsetHeight / 2 + 'px');
+        },
     },
     actions:{
         waitingStateToNextState(context,data){
@@ -196,6 +247,9 @@ export default new Vuex.Store({
         restore(context, words){
             console.log("Estoy en el dispatch restore");
             context.commit('restore',words);
+        },
+        updateQuadrants(context,value){
+          console.log("VEngo a hacer el update de quadrants"+context+" "+value);
         },
     }
 })

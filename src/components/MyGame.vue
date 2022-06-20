@@ -14,7 +14,8 @@
                          @setWordsAndIds="setCorrectWordsAndIds"
                          @quadrantCreated="addQuadrantCreated"
                          @correctClick="addCorrectClick"
-                         @incorrectClick="addIncorrectClick"/>
+                         @incorrectClick="addIncorrectClick"
+                         @checkDrag="addDragCheck"/>
         </v-col>
       </v-row>
     </v-app>
@@ -41,6 +42,8 @@ export default {
       idsChecked:0,
       quadrantsCreated:0,
       correctClick:0,
+      correctDrag:0,
+      dragsChecked:0,
     }
   },
   methods: {
@@ -118,6 +121,20 @@ export default {
         this.wordsChecked +=1;
       }
     },
+    addDragCheck : function(correctDrag){
+      this.dragsChecked += 1;
+      if (correctDrag){
+        this.correctDrag += 1;
+      }
+      if (this.dragsChecked == 4){
+        if (this.correctDrag == 4){
+          this.finishCheck(true);
+        }
+        else{
+          this.finishCheck(false);
+        }
+      }
+    },
     finishCheck : function(response) {
       this.$store.commit('changeCorrectResponse',response);
       this.restoreVariables();
@@ -133,6 +150,8 @@ export default {
       this.wordsChecked = 0;
       this.idsChecked = 0;
       this.correctClick = 0;
+      this.correctDrag = 0;
+      this.dragsChecked = 0;
     },
   },
 
