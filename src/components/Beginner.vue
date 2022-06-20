@@ -47,14 +47,14 @@ export default {
   background-size: cover;
 }
 .game-container {
-  height: 90vh;
+  height: 100vh;
   position: relative;
   margin: 0px auto;
   display: grid;
   grid-template-columns : repeat(3,1fr);
   grid-template-rows: repeat(5,1fr);
 }
-.game-title {
+h1.game-title {
   display: flex;
   justify-content: center;
   text-align: center;
@@ -75,16 +75,17 @@ export default {
   position: fixed;
   bottom: 0;
   width: 100%;
-  height: 15%;
+  height: 13%;
 }
 .btn-global {
-  width: 20rem;
-  height: 4rem;
-  font-size: 3rem;
+  width: 30rem;
+  height: 12rem;
+  font-size: 5rem;
   color: white;
   padding: 2.5rem 1rem;
   text-transform: none;
   border-radius: 12px;
+  margin-left: 4.5%;
 }
 .btn-global:hover{
   color: #2C3E50;
@@ -96,38 +97,33 @@ export default {
 }
 @media screen and (min-width:960px )  and (max-width: 1328px) {
   .btn-global{
-    width: 18rem;
-    height: 4rem;
+    width: 25rem;
+    height: 10rem;
     font-size: 3rem;
   }
 }
 @media screen and (min-width:740px )  and (max-width: 960px) {
   .btn-global{
-    width: 10rem;
-    height: 2.5rem;
-    font-size: 1.65rem;
+    width: 20rem;
+    height: 8rem;
+    font-size: 2rem;
+  }
+  h1.game-title {
+    font-size: 5rem;
   }
 
 }
 @media screen and (max-width: 740px) {
   .btn-global{
-    width: 8rem;
-    height: 2rem;
-    font-size: 1.35rem;
+    width: 16rem;
+    height: 6rem;
+    font-size: 2rem;
+  }
+  h1.game-title {
+    font-size: 4rem;
   }
 }
-  .game-title {
-  display: flex;
-  justify-content: center;
-  text-align: center;
-  align-items: center;
-  font-size: 3rem;
-  color: #e74c3c;
-  padding-top: 2rem;
-  margin-bottom: 6rem;
-  grid-column-start: 1;
-  grid-column-end: -1 ;
-  }
+
 
 
 </style>
