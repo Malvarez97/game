@@ -108,7 +108,15 @@ p.end {
   height: 8rem;
   margin-right: -15rem;
 }
-@media screen and (min-width:960px )and (max-width: 1363px) {
+@media screen and (max-height: 910px){
+  h1{
+    font-size: 4rem;
+  }
+  p {
+    font-size: 2.5rem ;
+  }
+}
+@media screen and (min-width:960px ) and (max-width: 1363px){
   h1{
     font-size: 4rem;
   }
@@ -124,6 +132,28 @@ p.end {
     font-size: 2rem ;
   }
 
+}
+.btn-custom {
+  margin: 0;
+  padding: 0;
+  border-width: 0;
+  border-color: transparent;
+  background: transparent;
+  font-weight: 400;
+  cursor: pointer;
+  position: relative;
+  font-size: 20px;
+  font-family: inherit;
+  padding: 5px 12px;
+  z-index: 0;
+  border: none;
+  border-radius: 0;
+  background: transparent;
+  color: #1d89ff;
+  -webkit-transition: color 0.3s cubic-bezier(0.02, 0.01, 0.47, 1), -webkit-transform 0.3s cubic-bezier(0.02, 0.01, 0.47, 1);
+  transition: color 0.3s cubic-bezier(0.02, 0.01, 0.47, 1), -webkit-transform 0.3s cubic-bezier(0.02, 0.01, 0.47, 1);
+  transition: color 0.3s cubic-bezier(0.02, 0.01, 0.47, 1), transform 0.3s cubic-bezier(0.02, 0.01, 0.47, 1);
+  transition: color 0.3s cubic-bezier(0.02, 0.01, 0.47, 1), transform 0.3s cubic-bezier(0.02, 0.01, 0.47, 1), -webkit-transform 0.3s cubic-bezier(0.02, 0.01, 0.47, 1);
 }
 
 

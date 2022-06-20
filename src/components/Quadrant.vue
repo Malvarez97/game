@@ -156,6 +156,9 @@ export default {
       }
     },
     idEmpty: function(){
+      if(this.input.length==1){
+        this.saveLetter((this.exerciseNumber+"."+1),' start writing',"0");
+      }
       if(this.input.length>=1) {
         // eslint-disable-next-line no-unreachable
         this.shortIsEmpty=false;
@@ -183,6 +186,9 @@ export default {
     wordIncorrect(){this.$emit('wordIncorrect');},
     //No se bien que hace, no deja gris el campo donde escribe el usuario
     wordEmpty: function(){
+      if(this.inputCenter.length==1){
+        this.saveLetter((this.exerciseNumber),'start writing');
+      }
       if(this.inputCenter.length>=1) {
         // eslint-disable-next-line no-unreachable
         this.longIsEmpty=false;
@@ -271,6 +277,10 @@ export default {
         this.correctClick = false;
         this.$emit('incorrectClick');
       }
+    },
+    // salvar diferentes tipos de datos
+    saveLetter: function (exercisenumberT, actionT ,intentT ) {
+      this.$store.commit('writeTimes', {exercisenumber:exercisenumberT, action:actionT,intent:intentT});
     },
   },
   watch:{
