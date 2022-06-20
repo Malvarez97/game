@@ -10,7 +10,7 @@
     </div>
     <!-- 1) Mostrar cuadrantes iniciales 2)Completar palabra 4)Jugar solo QuadrantId 5)Ayuda Palabra -->
     <div  v-show="$store.state.gameState==1 || $store.state.gameState==2 || $store.state.gameState==4 || $store.state.gameState==6">
-      <Game @finishCheck="nextLocalState();" :id="this.id" ></Game>
+      <Game @finishCheck="nextLocalState();" @firstLetter="addFirstLetterTime" :id="this.id" ></Game>
       <v-btn  outline @click="changeValues();"  class="btn-global nextposition" color="#E74C3C" >
         Siguiente
       </v-btn>
@@ -272,6 +272,15 @@ export default {
     },
     setTypeExercise: function(typeOfExercise){
       this.$store.commit('setTypeOfExercise',typeOfExercise);
+    },
+    addFirstLetterTime : function(){
+      if (this.$store.state.typeOfExercise === "words"){
+        this.$store.commit('writeTimes',{exercise:this.exerciseNumber+.1,action:"start writing",intent:this.intentWord+1});
+      }
+      else{
+        this.$store.commit('writeTimes',{exercise:this.exerciseNumber+.2,action:"start writing",intent:this.intentWord+1});
+      }
+
     },
   },
 

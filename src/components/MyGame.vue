@@ -8,7 +8,7 @@
                          @wordCorrect="addCorrectWord"
                          @idCorrect="addIdCorrect"
                          @idIncorrect="addIdIncorrect"
-                         @writeWord="addLetter"
+                         @writeLetter="addLetter"
                          @wordIncorrect="addIncorrectWord"
                          @defaultWord="addDefaultWord"
                          @setWordsAndIds="setCorrectWordsAndIds"
@@ -81,8 +81,10 @@ export default {
     //Añado el tiempo de escritura de la primer letra de una palabra
     addLetter: function () {
       this.writeLetters = this.writeLetters + 1;
+      console.log("Se emite write letters");
       // console.log(this.writeLetters);
       if (this.writeLetters == 1) {
+        console.log("Es la primera letra");
         this.$emit('firstLetter');
       }
     },
@@ -131,7 +133,7 @@ export default {
           this.finishCheck(true);
         }
         else{
-          this.finishCheck(false);
+          this.restoreVariables();
         }
       }
     },
@@ -152,6 +154,7 @@ export default {
       this.correctClick = 0;
       this.correctDrag = 0;
       this.dragsChecked = 0;
+      this.writeLetters = 0;
     },
   },
 

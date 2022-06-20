@@ -109,9 +109,9 @@
     </div>
   </div>
   <!-- Quadrant draggable -->
-  <div v-show="$store.state.quadrantState==13" class="game-container" >
-    <draggable @move="onMove" @drop="onDrop" @start="onStart" @add="onAdd" @remove="onRemove" @update="onUpdate" @end="onEnd" @choose="onChoose" @unchoose="onUnchoose" @sort="onSort" @clone="onClone">
-      <h1 class="positionCenter">{{ this.quadrant.Id.toUpperCase() }} </h1>
+  <div v-show="$store.state.quadrantState==13" >
+    <draggable class="game-container" @move="onMove" @drop="onDrop" @start="onStart" @add="onAdd" @remove="onRemove" @update="onUpdate" @end="onEnd" @choose="onChoose" @unchoose="onUnchoose" @sort="onSort" @clone="onClone">
+      <h1 class="draggable">{{ this.quadrant.Id.toUpperCase() }} </h1>
     </draggable>
   </div>
   </div>
@@ -178,7 +178,7 @@ export default {
   },
   methods: {
     idCorrect: function(){
-      this.$emit('writeId');
+      this.$emit('writeLetter');
       console.log("id que tengo = "+this.input.toUpperCase()+" \n id real = "+this.quadrant.Id.toUpperCase()+" \n id showeable? "+this.quadrant.showId);
       if(this.quadrant.Id.toUpperCase()===this.input.toUpperCase() && this.quadrant.showId) {
         // eslint-disable-next-line no-unreachable
@@ -188,9 +188,6 @@ export default {
       }
     },
     idEmpty: function(){
-      if(this.input.length==1){
-        this.saveLetter((this.exerciseNumber+"."+1),' start writing',"0");
-      }
       if(this.input.length>=1) {
         // eslint-disable-next-line no-unreachable
         this.shortIsEmpty=false;
@@ -198,7 +195,7 @@ export default {
     },
     //Chequeo que la palabra escrita por el usuario sea igual a la que pide el ejercicio
     wordCorrect: function(){
-      this.$emit('writeWord');
+      this.$emit('writeLetter');
       if(this.$store.state.typeOfExercise=="words"&&this.quadrant.word.toUpperCase()===this.inputCenter.toUpperCase()&&this.quadrant.showWord) {
         // eslint-disable-next-line no-unreachable
         console.log("La palabra es correcta");
@@ -218,9 +215,6 @@ export default {
     wordIncorrect(){this.$emit('wordIncorrect');},
     //No se bien que hace, no deja gris el campo donde escribe el usuario
     wordEmpty: function(){
-      if(this.inputCenter.length==1){
-        this.saveLetter((this.exerciseNumber),'start writing');
-      }
       if(this.inputCenter.length>=1) {
         // eslint-disable-next-line no-unreachable
         this.longIsEmpty=false;
@@ -357,7 +351,7 @@ export default {
     onDrop : function(){
       console.log("on drop "+this.quadrant.Id);
       this.$store.commit('setFinalQuadrant',this);
-    }
+    },
     // salvar diferentes tipos de datos
     saveLetter: function (exercisenumberT, actionT ,intentT ) {
       this.$store.commit('writeTimes', {exercisenumber:exercisenumberT, action:actionT,intent:intentT});
@@ -388,11 +382,13 @@ export default {
 
 <style lang="scss" scoped>
 .game-container {
-  height: 100vh;
+  height: 48vh;
+  width: 58vh;
   position: absolute;
   display: grid;
   grid-template-columns : repeat(5,1fr);
   grid-template-rows: repeat(5,1fr);
+  margin:0;
 }
 .positionUp{
   grid-column-start: 1;
@@ -401,8 +397,13 @@ export default {
 }
 
 .positionCenter {
-  grid-column-start: 2;
-  grid-row-start: 2;
+  grid-column-start: 3;
+  grid-row-start: 3;
+}
+h1.draggable{
+  grid-column-start: 3;
+  grid-row-start: 3;
+  font-size: 8rem;
 }
 h1{
   font-size: 4rem;

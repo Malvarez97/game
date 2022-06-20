@@ -7,7 +7,7 @@
     <!-- 1) Jugar solo QuadrantId -->
     <div  v-show="$store.state.gameState==1">
       <Game @finishCheck="nextLocalState();" :id="this.id" ></Game>
-      <v-btn  outline @click="changeValues(); saveValue(this.exerciseNumber+this.subExerciseNumber,'Time finish see Words');" rounded class="btn-finish" color="#E74C3C" >
+      <v-btn outline @click="changeValues(); saveValue(this.exerciseNumber+this.subExerciseNumber,'Time finish see Words');" rounded class="btn-global nextposition" color="#E74C3C" >
         Siguiente
       </v-btn>
     </div>
@@ -30,6 +30,7 @@
 import Game from "@/components/MyGame";
 import ExerciseInstruction from "@/components/ExcesiceInstruction";
 import MyResponse from "@/components/Response";
+import '../assets/common.scss'
 const Swal = require('sweetalert2');
 
 export default {
@@ -212,7 +213,7 @@ export default {
 }
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 
 .btn-finish{
   font-size: 3rem;
