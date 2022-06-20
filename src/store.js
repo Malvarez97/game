@@ -7,7 +7,7 @@ export default new Vuex.Store({
         quadrantState: 0,
         lastGameState: 0,
         exerciseExplanation: 0,
-        times : [],
+        times: [],
         correctResponse: false,
         quadrantsArrangement: [],
         quadrants: [],
@@ -51,9 +51,9 @@ export default new Vuex.Store({
         changeExerciseExplanation(state,nextExerciseExplanation){
             this.state.exerciseExplanation = nextExerciseExplanation;
         },
-        writeTimes(state,exerciseNumber,value){
+        writeTimes(state,data){
             let date = new Date();
-            this.state.times.push(date+","+value+","+exerciseNumber);
+            this.state.times.push({exercise:data.exercisenumber,action:data.action,intent: data.intent,time:date});
             console.log(this.state.times);
         },
         changeExerciseNumber(state,nextExerciseNumber){

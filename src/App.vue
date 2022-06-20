@@ -1,7 +1,7 @@
 <template>
 	<v-app fluid class="container">
     <div v-show="$store.state.generalState == 0">
-      <Beginner @finishBegin="$store.dispatch('changeGeneralState',1)"  ></Beginner>
+      <Beginner @finishBegin="$store.dispatch('changeGeneralState',3)"  ></Beginner>
     </div>
     <div v-show="$store.state.generalState == 1">
       <Game1 @finishExcersize="finalize" @saveValue="writeState" :id="0" :category="this.$store.state.firstCategory" :exercise-number="this.$store.state.generalState"> </Game1>
@@ -126,7 +126,6 @@ export default {
     }
   },
     created(){
-    console.log("Teto");
     //this.idsOrder = this.generateQuadrantsPosition(4);
     //this.generateRandomIds(this.quadrantIds,4);
     this.generateQuadrants();

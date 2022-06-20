@@ -1,7 +1,7 @@
 <template>
     <div class="background game-container">
       <h1 class="game-title">Rehabilitación Cognitiva</h1>
-      <v-btn @click="finishBegin()" rounded class="btn-global global-btn" color="#E74C3C" >
+      <v-btn @click="finishBegin()" rounded class="btn-global btn-global-position" color="#E74C3C" >
         Comenzar
       </v-btn>
       <div>
@@ -32,6 +32,7 @@ export default {
   name: "MyStart",
   methods: {
     finishBegin: function(){
+      this.$store.commit('writeTimes', {exercisenumber:1, action:"start reading",intent:1});
       this.$emit('finishBegin')
       }
     },
@@ -65,9 +66,9 @@ export default {
   grid-column-start: 1;
   grid-column-end: 4 ;
 }
-.global-btn {
-  grid-row: 2/3;
-  grid-column: 2/3;
+.btn-global-position {
+  grid-row: 3/4;
+  grid-column: 2;
 }
 .game-footer {
   background-color: #e74c3c;
@@ -77,33 +78,44 @@ export default {
   height: 15%;
 }
 .btn-global {
-  margin: 0 auto;
+  width: 20rem;
+  height: 4rem;
   font-size: 3rem;
   color: white;
-  padding: 3rem;
+  padding: 2.5rem 1rem;
   text-transform: none;
   border-radius: 12px;
 }
 .btn-global:hover{
-  color:#2C3E50;
+  color: #2C3E50;
 }
-@media screen and (max-width: 960px) and (min-width:480px ) {
-  .btn-global {
-    margin: 4px auto;
-    font-size: 2rem;
-    padding: 2rem;
-    text-transform: none;
-    border-radius: 12px;
+.nextposition{
+  position: absolute;
+  left:70%;
+  top :3%;
+}
+@media screen and (min-width:960px )  and (max-width: 1328px) {
+  .btn-global{
+    width: 18rem;
+    height: 4rem;
+    font-size: 3rem;
   }
 }
-@media screen and (max-width: 480px) {
-  .btn-global {
-    margin: 4px auto;
-    font-size: 1.5rem;
-    padding: 1.5rem;
-    text-transform: none;
-    border-radius: 12px;
+@media screen and (min-width:740px )  and (max-width: 960px) {
+  .btn-global{
+    width: 10rem;
+    height: 2.5rem;
+    font-size: 1.65rem;
   }
+
+}
+@media screen and (max-width: 740px) {
+  .btn-global{
+    width: 8rem;
+    height: 2rem;
+    font-size: 1.35rem;
+  }
+}
   .game-title {
   display: flex;
   justify-content: center;
@@ -116,6 +128,6 @@ export default {
   grid-column-start: 1;
   grid-column-end: -1 ;
   }
-}
+
 
 </style>
