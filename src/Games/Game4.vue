@@ -2,15 +2,15 @@
   <v-app fluid style="height: 100vh;">
     <!-- Explicacion del juego  -->
     <div v-show="$store.state.gameState==0" >
-      <ExerciseInstruction @finishExplanation="changeValues(); saveValue(this.exerciseNumber+this.subExerciseNumber,'nose');" :introduction="explicationWord_introduction" :outcome="explicationWord_outcome" :end="explicationWord_end" :exerciseNumber="'Ejercicio '+this.exerciseNumber" :subExerciseNumber=".1"  ></ExerciseInstruction>
+      <ExerciseInstruction @finishExplanation="changeValues(); saveValue((this.exerciseNumber),'show',intentWord+1);" :introduction="explicationWord_introduction" :outcome="explicationWord_outcome" :end="explicationWord_end" :exerciseNumber="'Ejercicio '+this.exerciseNumber" :subExerciseNumber=".1"  ></ExerciseInstruction>
     </div>
     <div v-show="$store.state.gameState==3" >
-      <ExerciseInstruction @finishExplanation="changeValues(); saveValue(this.exerciseNumber+this.subExerciseNumber,'nose');" :introduction="explicationSecondGame" :outcome="explicationWord_outcome" :end="explicationWord_end" :exerciseNumber="'Ejercicio '+this.exerciseNumber" :subExerciseNumber=".1"  ></ExerciseInstruction>
+      <ExerciseInstruction @finishExplanation="changeValues(); saveValue((this.exerciseNumber),'show',intentWord+1);" :introduction="explicationSecondGame" :outcome="explicationWord_outcome" :end="explicationWord_end" :exerciseNumber="'Ejercicio '+this.exerciseNumber" :subExerciseNumber=".1"  ></ExerciseInstruction>
     </div>
     <!-- 1) Jugar solo QuadrantId -->
     <div  v-show="$store.state.gameState==1 || $store.state.gameState==6">
       <Game @finishCheck="nextLocalState();" :id="this.id" ></Game>
-      <v-btn  outline @click="changeValues(); saveValue(this.exerciseNumber+this.subExerciseNumber,'Time finish see Words');" rounded class="btn-global nextposition" color="#E74C3C" >
+      <v-btn  outline @click="changeValues();" rounded class="btn-global nextposition" color="#E74C3C" >
         Siguiente
       </v-btn>
     </div>
@@ -104,6 +104,7 @@ export default {
         this.intentWord = 0;
         //Si el usuario contesta correctamente se pasa al ejercicio siguiente
         console.log("Pasamos al ejercicio siguiente");
+        this.saveValue((this.exerciseNumber),'finish',this.intentWord+1);
         if (parseInt(this.$store.state.gameState,10) == 0){
           this.transition(8,3);
         }
@@ -117,6 +118,7 @@ export default {
       {
         console.log("Respuesta incorrecta");
         this.intentWord = this.intentWord + 1;
+        this.saveValue((this.exerciseNumber),'finish-failure',this.intentWord+1);
         //Si no fue el ultimo intento
         if (this.intentWord == 1)
         {
@@ -165,8 +167,8 @@ export default {
       this.$store.state.end = "Debe poner las palabras de acuerdo a las letras identificatorias, sin importar la posición de las mismas";
     },
     // salvar diferentes tipos de datos
-    saveValue: function (exercisenumber, value) {
-      this.$store.commit('writeTimes', exercisenumber, value);
+    saveValue: function (exercisenumberT, actionT ,intentT ) {
+      this.$store.commit('writeTimes', {exercisenumber:exercisenumberT, action:actionT,intent:intentT});
     },
     changeQuadrantState: function (nextQuadrantState) {
       this.$store.commit('changeQuadrantState', nextQuadrantState);
