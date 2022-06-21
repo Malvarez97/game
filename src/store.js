@@ -32,6 +32,7 @@ export default new Vuex.Store({
         mouseFinalPosition : {x:0,y:0},
         dragging : false,
         dragEnd: false,
+        buttonEnd: false,
     },
     mutations:{
         setIntroduction(state,introduction){
@@ -45,6 +46,9 @@ export default new Vuex.Store({
         },
         changeDragEnd(state,dragEndValue){
             this.state.dragEnd = dragEndValue;
+        },
+        changeButtonEnd(state,buttonEndValue){
+            this.state.buttonEnd = buttonEndValue;
         },
         changeGeneralState(state,nextGeneralState){
             console.log("cambio al general state = "+nextGeneralState);

@@ -62,28 +62,28 @@
   <!-- Ingresar Palabras mostrando ids  -->
   <div v-show="$store.state.quadrantState==9" class="game-container" >
     <h1 v-if="this.quadrant.showId" class="positionUp">{{ this.quadrant.Id.toUpperCase() }} </h1>
-    <div v-show=!validateLong&&longIsEmpty>
+    <div class="game-container" v-show=!validateLong&&longIsEmpty>
       <input class="positionCenter inputEmpty" v-model="inputCenter">
     </div>
-    <div v-show=!validateLong&&!longIsEmpty>
+    <div class="game-container" v-show=!validateLong&&!longIsEmpty>
       <input class="positionCenter inputFail" v-model="inputCenter">
     </div>
-    <div v-show=validateLong>
+    <div class="game-container" v-show=validateLong>
       <h1 class="positionCenter">{{ this.quadrant.word.toUpperCase() }} ☑</h1>
     </div>
   </div>
   <!-- Ingresar palabras y chequear por categorias -->
   <div v-show="$store.state.quadrantState==10" class="game-container" >
-    <div v-show=!this.quadrant.showWord >
+    <div class="game-container" v-show=!this.quadrant.showWord >
       <h1 class="positionCenter" > {{this.quadrant.word.toUpperCase() }} </h1>
     </div>
-    <div v-show=this.quadrant.showWord&&!validateLong&&longIsEmpty>
+    <div class="game-container" v-show=this.quadrant.showWord&&!validateLong&&longIsEmpty>
       <input class="positionCenter inputEmpty" v-model="inputCenter">
     </div>
-    <div v-show=this.quadrant.showWord&&!validateLong&&!longIsEmpty>
+    <div class="game-container" v-show=this.quadrant.showWord&&!validateLong&&!longIsEmpty>
       <input class="positionCenter inputFail" v-model="inputCenter">
     </div>
-    <div v-show=this.quadrant.showWord&&validateLong>
+    <div class="game-container" v-show=this.quadrant.showWord&&validateLong>
       <h1 class="positionCenter">{{ this.quadrant.category.toUpperCase() }} ☑</h1>
     </div>
   </div>
@@ -95,16 +95,16 @@
   <!-- Ingresar palabras y chequear por palabra -->
   <div v-show="$store.state.quadrantState==12" class="game-container" >
     <h1 class="positionUp">{{ this.quadrant.Id.toUpperCase() }} </h1>
-    <div v-show=!this.quadrant.showWord >
+    <div class="game-container" v-show=!this.quadrant.showWord >
       <h1 class="positionCenter" > {{this.quadrant.word.toUpperCase() }} </h1>
     </div>
-    <div v-show=this.quadrant.showWord&&!validateLong&&longIsEmpty>
+    <div class="game-container" v-show=this.quadrant.showWord&&!validateLong&&longIsEmpty>
       <input class="positionCenter inputEmpty" v-model="inputCenter">
     </div>
-    <div v-show=this.quadrant.showWord&&!validateLong&&!longIsEmpty>
+    <div class="game-container" v-show=this.quadrant.showWord&&!validateLong&&!longIsEmpty>
       <input class="positionCenter inputFail" v-model="inputCenter">
     </div>
-    <div v-show=this.quadrant.showWord&&validateLong>
+    <div class="game-container" v-show=this.quadrant.showWord&&validateLong>
       <h1 class="positionCenter">{{ this.quadrant.word.toUpperCase() }} ☑</h1>
     </div>
   </div>
@@ -309,6 +309,7 @@ export default {
       this.idCompleted = false;
       this.correctClick = false;
       this.firstChoose = false;
+      this.clicked = false;
     },
     //Observo la variable help que cuando sea verdadera dará una ayuda al usuario para el siguiente intento del ejercicio
     helpQuadrant() {
@@ -319,16 +320,23 @@ export default {
     },
     clickedWord(){
       //this.clicked = true;
-      console.log("entro al click bien");
-      if (this.quadrant.category != this.$store.state.firstCategory && this.quadrant.category != this.$store.state.secondCategory){
-        console.log("Correcto");
-        this.$emit('correctClick');
-        this.correctClick = true;
-      }
-      else{
-        console.log("Incorrecto");
-        this.$emit('incorrectClick');
-        this.correctClick = false;
+      if (this.clicked){
+        console.log("entro al click bien");
+        if (!this.$store.state.buttonEnd){
+          this.$store.commit('changeButtonEnd',true);
+          this.$emit('writeLetter');
+        }
+
+        if (this.quadrant.category != this.$store.state.firstCategory && this.quadrant.category != this.$store.state.secondCategory){
+          console.log("Correcto");
+          this.$emit('correctClick');
+          this.correctClick = true;
+        }
+        else{
+          console.log("Incorrecto");
+          this.$emit('incorrectClick');
+          this.correctClick = false;
+        }
       }
     },
     onMove : function(){

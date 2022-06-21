@@ -2,12 +2,12 @@
   <v-app fluid style="height: 100vh;">
     <!-- Explicacion del juego  -->
     <div v-show="$store.state.gameState==0 " >
-      <ExerciseInstruction @finishExplanation="changeValues(); saveValue(this.exerciseNumber,'show',this.intentWord+1);" :introduction="explicationWord_introduction" :outcome="explicationWord_outcome" :end="explicationWord_end" :exerciseNumber="'Ejercicio '+this.exerciseNumber" :subExerciseNumber=".1"  ></ExerciseInstruction>
+      <ExerciseInstruction @finishExplanation="changeValues();" :introduction="explicationWord_introduction" :outcome="explicationWord_outcome" :end="explicationWord_end" :exerciseNumber="'Ejercicio '+this.exerciseNumber" :subExerciseNumber=".1"  ></ExerciseInstruction>
     </div>
     <!-- 1) Jugar solo QuadrantId -->
     <div  v-show="$store.state.gameState==1">
       <Game @finishCheck="nextLocalState();" @firstLetter="addFirstLetterTime" :id="this.id" ></Game>
-      <v-btn outline @click="changeDragEnd(true); changeValues(); saveValue(this.exerciseNumber+this.subExerciseNumber,'Time finish see Words');" rounded class="btn-global nextposition" color="#E74C3C" >
+      <v-btn outline @click="changeDragEnd(true); changeValues();" rounded class="btn-global nextposition" color="#E74C3C" >
         Siguiente
       </v-btn>
     </div>
@@ -56,7 +56,7 @@ export default {
       correctId: false,
       correctResponse: false,
       intentWord: 0,
-      explicationWord_introduction: "Explicacion del draggable",
+      explicationWord_introduction: "Modifique las letras en los cuadrantes acomodándolas como eran en los ejercicios anteriores",
       explicationWord_outcome: "",
       explicationWord_end: "",
       nextGeneralState: 1,
@@ -161,6 +161,7 @@ export default {
           //Estado de arrastrar ids
         case 13:
           console.log("transiciono del 13 al "+waitingState+" al "+nextQuadrantState);
+          this.$store.commit('writeTimes',{exercisenumber:(parseInt(this.exerciseNumber,10)),action:"show",intent:this.intentWord+1});
           this.restore();
           this.waitAndNextQuadrantState(waitingState,nextQuadrantState);
           break;
@@ -174,6 +175,7 @@ export default {
           console.log("Estoy cambiando desde el estado 0");
           this.changeGameState(1);
           this.changeQuadrantState(13);
+          this.$store.commit('writeTimes',{exercisenumber:(parseInt(this.exerciseNumber,10)),action:"show",intent:this.intentWord+1});
           this.setTypeExercise("drag");
           break;
         default:
