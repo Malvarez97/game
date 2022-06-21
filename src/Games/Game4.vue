@@ -2,14 +2,14 @@
   <v-app fluid style="height: 100vh;">
     <!-- Explicacion del juego  -->
     <div v-show="$store.state.gameState==0" >
-      <ExerciseInstruction @finishExplanation="changeValues(); saveValue((this.exerciseNumber),'show',intentWord+1);" :introduction="explicationWord_introduction" :outcome="explicationWord_outcome" :end="explicationWord_end" :exerciseNumber="'Ejercicio '+this.exerciseNumber" :subExerciseNumber=".1"  ></ExerciseInstruction>
+      <ExerciseInstruction @finishExplanation="changeValues();" :introduction="explicationWord_introduction" :outcome="explicationWord_outcome" :end="explicationWord_end" :exerciseNumber="'Ejercicio '+this.exerciseNumber" :subExerciseNumber=".1"  ></ExerciseInstruction>
     </div>
     <div v-show="$store.state.gameState==3" >
-      <ExerciseInstruction @finishExplanation="changeValues(); saveValue((this.exerciseNumber),'show',intentWord+1);" :introduction="explicationSecondGame" :outcome="explicationWord_outcome" :end="explicationWord_end" :exerciseNumber="'Ejercicio '+this.exerciseNumber" :subExerciseNumber=".1"  ></ExerciseInstruction>
+      <ExerciseInstruction @finishExplanation="changeValues();" :introduction="explicationSecondGame" :outcome="explicationWord_outcome" :end="explicationWord_end" :exerciseNumber="'Ejercicio '+this.exerciseNumber" :subExerciseNumber=".1"  ></ExerciseInstruction>
     </div>
     <!-- 1) Jugar solo QuadrantId -->
     <div  v-show="$store.state.gameState==1 || $store.state.gameState==6">
-      <Game @finishCheck="nextLocalState();" :id="this.id" ></Game>
+      <Game @finishCheck="nextLocalState();" @firstLetter="addFirstLetterTime" :id="this.id" ></Game>
       <v-btn  outline @click="changeValues();" rounded class="btn-global nextposition" color="#E74C3C" >
         Siguiente
       </v-btn>
@@ -97,14 +97,15 @@ export default {
     //avanzar a siguiente estado, se usa para estados correctos
     nextLocalState() {
       console.log("Estoy en nextlocalstate");
+      this.intentWord = this.intentWord + 1;
       //Si la respuesta es correcta
       if (this.$store.state.correctResponse){
         console.log("Respuesta correcta");
         this.showCorrect();
-        this.intentWord = 0;
         //Si el usuario contesta correctamente se pasa al ejercicio siguiente
         console.log("Pasamos al ejercicio siguiente");
-        this.saveValue((this.exerciseNumber),'finish',this.intentWord+1);
+        this.$store.commit('writeTimes',{exercisenumber:(parseInt(this.exerciseNumber,10)),action:"finish correct",intent:this.intentWord});
+        this.intentWord = 0;
         if (parseInt(this.$store.state.gameState,10) == 0){
           this.transition(8,3);
         }
@@ -117,8 +118,7 @@ export default {
       else
       {
         console.log("Respuesta incorrecta");
-        this.intentWord = this.intentWord + 1;
-        this.saveValue((this.exerciseNumber),'finish-failure',this.intentWord+1);
+        this.$store.commit('writeTimes',{exercisenumber:(parseInt(this.exerciseNumber,10)),action:"finish failure",intent:this.intentWord});
         //Si no fue el ultimo intento
         if (this.intentWord == 1)
         {
@@ -183,6 +183,10 @@ export default {
           //Si voy al estado de ayuda
           if(nextGameState==6){
             this.changeHelp();
+            this.$store.commit('writeTimes',{exercisenumber:(parseInt(this.exerciseNumber,10)),action:"show",intent:this.intentWord+1});
+          }
+          if(nextGameState==1){
+            this.$store.commit('writeTimes',{exercisenumber:(parseInt(this.exerciseNumber,10)),action:"show",intent:this.intentWord+1});
           }
           break;
         //Estado de la ayuda
@@ -201,12 +205,14 @@ export default {
           console.log("Estoy cambiando desde el estado 0");
           this.changeGameState(1);
           this.changeQuadrantState(9);
+          this.$store.commit('writeTimes',{exercisenumber:(parseInt(this.exerciseNumber,10)),action:"show",intent:this.intentWord+1});
           this.setTypeExercise("words");
           break;
         case 3:
           console.log("Estoy cambiando desde el estado 3");
           this.changeGameState(1);
           this.changeQuadrantState(9);
+          this.$store.commit('writeTimes',{exercisenumber:(parseInt(this.exerciseNumber,10)),action:"show",intent:this.intentWord+1});
           this.setTypeExercise("words");
           break;
         default:
@@ -233,6 +239,9 @@ export default {
     },
     setTypeExercise: function(typeOfExercise){
       this.$store.commit('setTypeOfExercise',typeOfExercise);
+    },
+    addFirstLetterTime : function(){
+      this.$store.commit('writeTimes',{exercisenumber:(parseFloat(this.exerciseNumber,10)),action:"start interacting",intent:this.intentWord+1});
     },
   },
 

@@ -91,10 +91,11 @@ export default {
     nextLocalState() {
       console.log("Estoy en nextlocalstate");
       //Si la respuesta es correcta
+      this.intentWord = this.intentWord + 1;
       if (this.$store.state.correctResponse){
         console.log("Respuesta correcta");
         this.showCorrect();
-        this.$store.commit('writeTimes',{exercisenumber:(parseInt(this.exerciseNumber,10)),action:"finish correct",intent:this.intentWord+1});
+        this.$store.commit('writeTimes',{exercisenumber:(parseInt(this.exerciseNumber,10)),action:"finish correct",intent:this.intentWord});
         this.intentWord = 0;
         //Si el usuario contesta correctamente se pasa al ejercicio siguiente
         console.log("Pasamos al ejercicio siguiente");
@@ -105,7 +106,6 @@ export default {
       else
       {
         console.log("Respuesta incorrecta");
-        this.intentWord = this.intentWord + 1;
         this.$store.commit('writeTimes',{exercisenumber:(parseInt(this.exerciseNumber,10)),action:"finish failure",intent:this.intentWord});
         //Si no fue el ultimo intento
         if (this.intentWord < 3)

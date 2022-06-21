@@ -2,12 +2,12 @@
   <v-app fluid style="height: 100vh;">
     <!-- Explicacion del juego  -->
     <div v-show="$store.state.gameState==0 " >
-      <ExerciseInstruction @finishExplanation="changeValues(); saveValue(this.exerciseNumber+this.subExerciseNumber,'nose');" :introduction="explicationWord_introduction" :outcome="explicationWord_outcome" :end="explicationWord_end" :exerciseNumber="'Ejercicio '+this.exerciseNumber" :subExerciseNumber=".1"  ></ExerciseInstruction>
+      <ExerciseInstruction @finishExplanation="changeValues(); saveValue(this.exerciseNumber,'show',this.intentWord+1);" :introduction="explicationWord_introduction" :outcome="explicationWord_outcome" :end="explicationWord_end" :exerciseNumber="'Ejercicio '+this.exerciseNumber" :subExerciseNumber=".1"  ></ExerciseInstruction>
     </div>
     <!-- 1) Jugar solo QuadrantId -->
     <div  v-show="$store.state.gameState==1">
-      <Game @finishCheck="nextLocalState();" :id="this.id" ></Game>
-      <v-btn outline @click="changeValues(); saveValue(this.exerciseNumber+this.subExerciseNumber,'Time finish see Words');" rounded class="btn-global nextposition" color="#E74C3C" >
+      <Game @finishCheck="nextLocalState();" @firstLetter="addFirstLetterTime" :id="this.id" ></Game>
+      <v-btn outline @click="changeDragEnd(true); changeValues(); saveValue(this.exerciseNumber+this.subExerciseNumber,'Time finish see Words');" rounded class="btn-global nextposition" color="#E74C3C" >
         Siguiente
       </v-btn>
     </div>
@@ -91,35 +91,38 @@ export default {
     //avanzar a siguiente estado, se usa para estados correctos
     nextLocalState() {
       console.log("Estoy en nextlocalstate");
+      this.intentWord+=1;
+      this.$store.commit('changeDragEnd',false);
       //Si la respuesta es correcta
       if (this.$store.state.correctResponse){
         console.log("Respuesta correcta");
         this.showCorrect();
+        this.$store.commit('writeTimes',{exercisenumber:(parseInt(this.exerciseNumber,10)),action:"finish correct",intent:this.intentWord});
         this.intentWord = 0;
         //Si el usuario contesta correctamente se pasa al ejercicio siguiente
         console.log("Pasamos al ejercicio siguiente");
-        this.transition(8,0);
+        this.transitionGame(8,0);
         this.changeGeneralState(parseInt(this.$store.state.generalState,10)+1);
       }
       //Si fue incorrecta
       else
       {
         console.log("Respuesta incorrecta");
-        this.intentWord = this.intentWord + 1;
+        this.$store.commit('writeTimes',{exercisenumber:(parseInt(this.exerciseNumber,10)),action:"finish failure",intent:this.intentWord});
         //Si no fue el ultimo intento
-        if (this.intentWord < 3)
+        if (this.intentWord < 5)
         {
           console.log("primera o segunda incorrecta");
-          this.transition(9,1);
+          this.transitionQuadrant(14,13);
           // guardo el valor del tiempo del error  del primer fallo de Id
           //this.saveValue('Incorrect Word Intent ' + (parseInt(this.intentWord, 10) + 1), this.exerciseNumber + 'a');
         }
         //Si es el ultimo intento
         else
         {
-          console.log("Tercera incorrecta")
+          console.log("Quinta incorrecta")
           this.intentWord = 0;
-          this.transition(9,0);
+          this.transitionGame(9,0);
           this.showError(1);
           this.changeGeneralState(1);
         }
@@ -134,19 +137,32 @@ export default {
       this.$emit('finishExcersize', this.exerciseNumber, true, this.nextGeneralState);
     },*/
     // salvar diferentes tipos de datos
-    saveValue: function (exercisenumber, value) {
-      this.$store.commit('writeTimes', exercisenumber, value);
+    saveValue: function (exercisenumberT, actionT ,intentT ) {
+      this.$store.commit('writeTimes', {exercisenumber:exercisenumberT, action:actionT,intent:intentT});
+    },
+    changeDragEnd : function (dragEndValue){
+      this.$store.commit('changeDragEnd',dragEndValue);
     },
     changeQuadrantState: function (nextQuadrantState) {
       this.$store.commit('changeQuadrantState', nextQuadrantState);
     },
-    transition : function(waitingState,nextGameState){
+    transitionGame : function(waitingState,nextGameState){
       switch(parseInt(this.$store.state.gameState,10)){
           //Estado de arrastrar ids
         case 1:
           console.log("transiciono del 1 al "+waitingState+" al "+nextGameState);
           this.restore();
-          this.waitAndNextState(waitingState,nextGameState);
+          this.waitAndNextGameState(waitingState,nextGameState);
+          break;
+      }
+    },
+    transitionQuadrant : function(waitingState,nextQuadrantState){
+      switch(parseInt(this.$store.state.quadrantState,10)){
+          //Estado de arrastrar ids
+        case 13:
+          console.log("transiciono del 13 al "+waitingState+" al "+nextQuadrantState);
+          this.restore();
+          this.waitAndNextQuadrantState(waitingState,nextQuadrantState);
           break;
       }
     },
@@ -165,8 +181,11 @@ export default {
           this.$store.commit('checkExercise');
       }
     },
-    waitAndNextState: function (waitingState, nextGameState) {
+    waitAndNextGameState: function (waitingState, nextGameState) {
       this.$store.dispatch('waitingStateToNextState',{miliseconds: 2000,waitingState: waitingState, nextGameState: nextGameState});
+    },
+    waitAndNextQuadrantState: function (waitingState, nextQuadrantState) {
+      this.$store.dispatch('waitingStateToNextQuadrantState',{miliseconds: 2000,waitingState: waitingState, nextQuadrantState: nextQuadrantState});
     },
     changeGameState: function(nextGameState){
       this.$store.commit('changeGameState',nextGameState);
@@ -180,6 +199,9 @@ export default {
     },
     setTypeExercise: function(typeOfExercise){
       this.$store.commit('setTypeOfExercise',typeOfExercise);
+    },
+    addFirstLetterTime : function(){
+      this.$store.commit('writeTimes',{exercisenumber:(parseFloat(this.exerciseNumber,10)),action:"start interacting",intent:this.intentWord+1});
     },
   },
 

@@ -97,13 +97,14 @@ export default {
     //avanzar a siguiente estado, se usa para estados correctos
     nextLocalState() {
       console.log("Estoy en nextlocalstate");
+      this.intentWord = this.intentWord + 1;
       //Si la respuesta es correcta
       if (this.$store.state.correctResponse){
         console.log("Respuesta correcta");
         this.showCorrect();
         //Si estamos en el de la palabra cambiamos al del id
         if (this.idsExercise == false) {
-          this.$store.commit('writeTimes', {exercisenumber:(parseFloat(this.exerciseNumber+"."+this.subExerciseNumber,10)), action:"finish correct",intent:(this.intentWord+1)});
+          this.$store.commit('writeTimes', {exercisenumber:(parseFloat(this.exerciseNumber+"."+this.subExerciseNumber,10)), action:"finish correct",intent:(this.intentWord)});
           console.log("En el ejercicio de words");
           this.idsExercise = true;
           this.subExerciseNumber = 2;
@@ -113,7 +114,7 @@ export default {
         //Si estamos en el del id pasamos al ejercicio siguiente
         else{
           console.log("En el ejercicio de ids");
-          this.$store.commit('writeTimes', {exercisenumber:(parseFloat(this.exerciseNumber+"."+this.subExerciseNumber,10)), action:"finish correct",intent:(this.intentWord+1)});
+          this.$store.commit('writeTimes', {exercisenumber:(parseFloat(this.exerciseNumber+"."+this.subExerciseNumber,10)), action:"finish correct",intent:(this.intentWord)});
           this.idsExercise = false;
           this.subExerciseNumber = 1;
           this.intentWord = 0;
@@ -125,7 +126,6 @@ export default {
       else
       {
           console.log("Respuesta incorrecta");
-          this.intentWord = this.intentWord + 1;
           //Si fue el primer intento
           if (this.intentWord < 2)
           {

@@ -52,10 +52,10 @@
     <v-btn v-show=!clicked @click="this.clicked=true" outline rounded class=" positionCenter btn-global-8" fab color="#4758B8"  >
       {{this.quadrant.word.toUpperCase()}}
     </v-btn>
-    <v-btn v-show=clicked&&correctClick outline rounded class=" positionCenter btn-correct btn-global-8" fab color="#4758B8"  >
+    <v-btn v-show="clicked&&correctClick" outline rounded class=" positionCenter btn-correct btn-global-8" fab color="#4758B8"  >
       {{this.quadrant.word.toUpperCase()}}
     </v-btn>
-    <v-btn v-show=clicked&&!correctClick outline rounded class=" positionCenter btn-incorrect btn-global-8" fab color="#4758B8"  >
+    <v-btn v-show="clicked&&!correctClick" outline rounded class=" positionCenter btn-incorrect btn-global-8" fab color="#4758B8"  >
       {{this.quadrant.word.toUpperCase()}}
     </v-btn>
   </div>
@@ -113,6 +113,15 @@
     <draggable class="game-container" @move="onMove" @drop="onDrop" @start="onStart" @add="onAdd" @remove="onRemove" @update="onUpdate" @end="onEnd" @choose="onChoose" @unchoose="onUnchoose" @sort="onSort" @clone="onClone">
       <h1 class="draggable">{{ this.quadrant.Id.toUpperCase() }} </h1>
     </draggable>
+  </div>
+  <!-- Estado de transicion incorrecto game 3 (ejercicio 5)  -->
+  <div v-show="$store.state.quadrantState==14">
+    <div v-show="this.quadrant.Id == this.$store.state.quadrantsArrangement[0][this.idQuadrant].Id" class="game-container">
+      <h1 class="draggable" > {{this.quadrant.Id.toUpperCase() }} </h1>
+    </div>
+    <div v-show="this.quadrant.Id != this.$store.state.quadrantsArrangement[0][this.idQuadrant].Id" class="game-container">
+      <h1 class="draggable incorrect" > {{this.quadrant.Id.toUpperCase() }} </h1>
+  </div>
   </div>
   </div>
 </template>
@@ -174,6 +183,7 @@ export default {
       idCompleted:false,
       clicked:false,
       correctClick:false,
+      firstChoose:false,
     }
   },
   methods: {
@@ -298,6 +308,7 @@ export default {
       this.correct = false;
       this.idCompleted = false;
       this.correctClick = false;
+      this.firstChoose = false;
     },
     //Observo la variable help que cuando sea verdadera dará una ayuda al usuario para el siguiente intento del ejercicio
     helpQuadrant() {
@@ -311,13 +322,13 @@ export default {
       console.log("entro al click bien");
       if (this.quadrant.category != this.$store.state.firstCategory && this.quadrant.category != this.$store.state.secondCategory){
         console.log("Correcto");
-        this.correctClick = true;
         this.$emit('correctClick');
+        this.correctClick = true;
       }
       else{
         console.log("Incorrecto");
-        this.correctClick = false;
         this.$emit('incorrectClick');
+        this.correctClick = false;
       }
     },
     onMove : function(){
@@ -343,6 +354,12 @@ export default {
     onChoose : function(){
       console.log("on choose "+this.quadrant.Id);
       this.$store.commit('setInitialQuadrant',this);
+      if (!this.firstChoose){
+        console.log("not first choose");
+        this.firstChoose = true;
+        this.$emit('writeLetter');
+      }
+
     },
     onUnchoose : function(){
       console.log("onunchoose "+this.quadrant.Id);

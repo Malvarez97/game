@@ -134,7 +134,12 @@ export default {
           this.finishCheck(true);
         }
         else{
-          this.restoreVariables();
+          if (this.$store.state.dragEnd){
+            this.finishCheck(false);
+          }
+          else{
+            this.restoreVariables();
+          }
         }
       }
     },

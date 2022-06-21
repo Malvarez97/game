@@ -31,6 +31,7 @@ export default new Vuex.Store({
         mouseInitialPosition : {x:0,y:0},
         mouseFinalPosition : {x:0,y:0},
         dragging : false,
+        dragEnd: false,
     },
     mutations:{
         setIntroduction(state,introduction){
@@ -41,6 +42,9 @@ export default new Vuex.Store({
         },
         setEnd(state,end){
             this.state.end = end;
+        },
+        changeDragEnd(state,dragEndValue){
+            this.state.dragEnd = dragEndValue;
         },
         changeGeneralState(state,nextGeneralState){
             console.log("cambio al general state = "+nextGeneralState);
@@ -247,6 +251,14 @@ export default new Vuex.Store({
             setTimeout ( ()=> {
                     context.commit('changeGameState',data.nextGameState);
                     console.log("El game state es "+this.state.gameState);
+                },data.miliseconds
+                ,)
+        },
+        waitingStateToNextQuadrantState(context,data){
+            context.commit('changeQuadrantState',data.waitingState);
+            setTimeout ( ()=> {
+                    context.commit('changeQuadrantState',data.nextQuadrantState);
+                    console.log("El quadrant state es "+this.state.quadrantState);
                 },data.miliseconds
                 ,)
         },
