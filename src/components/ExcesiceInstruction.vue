@@ -49,7 +49,7 @@ export default {
 
 <style lang="scss" scoped>
 h1 {
-  margin-left: 15rem;
+  padding-left: 0rem;
   font-family: "Roboto", sans-serif;
   font-size: 6REM ;
   color: #e74c3c;
@@ -106,7 +106,6 @@ p.end {
 
 .image{
   height: 8rem;
-  margin-right: -15rem;
 }
 @media screen and (max-height: 910px){
   h1{
