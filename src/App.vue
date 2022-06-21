@@ -1,49 +1,49 @@
 <template>
 	<v-app fluid class="container">
     <div v-show="$store.state.generalState == 0">
-      <Beginner @finishBegin="$store.dispatch('changeGeneralState',14)"></Beginner>
+      <Beginner @finishBegin="$store.dispatch('changeGeneralState',3)"></Beginner>
     </div>
     <div v-show="$store.state.generalState == 1">
-      <Game1 @finishExcersize="finalize" @saveValue="writeState" :id="0" :category="this.$store.state.firstCategory" :exercise-number="this.$store.state.generalState"> </Game1>
+      <Game1 @finishExcersize="finalize" @saveValue="writeState" :id="0" :category="this.$store.state.firstCategory" :exerciseNumber="this.$store.state.generalState" > </Game1>
     </div>
     <div v-show="$store.state.generalState == 2">
-      <Game1 @finishExcersize="finalize" @saveValue="writeState" :id="1" :category="this.$store.state.secondCategory" :exercise-number="this.$store.state.generalState"> </Game1>
+      <Game1 @finishExcersize="finalize" @saveValue="writeState" :id="1" :category="this.$store.state.secondCategory" :exerciseNumber="this.$store.state.generalState"> </Game1>
     </div>
     <div v-show="$store.state.generalState==3">
-      <Game2 @finishExcersize="finalize" @saveValue="writeState" :id="2" :category="this.$store.state.firstCategory" :exercise-number="this.$store.state.generalState"></Game2>
+      <Game2 @finishExcersize="finalize" @saveValue="writeState" :id="2" :category="this.$store.state.firstCategory" :exerciseNumber="this.$store.state.generalState"></Game2>
     </div>
     <div v-show="$store.state.generalState==4">
-      <Game2 @finishExcersize="finalize" @saveValue="writeState" :id="3" :category="this.$store.state.secondCategory" :exercise-number="this.$store.state.generalState"></Game2>
+      <Game2 @finishExcersize="finalize" @saveValue="writeState" :id="3" :category="this.$store.state.secondCategory" :exerciseNumber="this.$store.state.generalState"></Game2>
     </div>
     <div v-show="$store.state.generalState==5" >
-      <Game3 @finishExcersize="finalize" @saveValue="writeState" :id="4" :category="this.$store.state.category" :exercise-number="this.$store.state.generalState"></Game3>
+      <Game3 @finishExcersize="finalize" @saveValue="writeState" :id="4" :category="this.$store.state.category" :exerciseNumber="this.$store.state.generalState"></Game3>
     </div>
     <div v-show="$store.state.generalState==6" >
-      <Game4 @finishExcersize="finalize" @saveValue="writeState" :id="5" :category="this.$store.state.firstCategory+' y '+this.$store.state.secondCategory" :exercise-number="this.$store.state.generalState"></Game4>
+      <Game4 @finishExcersize="finalize" @saveValue="writeState" :id="5" :category="this.$store.state.firstCategory+' y '+this.$store.state.secondCategory" :exerciseNumber="this.$store.state.generalState"></Game4>
     </div>
     <div v-show="$store.state.generalState==7" >
-      <Game4 @finishExcersize="finalize" @saveValue="writeState" :id="6" :category="this.$store.state.firstCategory+' y '+this.$store.state.secondCategory" :exercise-number="this.$store.state.generalState"></Game4>
+      <Game4 @finishExcersize="finalize" @saveValue="writeState" :id="6" :category="this.$store.state.firstCategory+' y '+this.$store.state.secondCategory" :exerciseNumber="this.$store.state.generalState"></Game4>
     </div>
     <div v-show="$store.state.generalState==8" >
-      <Game5 @finishExcersize="finalize" @saveValue="writeState" :id="7" :category="this.$store.state.firstCategory+' y '+this.$store.state.secondCategory" :exercise-number="this.$store.state.generalState"></Game5>
+      <Game5 @finishExcersize="finalize" @saveValue="writeState" :id="7" :category="this.$store.state.firstCategory+' y '+this.$store.state.secondCategory" :exerciseNumber="this.$store.state.generalState"></Game5>
     </div>
     <div v-show="$store.state.generalState==9" >
-      <Game6 @finishExcersize="finalize" @saveValue="writeState" :id="8" :category="this.$store.state.firstCategory+' y '+this.$store.state.secondCategory" :exercise-number="this.$store.state.generalState"></Game6>
+      <Game6 @finishExcersize="finalize" @saveValue="writeState" :id="8" :category="this.$store.state.firstCategory+' y '+this.$store.state.secondCategory" :exerciseNumber="this.$store.state.generalState"></Game6>
     </div>
     <div v-show="$store.state.generalState==10" >
-      <Game7 @finishExcersize="finalize" @saveValue="writeState" :id="9" :category="this.$store.state.firstCategory+' y '+this.$store.state.secondCategory" :exercise-number="this.$store.state.generalState"></Game7>
+      <Game7 @finishExcersize="finalize" @saveValue="writeState" :id="9" :category="this.$store.state.firstCategory+' y '+this.$store.state.secondCategory" :exerciseNumber="this.$store.state.generalState"></Game7>
     </div>
     <div v-show="$store.state.generalState==11" >
-      <Game7 @finishExcersize="finalize" @saveValue="writeState" :id="10" :category="this.$store.state.firstCategory+' y '+this.$store.state.secondCategory" :exercise-number="this.$store.state.generalState"></Game7>
+      <Game7 @finishExcersize="finalize" @saveValue="writeState" :id="10" :category="this.$store.state.firstCategory+' y '+this.$store.state.secondCategory" :exerciseNumber="this.$store.state.generalState"></Game7>
     </div>
     <div v-show="$store.state.generalState==12" >
-      <Game7 @finishExcersize="finalize" @saveValue="writeState" :id="11" :category="this.$store.state.firstCategory+' y '+this.$store.state.secondCategory" :exercise-number="this.$store.state.generalState"></Game7>
+      <Game7 @finishExcersize="finalize" @saveValue="writeState" :id="11" :category="this.$store.state.firstCategory+' y '+this.$store.state.secondCategory" :exerciseNumber="this.$store.state.generalState"></Game7>
     </div>
     <div v-show="$store.state.generalState==13" >
-      <Game8 @finishExcersize="finalize" @saveValue="writeState" :id="12" :category="this.$store.state.firstCategory+' y '+this.$store.state.secondCategory" :exercise-number="this.$store.state.generalState"></Game8>
+      <Game8 @finishExcersize="finalize" @saveValue="writeState" :id="12" :category="this.$store.state.firstCategory+' y '+this.$store.state.secondCategory" :exerciseNumber="this.$store.state.generalState"></Game8>
     </div>
     <div v-show="$store.state.generalState==14" >
-      <Game9 @finishExcersize="finalize" @saveValue="writeState" :id="13" :category="this.$store.state.firstCategory+' y '+this.$store.state.secondCategory" :exercise-number="this.$store.state.generalState"></Game9>
+      <Game9 @finishExcersize="finalize" @saveValue="writeState" :id="13" :category="this.$store.state.firstCategory+' y '+this.$store.state.secondCategory" :exerciseNumber="this.$store.state.generalState"></Game9>
     </div>
 	</v-app>
 </template>

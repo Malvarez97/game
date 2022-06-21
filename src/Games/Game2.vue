@@ -2,12 +2,12 @@
   <v-app fluid style="height: 100vh;">
     <!-- Explicacion del juego  -->
     <div v-show="$store.state.gameState==0 " >
-      <ExerciseInstruction @finishExplanation="changeValues(); saveValue((this.exerciseNumber),'show',intentWord+1)" :introduction="explicationWord_introduction" :outcome="explicationWord_outcome" :end="explicationWord_end" :exerciseNumber="'Ejercicio '+this.exerciseNumber" :subExerciseNumber=".1"  ></ExerciseInstruction>
+      <ExerciseInstruction @finishExplanation="changeValues();" :introduction="explicationWord_introduction" :outcome="explicationWord_outcome" :end="explicationWord_end" :exerciseNumber="'Ejercicio '+this.exerciseNumber" :subExerciseNumber=".1"  ></ExerciseInstruction>
     </div>
     <!-- 1) Jugar solo QuadrantId -->
     <div  v-show="$store.state.gameState==1">
-      <Game @finishCheck="nextLocalState();" :id="this.id" ></Game>
-      <v-btn  outline @click="changeValues(); saveValue((this.exerciseNumber),'show',intentWord+1)"  rounded class="btn-global nextposition" color="#E74C3C" >
+      <Game @finishCheck="nextLocalState();" @firstLetter="addFirstLetterTime" :id="this.id" ></Game>
+      <v-btn  outline @click="changeValues();"  rounded class="btn-global nextposition" color="#E74C3C" >
         Siguiente
       </v-btn>
     </div>
@@ -94,8 +94,8 @@ export default {
       if (this.$store.state.correctResponse){
         console.log("Respuesta correcta");
         this.showCorrect();
+        this.$store.commit('writeTimes',{exercisenumber:(parseInt(this.exerciseNumber,10)),action:"finish correct",intent:this.intentWord+1});
         this.intentWord = 0;
-        this.saveValue((this.exerciseNumber),'finish',this.intentWord+1)
         //Si el usuario contesta correctamente se pasa al ejercicio siguiente
         console.log("Pasamos al ejercicio siguiente");
         this.transition(8,0);
@@ -106,7 +106,7 @@ export default {
       {
         console.log("Respuesta incorrecta");
         this.intentWord = this.intentWord + 1;
-        this.saveValue((this.exerciseNumber),'finish-failure',this.intentWord+1)
+        this.$store.commit('writeTimes',{exercisenumber:(parseInt(this.exerciseNumber,10)),action:"finish failure",intent:this.intentWord});
         //Si no fue el ultimo intento
         if (this.intentWord < 3)
         {
@@ -134,14 +134,6 @@ export default {
         }
       }
     },
-    // se usa para saltar estados
-    /*finalizeExercise: function () {
-      this.nextGeneralState += 1;
-      if (this.nextGeneralState != 1) {
-        this.showCorrect();
-      }
-      this.$emit('finishExcersize', this.exerciseNumber, true, this.nextGeneralState);
-    },*/
     // salvar diferentes tipos de datos
     saveValue: function (exercisenumberT, actionT ,intentT ) {
       this.$store.commit('writeTimes', {exercisenumber:exercisenumberT, action:actionT,intent:intentT});
@@ -156,6 +148,9 @@ export default {
           console.log("transiciono del 1 al "+waitingState+" al "+nextGameState);
           this.restore();
           this.waitAndNextState(waitingState,nextGameState);
+          if (nextGameState == 1){
+            this.$store.commit('writeTimes',{exercisenumber:(parseInt(this.exerciseNumber,10)),action:"show",intent:this.intentWord+1});
+          }
           break;
       }
     },
@@ -166,6 +161,8 @@ export default {
         case 0:
           console.log("Estoy cambiando desde el estado 0");
           this.changeGameState(1);
+          console.log("hago el segundo");
+          this.$store.commit('writeTimes',{exercisenumber:(parseInt(this.exerciseNumber,10)),action:"show",intent:this.intentWord+1});
           this.changeQuadrantState(2);
           this.setTypeExercise("ids");
           break;
@@ -187,11 +184,11 @@ export default {
       this.$store.commit('changeCategory',nextGeneralState);
       this.$store.dispatch('changeGeneralState',(nextGeneralState));
     },
-    changeHelp: function(){
-      this.$store.commit('changeHelp');
-    },
     setTypeExercise: function(typeOfExercise){
       this.$store.commit('setTypeOfExercise',typeOfExercise);
+    },
+    addFirstLetterTime : function(){
+      this.$store.commit('writeTimes',{exercisenumber:(parseFloat(this.exerciseNumber,10)),action:"start interacting",intent:this.intentWord+1});
     },
   },
 

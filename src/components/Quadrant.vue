@@ -178,7 +178,10 @@ export default {
   },
   methods: {
     idCorrect: function(){
-      this.$emit('writeLetter');
+      console.log("Vengo a id correct input = "+this.input);
+      if (this.input != ""){
+        this.$emit('writeLetter');
+      }
       console.log("id que tengo = "+this.input.toUpperCase()+" \n id real = "+this.quadrant.Id.toUpperCase()+" \n id showeable? "+this.quadrant.showId);
       if(this.quadrant.Id.toUpperCase()===this.input.toUpperCase() && this.quadrant.showId) {
         // eslint-disable-next-line no-unreachable
@@ -195,7 +198,9 @@ export default {
     },
     //Chequeo que la palabra escrita por el usuario sea igual a la que pide el ejercicio
     wordCorrect: function(){
-      this.$emit('writeLetter');
+      if (this.inputCenter != ""){
+        this.$emit('writeLetter');
+      }
       if(this.$store.state.typeOfExercise=="words"&&this.quadrant.word.toUpperCase()===this.inputCenter.toUpperCase()&&this.quadrant.showWord) {
         // eslint-disable-next-line no-unreachable
         console.log("La palabra es correcta");

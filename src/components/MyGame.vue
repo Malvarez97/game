@@ -82,6 +82,7 @@ export default {
     addLetter: function () {
       this.writeLetters = this.writeLetters + 1;
       console.log("Se emite write letters");
+      console.log("Valor = "+this.writeLetters);
       // console.log(this.writeLetters);
       if (this.writeLetters == 1) {
         console.log("Es la primera letra");

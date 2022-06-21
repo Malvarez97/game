@@ -32,7 +32,6 @@ export default {
   name: "MyStart",
   methods: {
     finishBegin: function(){
-      this.$store.commit('writeTimes', {exercisenumber:1, action:"start reading",intent:1});
       this.$emit('finishBegin')
       }
     },

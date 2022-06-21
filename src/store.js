@@ -253,12 +253,12 @@ export default new Vuex.Store({
         changeGeneralState(context,nextGeneralState){
             context.commit('changeGeneralState',nextGeneralState);
             context.commit('setQuadrants',nextGeneralState);
-            console.log(context.state.quadrantsMatrix);
-            console.log("mis cuadrantes actuales son: "+nextGeneralState);
-            console.log(context.state.quadrant1);
-            console.log(context.state.quadrant2);
-            console.log(context.state.quadrant3);
-            console.log(context.state.quadrant4);
+            if (nextGeneralState == 1 || nextGeneralState == 2){
+                context.commit('writeTimes', {exercisenumber:parseFloat(nextGeneralState+".1",10), action:"start reading",intent:1});
+            }
+            else{
+                context.commit('writeTimes', {exercisenumber:parseInt(nextGeneralState,10), action:"start reading",intent:1});
+            }
         },
         restore(context, words){
             console.log("Estoy en el dispatch restore");

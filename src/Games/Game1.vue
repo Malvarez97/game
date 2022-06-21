@@ -2,11 +2,11 @@
   <v-app fluid style="height: 100vh;">
     <!-- Explicacion del juego  -->
     <div v-show="$store.state.gameState==0" >
-      <ExerciseInstruction @finishExplanation="changeValues(); saveValue((this.exerciseNumber),'show',intentWord+1);" :introduction="explicationWord_introduction" :outcome="explicationWord_outcome" :end="explicationWord_end" :exerciseNumber="'Ejercicio '+this.exerciseNumber" :subExerciseNumber=".1" ></ExerciseInstruction>
+      <ExerciseInstruction @finishExplanation="changeValues(); saveValue(parseFloat(this.exerciseNumber+'.'+this.subExerciseNumber,10),'show',intentWord+1);" :introduction="explicationWord_introduction" :outcome="explicationWord_outcome" :end="explicationWord_end" :exerciseNumber="'Ejercicio '+this.exerciseNumber" :subExerciseNumber="1" ></ExerciseInstruction>
     </div>
     <!-- Explicacion del id -->
     <div v-show="$store.state.gameState==3" >
-      <ExerciseInstruction @finishExplanation="changeValues(); saveValue((this.exerciseNumber+10),'show',this.intentWord+1);" :introduction="explicationid" :exerciseNumber="'Ejercicio '+this.exerciseNumber" :subExerciseNumber=".1" ></ExerciseInstruction>
+      <ExerciseInstruction @finishExplanation="changeValues(); saveValue(parseFloat(this.exerciseNumber+'.'+this.subExerciseNumber,10),'show',this.intentWord+1);" :introduction="explicationid" :exerciseNumber="'Ejercicio '+this.exerciseNumber" :subExerciseNumber="2" ></ExerciseInstruction>
     </div>
     <!-- 1) Mostrar cuadrantes iniciales 2)Completar palabra 4)Jugar solo QuadrantId 5)Ayuda Palabra -->
     <div  v-show="$store.state.gameState==1 || $store.state.gameState==2 || $store.state.gameState==4 || $store.state.gameState==6">
@@ -66,6 +66,7 @@ export default {
       nextGeneralState: 1,
       idsExercise: false,
       nextQuadrantState: 0,
+      subExerciseNumber: 1,
     }
   },
   methods: {
@@ -100,19 +101,22 @@ export default {
       if (this.$store.state.correctResponse){
         console.log("Respuesta correcta");
         this.showCorrect();
-        this.intentWord = 0;
         //Si estamos en el de la palabra cambiamos al del id
         if (this.idsExercise == false) {
-          this.$store.commit('writeTimes', {exercisenumber:this.exerciseNumber, action:"finish",intent:this.intentWord+1});
+          this.$store.commit('writeTimes', {exercisenumber:(parseFloat(this.exerciseNumber+"."+this.subExerciseNumber,10)), action:"finish correct",intent:(this.intentWord+1)});
           console.log("En el ejercicio de words");
           this.idsExercise = true;
+          this.subExerciseNumber = 2;
+          this.intentWord = 0;
           this.transition(8,3);
         }
         //Si estamos en el del id pasamos al ejercicio siguiente
         else{
           console.log("En el ejercicio de ids");
-          this.$store.commit('writeTimes', {exercisenumber:(this.exerciseNumber+"."+1), action:"finish",intent:this.intentWord+1});
+          this.$store.commit('writeTimes', {exercisenumber:(parseFloat(this.exerciseNumber+"."+this.subExerciseNumber,10)), action:"finish correct",intent:(this.intentWord+1)});
           this.idsExercise = false;
+          this.subExerciseNumber = 1;
+          this.intentWord = 0;
           this.transition(8,0);
           this.changeGeneralState(parseInt(this.$store.state.generalState,10)+1);
         }
@@ -128,14 +132,14 @@ export default {
             console.log("primera incorrecta");
             //Si es el ejercicio de las ids
             if (this.idsExercise){
-              this.$store.commit('writeTimes', {exercisenumber:(this.exerciseNumber+"."+1), action:"finish failure",intent:this.intentWord+1});
+              this.$store.commit('writeTimes', {exercisenumber:(parseFloat(this.exerciseNumber+"."+this.subExerciseNumber,10)), action:"finish failure",intent:this.intentWord});
               console.log("en el de ids");
               this.showWarning('Si fallas se restaura el ejercicio');
               this.transition(9,4);
             }
             //Si es el ejercicio de las palabras
             else{
-              this.$store.commit('writeTimes', {exercisenumber:(this.exerciseNumber), action:"finish failure",intent:this.intentWord+1});
+              this.$store.commit('writeTimes', {exercisenumber:(parseFloat(this.exerciseNumber+"."+this.subExerciseNumber,10)), action:"finish failure",intent:this.intentWord});
               console.log("en el de las palabras");
               this.transition(9,2);
               // guardo el valor del tiempo del error  del primer fallo de Id
@@ -149,18 +153,19 @@ export default {
             if (this.intentWord == 2) {
               //Si es el juego de las ids, entonces se vuelve al ej 1
               if (this.idsExercise){
-                this.$store.commit('writeTimes', {exercisenumber:(this.exerciseNumber+"."+1), action:"finish failure",intent:this.intentWord+1});
+                this.$store.commit('writeTimes', {exercisenumber:(parseFloat(this.exerciseNumber+"."+this.subExerciseNumber,10)), action:"finish failure",intent:this.intentWord});
                 console.log("En el de los ids");
                 this.showError();
                 this.idsExercise = false;
                 this.intentWord = 0;
+                this.subExerciseNumber = 1;
                 this.transition(9,0);
                 this.changeGeneralState(1);
               }
               //Si es el juego de las palabras
               else{
                 console.log("En el de las palabras");
-                this.$store.commit('writeTimes', {exercisenumber:(this.exerciseNumber), action:"finish failure",intent:this.intentWord+1});
+                this.$store.commit('writeTimes', {exercisenumber:(parseFloat(this.exerciseNumber+"."+this.subExerciseNumber,10)), action:"finish failure",intent:this.intentWord});
                 this.showWarning('Último intento. Recibirás una ayuda');
                 this.transition(9,6);
                 //this.saveValue('Incorrect Word Intent 3 ', this.exerciseNumber + 'a');
@@ -169,7 +174,7 @@ export default {
             }
             //Si fallo 3 veces en el de las palabras
             else {
-              this.$store.commit('writeTimes', {exercisenumber:(this.exerciseNumber), action:"finish failure",intent:this.intentWord+1});
+              this.$store.commit('writeTimes', {exercisenumber:(parseFloat(this.exerciseNumber+"."+this.subExerciseNumber,10)), action:"finish failure",intent:this.intentWord});
               console.log("Tercer error");
               this.showError(1);
               this.intentWord = 0;
@@ -210,6 +215,7 @@ export default {
             this.$store.commit('setIntroduction',this.explicationid);
             this.$store.commit('setOutcome',"");
             this.$store.commit('setEnd',"");
+            this.$store.commit('writeTimes',{exercisenumber:(parseFloat(this.exerciseNumber+"."+this.subExerciseNumber,10)),action:"start reading",intent:this.intentWord+1});
           }
           break;
         //Estado de completar ids
@@ -274,13 +280,7 @@ export default {
       this.$store.commit('setTypeOfExercise',typeOfExercise);
     },
     addFirstLetterTime : function(){
-      if (this.$store.state.typeOfExercise === "words"){
-        this.$store.commit('writeTimes',{exercise:this.exerciseNumber+.1,action:"start writing",intent:this.intentWord+1});
-      }
-      else{
-        this.$store.commit('writeTimes',{exercise:this.exerciseNumber+.2,action:"start writing",intent:this.intentWord+1});
-      }
-
+        this.$store.commit('writeTimes',{exercisenumber:(parseFloat(this.exerciseNumber+"."+this.subExerciseNumber,10)),action:"start interacting",intent:this.intentWord+1});
     },
   },
 
