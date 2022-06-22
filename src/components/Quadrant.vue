@@ -8,13 +8,13 @@
   <!-- Ingresar Palabra  -->
       <div v-show="$store.state.quadrantState==1"  >
         <div v-show=!validateLong&&longIsEmpty class="game-container">
-          <input ref="wordStoppedWriting" class="positionCenter inputEmpty" v-model="inputCenter" >
+          <input ref="wordStoppedWritingQS1" class="positionCenter inputEmpty" v-model="inputCenter" >
         </div>
         <div v-show=!validateLong&&!longIsEmpty class="game-container">
-          <input ref="wordWriting" class="positionCenter inputFail" v-model="inputCenter">
+          <input ref="wordWritingQS1" class="positionCenter inputFail" v-model="inputCenter">
         </div>
         <div v-show=validateLong class="game-container">
-          <h1 class="positionCenter">{{ this.quadrant.word.toUpperCase() }} ☑</h1>
+          <h1 class="positionCenter">{{ this.quadrant.word.toUpperCase()}} ✔</h1>
         </div>
     </div>
   <!-- Insertar ID CUADRANTE   -->
@@ -236,12 +236,12 @@ export default {
         // eslint-disable-next-line no-unreachable
         this.longIsEmpty=false;
         console.log("Antes del focus ww");
-        this.$nextTick(() => this.$refs.wordWriting.focus());
+        this.$nextTick(() => this.$refs.wordWritingQS1.focus());
       }
       if (this.inputCenter.length==0){
         this.longIsEmpty = true;
         console.log("Antes del focus wsw");
-        this.$nextTick(() => this.$refs.wordStoppedWriting.focus());
+        this.$nextTick(() => this.$refs.wordStoppedWritingQS1.focus());
       }
     },
     //Chequeo que el ejercicio esté completado correctamente
@@ -454,22 +454,25 @@ h1.draggable{
 h1{
   font-size: 4rem;
   color:greenyellow;
+  width:33rem;
 }
 .incorrect{
   color:darkred;
 }
 input {
   height: 8rem;
-  width:25rem;
+  width:33rem;
 	font-size:4rem;
 	color:#aaa;
 	border:4px solid #aaa;
 	border-radius: 20px;
 	outline:none;
 	padding: 2%;
+  margin:3rem;
 }
 input.id{
-width: 10rem;
+  width: 10rem;
+  margin:0px;
 }
 .inputEmpty:focus {
 	border-color:dodgerblue;
