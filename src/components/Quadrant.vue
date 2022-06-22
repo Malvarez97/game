@@ -63,10 +63,10 @@
   <div v-show="$store.state.quadrantState==9" class="game-container" >
     <h1 v-if="this.quadrant.showId" class="positionUp">{{ this.quadrant.Id.toUpperCase() }} </h1>
     <div class="game-container" v-show=!validateLong&&longIsEmpty>
-      <input ref="wordStoppedWriting" class="positionCenter inputEmpty" v-model="inputCenter">
+      <input ref="wordStoppedWritingQS9" class="positionCenter inputEmpty" v-model="inputCenter">
     </div>
     <div class="game-container" v-show=!validateLong&&!longIsEmpty>
-      <input class="positionCenter inputFail" v-model="inputCenter">
+      <input ref="wordWritingQS9" class="positionCenter inputFail" v-model="inputCenter">
     </div>
     <div class="game-container" v-show=validateLong>
       <h1 class="positionCenter">{{ this.quadrant.word.toUpperCase() }} ☑</h1>
@@ -78,10 +78,10 @@
       <h1 class="positionCenter" > {{this.quadrant.word.toUpperCase() }} </h1>
     </div>
     <div class="game-container" v-show=this.quadrant.showWord&&!validateLong&&longIsEmpty>
-      <input ref="wordStoppedWriting" class="positionCenter inputEmpty" v-model="inputCenter">
+      <input ref="wordStoppedWritingQS10" class="positionCenter inputEmpty" v-model="inputCenter">
     </div>
     <div class="game-container" v-show=this.quadrant.showWord&&!validateLong&&!longIsEmpty>
-      <input class="positionCenter inputFail" v-model="inputCenter">
+      <input ref="wordWritingQS10" class="positionCenter inputFail" v-model="inputCenter">
     </div>
     <div class="game-container" v-show=this.quadrant.showWord&&validateLong>
       <h1 class="positionCenter">{{ this.quadrant.category.toUpperCase() }} ☑</h1>
@@ -99,10 +99,10 @@
       <h1 class="positionCenter" > {{this.quadrant.word.toUpperCase() }} </h1>
     </div>
     <div class="game-container" v-show=this.quadrant.showWord&&!validateLong&&longIsEmpty>
-      <input ref="wordStoppedWriting" class="positionCenter inputEmpty" v-model="inputCenter">
+      <input ref="wordStoppedWritingQS12" class="positionCenter inputEmpty" v-model="inputCenter">
     </div>
     <div class="game-container" v-show=this.quadrant.showWord&&!validateLong&&!longIsEmpty>
-      <input class="positionCenter inputFail" v-model="inputCenter">
+      <input ref="wordWritingQS12" class="positionCenter inputFail" v-model="inputCenter">
     </div>
     <div class="game-container" v-show=this.quadrant.showWord&&validateLong>
       <h1 class="positionCenter">{{ this.quadrant.word.toUpperCase() }} ☑</h1>
@@ -230,18 +230,20 @@ export default {
       }
     },
     wordIncorrect(){this.$emit('wordIncorrect');},
-    //No se bien que hace, no deja gris el campo donde escribe el usuario
+
+    //Chequea si la palabra esta vacia o no para cambiar el color del input
     wordEmpty: function(){
+      //Si no esta vacia
       if(this.inputCenter.length>=1) {
-        // eslint-disable-next-line no-unreachable
+        //Se cambia la variable y se setea el focus
         this.longIsEmpty=false;
-        console.log("Antes del focus ww");
-        this.$nextTick(() => this.$refs.wordWritingQS1.focus());
+        this.setFocusWordWriting();
       }
+      //Si se borraron todos los caracteres del input
       if (this.inputCenter.length==0){
+        //Se cambia la variable y se recupera el focus
         this.longIsEmpty = true;
-        console.log("Antes del focus wsw");
-        this.$nextTick(() => this.$refs.wordStoppedWritingQS1.focus());
+        this.setFocusStoppedWriting();
       }
     },
     //Chequeo que el ejercicio esté completado correctamente
@@ -395,9 +397,23 @@ export default {
     saveLetter: function (exercisenumberT, actionT ,intentT ) {
       this.$store.commit('writeTimes', {exercisenumber:exercisenumberT, action:actionT,intent:intentT});
     },
-    recoverFocus : function(){
-      console.log("Entro a recover focus");
-      this.$refs.wordWriting.focus();
+    //Metodo que recupera el focus cuando se empieza a escribir en un input
+    setFocusWordWriting : function (){
+      switch (this.$store.state.quadrantState){
+        case 1: this.$nextTick(() =>this.$refs.wordWritingQS1.focus()); break;
+        case 9: this.$nextTick(() => this.$refs.wordWritingQS9.focus()); break;
+        case 10: this.$nextTick(() => this.$refs.wordWritingQS10.focus()); break;
+        case 12: this.$nextTick(() => this.$refs.wordWritingQS12.focus()); break;
+      }
+    },
+    //Metodo que recupera el focus cuando se borran todos los caracteres de un input
+    setFocusStoppedWriting : function (){
+      switch (this.$store.state.quadrantState){
+        case 1: this.$nextTick(() => this.$refs.wordStoppedWritingQS1.focus()); break;
+        case 9: this.$nextTick(() => this.$refs.wordStoppedWritingQS9.focus()); break;
+        case 10: this.$nextTick(() => this.$refs.wordStoppedWritingQS10.focus()); break;
+        case 12: this.$nextTick(() => this.$refs.wordStoppedWritingQS12.focus()); break;
+      }
     },
   },
   watch:{
@@ -412,9 +428,6 @@ export default {
       },
       clicked(){
         this.clickedWord();
-      },
-      focus(){
-       this.recoverFocus();
       },
       //Observo la varibale check que será verdadera cuando termine un ejercicio
       /*check(){
