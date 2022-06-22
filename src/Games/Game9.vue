@@ -2,11 +2,11 @@
   <v-app fluid style="height: 100vh;">
     <!-- Explicacion del juego  -->
     <div v-show="$store.state.gameState==0" >
-      <ExerciseInstruction @finishExplanation="changeValues(); saveValue((this.exerciseNumber),'show',intentWord+1);" :introduction="explicationWord_introduction" :outcome="explicationWord_outcome" :end="explicationWord_end" :exerciseNumber="'Ejercicio '+this.exerciseNumber" :subExerciseNumber=".1"  ></ExerciseInstruction>
+      <ExerciseInstruction @finishExplanation="changeValues();" :introduction="explicationWord_introduction" :outcome="explicationWord_outcome" :end="explicationWord_end" :exerciseNumber="'Ejercicio '+this.exerciseNumber" :subExerciseNumber=".1"  ></ExerciseInstruction>
     </div>
     <!-- 2) Completar ids -->
     <div  v-show="$store.state.gameState==2">
-      <Game @finishCheck="nextLocalState();" :id="this.id" ></Game>
+      <Game @finishCheck="nextLocalState();" @firstLetter="addFirstLetterTime" :id="this.id" ></Game>
       <v-btn  outline @click="changeValues();" rounded class="btn-global nextposition" color="#E74C3C" >
         Siguiente
       </v-btn>
@@ -109,10 +109,11 @@ export default {
     //avanzar a siguiente estado, se usa para estados correctos
     nextLocalState() {
       console.log("Estoy en nextlocalstate");
+      this.intentWord = this.intentWord + 1;
       //Si la respuesta es correcta
       if (this.$store.state.correctResponse){
-        this.saveValue((this.exerciseNumber),'finish',this.intentWord+1);
-        this.saveValue((this.exerciseNumber),'finishWork',this.intentWord+1);
+        this.$store.commit('writeTimes',{exercisenumber:(parseInt(this.exerciseNumber,10)),action:"finish correct",intent:this.intentWord});
+        this.$store.commit('writeTimes',{exercisenumber:(parseInt(this.exerciseNumber,10)),action:"finish work",intent:this.intentWord});
         console.log("Respuesta correcta");
         this.showCorrect();
         this.intentWord = 0;
@@ -124,8 +125,7 @@ export default {
       //Si fue incorrecta
       else {
         console.log("Respuesta incorrecta");
-        this.intentWord = this.intentWord + 1;
-        this.saveValue((this.exerciseNumber),'finish failure',this.intentWord+1);
+        this.$store.commit('writeTimes',{exercisenumber:(parseInt(this.exerciseNumber,10)),action:"finish failure",intent:this.intentWord});
         if (this.intentWord == 1) {
           this.transition(9, 2);
         }
@@ -171,6 +171,9 @@ export default {
         case 2:
           console.log("transiciono del 2 al "+waitingState+" al "+nextGameState);
           this.restore();
+          if (nextGameState==2){
+            this.$store.commit('writeTimes',{exercisenumber:(parseInt(this.exerciseNumber,10)),action:"show",intent:this.intentWord+1});
+          }
           this.waitAndNextState(waitingState,nextGameState);
           break;
       }
@@ -183,6 +186,7 @@ export default {
           console.log("Estoy cambiando desde el estado 0");
           this.changeGameState(2);
           this.changeQuadrantState(2);
+          this.$store.commit('writeTimes',{exercisenumber:(parseInt(this.exerciseNumber,10)),action:"show",intent:this.intentWord+1});
           this.setTypeExercise("ids");
           break;
         default:
@@ -210,6 +214,9 @@ export default {
     },
     setTypeExercise: function(typeOfExercise){
       this.$store.commit('setTypeOfExercise',typeOfExercise);
+    },
+    addFirstLetterTime : function(){
+      this.$store.commit('writeTimes',{exercisenumber:(parseFloat(this.exerciseNumber,10)),action:"start interacting",intent:this.intentWord+1});
     },
   },
 

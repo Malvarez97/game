@@ -49,13 +49,13 @@
       </div>
   <!-- Ejemplo de botones -->
   <div v-show="$store.state.quadrantState==8" class="game-container">
-    <v-btn v-show=!clicked @click="this.clicked=true" outline rounded class=" positionCenter btn-global-8" fab color="#4758B8"  >
+    <v-btn v-show="clicked<0" @click="clicked+=1" outline rounded class=" positionCenter btn-global-8" fab color="#4758B8"  >
       {{this.quadrant.word.toUpperCase()}}
     </v-btn>
-    <v-btn v-show="clicked&&correctClick" outline rounded class=" positionCenter btn-correct btn-global-8" fab color="#4758B8"  >
+    <v-btn v-show="clicked>=0&&correctClick" @click="clicked+=1" outline rounded class=" positionCenter btn-correct btn-global-8" fab color="#4758B8"  >
       {{this.quadrant.word.toUpperCase()}}
     </v-btn>
-    <v-btn v-show="clicked&&!correctClick" outline rounded class=" positionCenter btn-incorrect btn-global-8" fab color="#4758B8"  >
+    <v-btn v-show="clicked>=0&&!correctClick" @click="clicked+=1" outline rounded class=" positionCenter btn-incorrect btn-global-8" fab color="#4758B8"  >
       {{this.quadrant.word.toUpperCase()}}
     </v-btn>
   </div>
@@ -181,8 +181,8 @@ export default {
       input:"",
       correct:false,
       idCompleted:false,
-      clicked:false,
-      correctClick:false,
+      clicked:0,
+      correctClick:true,
       firstChoose:false,
     }
   },
@@ -320,7 +320,7 @@ export default {
     },
     clickedWord(){
       //this.clicked = true;
-      if (this.clicked){
+      if (this.clicked==1){
         console.log("entro al click bien");
         if (!this.$store.state.buttonEnd){
           this.$store.commit('changeButtonEnd',true);
