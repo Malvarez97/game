@@ -8,10 +8,10 @@
   <!-- Ingresar Palabra  -->
       <div v-show="$store.state.quadrantState==1"  >
         <div v-show=!validateLong&&longIsEmpty class="game-container">
-          <input class="positionCenter inputEmpty" v-model="inputCenter">
+          <input ref="wordStoppedWriting" class="positionCenter inputEmpty" v-model="inputCenter" >
         </div>
         <div v-show=!validateLong&&!longIsEmpty class="game-container">
-          <input class="positionCenter inputFail" v-model="inputCenter">
+          <input ref="wordWriting" class="positionCenter inputFail" v-model="inputCenter">
         </div>
         <div v-show=validateLong class="game-container">
           <h1 class="positionCenter">{{ this.quadrant.word.toUpperCase() }} ☑</h1>
@@ -63,10 +63,10 @@
   <div v-show="$store.state.quadrantState==9" class="game-container" >
     <h1 v-if="this.quadrant.showId" class="positionUp">{{ this.quadrant.Id.toUpperCase() }} </h1>
     <div class="game-container" v-show=!validateLong&&longIsEmpty>
-      <input class="positionCenter inputEmpty" v-model="inputCenter">
+      <input ref="wordStoppedWriting" class="positionCenter inputEmpty" v-model="inputCenter">
     </div>
     <div class="game-container" v-show=!validateLong&&!longIsEmpty>
-      <input class="positionCenter inputFail" v-model="inputCenter">
+      <input ref="wordWriting" class="positionCenter inputFail" v-model="inputCenter">
     </div>
     <div class="game-container" v-show=validateLong>
       <h1 class="positionCenter">{{ this.quadrant.word.toUpperCase() }} ☑</h1>
@@ -78,10 +78,10 @@
       <h1 class="positionCenter" > {{this.quadrant.word.toUpperCase() }} </h1>
     </div>
     <div class="game-container" v-show=this.quadrant.showWord&&!validateLong&&longIsEmpty>
-      <input class="positionCenter inputEmpty" v-model="inputCenter">
+      <input ref="wordStoppedWriting" class="positionCenter inputEmpty" v-model="inputCenter">
     </div>
     <div class="game-container" v-show=this.quadrant.showWord&&!validateLong&&!longIsEmpty>
-      <input class="positionCenter inputFail" v-model="inputCenter">
+      <input ref="wordWriting" class="positionCenter inputFail" v-model="inputCenter">
     </div>
     <div class="game-container" v-show=this.quadrant.showWord&&validateLong>
       <h1 class="positionCenter">{{ this.quadrant.category.toUpperCase() }} ☑</h1>
@@ -99,10 +99,10 @@
       <h1 class="positionCenter" > {{this.quadrant.word.toUpperCase() }} </h1>
     </div>
     <div class="game-container" v-show=this.quadrant.showWord&&!validateLong&&longIsEmpty>
-      <input class="positionCenter inputEmpty" v-model="inputCenter">
+      <input ref="wordStoppedWriting" class="positionCenter inputEmpty" v-model="inputCenter">
     </div>
     <div class="game-container" v-show=this.quadrant.showWord&&!validateLong&&!longIsEmpty>
-      <input class="positionCenter inputFail" v-model="inputCenter">
+      <input ref="wordWriting" class="positionCenter inputFail" v-model="inputCenter">
     </div>
     <div class="game-container" v-show=this.quadrant.showWord&&validateLong>
       <h1 class="positionCenter">{{ this.quadrant.word.toUpperCase() }} ☑</h1>
@@ -129,6 +129,7 @@
 <script>
 import '../assets/common.scss'
 import { VueDraggableNext } from 'vue-draggable-next'
+//import { ref } from 'vue';
 var wagnerFischer = require('wagner-fischer');
 
 export default {
@@ -184,6 +185,7 @@ export default {
       clicked:0,
       correctClick:true,
       firstChoose:false,
+      focus:0,
     }
   },
   methods: {
@@ -233,6 +235,11 @@ export default {
       if(this.inputCenter.length>=1) {
         // eslint-disable-next-line no-unreachable
         this.longIsEmpty=false;
+        this.$nextTick(() => this.$refs.wordWriting.focus());
+      }
+      if (this.inputCenter.length==0){
+        this.longIsEmpty = true;
+        this.$nextTick(() => this.$refs.wordStoppedWriting.focus());
       }
     },
     //Chequeo que el ejercicio esté completado correctamente
@@ -386,6 +393,10 @@ export default {
     saveLetter: function (exercisenumberT, actionT ,intentT ) {
       this.$store.commit('writeTimes', {exercisenumber:exercisenumberT, action:actionT,intent:intentT});
     },
+    recoverFocus : function(){
+      console.log("Entro a recover focus");
+      this.$refs.wordWriting.focus();
+    },
   },
   watch:{
      input() {
@@ -399,6 +410,9 @@ export default {
       },
       clicked(){
         this.clickedWord();
+      },
+      focus(){
+       this.recoverFocus();
       },
       //Observo la varibale check que será verdadera cuando termine un ejercicio
       /*check(){
