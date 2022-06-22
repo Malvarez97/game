@@ -104,6 +104,7 @@ export default {
         this.showCorrect();
         //Si el usuario contesta correctamente se pasa al ejercicio siguiente
         console.log("Pasamos al ejercicio siguiente");
+        this.$store.state.audioSuccess.play();
         this.$store.commit('writeTimes',{exercisenumber:(parseInt(this.exerciseNumber,10)),action:"finish correct",intent:this.intentWord});
         this.intentWord = 0;
         if (parseInt(this.$store.state.gameState,10) == 0){
@@ -118,6 +119,7 @@ export default {
       else
       {
         console.log("Respuesta incorrecta");
+        this.$store.state.audioError.play();
         this.$store.commit('writeTimes',{exercisenumber:(parseInt(this.exerciseNumber,10)),action:"finish failure",intent:this.intentWord});
         //Si no fue el ultimo intento
         if (this.intentWord == 1)

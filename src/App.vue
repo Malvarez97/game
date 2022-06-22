@@ -129,6 +129,10 @@ export default {
     //this.idsOrder = this.generateQuadrantsPosition(4);
     //this.generateRandomIds(this.quadrantIds,4);
     this.generateQuadrants();
+    var audioSuccess = new Audio(require('./assets/success_ogg.ogg'));
+    var audioError = new Audio(require('./assets/error.mp3'));
+    this.$store.commit('setAudioSuccess',audioSuccess);
+    this.$store.commit('setAudioError',audioError);
    /* addEventListener("mousedown", () => {
       if (this.$store.state.generalState == 5){
         let mousex = event.clientX; // Gets Mouse X

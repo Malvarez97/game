@@ -112,6 +112,7 @@ export default {
       this.intentWord = this.intentWord + 1;
       //Si la respuesta es correcta
       if (this.$store.state.correctResponse){
+        this.$store.state.audioSuccess.play();
         this.$store.commit('writeTimes',{exercisenumber:(parseInt(this.exerciseNumber,10)),action:"finish correct",intent:this.intentWord});
         this.$store.commit('writeTimes',{exercisenumber:(parseInt(this.exerciseNumber,10)),action:"finish work",intent:this.intentWord});
         console.log("Respuesta correcta");
@@ -125,6 +126,7 @@ export default {
       //Si fue incorrecta
       else {
         console.log("Respuesta incorrecta");
+        this.$store.state.audioError.play();
         this.$store.commit('writeTimes',{exercisenumber:(parseInt(this.exerciseNumber,10)),action:"finish failure",intent:this.intentWord});
         if (this.intentWord == 1) {
           this.transition(9, 2);

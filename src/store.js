@@ -33,6 +33,8 @@ export default new Vuex.Store({
         dragging : false,
         dragEnd: false,
         buttonEnd: false,
+        audioSuccess: null,
+        audioError: null,
     },
     mutations:{
         setIntroduction(state,introduction){
@@ -49,6 +51,12 @@ export default new Vuex.Store({
         },
         changeButtonEnd(state,buttonEndValue){
             this.state.buttonEnd = buttonEndValue;
+        },
+        setAudioSuccess(state,audio){
+            this.state.audioSuccess = audio;
+        },
+        setAudioError(state,audio){
+          this.state.audioError = audio;
         },
         changeGeneralState(state,nextGeneralState){
             console.log("cambio al general state = "+nextGeneralState);

@@ -104,6 +104,7 @@ export default {
         this.showCorrect();
         //Si estamos en el de la palabra cambiamos al del id
         if (this.idsExercise == false) {
+          this.$store.state.audioSuccess.play();
           this.$store.commit('writeTimes', {exercisenumber:(parseFloat(this.exerciseNumber+"."+this.subExerciseNumber,10)), action:"finish correct",intent:(this.intentWord)});
           console.log("En el ejercicio de words");
           this.idsExercise = true;
@@ -114,6 +115,7 @@ export default {
         //Si estamos en el del id pasamos al ejercicio siguiente
         else{
           console.log("En el ejercicio de ids");
+          this.$store.state.audioSuccess.play();
           this.$store.commit('writeTimes', {exercisenumber:(parseFloat(this.exerciseNumber+"."+this.subExerciseNumber,10)), action:"finish correct",intent:(this.intentWord)});
           this.idsExercise = false;
           this.subExerciseNumber = 1;
@@ -126,6 +128,7 @@ export default {
       else
       {
           console.log("Respuesta incorrecta");
+          this.$store.state.audioError.play();
           //Si fue el primer intento
           if (this.intentWord < 2)
           {
@@ -155,7 +158,7 @@ export default {
               if (this.idsExercise){
                 this.$store.commit('writeTimes', {exercisenumber:(parseFloat(this.exerciseNumber+"."+this.subExerciseNumber,10)), action:"finish failure",intent:this.intentWord});
                 console.log("En el de los ids");
-                this.showError();
+                this.showError(1);
                 this.idsExercise = false;
                 this.intentWord = 0;
                 this.subExerciseNumber = 1;

@@ -66,7 +66,7 @@
       <input ref="wordStoppedWriting" class="positionCenter inputEmpty" v-model="inputCenter">
     </div>
     <div class="game-container" v-show=!validateLong&&!longIsEmpty>
-      <input ref="wordWriting" class="positionCenter inputFail" v-model="inputCenter">
+      <input class="positionCenter inputFail" v-model="inputCenter">
     </div>
     <div class="game-container" v-show=validateLong>
       <h1 class="positionCenter">{{ this.quadrant.word.toUpperCase() }} ☑</h1>
@@ -81,7 +81,7 @@
       <input ref="wordStoppedWriting" class="positionCenter inputEmpty" v-model="inputCenter">
     </div>
     <div class="game-container" v-show=this.quadrant.showWord&&!validateLong&&!longIsEmpty>
-      <input ref="wordWriting" class="positionCenter inputFail" v-model="inputCenter">
+      <input class="positionCenter inputFail" v-model="inputCenter">
     </div>
     <div class="game-container" v-show=this.quadrant.showWord&&validateLong>
       <h1 class="positionCenter">{{ this.quadrant.category.toUpperCase() }} ☑</h1>
@@ -102,7 +102,7 @@
       <input ref="wordStoppedWriting" class="positionCenter inputEmpty" v-model="inputCenter">
     </div>
     <div class="game-container" v-show=this.quadrant.showWord&&!validateLong&&!longIsEmpty>
-      <input ref="wordWriting" class="positionCenter inputFail" v-model="inputCenter">
+      <input class="positionCenter inputFail" v-model="inputCenter">
     </div>
     <div class="game-container" v-show=this.quadrant.showWord&&validateLong>
       <h1 class="positionCenter">{{ this.quadrant.word.toUpperCase() }} ☑</h1>
@@ -235,10 +235,12 @@ export default {
       if(this.inputCenter.length>=1) {
         // eslint-disable-next-line no-unreachable
         this.longIsEmpty=false;
+        console.log("Antes del focus ww");
         this.$nextTick(() => this.$refs.wordWriting.focus());
       }
       if (this.inputCenter.length==0){
         this.longIsEmpty = true;
+        console.log("Antes del focus wsw");
         this.$nextTick(() => this.$refs.wordStoppedWriting.focus());
       }
     },
