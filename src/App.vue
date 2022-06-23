@@ -59,6 +59,7 @@ import Game7 from "@/Games/Game7";
 import Game8 from "@/Games/Game8";
 import Game9 from "@/Games/Game9";
 import Beginner from "@/components/Beginner";
+import {enterFullscreen} from 'request-fullscreen-js';
 
 
 export default {
@@ -139,6 +140,13 @@ export default {
     this.$store.commit('setAudioError',audioError);
     this.$store.commit('setAudioHint',audioHint);
     this.$store.commit('setAudioVictory',audioVictory);
+    /*enterFullscreen() // The entire document enters the full screen
+      enterFullscreen(document.getElementById('div'))
+      exitFullscreen(document.getElementById('div'))
+      toggleFullscreen(document.getElementById('div'))*/
+    addEventListener("click", () => {
+      enterFullscreen();
+    });
    /* addEventListener("mousedown", () => {
       if (this.$store.state.generalState == 5){
         let mousex = event.clientX; // Gets Mouse X
