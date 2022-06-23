@@ -1,7 +1,7 @@
 <template>
 	<v-app fluid class="container">
     <div v-show="$store.state.generalState == 0">
-      <Beginner @finishBegin="$store.dispatch('changeGeneralState',1)"></Beginner>
+      <Beginner @finishBegin="$store.dispatch('changeGeneralState',6)"></Beginner>
     </div>
     <div v-show="$store.state.generalState == 1">
       <Game1 @finishExcersize="finalize" @saveValue="writeState" :id="0" :category="this.$store.state.firstCategory" :exerciseNumber="this.$store.state.generalState" > </Game1>
@@ -129,10 +129,16 @@ export default {
     //this.idsOrder = this.generateQuadrantsPosition(4);
     //this.generateRandomIds(this.quadrantIds,4);
     this.generateQuadrants();
-    var audioSuccess = new Audio(require('./assets/success_ogg.ogg'));
-    var audioError = new Audio(require('./assets/error.mp3'));
+    var audioSuccess = new Audio(require('./assets/Audios/success.mp3'));
+    var audioMistake = new Audio(require('./assets/Audios/mistake.mp3'));
+    var audioError = new Audio(require('./assets/Audios/error.mp3'));
+    var audioHint = new Audio(require('./assets/Audios/hint.mp3'));
+    var audioVictory = new Audio(require('./assets/Audios/victory.mp3'));
     this.$store.commit('setAudioSuccess',audioSuccess);
+    this.$store.commit('setAudioMistake',audioMistake);
     this.$store.commit('setAudioError',audioError);
+    this.$store.commit('setAudioHint',audioHint);
+    this.$store.commit('setAudioVictory',audioVictory);
    /* addEventListener("mousedown", () => {
       if (this.$store.state.generalState == 5){
         let mousex = event.clientX; // Gets Mouse X
@@ -410,7 +416,7 @@ export default {
         this.quadrantsArrangement.push(this.copyQuadrant(this.quadrantsArrangement[7],"show","three",this.randoms[2]));
         //Cuadrantes para ejercicio nro 13
         this.quadrantsArrangement.push(this.copyQuadrant(this.quadrantsArrangement[7],"show","show",""));
-        this.quadrantsArrangement.push(this.copyQuadrant(this.quadrantsArrangement[7],"show","hide",""));
+        this.quadrantsArrangement.push(this.copyQuadrant(this.quadrantsArrangement[7],"show","show",""));
         this.$store.commit('setQuadrantsArrangement',this.quadrantsArrangement);
 
       }

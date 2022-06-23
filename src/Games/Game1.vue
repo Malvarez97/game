@@ -1,22 +1,22 @@
 <template>
   <v-app fluid style="height: 100vh;">
     <!-- Explicacion del juego  -->
-    <div v-show="$store.state.gameState==0" >
-      <ExerciseInstruction @finishExplanation="changeValues(); saveValue(parseFloat(this.exerciseNumber+'.'+this.subExerciseNumber,10),'show',intentWord+1);" :introduction="explicationWord_introduction" :outcome="explicationWord_outcome" :end="explicationWord_end" :exerciseNumber="'Ejercicio '+this.exerciseNumber" :subExerciseNumber="1" ></ExerciseInstruction>
+    <div v-show="$store.state.gameState==gameValues.firstPartExplanation" >
+      <ExerciseInstruction @finishExplanation="changeValues();" :introduction="explicationWord_introduction" :outcome="explicationWord_outcome" :end="explicationWord_end" :exerciseNumber="'Ejercicio '+this.exerciseNumber" :subExerciseNumber="1" ></ExerciseInstruction>
     </div>
     <!-- Explicacion del id -->
-    <div v-show="$store.state.gameState==3" >
-      <ExerciseInstruction @finishExplanation="changeValues(); saveValue(parseFloat(this.exerciseNumber+'.'+this.subExerciseNumber,10),'show',this.intentWord+1);" :introduction="explicationid" :exerciseNumber="'Ejercicio '+this.exerciseNumber" :subExerciseNumber="2" ></ExerciseInstruction>
+    <div v-show="$store.state.gameState==gameValues.secondPartExplanation" >
+      <ExerciseInstruction @finishExplanation="changeValues();" :introduction="explicationid" :exerciseNumber="'Ejercicio '+this.exerciseNumber" :subExerciseNumber="2" ></ExerciseInstruction>
     </div>
-    <!-- 1) Mostrar cuadrantes iniciales 2)Completar palabra 4)Jugar solo QuadrantId 5)Ayuda Palabra -->
-    <div  v-show="$store.state.gameState==1 || $store.state.gameState==2 || $store.state.gameState==4 || $store.state.gameState==6">
-      <Game @finishCheck="nextLocalState();" @firstLetter="addFirstLetterTime" :id="this.id" ></Game>
+    <!-- 2)Mostrar palabras e ids 3)Completar palabras 4)Completar ids -->
+    <div  v-show="$store.state.gameState==gameValues.showWordsAndIds || $store.state.gameState==gameValues.completeWords || $store.state.gameState==gameValues.completeIds">
+      <Game @finishCheck="nextLocalState();" @firstLetter="gameMethods.saveValue(this.getExerciseNumber,'start interacting',this.intentWord+1)" :id="this.id" ></Game>
       <v-btn  outline @click="changeValues();"  class="btn-global nextposition" color="#E74C3C" >
         Siguiente
       </v-btn>
     </div>
     <!-- Transicion de correcto  -->
-    <div v-show="$store.state.gameState==8">
+    <div v-show="$store.state.gameState==gameValues.correctTransition">
       <Transition :css="false" >
         <div>
           <MyResponse :correct="true"></MyResponse>
@@ -24,7 +24,7 @@
       </Transition>
     </div>
     <!-- Transicion de incorrecto -->
-    <div  v-show="$store.state.gameState==9">
+    <div  v-show="$store.state.gameState==gameValues.incorrectTransition">
           <MyResponse :correct="false" ></MyResponse>
     </div>
   </v-app>
@@ -34,7 +34,8 @@
 import Game from "@/components/MyGame";
 import ExerciseInstruction from "@/components/ExcesiceInstruction";
 import MyResponse from "@/components/Response";
-const Swal = require('sweetalert2');
+import * as GameMethods from './gamemethods.js';
+import * as GameValues from './gamevalues.js';
 
 export default {
   name: 'MyGame1',
@@ -56,264 +57,140 @@ export default {
   },
   data() {
     return {
-      correctId: false,
-      correctResponse: false,
       intentWord: 0,
       explicationWord_introduction: " Se divide la pantalla en 4 cuadrantes.",
       explicationWord_outcome: " A continuacion trate de recordar la palabra perteneciente a la categoria " + this.category + " y los cuadrantes (letra identificatoria) donde se halla.",
       explicationWord_end: "Cuando las palabras desaparezcan de la pantalla, debe escribirlas en los cuadrantes correspondientes",
       explicationid: "Escriba las letras que identifican a cada cuadrante",
-      nextGeneralState: 1,
-      idsExercise: false,
-      nextQuadrantState: 0,
       subExerciseNumber: 1,
+      limitAttemptsWords:3,
+      limitAttemptsIds:2,
+      gameValues:GameValues,
+      gameMethods:GameMethods,
     }
   },
   methods: {
-    showError(nroEjercicio) {
-      Swal.fire({
-        icon: 'error',
-        title: 'Inténtalo nuevamente. Volverás al ejercicio '+nroEjercicio,
-        //text: 'Inténtalo nuevamente. Volverás al ejercicio '+nroEjercicio,
-        //timer: 2000,
-        //footer: '<a href="">¿Como no caerse a los pedazos?</a>'
-      })
-    },
-    showWarning(text) {
-      Swal.fire({
-        icon: 'warning',
-        title: 'Te queda 1 solo intento!',
-        text: text,
-        showCloseButton: true
-      })
-    },
-    showCorrect() {
-      Swal.fire({
-        icon: 'success',
-        title: 'Buena!',
-        //text: 'Segui asi fiera, idolo, titan, mastodonte, pura sangre',
-      })
-    },
-    //avanzar a siguiente estado, se usa para estados correctos
+    //Logica de los ejercicios 1 y 2 para avanzar al siguiente estado
     nextLocalState() {
-      console.log("Estoy en nextlocalstate");
+      //Se aniade 1 al intento actual
       this.intentWord = this.intentWord + 1;
-      //Si la respuesta es correcta
-      if (this.$store.state.correctResponse){
-        console.log("Respuesta correcta");
-        this.showCorrect();
-        //Si estamos en el de la palabra cambiamos al del id
-        if (this.idsExercise == false) {
-          this.$store.state.audioSuccess.play();
-          this.$store.commit('writeTimes', {exercisenumber:(parseFloat(this.exerciseNumber+"."+this.subExerciseNumber,10)), action:"finish correct",intent:(this.intentWord)});
-          console.log("En el ejercicio de words");
-          this.idsExercise = true;
+      //Si la respuesta fue correcta
+      if (GameMethods.getCorrectResponse()){
+        GameMethods.reproduceAudio('success');
+        GameMethods.saveValue(this.getExerciseNumber(), "finish correct",this.intentWord);
+        this.intentWord = 0;
+        //Si estamos en el ejercicio de las palabras
+        if (GameMethods.getTypeOfExercise() == "words") {
           this.subExerciseNumber = 2;
-          this.intentWord = 0;
-          this.transition(8,3);
+          this.transition(GameValues.correctTransition,GameValues.secondPartExplanation);
         }
-        //Si estamos en el del id pasamos al ejercicio siguiente
+        //Si estamos en el ejercicio de los ids, pasamos al ejercicio siguiente
         else{
-          console.log("En el ejercicio de ids");
-          this.$store.state.audioSuccess.play();
-          this.$store.commit('writeTimes', {exercisenumber:(parseFloat(this.exerciseNumber+"."+this.subExerciseNumber,10)), action:"finish correct",intent:(this.intentWord)});
-          this.idsExercise = false;
           this.subExerciseNumber = 1;
-          this.intentWord = 0;
-          this.transition(8,0);
-          this.changeGeneralState(parseInt(this.$store.state.generalState,10)+1);
+          this.transition(GameValues.correctTransition,GameValues.firstPartExplanation);
+          GameMethods.changeGeneralState(GameMethods.getGeneralState()+1);
         }
       }
       //Si fue incorrecta (primera)
-      else
-      {
-          console.log("Respuesta incorrecta");
-          this.$store.state.audioError.play();
-          //Si fue el primer intento
-          if (this.intentWord < 2)
-          {
-            console.log("primera incorrecta");
-            //Si es el ejercicio de las ids
-            if (this.idsExercise){
-              this.$store.commit('writeTimes', {exercisenumber:(parseFloat(this.exerciseNumber+"."+this.subExerciseNumber,10)), action:"finish failure",intent:this.intentWord});
-              console.log("en el de ids");
-              this.showWarning('Si fallas se restaura el ejercicio');
-              this.transition(9,4);
+      else {
+        GameMethods.saveValue(this.getExerciseNumber(),"finish failure",this.intentWord);
+        //Si fue el primer intento
+          if (this.intentWord == 1) {
+            //Si es el ejercicio de las ids, se muestra una advertencia
+            if (GameMethods.getTypeOfExercise() == "ids"){
+              GameMethods.reproduceAudio('hint');
+              GameMethods.showWarning('Último intento.');
+              this.transition(GameValues.incorrectTransition,GameValues.completeIds);
             }
             //Si es el ejercicio de las palabras
             else{
-              this.$store.commit('writeTimes', {exercisenumber:(parseFloat(this.exerciseNumber+"."+this.subExerciseNumber,10)), action:"finish failure",intent:this.intentWord});
-              console.log("en el de las palabras");
-              this.transition(9,2);
-              // guardo el valor del tiempo del error  del primer fallo de Id
-              //this.saveValue('Incorrect Word Intent ' + (parseInt(this.intentWord, 10) + 1), this.exerciseNumber + 'a');
+              GameMethods.reproduceAudio('mistake');
+              this.transition(GameValues.incorrectTransition,GameValues.completeWords);
             }
           }
-          else
-          {
-            console.log("Segunda incorrecta")
-            // Si fue incorrecta (segunda)
+          //Si fue la segunda incorrecta
+          else {
             if (this.intentWord == 2) {
               //Si es el juego de las ids, entonces se vuelve al ej 1
-              if (this.idsExercise){
-                this.$store.commit('writeTimes', {exercisenumber:(parseFloat(this.exerciseNumber+"."+this.subExerciseNumber,10)), action:"finish failure",intent:this.intentWord});
-                console.log("En el de los ids");
-                this.showError(1);
-                this.idsExercise = false;
+              if (GameMethods.getTypeOfExercise() == 'ids'){
+                GameMethods.reproduceAudio('error');
+                GameMethods.showError(GameMethods.getGeneralState());
                 this.intentWord = 0;
                 this.subExerciseNumber = 1;
-                this.transition(9,0);
-                this.changeGeneralState(1);
+                this.transition(GameValues.incorrectTransition,GameValues.firstPartExplanation);
+                GameMethods.changeGeneralState(GameValues.loseGame1);
               }
-              //Si es el juego de las palabras
+              //Si es el juego de las palabras, se muestra la ayuda
               else{
-                console.log("En el de las palabras");
-                this.$store.commit('writeTimes', {exercisenumber:(parseFloat(this.exerciseNumber+"."+this.subExerciseNumber,10)), action:"finish failure",intent:this.intentWord});
-                this.showWarning('Último intento. Recibirás una ayuda');
-                this.transition(9,6);
-                //this.saveValue('Incorrect Word Intent 3 ', this.exerciseNumber + 'a');
-                console.log("voy al estado de la ayuda")
+                GameMethods.saveValue(this.getExerciseNumber(),"finish failure",this.intentWord);
+                GameMethods.reproduceAudio('hint');
+                GameMethods.showWarning('Último intento. Recibirás una ayuda');
+                this.transition(GameValues.incorrectTransition,GameValues.completeWords);
+                GameMethods.changeHelp();
               }
             }
-            //Si fallo 3 veces en el de las palabras
+            //Tercera incorrecta. Muestro error
             else {
-              this.$store.commit('writeTimes', {exercisenumber:(parseFloat(this.exerciseNumber+"."+this.subExerciseNumber,10)), action:"finish failure",intent:this.intentWord});
-              console.log("Tercer error");
-              this.showError(1);
+              GameMethods.reproduceAudio('error');
+              GameMethods.showError(GameValues.loseGame1);
               this.intentWord = 0;
-              this.transition(9,0);
-              this.changeGeneralState(1);
+              this.transition(GameValues.incorrectTransition,GameValues.firstPartExplanation);
+              GameMethods.changeGeneralState(GameValues.loseGame1);
             }
           }
         }
       },
-    // se usa para saltar estados
-    finalizeExercise: function () {
-      this.nextGeneralState += 1;
-      if (this.nextGeneralState != 1) {
-        this.showCorrect();
-      }
-      this.$emit('finishExcersize', this.exerciseNumber, true, this.nextGeneralState);
-    },
-    // salvar diferentes tipos de datos
-    saveValue: function (exercisenumberT, actionT ,intentT ) {
-      this.$store.commit('writeTimes', {exercisenumber:exercisenumberT, action:actionT,intent:intentT});
-    },
-    changeQuadrantState: function (nextQuadrantState) {
-      this.$store.commit('changeQuadrantState', nextQuadrantState);
-    },
     transition : function(waitingState,nextGameState){
-      switch(parseInt(this.$store.state.gameState,10)){
+      switch(GameMethods.getGameState()){
         //Estado de completar palabras
-        case 2:
-          console.log("transiciono del 2 al "+waitingState+" al "+nextGameState);
-          this.restore();
-          this.waitAndNextState(waitingState,nextGameState);
-          //Si voy al estado de ayuda
-          if(nextGameState==6){
-            this.changeHelp();
-          }
-          console.log("Next game state es "+nextGameState);
-          if (nextGameState == 3){
-            this.$store.commit('setIntroduction',this.explicationid);
-            this.$store.commit('setOutcome',"");
-            this.$store.commit('setEnd',"");
-            this.$store.commit('writeTimes',{exercisenumber:(parseFloat(this.exerciseNumber+"."+this.subExerciseNumber,10)),action:"start reading",intent:this.intentWord+1});
+        case GameValues.completeWords:
+          GameMethods.restore();
+          GameMethods.waitAndNextGameState(waitingState,nextGameState);
+          switch (nextGameState) {
+              //Si vuelvo a hacer el ejercicio, guardo el tiempo que comienza el ejercicio
+            case GameValues.completeWords:
+              GameMethods.saveValue(this.getExerciseNumber(), 'show', this.intentWord+1);
+              break;
+              //Si paso al siguiente enunciado, guardo el tiempo que comienzo a leer
+            case GameValues.secondPartExplanation:
+              GameMethods.saveValue(this.getExerciseNumber(), 'start reading', this.intentWord + 1);
+              break;
           }
           break;
         //Estado de completar ids
-        case 4:
-          console.log("transiciono del 4 al "+waitingState+" al "+nextGameState);
-          this.restore();
-          this.waitAndNextState(waitingState,nextGameState);
-          break;
-        //Estado de la ayuda
-        case 6:
-          console.log("transiciono del 6 al "+waitingState+" al "+nextGameState);
-          this.restore();
-          this.waitAndNextState(waitingState,nextGameState);
+        case GameValues.completeIds:
+          GameMethods.restore();
+          GameMethods.waitAndNextGameState(waitingState,nextGameState);
+          if (nextGameState == GameValues.completeIds){
+            GameMethods.saveValue(this.getExerciseNumber(),'show',this.intentWord+1);
+          }
           break;
       }
     },
     changeValues: function () {
-      console.log("Entro a change Values");
-      switch (parseInt(this.$store.state.gameState,10)) {
+      switch (GameMethods.getGameState()) {
           //Descripcion inicial del ejercicio
-        case 0:
-          console.log("Estoy cambiando desde el estado 0");
-          this.changeGameState(1);
-          this.changeQuadrantState(0);
-          this.setTypeExercise("words");
+        case GameValues.firstPartExplanation:
+          GameMethods.changeState(GameValues.showWordsAndIds);
+          GameMethods.saveValue(this.getExerciseNumber(),'show',this.intentWord+1);
+          GameMethods.setTypeExercise("words");
           break;
-          //Descripcion de la segunda parte del ejercicio
-          //Muestra de todas las palabras e ids
-        case 1:
-          console.log("Estoy cambiando desde el estado 1");
-          this.changeGameState(2);
-          this.changeQuadrantState(1);
+        case GameValues.showWordsAndIds:
+          GameMethods.changeState(GameValues.completeWords);
           break;
-        case 3:
-          console.log("Estoy cambiando desde el estado 3");
-          this.changeGameState(4);
-          this.changeQuadrantState(2);
-          this.setTypeExercise("ids");
+        case GameValues.secondPartExplanation:
+          GameMethods.changeState(GameValues.completeIds);
+          GameMethods.saveValue(this.getExerciseNumber(),'show',this.intentWord+1);
+          GameMethods.setTypeExercise("ids");
           break;
         default:
-          console.log("entro a check exercise")
-          this.$store.commit('checkExercise');
+          GameMethods.checkExercise();
       }
     },
-    waitAndNextState: function (waitingState, nextGameState) {
-      this.$store.dispatch('waitingStateToNextState',{miliseconds: 2000,waitingState: waitingState, nextGameState: nextGameState});
-    },
-    changeGameState: function(nextGameState){
-      this.$store.commit('changeGameState',nextGameState);
-    },
-    restore : function(){
-      this.$store.commit('restore');
-    },
-    changeGeneralState : function (nextGeneralState){
-      this.$store.commit('changeCategory',nextGeneralState);
-      this.$store.dispatch('changeGeneralState',(nextGeneralState));
-    },
-    changeHelp: function(){
-      this.$store.commit('changeHelp');
-    },
-    setTypeExercise: function(typeOfExercise){
-      this.$store.commit('setTypeOfExercise',typeOfExercise);
-    },
-    addFirstLetterTime : function(){
-        this.$store.commit('writeTimes',{exercisenumber:(parseFloat(this.exerciseNumber+"."+this.subExerciseNumber,10)),action:"start interacting",intent:this.intentWord+1});
+    getExerciseNumber : function () {
+      return parseFloat(this.exerciseNumber+'.'+this.subExerciseNumber,10)
     },
   },
-
-
-  watch:{
-    state() {
-      // correcto
-      if (this.state===3) {
-        //sonido de correcto
-        setTimeout ( ()=> {
-              this.state=this.state+1;
-            },2000
-            ,)
-      }
-      if (this.$store.state.gameState===9) {
-        //sonido de correcto
-        setTimeout ( ()=> {
-              this.state=2;
-            },2000
-            ,)
-      }
-      if (this.state===8) {
-        //sonido de correcto
-        setTimeout ( ()=> {
-              this.state=5;
-            },2000
-            ,)
-      }
-    }
-  }
 }
 </script>
 

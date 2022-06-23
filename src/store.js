@@ -34,7 +34,11 @@ export default new Vuex.Store({
         dragEnd: false,
         buttonEnd: false,
         audioSuccess: null,
+        audioMistake:null,
         audioError: null,
+        audioHint: null,
+        audioVictory:null,
+        help:false,
     },
     mutations:{
         setIntroduction(state,introduction){
@@ -57,6 +61,15 @@ export default new Vuex.Store({
         },
         setAudioError(state,audio){
           this.state.audioError = audio;
+        },
+        setAudioHint(state,audio){
+          this.state.audioHint = audio;
+        },
+        setAudioVictory(state,audio){
+            this.state.audioVictory = audio;
+        },
+        setAudioMistake(state,audio){
+            this.state.audioMistake = audio;
         },
         changeGeneralState(state,nextGeneralState){
             console.log("cambio al general state = "+nextGeneralState);
@@ -291,5 +304,9 @@ export default new Vuex.Store({
         updateQuadrants(context,value){
           console.log("VEngo a hacer el update de quadrants"+context+" "+value);
         },
+        changeState(context,value){
+            context.commit('changeGameState',value);
+            context.commit('changeQuadrantState',value);
+        }
     }
 })

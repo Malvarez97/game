@@ -42,6 +42,7 @@ export default {
       idsChecked:0,
       quadrantsCreated:0,
       correctClick:0,
+      clicks:0,
       correctDrag:0,
       dragsChecked:0,
     }
@@ -57,7 +58,8 @@ export default {
       }
     },
     addIncorrectClick: function(){
-      this.finishCheck(false);
+      this.clicks+=1;
+      //this.finishCheck(false);
     },
     //Seteo la cantidad de palabras que no son necesarias escribir
     setCorrectWordsAndIds: function () {
