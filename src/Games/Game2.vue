@@ -60,6 +60,7 @@ export default {
       correctId: false,
       correctResponse: false,
       intentWord: 0,
+      //Explicacion de los ejercicios que se enviara como prop a ExerciseInstruction
       explicationWord_introduction: "Escriba las letras de los cuadrantes en los que aparecieron las palabras de "+this.category,
       explicationWord_outcome: "",
       explicationWord_end: "",
@@ -69,10 +70,13 @@ export default {
     }
   },
   methods: {
+    //Logica de los ejercicios 3 y 4
     nextLocalState() {
+      //Se añade 1 al intento actual
       this.intentWord = this.intentWord + 1;
-      //Si la respuesta es correcta
+      //Si la respuesta fue correcta
       if (GameMethods.getCorrectResponse()){
+        //Se ejecuta el audio de correcto, se guarda el tiempo, se resetean las variables y se realiza la transicion de pantallas
         GameMethods.showCorrect();
         GameMethods.reproduceAudio('success');
         GameMethods.saveValue(parseInt(this.exerciseNumber,10),"finish correct",this.intentWord);
@@ -83,36 +87,39 @@ export default {
       }
       //Si fue incorrecta
       else {
+        //Se guarda el tiempo de fallo
         GameMethods.saveValue(parseInt(this.exerciseNumber,10),"finish failure",this.intentWord);
-        //Si no fue el ultimo intento
+        //Si no fue el ultimo intento se hace la transicion
         if (this.intentWord < this.limitAttempts) {
           GameMethods.reproduceAudio('mistake');
           this.transition(GameValues.incorrectTransition,GameValues.completeIds);
         }
-        //Si es el ultimo intento
+        //Si fue el ultimo intento, se notifica el fallo en el ejercicio al usuario y se transiciona hacia atras
         else {
           this.intentWord = 0;
           GameMethods.reproduceAudio('error');
           this.transition(GameValues.incorrectTransition,GameValues.firstPartExplanation);
           if (GameMethods.getGeneralState() == 3) {
-            //Si perdi en el ejercicio 3 vuelvo al 1
+            //Si perdio en el ejercicio 3 vuelve al LoseGame3(1), si perdio en el 4 al LoseGame4(2)
             this.showError(GameValues.loseGame3);
             this.changeGeneralState(GameValues.loseGame3);
           }
           else {
-            //Si perdi en el ejercicio 4 voy al 2
             this.showError(GameValues.loseGame4);
             this.changeGeneralState(GameValues.loseGame4);
           }
         }
       }
     },
+    //Metodo para realizar transiciones de pantallas. Se invoca a waitAndNextGameState, que cambia de estado por
+    //dos segundos y luego vuelve al estado indicado
     transition : function(waitingState,nextGameState){
       switch(GameMethods.getGameState()){
         //Estado de completar ids
         case GameValues.completeIds:
           GameMethods.restore();
           GameMethods.waitAndNextGameState(waitingState,nextGameState);
+          //Si vuelve a hacer el ejercicio, se guarda el tiempo en que se muestra la pantalla nuevamente
           if (nextGameState == GameValues.completeIds){
             GameMethods.saveValue(parseInt(this.exerciseNumber,10),"show",this.intentWord+1);
           }

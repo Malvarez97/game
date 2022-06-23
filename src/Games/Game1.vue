@@ -62,6 +62,7 @@ export default {
   data() {
     return {
       intentWord: 0,
+      //Explicaciones de los ejercicios que se enviaran como prop a ExerciseInstruction
       explicationWord_introduction: " Se divide la pantalla en 4 cuadrantes.",
       explicationWord_outcome: " A continuacion trate de recordar la palabra perteneciente a la categoria " + this.category + " y los cuadrantes (letra identificatoria) donde se halla.",
       explicationWord_end: "Cuando las palabras desaparezcan de la pantalla, debe escribirlas en los cuadrantes correspondientes",
@@ -74,12 +75,13 @@ export default {
     }
   },
   methods: {
-    //Logica de los ejercicios 1 y 2 para avanzar al siguiente estado
+    //Logica de los ejercicios 1 y 2
     nextLocalState() {
-      //Se aniade 1 al intento actual
+      //Se añade 1 al intento actual
       this.intentWord = this.intentWord + 1;
       //Si la respuesta fue correcta
       if (GameMethods.getCorrectResponse()){
+        //Se ejecuta el audio de correcto, se guarda el tiempo, se resetean las variables y se realiza la transicion de pantallas
         GameMethods.reproduceAudio('success');
         GameMethods.saveValue(this.getExerciseNumber(), "finish correct",this.intentWord);
         this.intentWord = 0;
@@ -88,34 +90,35 @@ export default {
           this.subExerciseNumber = 2;
           this.transition(GameValues.correctTransition,GameValues.secondPartExplanation);
         }
-        //Si estamos en el ejercicio de los ids, pasamos al ejercicio siguiente
+        //Si estamos en el ejercicio 2 (El de los ids), pasamos al ejercicio siguiente
         else{
           this.subExerciseNumber = 1;
           this.transition(GameValues.correctTransition,GameValues.firstPartExplanation);
           GameMethods.changeGeneralState(GameMethods.getGeneralState()+1);
         }
       }
-      //Si fue incorrecta (primera)
+      //Si fue incorrecta
       else {
+        //Se guarda el tiempo de fallo
         GameMethods.saveValue(this.getExerciseNumber(),"finish failure",this.intentWord);
         //Si fue el primer intento
           if (this.intentWord == 1) {
-            //Si es el ejercicio de las ids, se muestra una advertencia
+            //Si es el ejercicio de las ids, se muestra una advertencia, ya que los intentos limite son 2
             if (GameMethods.getTypeOfExercise() == "ids"){
               GameMethods.reproduceAudio('hint');
               GameMethods.showWarning('Último intento.');
               this.transition(GameValues.incorrectTransition,GameValues.completeIds);
             }
-            //Si es el ejercicio de las palabras
+            //Si es el ejercicio de las palabras simplemente hacemos la transicion
             else{
               GameMethods.reproduceAudio('mistake');
               this.transition(GameValues.incorrectTransition,GameValues.completeWords);
             }
           }
-          //Si fue la segunda incorrecta
+          //Segunda incorrecta
           else {
             if (this.intentWord == 2) {
-              //Si es el juego de las ids, entonces se vuelve al ej 1
+              //Si es el juego de las ids, se vuelve al ejercicio 1 y se le notifica al usuario
               if (GameMethods.getTypeOfExercise() == 'ids'){
                 GameMethods.reproduceAudio('error');
                 GameMethods.showError(GameMethods.getGeneralState());
@@ -124,7 +127,7 @@ export default {
                 this.transition(GameValues.incorrectTransition,GameValues.firstPartExplanation);
                 GameMethods.changeGeneralState(GameValues.loseGame1);
               }
-              //Si es el juego de las palabras, se muestra la ayuda
+              //Si es el juego de las palabras, se carga la ayuda y se le avisa al usuario
               else{
                 GameMethods.saveValue(this.getExerciseNumber(),"finish failure",this.intentWord);
                 GameMethods.reproduceAudio('hint');
@@ -133,17 +136,25 @@ export default {
                 GameMethods.changeHelp();
               }
             }
-            //Tercera incorrecta. Muestro error
+            //Tercera incorrecta. Notifico error y hago transicion hacia atras
             else {
               GameMethods.reproduceAudio('error');
               GameMethods.showError(GameValues.loseGame1);
               this.intentWord = 0;
               this.transition(GameValues.incorrectTransition,GameValues.firstPartExplanation);
-              GameMethods.changeGeneralState(GameValues.loseGame1);
+              //Si perdio en el ejercicio 1 vuelve al LoseGame1 (1) si perdio en el 2 al LoseGame2(1)
+              if (GameMethods.getGeneralState() == 1){
+                GameMethods.changeGeneralState(GameValues.loseGame1);
+              }
+              else{
+                GameMethods.changeGeneralState(GameValues.loseGame2);
+              }
             }
           }
         }
       },
+    //Metodo para realizar transiciones de pantallas. Se invoca a waitAndNextGameState, que cambia de estado por
+    //dos segundos y luego vuelve al estado indicado
     transition : function(waitingState,nextGameState){
       switch(GameMethods.getGameState()){
         //Estado de completar palabras
@@ -165,15 +176,18 @@ export default {
         case GameValues.completeIds:
           GameMethods.restore();
           GameMethods.waitAndNextGameState(waitingState,nextGameState);
+          //Si tengo que volver a realizar el ejercicio, guardo el tiempo para volver a mostrar las palabras
           if (nextGameState == GameValues.completeIds){
             GameMethods.saveValue(this.getExerciseNumber(),'show',this.intentWord+1);
           }
           break;
       }
     },
+    //Metodo que se ejecuta al clickear el boton de siguiente o completar el ejercicio correctamente\
+    //Este metodo setea los valores del juego, estado, tipo de ejercicio y guarda tiempos en pantallas explicativas
+    //En pantallas no explicativas, chequea que el ejercicio se haya respondido correctamente
     changeValues: function () {
       switch (GameMethods.getGameState()) {
-          //Descripcion inicial del ejercicio
         case GameValues.firstPartExplanation:
           GameMethods.changeState(GameValues.showWordsAndIds);
           GameMethods.saveValue(this.getExerciseNumber(),'show',this.intentWord+1);
@@ -191,6 +205,7 @@ export default {
           GameMethods.checkExercise();
       }
     },
+    //Metodo para devolver el numero de ejercicio, ya que estos ejercicios estan divididos en dos partes.
     getExerciseNumber : function () {
       return parseFloat(this.exerciseNumber+'.'+this.subExerciseNumber,10)
     },

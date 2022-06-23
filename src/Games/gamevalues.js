@@ -1,3 +1,6 @@
+//Valores constantes del juego
+
+//Estados del juego
 export const firstPartExplanation = 0;
 export const secondPartExplanation = 1;
 export const showWordsAndIds = 2;
@@ -16,10 +19,11 @@ export const incorrectTransition = 14;
 export const congratulationsScreen = 15;
 export const pauseScreen = 16;
 
+//Ejercicio al que se volveria si se pierde en determinado ejercicio
 export const loseGame1 = 1;
 export const loseGame2 = 1;
 export const loseGame3 = 1;
-export const loseGame4 = 1;
+export const loseGame4 = 2;
 export const loseGame5 = 1;
 export const loseGame6 = 1;
 export const loseGame7 = 6;
