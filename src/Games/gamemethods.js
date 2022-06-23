@@ -8,10 +8,16 @@ export function waitAndNextQuadrantState (waitingState, nextQuadrantState) {
     store.dispatch('waitingStateToNextQuadrantState',{miliseconds: 2000,waitingState: waitingState, nextQuadrantState: nextQuadrantState});
 }
 export function changeGameState(nextGameState){
-    store.commit('changeGameState',nextGameState);
+    store.dispatch('changeGameState',nextGameState);
 }
 export function restore(){
     store.commit('restore');
+}
+export function setPause(pause){
+    store.commit('setPause',pause);
+}
+export function restartInterval(){
+    store.dispatch('restartInterval');
 }
 export function changeGeneralState(nextGeneralState) {
     store.commit('changeCategory', nextGeneralState);
@@ -28,7 +34,7 @@ export function saveValue(exercisenumberT, actionT ,intentT ) {
     store.commit('writeTimes', {exercisenumber:exercisenumberT, action:actionT,intent:intentT});
 }
 export function changeQuadrantState(nextQuadrantState) {
-    store.commit('changeQuadrantState', nextQuadrantState);
+    store.dispatch('changeQuadrantState', nextQuadrantState);
 }
 export function reproduceAudio(audio){
   switch (audio){

@@ -1,7 +1,7 @@
 <template>
 	<v-app fluid class="container">
     <div v-show="$store.state.generalState == 0">
-      <Beginner @finishBegin="$store.dispatch('changeGeneralState',6)"></Beginner>
+      <Beginner @finishBegin="$store.dispatch('changeGeneralState',1)"></Beginner>
     </div>
     <div v-show="$store.state.generalState == 1">
       <Game1 @finishExcersize="finalize" @saveValue="writeState" :id="0" :category="this.$store.state.firstCategory" :exerciseNumber="this.$store.state.generalState" > </Game1>
@@ -60,6 +60,8 @@ import Game8 from "@/Games/Game8";
 import Game9 from "@/Games/Game9";
 import Beginner from "@/components/Beginner";
 import {enterFullscreen} from 'request-fullscreen-js';
+import * as GameValues from './Games/gamevalues.js';
+import * as GameMethods from './Games/gamemethods.js';
 
 
 export default {
@@ -124,6 +126,9 @@ export default {
       //quadrantIds: this.generateRandomIds(4),
       idsOrder: this.generateQuadrantsPosition(4),
       idsValue: this.generateRandomIds(4,'Facil'),
+      timeLimitToPause:30,
+      gameValues:GameValues,
+      gameMethods:GameMethods,
     }
   },
     created(){
@@ -146,6 +151,10 @@ export default {
       toggleFullscreen(document.getElementById('div'))*/
     addEventListener("click", () => {
       enterFullscreen();
+      if (this.$store.state.pause){
+        GameMethods.setPause(false);
+        GameMethods.changeGameState(this.$store.state.lastGameState);
+      }
     });
    /* addEventListener("mousedown", () => {
       if (this.$store.state.generalState == 5){
@@ -166,7 +175,11 @@ export default {
       }
     });*/
   },
-
+  computed:{
+    seconds(){
+      return this.$store.state.seconds;
+    }
+  },
   methods: {
       finalize:function(value,nextState){
         //this.writeState(exerciseNumber,value);
@@ -429,6 +442,15 @@ export default {
 
       }
     },
+  },
+  watch:{
+    seconds(){
+      if (this.$store.state.seconds == this.timeLimitToPause){
+        GameMethods.changeGameState(GameValues.pauseScreen);
+        GameMethods.setPause(true);
+        this.$store.commit('clearStoreInterval');
+      }
+    }
   },
 
 }

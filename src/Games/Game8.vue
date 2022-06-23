@@ -15,13 +15,17 @@
     <div v-show="$store.state.gameState==gameValues.correctTransition">
       <Transition :css="false" >
         <div>
-          <MyResponse :correct="true"></MyResponse>
+          <MyResponse :pause="false" :correct="true"></MyResponse>
         </div>
       </Transition>
     </div>
     <!-- Transicion de incorrecto -->
     <div  v-show="$store.state.gameState==gameValues.incorrectTransition">
-      <MyResponse :correct="false" ></MyResponse>
+      <MyResponse :pause="false" :correct="false" ></MyResponse>
+    </div>
+    <!-- Estado de pausa -->
+    <div  v-show="$store.state.gameState==gameValues.pauseScreen">
+      <MyResponse :correct=null :pause="true" ></MyResponse>
     </div>
   </v-app>
 </template>

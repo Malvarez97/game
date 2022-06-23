@@ -125,6 +125,7 @@
 import '../assets/common.scss';
 import { VueDraggableNext } from 'vue-draggable-next';
 import * as GameValues from '../Games/gamevalues.js';
+import * as GameMethods from '../Games/gamemethods';
 var wagnerFischer = require('wagner-fischer');
 
 export default {
@@ -410,11 +411,13 @@ export default {
      input() {
       this.idCorrect();
       this.idEmpty();
+      GameMethods.restartInterval();
         },
       //Observo lo que va escribiendo el usuario
       inputCenter(){
         this.wordCorrect();
         this.wordEmpty();
+        GameMethods.restartInterval();
       },
       clicked(){
         this.clickedWord();

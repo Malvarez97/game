@@ -14,6 +14,7 @@ export const draggable = 12;
 export const correctTransition = 13;
 export const incorrectTransition = 14;
 export const congratulationsScreen = 15;
+export const pauseScreen = 16;
 
 export const loseGame1 = 1;
 export const loseGame2 = 1;

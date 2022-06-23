@@ -39,8 +39,24 @@ export default new Vuex.Store({
         audioHint: null,
         audioVictory:null,
         help:false,
+        interval:null,
+        seconds:0,
+        pause:false,
     },
     mutations:{
+        setPause(state,pause){
+          this.state.pause = pause;
+        },
+        setStoreInterval(state){
+          state.interval = setInterval( () => {
+              console.log("seconds = "+state.seconds);
+              state.seconds+=1;
+          }, 1000)
+        },
+        clearStoreInterval(state){
+          clearInterval(state.interval);
+          state.seconds = 0;
+        },
         setIntroduction(state,introduction){
             this.state.introduction = introduction;
         },
@@ -296,6 +312,7 @@ export default new Vuex.Store({
             else{
                 context.commit('writeTimes', {exercisenumber:parseInt(nextGeneralState,10), action:"start reading",intent:1});
             }
+            context.dispatch('restartInterval');
         },
         restore(context, words){
             console.log("Estoy en el dispatch restore");
@@ -307,6 +324,19 @@ export default new Vuex.Store({
         changeState(context,value){
             context.commit('changeGameState',value);
             context.commit('changeQuadrantState',value);
-        }
+            context.dispatch('restartInterval');
+        },
+        changeGameState(context,value){
+            context.commit('changeGameState',value);
+            context.dispatch('restartInterval');
+        },
+        changeQuadrantState(context,value){
+          context.commit('changeQuadrantState',value);
+          context.dispatch('restartInterval');
+        },
+        restartInterval({commit}){
+            commit('clearStoreInterval');
+            commit('setStoreInterval');
+        },
     }
 })

@@ -1,19 +1,26 @@
 <template>
   <div class="background">
-  <div v-show="correct" class="game-container" >
+  <div v-show="!pause&&correct" class="game-container" >
       <H1 class="correct"> CORRECTA </H1>
       <v-img
           class="image"
           src="../assets/good.png"
       ></v-img>
   </div>
-  <div  v-show="!correct" class="game-container">
+  <div  v-show="!pause&&!correct" class="game-container">
     <H1 class=" incorrect"> INCORRECTA,AUN TE QUEDAN INTENTOS</H1>
     <v-img
         class="image"
         src="../assets/bad.png"
     ></v-img>
   </div>
+    <div  v-show="pause" class="game-container">
+      <H1 class=" incorrect"> La sesion se encuentra en pausa </H1>
+      <v-img
+          class="image"
+          src="../assets/pause.png"
+      ></v-img>
+    </div>
   </div>
 </template>
 
@@ -21,7 +28,14 @@
 export default {
   name: "MyResponse",
   props: {
-    correct:Boolean,
+    correct:{
+      Type:Boolean,
+      default:null,
+    },
+    pause: {
+      Type:Boolean,
+      default:false,
+    }
   },
   methods: {
     response: function () {
