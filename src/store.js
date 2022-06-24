@@ -42,6 +42,7 @@ export default new Vuex.Store({
         interval:null,
         seconds:0,
         pause:false,
+        exerciseData: [],
     },
     mutations:{
         setPause(state,pause){
@@ -337,6 +338,124 @@ export default new Vuex.Store({
         restartInterval({commit}){
             commit('clearStoreInterval');
             commit('setStoreInterval');
+        },
+        calculateSessionValues(context){
+            for (let i = context.state.exerciseData.length-1; i>=0; i--){
+                context.state.exerciseData.pop();
+            }
+            console.log("stte");
+            let intents = 0;
+            let lastAction = null;
+            let initialShowTime = 0;
+            let initialReadingTime = 0;
+            let exerciseTime = 0;
+            let interactionTime = 0;
+            let readingTime = 0;
+            let exercise = 0;
+            for (let i = 0; i < context.state.times.length;) {
+                console.log("i = "+i);
+                console.log(context.state.times[i]);
+                if (context.state.times[i].action == "start reading"){
+                    let data = null;
+                    initialReadingTime = 0;
+                    lastAction = "start reading";
+                    initialReadingTime = context.state.times[i].time;
+                    intents = 0;
+                    exercise = context.state.times[i].exercise;
+                    initialShowTime = 0;
+                    exerciseTime = 0;
+                    interactionTime = 0;
+                    readingTime = 0;
+                    switch (exercise){
+                        case 1.1: exercise = 1; break;
+                        case 1.2: exercise = 2; break;
+                        case 2.1: exercise = 3; break;
+                        case 2.2: exercise = 4; break;
+                        default: exercise = exercise + 2; break;
+                    }
+                    i+=1;
+                    if( i<context.state.times.length ) {
+                        while (context.state.times[i].action != "start reading") {
+                            console.log("i = " + i);
+                            switch (context.state.times[i].action) {
+                                case "show":
+                                    console.log("Entra a show");
+                                    if (lastAction == "start reading") {
+                                        initialShowTime = context.state.times[i].time;
+                                        readingTime = context.state.times[i].time - initialReadingTime;
+                                    } else {
+                                        initialShowTime = context.state.times[i].time;
+                                        initialShowTime.setSeconds(initialShowTime.getSeconds()+2);
+                                    }
+                                    break;
+                                case "start interacting":
+                                    console.log("Entra a start interacting");
+                                    interactionTime = context.state.times[i].time - initialShowTime;
+                                    break;
+                                case "finish correct":
+                                    console.log("Entra a finish correct");
+                                    exerciseTime = context.state.times[i].time - initialShowTime + readingTime;
+                                    data = {
+                                        exercise: exercise,
+                                        codificationTime: interactionTime,
+                                        completionTime: exerciseTime,
+                                        intents: 1,
+                                        readingTime: readingTime
+                                    }
+                                    if (context.state.exerciseData[exercise - 1] == null){
+                                        console.log("push exercise "+(exercise-1));
+                                        console.log(data);
+                                        context.state.exerciseData.push(data);
+                                    }
+                                    else {
+                                        console.log(data);
+                                        console.log("exercise -1="+ (exercise-1));
+                                        intents = parseInt(context.state.exerciseData[exercise - 1].intents,10) + 1;
+                                        console.log("INTENTS = "+intents);
+                                        context.state.exerciseData[exercise - 1].exercise = data.exercise;
+                                        context.state.exerciseData[exercise - 1].codificationTime = (parseFloat(context.state.exerciseData[exercise - 1].codificationTime,10) + parseFloat(data.codificationTime,10)) / intents;
+                                        context.state.exerciseData[exercise - 1].completionTime = (parseFloat(context.state.exerciseData[exercise - 1].completionTime,10) + parseFloat(data.completionTime,10));
+                                        context.state.exerciseData[exercise - 1].intents = intents;
+                                        context.state.exerciseData[exercise - 1].readingTime = (parseFloat(context.state.exerciseData[exercise - 1].readingTime,10) + parseFloat(data.readingTime,10)) / intents;
+                                    }
+                                    console.log(context.state.exerciseData);
+                                    break;
+                                case "finish failure":
+                                    console.log("ENTR AA FNISH FAILURE");
+                                    exerciseTime = context.state.times[i].time - initialShowTime + readingTime;
+                                    data = {
+                                        exercise: exercise,
+                                        codificationTime: interactionTime,
+                                        completionTime: exerciseTime,
+                                        intents: 1,
+                                        readingTime: readingTime
+                                    }
+                                    if (context.state.exerciseData[exercise - 1] == null){
+                                        console.log("push exercise "+(exercise-1));
+                                        console.log(data);
+                                        context.state.exerciseData.push(data);
+                                    }
+                                    else {
+                                        intents = parseInt(context.state.exerciseData[exercise - 1],10) + 1;
+                                        context.state.exerciseData[exercise - 1].exercise = data.exercise;
+                                        context.state.exerciseData[exercise - 1].codificationTime = (parseInt(context.state.exerciseData[exercise - 1].codificationTime,10) + parseInt(data.codificationTime),10) / intents;
+                                        context.state.exerciseData[exercise - 1].completionTime = (parseInt(context.state.exerciseData[exercise - 1].completionTime,10) + parseInt(data.completionTime,10));
+                                        context.state.exerciseData[exercise - 1].intents = intents;
+                                        context.state.exerciseData[exercise - 1].readingTime = (parseInt(context.state.exerciseData[exercise - 1].readingTime,10) + parseInt(data.readingTime,10)) / intents;
+                                    }
+                                    console.log("DDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDD")
+                                    console.log(context.state.exerciseData);
+                                    lastAction = "finishFailure";
+                                    break;
+                                    default: console.log("Entra a default"); break;
+                            }
+                            i += 1;
+                        }
+                    }
+                }
+            }
+            console.log("data = ");
+            console.log(context.state.exerciseData);
         },
     }
 })

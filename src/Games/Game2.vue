@@ -6,7 +6,7 @@
     </div>
     <!-- 1) Jugar solo QuadrantId -->
     <div  v-show="$store.state.gameState==gameValues.completeIds">
-      <Game @finishCheck="nextLocalState();" @firstLetter="gameMethods.saveValue(parseFloat(this.exerciseNumber,10),'start interacting',this.intentWord+1)" :id="this.id" ></Game>
+      <Game @finishCheck="nextLocalState();" @firstLetter="gameMethods.saveValue(parseFloat(exerciseNumber,10),'start interacting',this.intentWord+1)" :id="this.id" ></Game>
       <v-btn  outline @click="changeValues();"  rounded class="btn-global nextposition" color="#E74C3C" >
         Siguiente
       </v-btn>
