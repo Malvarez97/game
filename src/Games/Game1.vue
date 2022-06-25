@@ -10,7 +10,7 @@
     </div>
     <!-- 2)Mostrar palabras e ids 3)Completar palabras 4)Completar ids -->
     <div  v-show="$store.state.gameState==gameValues.showWordsAndIds || $store.state.gameState==gameValues.completeWords || $store.state.gameState==gameValues.completeIds">
-      <Game @finishCheck="nextLocalState();" @firstLetter="gameMethods.saveValue(this.getExerciseNumber,'start interacting',this.intentWord+1)" :id="this.id" ></Game>
+      <Game @finishCheck="nextLocalState();" @firstLetter="gameMethods.saveValue(this.getExerciseNumber(),'start interacting',this.intentWord+1)" :id="this.id" ></Game>
       <v-btn  outline @click="changeValues();"  class="btn-global nextposition" color="#E74C3C" >
         Siguiente
       </v-btn>
@@ -96,6 +96,7 @@ export default {
           this.transition(GameValues.correctTransition,GameValues.firstPartExplanation);
           GameMethods.changeGeneralState(GameMethods.getGeneralState()+1);
         }
+        this.$store.dispatch("calculateSessionValues");
       }
       //Si fue incorrecta
       else {

@@ -45,6 +45,9 @@
     <div v-show="$store.state.generalState==14" >
       <Game9 @finishExcersize="finalize" @saveValue="writeState" :id="13" :category="this.$store.state.firstCategory+' y '+this.$store.state.secondCategory" :exerciseNumber="this.$store.state.generalState"></Game9>
     </div>
+    <div v-show="$store.state.generalState==15" >
+      <Chart ></Chart>
+    </div>
 	</v-app>
 </template>
 <script>
@@ -59,7 +62,8 @@ import Game7 from "@/Games/Game7";
 import Game8 from "@/Games/Game8";
 import Game9 from "@/Games/Game9";
 import Beginner from "@/components/Beginner";
-import {enterFullscreen} from 'request-fullscreen-js';
+import Chart from "@/components/Chart";
+//import {enterFullscreen} from 'request-fullscreen-js';
 import * as GameValues from './Games/gamevalues.js';
 import * as GameMethods from './Games/gamemethods.js';
 
@@ -67,6 +71,7 @@ import * as GameMethods from './Games/gamemethods.js';
 export default {
 	components: {
     Beginner,
+    Chart,
     Game1,
     Game2,
     Game3,
@@ -150,7 +155,7 @@ export default {
       exitFullscreen(document.getElementById('div'))
       toggleFullscreen(document.getElementById('div'))*/
     addEventListener("click", () => {
-      enterFullscreen();
+      //enterFullscreen();
       if (this.$store.state.pause){
         GameMethods.setPause(false);
         GameMethods.changeGameState(this.$store.state.lastGameState);
