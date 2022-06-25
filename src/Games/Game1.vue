@@ -1,5 +1,5 @@
 <template>
-  <v-app fluid style="height: 100vh;">
+  <v-app >
     <!-- Explicacion del juego  -->
     <div v-show="$store.state.gameState==gameValues.firstPartExplanation" >
       <ExerciseInstruction @finishExplanation="changeValues();" :introduction="explicationWord_introduction" :outcome="explicationWord_outcome" :end="explicationWord_end" :exerciseNumber="'Ejercicio '+this.exerciseNumber" :subExerciseNumber="1" ></ExerciseInstruction>

@@ -1,5 +1,5 @@
 <template>
-	<v-app fluid class="container">
+	<v-app >
     <div v-show="$store.state.generalState == 0">
       <Beginner @finishBegin="$store.dispatch('changeGeneralState',1)"></Beginner>
     </div>
@@ -131,7 +131,7 @@ export default {
       //quadrantIds: this.generateRandomIds(4),
       idsOrder: this.generateQuadrantsPosition(4),
       idsValue: this.generateRandomIds(4,'Facil'),
-      timeLimitToPause:30,
+      timeLimitToPause:3000000,
       gameValues:GameValues,
       gameMethods:GameMethods,
     }
@@ -367,32 +367,32 @@ export default {
         this.$store.state.firstCategory = "nombresMasculino";
         this.$store.state.secondCategory = "animales";
         this.$store.commit("setCategory","nombresMasculino");
-        let firstName = this.masculinoMedio[Math.floor(Math.random(0) * (9))].valor;
+       /* let firstName = this.masculinoMedio[Math.floor(Math.random(0) * (9))].valor;
         let secondName = this.animalesMedio[Math.floor(Math.random(0) * (9))].valor;
-
+*/
         this.quadrants[this.idsOrder[0]] = {  "Id" : this.idsValue[0],
-                                              "word": firstName,
+                                              "word": /*firstName*/"palabrade11",
                                               "category": this.$store.state.firstCategory,
                                               "showId" : true,
                                               "showWord" : true,
                                               "position" : "first",
         };
         this.quadrants[this.idsOrder[1]] = {  "Id" : this.idsValue[1],
-                                              "word": firstName,
+                                              "word": /*firstName*/"palabrade11",
                                               "category": this.$store.state.firstCategory,
                                               "showId" : true,
                                               "showWord" : true,
                                               "position" : "first",
         };
         this.quadrants[this.idsOrder[2]] = {  "Id" : this.idsValue[2],
-                                              "word": secondName,
+                                              "word": /*secondName*/"palabrade11",
                                               "category": this.$store.state.secondCategory,
                                               "showId" : true,
                                               "showWord" : false,
                                               "position" : "second",
         };
         this.quadrants[this.idsOrder[3]] = {  "Id" : this.idsValue[3],
-                                              "word": secondName,
+                                              "word": /*secondName*/"palabrade11",
                                               "category": this.$store.state.secondCategory,
                                               "showId" : true,
                                               "showWord" : false,

@@ -434,8 +434,8 @@ export default {
 
 <style lang="scss" scoped>
 .game-container {
-  height: 48vh;
-  width: 58vh;
+  height: 50vh;
+  width: 50vw;
   position: absolute;
   display: grid;
   grid-template-columns : repeat(5,1fr);
@@ -458,9 +458,18 @@ h1.draggable{
   font-size: 8rem;
 }
 h1{
+  margin-right: 0;
   font-size: 4rem;
   color:greenyellow;
   width:33rem;
+}
+h1.positionCenter{
+  font-size: 4rem;
+  color:greenyellow;
+  width:33rem;
+}
+h1.positionUp{
+  margin-left: 1%;
 }
 .incorrect{
   color:darkred;
@@ -522,6 +531,21 @@ input.id{
   border-color:springgreen;
   box-shadow:0 0 40Px 0 springgreen;
   color:springgreen;
+}
+@media screen and (max-width: 1500px) {
+  input {
+    height: 6rem;
+    width:16rem;
+    font-size:1rem;
+  }
+  h1{
+    font-size: 4rem;
+  }
+  .btn-global-8{
+    width: 18rem;
+    height: 4rem;
+    font-size: 3rem;
+  }
 }
 
 @media screen and (min-width:960px )  and (max-width: 1328px) {

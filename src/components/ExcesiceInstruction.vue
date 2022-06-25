@@ -55,6 +55,7 @@ h1 {
   color: #e74c3c;
 }
 p {
+  margin-left:6rem;
   font-family: "Roboto", sans-serif;
   font-weight: bold;
   font-size: 4Rem ;
@@ -131,28 +132,6 @@ p.end {
     font-size: 2rem ;
   }
 
-}
-.btn-custom {
-  margin: 0;
-  padding: 0;
-  border-width: 0;
-  border-color: transparent;
-  background: transparent;
-  font-weight: 400;
-  cursor: pointer;
-  position: relative;
-  font-size: 20px;
-  font-family: inherit;
-  padding: 5px 12px;
-  z-index: 0;
-  border: none;
-  border-radius: 0;
-  background: transparent;
-  color: #1d89ff;
-  -webkit-transition: color 0.3s cubic-bezier(0.02, 0.01, 0.47, 1), -webkit-transform 0.3s cubic-bezier(0.02, 0.01, 0.47, 1);
-  transition: color 0.3s cubic-bezier(0.02, 0.01, 0.47, 1), -webkit-transform 0.3s cubic-bezier(0.02, 0.01, 0.47, 1);
-  transition: color 0.3s cubic-bezier(0.02, 0.01, 0.47, 1), transform 0.3s cubic-bezier(0.02, 0.01, 0.47, 1);
-  transition: color 0.3s cubic-bezier(0.02, 0.01, 0.47, 1), transform 0.3s cubic-bezier(0.02, 0.01, 0.47, 1), -webkit-transform 0.3s cubic-bezier(0.02, 0.01, 0.47, 1);
 }
 
 

@@ -66,6 +66,7 @@ h1.game-title {
   grid-column-end: 4 ;
 }
 .btn-global-position {
+  margin-top:-8rem;
   grid-row: 3/4;
   grid-column: 2;
 }
@@ -74,7 +75,7 @@ h1.game-title {
   position: fixed;
   bottom: 0;
   width: 100%;
-  height: 13%;
+  height: 14%;
 }
 .btn-global {
   width: 30rem;
@@ -89,23 +90,28 @@ h1.game-title {
 .btn-global:hover{
   color: #2C3E50;
 }
-.nextposition{
-  position: absolute;
-  left:70%;
-  top :3%;
-}
+
 @media screen and (min-width:960px )  and (max-width: 1328px) {
-  .btn-global{
-    width: 25rem;
-    height: 10rem;
-    font-size: 3rem;
+  .btn-global-position {
+    margin-top:-8rem;
+    grid-row: 3/4;
+    grid-column: 2;
+  }
+}
+
+@media screen and (min-height:960px )  and (max-height: 1328px) {
+  .btn-global-position {
+    margin-top:-8rem;
+    grid-row: 3/4;
+    grid-column: 2;
   }
 }
 @media screen and (min-width:740px )  and (max-width: 960px) {
-  .btn-global{
-    width: 20rem;
-    height: 8rem;
-    font-size: 2rem;
+
+  .btn-global-position {
+    margin-top:-8rem;
+    grid-row: 3/4;
+    grid-column: 2;
   }
   h1.game-title {
     font-size: 5rem;
@@ -114,9 +120,9 @@ h1.game-title {
 }
 @media screen and (max-width: 740px) {
   .btn-global{
-    width: 16rem;
-    height: 6rem;
-    font-size: 2rem;
+    width: 25rem;
+    height: 10rem;
+    font-size: 4rem;
   }
   h1.game-title {
     font-size: 4rem;
