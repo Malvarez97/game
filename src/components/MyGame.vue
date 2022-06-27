@@ -195,6 +195,8 @@ export default {
 
 <style scoped>
 .row {
+  height: 50vh;
+  width: 50vw;
   background-color: #2C3E50;
   border:white;
   border:2px solid greenyellow;

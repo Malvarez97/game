@@ -58,7 +58,7 @@ p {
   margin-left:6rem;
   font-family: "Roboto", sans-serif;
   font-weight: bold;
-  font-size: 4Rem ;
+  font-size: 3.5Rem ;
   color: #e74c3c;
   display: flex;
   align-items: center;
@@ -73,8 +73,8 @@ p {
 .game-container {
   height: 100vh;
   display: grid;
-  grid-template-columns : repeat(7,1fr);
-  grid-template-rows: repeat(5,1fr);
+  grid-template-columns : repeat(7,14.5%);
+  grid-template-rows: repeat(5,20%);
 }
 
 .title{

@@ -1,5 +1,5 @@
 <template>
-	<v-app >
+	<v-app style="box-sizing: content-box" >
     <div v-show="$store.state.generalState == 0">
       <Beginner @finishBegin="$store.dispatch('changeGeneralState',1)"></Beginner>
     </div>
@@ -370,30 +370,30 @@ export default {
        /* let firstName = this.masculinoMedio[Math.floor(Math.random(0) * (9))].valor;
         let secondName = this.animalesMedio[Math.floor(Math.random(0) * (9))].valor;
 */
-        this.quadrants[this.idsOrder[0]] = {  "Id" : this.idsValue[0],
+        this.quadrants[this.idsOrder[0]] = {  "Id" : /*this.idsValue[0]*/"AAA",
                                               "word": /*firstName*/"palabrade11",
-                                              "category": this.$store.state.firstCategory,
+                                              "category":/* this.$store.state.firstCategory*/"palabrade11",
                                               "showId" : true,
                                               "showWord" : true,
                                               "position" : "first",
         };
-        this.quadrants[this.idsOrder[1]] = {  "Id" : this.idsValue[1],
+        this.quadrants[this.idsOrder[1]] = {  "Id" : /*this.idsValue[1]*/"AAA",
                                               "word": /*firstName*/"palabrade11",
-                                              "category": this.$store.state.firstCategory,
+                                              "category": /*this.$store.state.firstCategory*/"palabrade11",
                                               "showId" : true,
                                               "showWord" : true,
                                               "position" : "first",
         };
-        this.quadrants[this.idsOrder[2]] = {  "Id" : this.idsValue[2],
+        this.quadrants[this.idsOrder[2]] = {  "Id" : /*this.idsValue[2]*/"AAA",
                                               "word": /*secondName*/"palabrade11",
-                                              "category": this.$store.state.secondCategory,
+                                              "category": /*this.$store.state.secondCategory*/ "palabrade11",
                                               "showId" : true,
                                               "showWord" : false,
                                               "position" : "second",
         };
-        this.quadrants[this.idsOrder[3]] = {  "Id" : this.idsValue[3],
+        this.quadrants[this.idsOrder[3]] = {  "Id" : /*this.idsValue[3]*/"AAA" ,
                                               "word": /*secondName*/"palabrade11",
-                                              "category": this.$store.state.secondCategory,
+                                              "category": /*this.$store.state.secondCategory*/"palabrade11",
                                               "showId" : true,
                                               "showWord" : false,
                                               "position" : "second",

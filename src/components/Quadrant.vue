@@ -49,13 +49,13 @@
     </div>
   <!-- Butttons -->
   <div v-show="$store.state.quadrantState==gameValues.buttons" class="game-container">
-    <v-btn v-show="clicked<0" @click="clicked+=1" outline rounded class=" positionCenter btn-global-8" fab color="#4758B8"  >
+    <v-btn v-show="clicked<0" @click="clicked+=1" outline rounded class=" positionCenter btn-8" fab color="#4758B8"  >
       {{this.quadrant.word.toUpperCase()}}
     </v-btn>
-    <v-btn v-show="clicked>=0&&correctClick" @click="clicked+=1" outline rounded class=" positionCenter btn-correct btn-global-8" fab color="#4758B8"  >
+    <v-btn v-show="clicked>=0&&correctClick" @click="clicked+=1" outline rounded class=" positionCenter btn-correct btn-8" fab color="#4758B8"  >
       {{this.quadrant.word.toUpperCase()}}
     </v-btn>
-    <v-btn v-show="clicked>=0&&!correctClick" @click="clicked+=1" outline rounded class=" positionCenter btn-incorrect btn-global-8" fab color="#4758B8"  >
+    <v-btn v-show="clicked>=0&&!correctClick" @click="clicked+=1" outline rounded class=" positionCenter btn-incorrect btn-8" fab color="#4758B8"  >
       {{this.quadrant.word.toUpperCase()}}
     </v-btn>
   </div>
@@ -438,8 +438,8 @@ export default {
   width: 50vw;
   position: absolute;
   display: grid;
-  grid-template-columns : repeat(5,1fr);
-  grid-template-rows: repeat(5,1fr);
+  grid-template-columns : repeat(5,20%);
+  grid-template-rows: repeat(5,20%);
   margin:0;
 }
 .positionUp{
@@ -449,24 +449,26 @@ export default {
 }
 
 .positionCenter {
-  grid-column-start: 3;
-  grid-row-start: 3;
+  grid-column-start: 2;
+  grid-column-end: 5;
+  grid-row-start: 2;
+  margin-left: -15%;
 }
 h1.draggable{
-  grid-column-start: 3;
-  grid-row-start: 3;
-  font-size: 8rem;
+  grid-column-start: 2;
+  grid-row-start: 2;
+  font-size: 15rem;
 }
 h1{
-  margin-right: 0;
+  margin-right: 0px;
   font-size: 4rem;
   color:greenyellow;
-  width:33rem;
+  display: flex;
 }
 h1.positionCenter{
+  margin-top:20%;
   font-size: 4rem;
   color:greenyellow;
-  width:33rem;
 }
 h1.positionUp{
   margin-left: 1%;
@@ -486,8 +488,9 @@ input {
   margin:3rem;
 }
 input.id{
+  height: 4rem;
   width: 10rem;
-  margin:0px;
+  margin:1rem;
 }
 .inputEmpty:focus {
 	border-color:dodgerblue;
@@ -501,13 +504,12 @@ input.id{
   box-shadow:0 0 8Px 0 darkred;
 }
 
-.btn-global-8{
-  width: 20rem;
+.btn-8{
   height: 4rem;
+  width: 80%;
   font-size: 3rem;
   color: white;
   padding: 2.5rem 1rem;
-  text-transform: none;
   border-radius: 12px;
 }
 
@@ -536,10 +538,29 @@ input.id{
   input {
     height: 6rem;
     width:16rem;
-    font-size:1rem;
+    font-size:4rem;
   }
   h1{
     font-size: 4rem;
+  }
+  .btn-8{
+    width: 18rem;
+    height: 4rem;
+    font-size: 2.5rem;
+  }
+}
+
+@media screen and (min-width:960px )  and (max-width: 1328px) {
+  h1.positionCenter{
+    font-size: 3.5rem;
+  }
+  h1.draggable{
+    font-size: 12rem;
+  }
+  input {
+    height: 6rem;
+    width:16rem;
+    font-size:3rem;
   }
   .btn-global-8{
     width: 18rem;
@@ -548,22 +569,10 @@ input.id{
   }
 }
 
-@media screen and (min-width:960px )  and (max-width: 1328px) {
-  input {
-    height: 6rem;
-    width:16rem;
-    font-size:3rem;
-  }
-  h1{
-    font-size: 4rem;
-  }
-  .btn-global-8{
-    width: 18rem;
-    height: 4rem;
-    font-size: 3rem;
-  }
-}
 @media screen and (min-width:740px )  and (max-width: 960px) {
+  h1.draggable{
+    font-size: 9rem;
+  }
   input {
     height: 5rem;
     width:14rem;
@@ -573,32 +582,32 @@ input.id{
     width: 6rem;
     heigth:5rem;
   }
-  h1{
-    font-size: 2.5rem;
+  h1.positionCenter{font-size: 2.5rem;
   }
-  .btn-global-8{
-    width: 10rem;
+  .btn-8{
     height: 2.5rem;
     font-size: 1.65rem;
   }
 
 }
 @media screen  and (max-width: 740px) {
+  h1.draggable{
+    font-size: 9rem;
+  }
   input {
     height: 4rem;
     width:10rem;
     font-size:2rem;
   }
-  h1{
+  h1.positionCenter{
     font-size: 2rem;
   }
-  .btn-global-8{
-    width: 8rem;
+  .btn-8{
     height: 2rem;
     font-size: 1.35rem;
   }
   input.id{
-    width: 6rem;
+    width: 4rem;
     heigth:5rem;
   }
 }
@@ -608,7 +617,7 @@ input.id{
     width:8rem;
     font-size:1.5rem;
   }
-  h1{
+  h1.positionCenter{
     font-size: 1.5rem;
   }
 }
