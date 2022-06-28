@@ -59,7 +59,7 @@ export default {
   data() {
     return {
       intentWord: 0,
-      explicationWord_introduction: "Modifique las letras en los cuadrantes acomodándolas como eran en los ejercicios anteriores",
+      explicationWord_introduction: "Modifique las letras en los cuadrantes acomodándolas como eran en los ejercicios anteriores.",
       explicationWord_outcome: "",
       explicationWord_end: "",
       gameValues:GameValues,

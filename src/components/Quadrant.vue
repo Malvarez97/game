@@ -31,7 +31,7 @@
            <input ref="wordWritingCI" class="positionUp inputFail id" v-model="input">
          </div>
         <div v-show=validateShort class="game-container">
-          <h1 class="positionUp">{{ this.quadrant.Id.toUpperCase() }} ☑</h1>
+          <h1 class="positionUp">{{ this.quadrant.Id.toUpperCase() }} ✔</h1>
         </div>
        </div>
     <!-- Show Words Complete Ids -->
@@ -44,7 +44,7 @@
         <input ref="wordWritingSWCI" class="positionUp inputFail id" v-model="input">
       </div>
       <div v-show=validateShort class="game-container">
-        <h1 class="positionUp">{{ this.quadrant.Id.toUpperCase() }} ☑</h1>
+        <h1 class="positionUp">{{ this.quadrant.Id.toUpperCase() }} ✔</h1>
       </div>
     </div>
   <!-- Butttons -->
@@ -69,7 +69,7 @@
       <input ref="wordWritingSICW" class="positionCenter inputFail" v-model="inputCenter">
     </div>
     <div class="game-container" v-show=validateLong>
-      <h1 class="positionCenter">{{ this.quadrant.word.toUpperCase() }} ☑</h1>
+      <h1 class="positionCenter">{{ this.quadrant.word.toUpperCase() }} ✔</h1>
     </div>
   </div>
   <!-- Show words complete categories -->
@@ -84,7 +84,7 @@
       <input ref="wordWritingSWCC" class="positionCenter inputFail" v-model="inputCenter">
     </div>
     <div class="game-container" v-show=this.quadrant.showWord&&validateLong>
-      <h1 class="positionCenter">{{ this.quadrant.category.toUpperCase() }} ☑</h1>
+      <h1 class="positionCenter">{{ this.quadrant.category.toUpperCase() }} ✔</h1>
     </div>
   </div>
   <!-- Ingresar palabras y chequear por palabra -->
@@ -100,7 +100,7 @@
       <input ref="wordWritingSISWCW" class="positionCenter inputFail" v-model="inputCenter">
     </div>
     <div class="game-container" v-show=this.quadrant.showWord&&validateLong>
-      <h1 class="positionCenter">{{ this.quadrant.word.toUpperCase() }} ☑</h1>
+      <h1 class="positionCenter">{{ this.quadrant.word.toUpperCase() }} ✔</h1>
     </div>
   </div>
   <!-- Draggable -->
@@ -460,7 +460,7 @@ h1.draggable{
   font-size: 15rem;
 }
 h1{
-  margin-right: 0px;
+  margin-right: -50%;
   font-size: 4rem;
   color:greenyellow;
   display: flex;
@@ -505,7 +505,9 @@ input.id{
 }
 
 .btn-8{
-  height: 4rem;
+  margin-top: 5rem;
+  margin-left: 3rem;
+  height: 3.5rem;
   width: 80%;
   font-size: 3rem;
   color: white;
@@ -585,6 +587,7 @@ input.id{
   h1.positionCenter{font-size: 2.5rem;
   }
   .btn-8{
+    margin-left: -3rem;
     height: 2.5rem;
     font-size: 1.65rem;
   }
@@ -603,6 +606,7 @@ input.id{
     font-size: 2rem;
   }
   .btn-8{
+    margin-left: -3rem;
     height: 2rem;
     font-size: 1.35rem;
   }

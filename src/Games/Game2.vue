@@ -61,7 +61,7 @@ export default {
       correctResponse: false,
       intentWord: 0,
       //Explicacion de los ejercicios que se enviara como prop a ExerciseInstruction
-      explicationWord_introduction: "Escriba las letras de los cuadrantes en los que aparecieron las palabras de "+this.category,
+      explicationWord_introduction: "Escriba las letras de los cuadrantes en los que aparecieron las palabras de "+this.category+".",
       explicationWord_outcome: "",
       explicationWord_end: "",
       limitAttempts:3,

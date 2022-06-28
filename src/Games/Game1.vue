@@ -68,8 +68,8 @@ export default {
       //Explicaciones de los ejercicios que se enviaran como prop a ExerciseInstruction
       explicationWord_introduction: " Se divide la pantalla en 4 cuadrantes.",
       explicationWord_outcome: " A continuacion trate de recordar la palabra perteneciente a la categoria " + this.category + " y los cuadrantes (letra identificatoria) donde se halla.",
-      explicationWord_end: "Cuando las palabras desaparezcan de la pantalla, debe escribirlas en los cuadrantes correspondientes",
-      explicationid: "Escriba las letras que identifican a cada cuadrante",
+      explicationWord_end: "Cuando las palabras desaparezcan de la pantalla, debe escribirlas en los cuadrantes correspondientes.",
+      explicationid: "Escriba las letras que identifican a cada cuadrante.",
       subExerciseNumber: 1,
       limitAttemptsWords:3,
       limitAttemptsIds:2,

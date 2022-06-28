@@ -68,10 +68,10 @@ export default {
   data() {
     return {
       intentWord: 0,
-      explicationWord_introduction: "Trate de reocrdar lo escrito en cada cuadrante",
-      explicationWord_outcome: "Tenga en cuenta con que letra se identifica cada cuadrante",
-      explicationWord_end: "A continuación debe escribir el nombre faltante",
-      explication_nextGames: "Escriba el nombre que desaparece en la pantalla",
+      explicationWord_introduction: "Trate de reocrdar lo escrito en cada cuadrante.",
+      explicationWord_outcome: "Tenga en cuenta con que letra se identifica cada cuadrante.",
+      explicationWord_end: "A continuación debe escribir el nombre faltante.",
+      explication_nextGames: "Escriba el nombre que desaparece en la pantalla.",
       limitAttempts:3,
       gameValues:GameValues,
       gameMethods:GameMethods,

@@ -8,8 +8,8 @@
     <h1> {{this.exerciseNumber }}</h1>
     </div>
   <p class="introduction"> {{this.introduction}}</p>
-  <p class="outcome">{{this.outcome }}</p>
-  <p class="end">{{this.end }}</p>
+  <p class="outcome">{{this.outcome}}</p>
+  <p class="end">{{this.end}}</p>
     <v-btn  outline @click="finishExersiceInstruccion" rounded class="btn-global nextposition" color="#E74C3C" >
     Entendido
   </v-btn>
@@ -49,12 +49,12 @@ export default {
 
 <style lang="scss" scoped>
 h1 {
-  padding-left: 0rem;
   font-family: "Roboto", sans-serif;
   font-size: 6REM ;
   color: #e74c3c;
 }
 p {
+  padding-top: 4rem;
   margin-left:6rem;
   font-family: "Roboto", sans-serif;
   font-weight: bold;
@@ -93,12 +93,14 @@ p.introduction {
   grid-column-end:7;
 }
 p.outcome {
+  justify-content: flex-start;
   grid-row-start:3;
   grid-row-end: 4;
   grid-column-start:1 ;
   grid-column-end:7;
 }
 p.end {
+  margin-top: 5rem;
   grid-row-start:4;
   grid-row-end: 5;
   grid-column-start:1 ;
@@ -132,6 +134,17 @@ p.end {
     font-size: 2rem ;
   }
 
+}
+@media screen and (max-width: 700px) {
+ p {
+   margin-left: 2rem;
+ }
+  p.outcome {
+    padding-top: 6rem;
+  }
+  p.end {
+    padding-top: 6rem;
+  }
 }
 
 

@@ -17,7 +17,7 @@
             ></v-img>
             <v-img
                 class="float-right"
-                style="top: -25px; left: -14px; width: 20%;"
+                style="top: -1.5rem; left: -6rem; width: 18%;"
                 src="../assets/logoExactas.svg"
             ></v-img>
           </v-col>

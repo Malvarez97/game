@@ -58,7 +58,7 @@ export default {
   data() {
     return {
       intentWord: 0,
-      explicationWord_introduction: "Escriba los nombres del ejercicio anterior en cada cuadrante",
+      explicationWord_introduction: "Escriba los nombres del ejercicio anterior en cada cuadrante.",
       explicationWord_outcome: "",
       explicationWord_end: "",
       gameValues:GameValues,

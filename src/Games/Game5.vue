@@ -58,7 +58,7 @@ export default {
   data() {
     return {
       intentWord: 0,
-      explicationWord_introduction: "Haga click en aquellas palabras que no aparecieron previamente",
+      explicationWord_introduction: "Haga click en aquellas palabras que no aparecieron previamente.",
       explicationWord_outcome: "",
       explicationWord_end: "",
       limitAttempts:3,

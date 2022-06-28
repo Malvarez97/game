@@ -62,7 +62,7 @@ export default {
   data() {
     return {
       intentWord: 0,
-      explicationWord_introduction: "Complete las letras que identifican cada cuadrante como estaban en los últimos ejercicios",
+      explicationWord_introduction: "Complete las letras que identifican cada cuadrante como estaban en los últimos ejercicios.",
       explicationWord_outcome: "",
       explicationWord_end: "",
       congratulations_title:"¡Felicitaciones!",

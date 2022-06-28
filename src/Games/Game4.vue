@@ -59,10 +59,10 @@ export default {
   data() {
     return {
       intentWord: 0,
-      explicationWord_introduction: "Escriba en los cuadrantes las palabras pertenecientes a las categorias "+this.category+", anteriormente memorizadas",
-      explicationWord_outcome: "Tenga en cuenta que cambió la posición de las letras",
-      explicationWord_end: "Debe poner las palabras de acuerdo a las letras identificatorias, sin importar la posición de las mismas",
-      explicationSecondGame: "Al igual que en el ejercicio anterior, escriba las palabras pertenecientes a las categorias "+this.category+" anteriormente memorizadas",
+      explicationWord_introduction: "Escriba en los cuadrantes las palabras pertenecientes a las categorias "+this.category+", anteriormente memorizadas.",
+      explicationWord_outcome: "Tenga en cuenta que cambió la posición de las letras.",
+      explicationWord_end: "Debe poner las palabras de acuerdo a las letras identificatorias, sin importar la posición de las mismas.",
+      explicationSecondGame: "Al igual que en el ejercicio anterior, escriba las palabras pertenecientes a las categorias "+this.category+" anteriormente memorizadas.",
       gameValues:GameValues,
       gameMethods:GameMethods,
       limitAttempts:2,

@@ -58,9 +58,9 @@ export default {
   data() {
     return {
       intentWord: 0,
-      explicationWord_introduction: "En los ejercicios anteriores se presentaron palabras pertenecientes a dos categorías",
-      explicationWord_outcome: "A continuación escriba la categoría que falta en los lugares donde se encontraba la palabra",
-      explicationWord_end: "Debe escribir el nombre de la categoria, NO de la palabra. Las categorías posibles son: "+this.$store.state.firstCategory+", "+this.$store.state.secondCategory,
+      explicationWord_introduction: "En los ejercicios anteriores se presentaron palabras pertenecientes a dos categorías.",
+      explicationWord_outcome: "A continuación escriba la categoría que falta en los lugares donde se encontraba la palabra.",
+      explicationWord_end: "Debe escribir el nombre de la categoria, NO de la palabra. Las categorías posibles son: "+this.$store.state.firstCategory+", "+this.$store.state.secondCategory+".",
       limitAttempts:3,
       gameValues:GameValues,
       gameMethods:GameMethods,
