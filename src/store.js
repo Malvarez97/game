@@ -1,4 +1,6 @@
 import Vuex from 'vuex'
+import * as GameMethods from "./Games/gamemethods.js";
+import * as GameValues from "./Games/gamevalues.js";
 
 export default new Vuex.Store({
     state:{
@@ -40,13 +42,27 @@ export default new Vuex.Store({
         audioVictory:null,
         help:false,
         interval:null,
+        intervalPaused:null,
         seconds:0,
         pause:false,
+        secondsPaused:0,
         exerciseData: [],
     },
     mutations:{
         setPause(state,pause){
-          this.state.pause = pause;
+            this.state.pause = pause;
+            if (pause){
+                state.intervalPaused = setInterval( () => {
+                    state.secondsPaused+=1;
+                    console.log("Seconds paused = "+state.secondsPaused);
+                    if (state.seconds == 0){
+                        state.seconds = 1;
+                    }
+                }, 1000)
+            }
+            if (!pause){
+                clearInterval(state.intervalPaused);
+            }
         },
         setStoreInterval(state){
           state.interval = setInterval( () => {
@@ -110,10 +126,18 @@ export default new Vuex.Store({
                 if(this.firstLetter){
                     console.log("entro");
                     this.firsLetter=false;
-                    this.state.times.push({exercise:this.generalstate,action:data.action,intent: data.intent,time:date});
+                    let time = date;
+                    time = time.setSeconds(time.getSeconds()-state.secondsPaused);
+                    console.log("le resto "+state.secondsPaused+" segundos");
+                    console.log("time = "+time);
+                    this.state.times.push({exercise:this.generalstate,action:data.action,intent: data.intent,time:time });
                }
             }
             else {
+                let time = date;
+                time = time.setSeconds(time.getSeconds()-state.secondsPaused);
+                console.log("le resto "+state.secondsPaused+" segundos");
+                console.log("time = "+time);
                 this.state.times.push({
                     exercise: data.exercisenumber,
                     action: data.action,
@@ -338,6 +362,18 @@ export default new Vuex.Store({
         restartInterval({commit}){
             commit('clearStoreInterval');
             commit('setStoreInterval');
+        },
+        setPause(context,pause){
+            console.log("puase se vuelve "+pause);
+            context.commit('setPause',pause);
+            if (pause){
+                GameMethods.changeGameState(GameValues.pauseScreen);
+                context.commit('clearStoreInterval');
+            }
+            else{
+                GameMethods.changeGameState(context.state.lastGameState);
+            }
+
         },
         calculateSessionValues(context){
             for (let i = context.state.exerciseData.length-1; i>=0; i--){

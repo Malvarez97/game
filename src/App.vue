@@ -157,8 +157,10 @@ export default {
     addEventListener("click", () => {
       //enterFullscreen();
       if (this.$store.state.pause){
-        GameMethods.setPause(false);
-        GameMethods.changeGameState(this.$store.state.lastGameState);
+        if (this.$store.state.seconds != 0){
+          console.log("entro aca");
+          GameMethods.setPause(false);
+        }
       }
     });
    /* addEventListener("mousedown", () => {
@@ -451,9 +453,7 @@ export default {
   watch:{
     seconds(){
       if (this.$store.state.seconds == this.timeLimitToPause){
-        GameMethods.changeGameState(GameValues.pauseScreen);
         GameMethods.setPause(true);
-        this.$store.commit('clearStoreInterval');
       }
     }
   },

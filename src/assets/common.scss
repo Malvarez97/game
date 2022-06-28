@@ -15,6 +15,12 @@
   left:75%;
   top :3%;
 }
+
+.pauseposition{
+  position: absolute;
+  left:78%;
+  bottom :3%;
+}
 @media screen and (min-width:960px )  and (max-width: 1328px) {
   .btn-global{
     width: 14rem;
@@ -48,5 +54,6 @@
 @media screen and (max-width:540px )  {
 
 }
+
 
 

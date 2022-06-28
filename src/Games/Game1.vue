@@ -14,6 +14,9 @@
       <v-btn  outline @click="changeValues();"  class="btn-global nextposition" color="#E74C3C" >
         Siguiente
       </v-btn>
+      <v-btn  outline @click="gameMethods.setPause(true);"  class="btn-global pauseposition" img="../assets/pause.png" >
+        Pausa
+      </v-btn>
     </div>
     <!-- Transicion de correcto  -->
     <div v-show="$store.state.gameState==gameValues.correctTransition">

@@ -21,7 +21,7 @@ export function restore(){
 }
 //Setea en verdadero o falso, la variable global "pausa", esta indicara si el juego esta en pausa o no
 export function setPause(pause){
-    store.commit('setPause',pause);
+    store.dispatch('setPause',pause);
 }
 //Restaura el cronometro que lleva la cuenta del tiempo de inactividad del usuario en el juego
 export function restartInterval(){
