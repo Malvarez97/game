@@ -72,7 +72,6 @@ export default {
       this.intentWord += 1;
       //Si la respuesta es correcta
       if (GameMethods.getCorrectResponse()){
-        GameMethods.showCorrect();
         GameMethods.reproduceAudio('success');
         GameMethods.saveValue(parseInt(this.exerciseNumber,10),"finish correct",this.intentWord);
         this.intentWord = 0;
@@ -100,8 +99,8 @@ export default {
             /*this.showRightAnswer("\nid: " + this.$store.state.responseExercise10.id + " respuesta: " + this.$store.state.responseExercise10.word + "\n" +
                 "id: " + this.$store.state.responseExercise11.id + " respuesta: " + this.$store.state.responseExercise11.word + "\n" +
                 "id: " + this.$store.state.responseExercise12.id + " respuesta: " + this.$store.state.responseExercise12.word + "\n" +
-                "id: " + this.$store.state.responseExercise13.id + " respuesta: " + this.$store.state.responseExercise13.word + "\n");
-            */
+                "id: " + this.$store.state.responseExercise13.id + " respuesta: " + this.$store.state.responseExercise13.word + "\n");*/
+
             this.intentWord = 0;
             this.transition(GameValues.incorrectTransition, GameValues.firstPartExplanation);
             GameMethods.changeGeneralState(GameValues.loseGame13);

@@ -5,7 +5,7 @@ import store from "../store.js"
 
 //Espera 2 segundos en un estado intermedio para luego ir al siguiente
 export function waitAndNextGameState(waitingState, nextGameState) {
-    store.dispatch('waitingStateToNextState',{miliseconds: 2000,waitingState: waitingState, nextGameState: nextGameState});
+    store.dispatch('waitingStateToNextGameState',{miliseconds: 2000,waitingState: waitingState, nextGameState: nextGameState});
 }
 //Espera 2 segundos en un estado de cuadrante intermedio para luego ir al siguiente
 export function waitAndNextQuadrantState (waitingState, nextQuadrantState) {

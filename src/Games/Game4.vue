@@ -16,7 +16,7 @@
     <div v-show="$store.state.gameState==gameValues.correctTransition">
       <Transition :css="false" >
         <div>
-          <MyResponse pause="false" :correct="true"></MyResponse>
+          <MyResponse :pause="false" :correct="true"></MyResponse>
         </div>
       </Transition>
     </div>
@@ -73,7 +73,6 @@ export default {
       this.intentWord += 1;
       //Si la respuesta es correcta
       if (GameMethods.getCorrectResponse()){
-        GameMethods.showCorrect();
         //Si el usuario contesta correctamente se pasa al ejercicio siguiente
         GameMethods.reproduceAudio('success');
         GameMethods.saveValue(parseInt(this.exerciseNumber,10),"finish correct",this.intentWord);

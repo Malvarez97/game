@@ -154,19 +154,6 @@ export default {
     this.$store.commit('setQuadrant',this);
     this.$emit('quadrantCreated');
     this.$emit('setWordsAndIds');
-    //this.clicked=true;
-  },
-  computed: {
-    myList: {
-      get() {
-        console.log("Estoy llamando al get");
-        return this.$store.state.quadrants[this.idQuadrant];
-      },
-      set(value) {
-        console.log("Estoy llamando al set");
-        this.$store.dispatch('updateQuadrants', value)
-      }
-    }
   },
   data(){
     return{
@@ -353,21 +340,6 @@ export default {
           this.correctClick = false;
         }
       }
-    },
-    onMove : function(){
-      console.log("on move "+this.quadrant.Id);
-    },
-    onStart : function(){
-      console.log("on start "+this.quadrant.Id);
-    },
-    onAdd : function(){
-      console.log("on add "+this.quadrant.Id);
-    },
-    onRemove : function(){
-      console.log("on remove "+this.quadrant.Id);
-    },
-    onUpdate : function(){
-      console.log("on update "+this.quadrant.Id);
     },
     onEnd : function(){
       this.$store.commit('updateQuadrants');

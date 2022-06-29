@@ -302,17 +302,9 @@ export default new Vuex.Store({
         changeDragging(){
             this.state.dragging = !this.state.dragging;
         },
-        moveQuadrant(){
-            //console.log("initial drag object = "+this.state.initialDragObject.idQuadrant);
-            //this.state.initialDragObject.style.left = positions.x - this.state.initialDragObject.offsetWidth / 2 + 'px';
-            //this.state.initialDragObject.style.top = positions.y - this.state.initialDragObject.offsetHeight / 2 + 'px';
-            //console.log(this.state.initialDragObject.input);
-            //console.log("Deberia mover a "+ positions.x - this.state.initialDragObject.offsetWidth / 2 + 'px');
-           // console.log("Deberia mover a "+ positions.y //- this.state.initialDragObject.offsetHeight / 2 + 'px');
-        },
     },
     actions:{
-        waitingStateToNextState(context,data){
+        waitingStateToNextGameState(context,data){
             context.commit('changeGameState',data.waitingState);
             setTimeout ( ()=> {
                     context.commit('changeGameState',data.nextGameState);

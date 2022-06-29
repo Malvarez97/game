@@ -82,7 +82,6 @@ export default {
         GameMethods.reproduceAudio('victory');
         GameMethods.saveValue(parseInt(this.exerciseNumber,10),"finish correct",this.intentWord);
         GameMethods.saveValue(parseInt(this.exerciseNumber,10),"finish work",this.intentWord);
-        GameMethods.showCorrect();
         this.intentWord = 0;
         //Si el usuario contesta correctamente se pasa al ejercicio siguiente
         this.transition(GameValues.correctTransition,GameValues.congratulationsScreen);

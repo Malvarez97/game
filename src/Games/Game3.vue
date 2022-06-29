@@ -7,7 +7,7 @@
     <!-- 1) Draggable -->
     <div  v-show="$store.state.gameState==gameValues.draggable">
       <Game @finishCheck="nextLocalState();" @firstLetter="gameMethods.saveValue(parseFloat(this.exerciseNumber,10),'start interacting',this.intentWord+1)" :id="this.id" ></Game>
-      <v-btn outline @click="changeDragEnd(true); changeValues();" rounded class="btn-global nextposition" color="#E74C3C" >
+      <v-btn outline @click="gameMethods.changeDragEnd(true); changeValues();" rounded class="btn-global nextposition" color="#E74C3C" >
         Siguiente
       </v-btn>
     </div>

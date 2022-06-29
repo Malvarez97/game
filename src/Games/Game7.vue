@@ -82,7 +82,6 @@ export default {
       this.intentWord += 1;
       //Si la respuesta es correcta
       if (GameMethods.getCorrectResponse()){
-        GameMethods.showCorrect();
         GameMethods.reproduceAudio('success');
         GameMethods.saveValue(parseInt(this.exerciseNumber,10),"finish correct",this.intentWord);        this.intentWord = 0;
         //Si el usuario contesta correctamente se pasa al ejercicio siguiente

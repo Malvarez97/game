@@ -1,49 +1,49 @@
 <template>
 	<v-app style="box-sizing: content-box" >
     <div v-show="$store.state.generalState == 0">
-      <Beginner @finishBegin="$store.dispatch('changeGeneralState',1)"></Beginner>
+      <Beginner @finishBegin="$store.dispatch('changeGeneralState',11)"></Beginner>
     </div>
     <div v-show="$store.state.generalState == 1">
-      <Game1 @finishExcersize="finalize" @saveValue="writeState" :id="0" :category="this.$store.state.firstCategory" :exerciseNumber="this.$store.state.generalState" > </Game1>
+      <Game1  @saveValue="writeState" :id="0" :category="this.$store.state.firstCategory" :exerciseNumber="this.$store.state.generalState" > </Game1>
     </div>
     <div v-show="$store.state.generalState == 2">
-      <Game1 @finishExcersize="finalize" @saveValue="writeState" :id="1" :category="this.$store.state.secondCategory" :exerciseNumber="this.$store.state.generalState"> </Game1>
+      <Game1  @saveValue="writeState" :id="1" :category="this.$store.state.secondCategory" :exerciseNumber="this.$store.state.generalState"> </Game1>
     </div>
     <div v-show="$store.state.generalState==3">
-      <Game2 @finishExcersize="finalize" @saveValue="writeState" :id="2" :category="this.$store.state.firstCategory" :exerciseNumber="this.$store.state.generalState"></Game2>
+      <Game2  @saveValue="writeState" :id="2" :category="this.$store.state.firstCategory" :exerciseNumber="this.$store.state.generalState"></Game2>
     </div>
     <div v-show="$store.state.generalState==4">
-      <Game2 @finishExcersize="finalize" @saveValue="writeState" :id="3" :category="this.$store.state.secondCategory" :exerciseNumber="this.$store.state.generalState"></Game2>
+      <Game2  @saveValue="writeState" :id="3" :category="this.$store.state.secondCategory" :exerciseNumber="this.$store.state.generalState"></Game2>
     </div>
     <div v-show="$store.state.generalState==5" >
-      <Game3 @finishExcersize="finalize" @saveValue="writeState" :id="4" :category="this.$store.state.category" :exerciseNumber="this.$store.state.generalState"></Game3>
+      <Game3  @saveValue="writeState" :id="4" :category="this.$store.state.category" :exerciseNumber="this.$store.state.generalState"></Game3>
     </div>
     <div v-show="$store.state.generalState==6" >
-      <Game4 @finishExcersize="finalize" @saveValue="writeState" :id="5" :category="this.$store.state.firstCategory+' y '+this.$store.state.secondCategory" :exerciseNumber="this.$store.state.generalState"></Game4>
+      <Game4  @saveValue="writeState" :id="5" :category="this.$store.state.firstCategory+' y '+this.$store.state.secondCategory" :exerciseNumber="this.$store.state.generalState"></Game4>
     </div>
     <div v-show="$store.state.generalState==7" >
-      <Game4 @finishExcersize="finalize" @saveValue="writeState" :id="6" :category="this.$store.state.firstCategory+' y '+this.$store.state.secondCategory" :exerciseNumber="this.$store.state.generalState"></Game4>
+      <Game4  @saveValue="writeState" :id="6" :category="this.$store.state.firstCategory+' y '+this.$store.state.secondCategory" :exerciseNumber="this.$store.state.generalState"></Game4>
     </div>
     <div v-show="$store.state.generalState==8" >
-      <Game5 @finishExcersize="finalize" @saveValue="writeState" :id="7" :category="this.$store.state.firstCategory+' y '+this.$store.state.secondCategory" :exerciseNumber="this.$store.state.generalState"></Game5>
+      <Game5  @saveValue="writeState" :id="7" :category="this.$store.state.firstCategory+' y '+this.$store.state.secondCategory" :exerciseNumber="this.$store.state.generalState"></Game5>
     </div>
     <div v-show="$store.state.generalState==9" >
-      <Game6 @finishExcersize="finalize" @saveValue="writeState" :id="8" :category="this.$store.state.firstCategory+' y '+this.$store.state.secondCategory" :exerciseNumber="this.$store.state.generalState"></Game6>
+      <Game6  @saveValue="writeState" :id="8" :category="this.$store.state.firstCategory+' y '+this.$store.state.secondCategory" :exerciseNumber="this.$store.state.generalState"></Game6>
     </div>
     <div v-show="$store.state.generalState==10" >
-      <Game7 @finishExcersize="finalize" @saveValue="writeState" :id="9" :category="this.$store.state.firstCategory+' y '+this.$store.state.secondCategory" :exerciseNumber="this.$store.state.generalState"></Game7>
+      <Game7  @saveValue="writeState" :id="9" :category="this.$store.state.firstCategory+' y '+this.$store.state.secondCategory" :exerciseNumber="this.$store.state.generalState"></Game7>
     </div>
     <div v-show="$store.state.generalState==11" >
-      <Game7 @finishExcersize="finalize" @saveValue="writeState" :id="10" :category="this.$store.state.firstCategory+' y '+this.$store.state.secondCategory" :exerciseNumber="this.$store.state.generalState"></Game7>
+      <Game7  @saveValue="writeState" :id="10" :category="this.$store.state.firstCategory+' y '+this.$store.state.secondCategory" :exerciseNumber="this.$store.state.generalState"></Game7>
     </div>
     <div v-show="$store.state.generalState==12" >
-      <Game7 @finishExcersize="finalize" @saveValue="writeState" :id="11" :category="this.$store.state.firstCategory+' y '+this.$store.state.secondCategory" :exerciseNumber="this.$store.state.generalState"></Game7>
+      <Game7  @saveValue="writeState" :id="11" :category="this.$store.state.firstCategory+' y '+this.$store.state.secondCategory" :exerciseNumber="this.$store.state.generalState"></Game7>
     </div>
     <div v-show="$store.state.generalState==13" >
-      <Game8 @finishExcersize="finalize" @saveValue="writeState" :id="12" :category="this.$store.state.firstCategory+' y '+this.$store.state.secondCategory" :exerciseNumber="this.$store.state.generalState"></Game8>
+      <Game8  @saveValue="writeState" :id="12" :category="this.$store.state.firstCategory+' y '+this.$store.state.secondCategory" :exerciseNumber="this.$store.state.generalState"></Game8>
     </div>
     <div v-show="$store.state.generalState==14" >
-      <Game9 @finishExcersize="finalize" @saveValue="writeState" :id="13" :category="this.$store.state.firstCategory+' y '+this.$store.state.secondCategory" :exerciseNumber="this.$store.state.generalState"></Game9>
+      <Game9  @saveValue="writeState" :id="13" :category="this.$store.state.firstCategory+' y '+this.$store.state.secondCategory" :exerciseNumber="this.$store.state.generalState"></Game9>
     </div>
     <div v-show="$store.state.generalState==15" >
       <Chart ></Chart>
@@ -63,7 +63,7 @@ import Game8 from "@/Games/Game8";
 import Game9 from "@/Games/Game9";
 import Beginner from "@/components/Beginner";
 import Chart from "@/components/Chart";
-//import {enterFullscreen} from 'request-fullscreen-js';
+import {enterFullscreen} from 'request-fullscreen-js';
 import * as GameValues from './Games/gamevalues.js';
 import * as GameMethods from './Games/gamemethods.js';
 
@@ -141,7 +141,7 @@ export default {
     //this.generateRandomIds(this.quadrantIds,4);
     this.generateQuadrants();
     var audioSuccess = new Audio(require('./assets/Audios/success.mp3'));
-    var audioMistake = new Audio(require('./assets/Audios/mistake.mp3'));
+    var audioMistake = new Audio(require('./assets/Audios/error.mp3'));
     var audioError = new Audio(require('./assets/Audios/error.mp3'));
     var audioHint = new Audio(require('./assets/Audios/hint.mp3'));
     var audioVictory = new Audio(require('./assets/Audios/victory.mp3'));
@@ -150,12 +150,8 @@ export default {
     this.$store.commit('setAudioError',audioError);
     this.$store.commit('setAudioHint',audioHint);
     this.$store.commit('setAudioVictory',audioVictory);
-    /*enterFullscreen() // The entire document enters the full screen
-      enterFullscreen(document.getElementById('div'))
-      exitFullscreen(document.getElementById('div'))
-      toggleFullscreen(document.getElementById('div'))*/
     addEventListener("click", () => {
-      //enterFullscreen();
+      enterFullscreen();
       if (this.$store.state.pause){
         if (this.$store.state.seconds != 0){
           console.log("entro aca");
@@ -185,24 +181,9 @@ export default {
   computed:{
     seconds(){
       return this.$store.state.seconds;
-    }
+    },
   },
   methods: {
-      finalize:function(value,nextState){
-        //this.writeState(exerciseNumber,value);
-        this.$store.commit('writeTimes',this.exerciseNumber+this.subExerciseNumber+1,value);
-        //console.log(exerciseNumber+" "+value+" "+nextState);
-        this.$store.commit('changeGeneralState', nextState);
-      },
-     nextState:function (nextState){
-       if (this.generalState===0){
-         this.start =new Date();
-         //console.log(this.start);
-         this.data.push(this.start+", ,inicial");
-         //console.log(this.data);
-       }
-       this.generalState=nextState;
-     },
     // string con el numero de ejercicio y boolean si acerto o no
 
     generateRandomIds :function (size, difficulty) {
@@ -296,7 +277,6 @@ export default {
                 "category": quadrantToCopy[i].category,
                 "showId": ids,
                 "showWord": words,
-                //"showCategory" : arrayToCopy[i].showCategory
               };
               value1change = !value1change;
             }
@@ -319,7 +299,6 @@ export default {
                 "category": quadrantToCopy[i].category,
                 "showId": ids,
                 "showWord": words,
-                //"showCategory" : arrayToCopy[i].showCategory
               };
               value2change = !value2change;
             }
@@ -356,7 +335,6 @@ export default {
                         "category": quadrantToCopy[i].category,
                         "showId" : ids,
                         "showWord" : words,
-                        //"showCategory" : arrayToCopy[i].showCategory
       };
     }
     return itemsCopy
@@ -369,33 +347,33 @@ export default {
         this.$store.state.firstCategory = "nombresMasculino";
         this.$store.state.secondCategory = "animales";
         this.$store.commit("setCategory","nombresMasculino");
-       /* let firstName = this.masculinoMedio[Math.floor(Math.random(0) * (9))].valor;
+        let firstName = this.masculinoMedio[Math.floor(Math.random(0) * (9))].valor;
         let secondName = this.animalesMedio[Math.floor(Math.random(0) * (9))].valor;
-*/
-        this.quadrants[this.idsOrder[0]] = {  "Id" : /*this.idsValue[0]*/"AAA",
-                                              "word": /*firstName*/"palabrade11",
-                                              "category":/* this.$store.state.firstCategory*/"palabrade11",
+
+        this.quadrants[this.idsOrder[0]] = {  "Id" : this.idsValue[0],
+                                              "word": firstName,
+                                              "category":this.$store.state.firstCategory,
                                               "showId" : true,
                                               "showWord" : true,
                                               "position" : "first",
         };
-        this.quadrants[this.idsOrder[1]] = {  "Id" : /*this.idsValue[1]*/"AAA",
-                                              "word": /*firstName*/"palabrade11",
-                                              "category": /*this.$store.state.firstCategory*/"palabrade11",
+        this.quadrants[this.idsOrder[1]] = {  "Id" : this.idsValue[1],
+                                              "word": firstName,
+                                              "category": this.$store.state.firstCategory,
                                               "showId" : true,
                                               "showWord" : true,
                                               "position" : "first",
         };
-        this.quadrants[this.idsOrder[2]] = {  "Id" : /*this.idsValue[2]*/"AAA",
-                                              "word": /*secondName*/"palabrade11",
-                                              "category": /*this.$store.state.secondCategory*/ "palabrade11",
+        this.quadrants[this.idsOrder[2]] = {  "Id" : this.idsValue[2],
+                                              "word": secondName,
+                                              "category": this.$store.state.secondCategory,
                                               "showId" : true,
                                               "showWord" : false,
                                               "position" : "second",
         };
-        this.quadrants[this.idsOrder[3]] = {  "Id" : /*this.idsValue[3]*/"AAA" ,
-                                              "word": /*secondName*/"palabrade11",
-                                              "category": /*this.$store.state.secondCategory*/"palabrade11",
+        this.quadrants[this.idsOrder[3]] = {  "Id" : this.idsValue[3] ,
+                                              "word": secondName,
+                                              "category": this.$store.state.secondCategory,
                                               "showId" : true,
                                               "showWord" : false,
                                               "position" : "second",
@@ -435,10 +413,6 @@ export default {
         this.$store.commit('setReponseExercise11',{word: this.quadrantsArrangement[7][this.randoms[1]].word, id: this.quadrantsArrangement[7][this.randoms[3]].Id});
         this.$store.commit('setReponseExercise12',{word: this.quadrantsArrangement[7][this.randoms[2]].word, id: this.quadrantsArrangement[7][this.randoms[2]].Id});
         this.$store.commit('setReponseExercise13',{word: this.quadrantsArrangement[7][this.randoms[3]].word, id: this.quadrantsArrangement[7][this.randoms[1]].Id});
-        /*this.$store.commit('setReponseExercise10',this.quadrantsArrangement[7][this.randoms[0]].word);
-        this.$store.commit('setReponseExercise11',this.quadrantsArrangement[7][this.randoms[1]].word);
-        this.$store.commit('setReponseExercise12',this.quadrantsArrangement[7][this.randoms[2]].word);
-        this.$store.commit('setReponseExercise13',this.quadrantsArrangement[7][this.randoms[3]].word);*/
         this.quadrantsArrangement.push(this.copyQuadrant(this.quadrantsArrangement[7],"show","three",this.randoms[0]));
         this.quadrantsArrangement.push(this.copyQuadrant(this.quadrantsArrangement[7],"show","three",this.randoms[1]));
         this.quadrantsArrangement.push(this.copyQuadrant(this.quadrantsArrangement[7],"show","three",this.randoms[2]));
@@ -455,7 +429,7 @@ export default {
       if (this.$store.state.seconds == this.timeLimitToPause){
         GameMethods.setPause(true);
       }
-    }
+    },
   },
 
 }

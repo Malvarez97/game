@@ -77,7 +77,6 @@ export default {
       //Si la respuesta fue correcta
       if (GameMethods.getCorrectResponse()){
         //Se ejecuta el audio de correcto, se guarda el tiempo, se resetean las variables y se realiza la transicion de pantallas
-        GameMethods.showCorrect();
         GameMethods.reproduceAudio('success');
         GameMethods.saveValue(parseInt(this.exerciseNumber,10),"finish correct",this.intentWord);
         this.intentWord = 0;
