@@ -97,25 +97,25 @@ export default {
         else{
           this.subExerciseNumber = 1;
           this.transition(GameValues.correctTransition,GameValues.firstPartExplanation);
-          GameMethods.changeGeneralState(GameMethods.getGeneralState()+1);
+          GameMethods.setNextGeneralState(GameMethods.getGeneralState()+1);
+
         }
-        this.$store.dispatch("calculateSessionValues");
+        //this.$store.dispatch("calculateSessionValues");
       }
       //Si fue incorrecta
       else {
         //Se guarda el tiempo de fallo
         GameMethods.saveValue(this.getExerciseNumber(),"finish failure",this.intentWord);
+        GameMethods.reproduceAudio('error');
         //Si fue el primer intento
           if (this.intentWord == 1) {
             //Si es el ejercicio de las ids, se muestra una advertencia, ya que los intentos limite son 2
             if (GameMethods.getTypeOfExercise() == "ids"){
-              GameMethods.reproduceAudio('hint');
-              GameMethods.showWarning('Último intento.');
               this.transition(GameValues.incorrectTransition,GameValues.completeIds);
+              GameMethods.setAlert(GameValues.warningIcon,'Último intento.',"");
             }
             //Si es el ejercicio de las palabras simplemente hacemos la transicion
             else{
-              GameMethods.reproduceAudio('mistake');
               this.transition(GameValues.incorrectTransition,GameValues.completeWords);
             }
           }
@@ -124,34 +124,31 @@ export default {
             if (this.intentWord == 2) {
               //Si es el juego de las ids, se vuelve al ejercicio 1 y se le notifica al usuario
               if (GameMethods.getTypeOfExercise() == 'ids'){
-                GameMethods.reproduceAudio('error');
                 GameMethods.showError(GameMethods.getGeneralState());
                 this.intentWord = 0;
                 this.subExerciseNumber = 1;
                 this.transition(GameValues.incorrectTransition,GameValues.firstPartExplanation);
-                GameMethods.changeGeneralState(GameValues.loseGame1);
+                GameMethods.setNextGeneralState(GameValues.loseGame1);
               }
               //Si es el juego de las palabras, se carga la ayuda y se le avisa al usuario
               else{
                 GameMethods.saveValue(this.getExerciseNumber(),"finish failure",this.intentWord);
-                GameMethods.reproduceAudio('hint');
-                GameMethods.showWarning('Último intento. Recibirás una ayuda');
                 this.transition(GameValues.incorrectTransition,GameValues.completeWords);
+                GameMethods.setAlert(GameValues.warningIcon, GameValues.defaultWarningTitle,'Último intento. Recibirás una ayuda');
                 GameMethods.changeHelp();
               }
             }
             //Tercera incorrecta. Notifico error y hago transicion hacia atras
             else {
-              GameMethods.reproduceAudio('error');
-              GameMethods.showError(GameValues.loseGame1);
+              GameMethods.setAlert(GameValues.errorIcon,GameValues.defaultErrorTitle+GameValues.loseGame1,"");
               this.intentWord = 0;
-              this.transition(GameValues.incorrectTransition,GameValues.firstPartExplanation);
+              this.transition(GameValues.incorrectTransition,GameValues.firstPartExplanation)
               //Si perdio en el ejercicio 1 vuelve al LoseGame1 (1) si perdio en el 2 al LoseGame2(1)
               if (GameMethods.getGeneralState() == 1){
-                GameMethods.changeGeneralState(GameValues.loseGame1);
+                GameMethods.setNextGeneralState(GameValues.loseGame1);
               }
               else{
-                GameMethods.changeGeneralState(GameValues.loseGame2);
+                GameMethods.setNextGeneralState(GameValues.loseGame2);
               }
             }
           }
@@ -163,7 +160,6 @@ export default {
       switch(GameMethods.getGameState()){
         //Estado de completar palabras
         case GameValues.completeWords:
-          GameMethods.restore();
           GameMethods.waitAndNextGameState(waitingState,nextGameState);
           switch (nextGameState) {
               //Si vuelvo a hacer el ejercicio, guardo el tiempo que comienza el ejercicio
@@ -178,7 +174,6 @@ export default {
           break;
         //Estado de completar ids
         case GameValues.completeIds:
-          GameMethods.restore();
           GameMethods.waitAndNextGameState(waitingState,nextGameState);
           //Si tengo que volver a realizar el ejercicio, guardo el tiempo para volver a mostrar las palabras
           if (nextGameState == GameValues.completeIds){

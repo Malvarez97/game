@@ -109,7 +109,6 @@ export default {
       switch(GameMethods.getGameState()){
           //Estado de completar ids
         case GameValues.showWordsCompleteCategories:
-          GameMethods.restore();
           GameMethods.waitAndNextGameState(waitingState,nextGameState);
           if(nextGameState == GameValues.showWordsCompleteCategories) {
             GameMethods.saveValue(parseInt(this.exerciseNumber,10),"show",this.intentWord+1);

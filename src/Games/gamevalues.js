@@ -34,3 +34,12 @@ export const loseGame11 = 12;
 export const loseGame12 = 13;
 export const loseGame13 = 14;
 export const loseGame14 = 10;
+
+//Variables de las alertas
+export const defaultWarningTitle = "Te queda 1 solo intento";
+export const defaultSuccessTitle = "Respuesta correcta";
+export const defaultErrorTitle = "Inténtalo nuevamente. Volverás al ejercicio ";
+export const warningIcon = "warning";
+export const errorIcon = "error";
+export const successIcon = "success";
+

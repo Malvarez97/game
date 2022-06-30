@@ -108,7 +108,6 @@ export default {
       switch(GameMethods.getGameState()){
           //Estado de arrastrar ids
         case GameValues.draggable:
-          GameMethods.restore();
           GameMethods.waitAndNextGameState(waitingState,nextGameState);
           break;
       }
@@ -118,7 +117,6 @@ export default {
           //Estado de arrastrar ids
         case GameValues.draggable:
           GameMethods.saveValue(parseInt(this.exerciseNumber,10),"show",this.intentWord+1);
-          GameMethods.restore();
           GameMethods.waitAndNextQuadrantState(waitingState,nextQuadrantState);
           break;
       }

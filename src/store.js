@@ -47,6 +47,13 @@ export default new Vuex.Store({
         pause:false,
         secondsPaused:0,
         exerciseData: [],
+        warning:false,
+        nextGeneralState:0,
+        changeGeneralState:false,
+        alertTitle:"",
+        alertText:"",
+        alert:false,
+        typeOfAlert:"",
     },
     mutations:{
         setPause(state,pause){
@@ -106,6 +113,9 @@ export default new Vuex.Store({
         },
         changeGeneralState(state,nextGeneralState){
             console.log("cambio al general state = "+nextGeneralState);
+            /*if (this.state.generalState == 5){
+                this.state.quadrant1 = this.state.originalQuadrant1
+            }*/
             this.state.generalState = nextGeneralState;
             //this.state.quadrants = this.state.quadrantsArrangement[parseInt(this.state.generalState,10)-1];
         },
@@ -305,12 +315,32 @@ export default new Vuex.Store({
     },
     actions:{
         waitingStateToNextGameState(context,data){
-            context.commit('changeGameState',data.waitingState);
-            setTimeout ( ()=> {
-                    context.commit('changeGameState',data.nextGameState);
-                    console.log("El game state es "+this.state.gameState);
-                },data.miliseconds
-                ,)
+            setTimeout ( () => {
+                GameMethods.restore();
+                context.commit('changeGameState',data.waitingState);
+                if (context.state.alert){
+                    if (context.state.typeOfAlert == GameValues.warningIcon){
+                        GameMethods.reproduceAudio('hint');
+                    }
+                    context.state.alert = false;
+                    GameMethods.showAlert(context.state.typeOfAlert,context.state.alertTitle,context.state.alertText);
+                }
+                if (context.state.help){
+                    context.state.help = false;
+                    context.commit('changeHelp');
+                }
+                    setTimeout ( ()=> {
+                            context.commit('changeGameState',data.nextGameState);
+                            console.log("El game state es "+this.state.gameState);
+                            if (context.state.changeGeneralState) {
+                                context.state.changeGeneralState = false;
+                                context.commit('changeCategory', context.state.nextGeneralState);
+                                context.dispatch('changeGeneralState', context.state.nextGeneralState);
+                            }
+                        },data.miliseconds
+                        ,)
+            },data.miliseconds
+            ,)
         },
         waitingStateToNextQuadrantState(context,data){
             context.commit('changeQuadrantState',data.waitingState);

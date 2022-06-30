@@ -111,7 +111,6 @@ export default {
     transition : function(waitingState,nextGameState){
       switch(GameMethods.getGameState()){
         case GameValues.showIdsCompleteWords:
-          GameMethods.restore();
           GameMethods.waitAndNextGameState(waitingState,nextGameState);
           if (nextGameState == GameValues.showIdsCompleteWords){
             GameMethods.saveValue(parseInt(this.exerciseNumber,10),"show",this.intentWord+1);

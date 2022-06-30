@@ -124,7 +124,6 @@ export default {
       switch(GameMethods.getGameState()){
           //Estado de completar ids
         case GameValues.showIdsCompleteWords:
-          GameMethods.restore();
           GameMethods.waitAndNextGameState(waitingState,nextGameState);
           //Si voy al estado de ayuda
           if(nextGameState==GameValues.showIdsCompleteWords){

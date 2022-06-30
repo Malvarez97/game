@@ -81,8 +81,8 @@ export default {
         GameMethods.saveValue(parseInt(this.exerciseNumber,10),"finish correct",this.intentWord);
         this.intentWord = 0;
         //Si el usuario contesta correctamente se pasa al ejercicio siguiente
-        this.transition(GameValues.correctTransition,GameValues.firstPartExplanation);
-        GameMethods.changeGeneralState(GameMethods.getGeneralState() + 1);
+        this.transition(GameValues.correctTransition,GameValues.firstPartExplanation,true,GameMethods.getGeneralState() + 1);
+        //GameMethods.changeGeneralState(GameMethods.getGeneralState() + 1);
       }
       //Si fue incorrecta
       else {
@@ -116,7 +116,6 @@ export default {
       switch(GameMethods.getGameState()){
         //Estado de completar ids
         case GameValues.completeIds:
-          GameMethods.restore();
           GameMethods.waitAndNextGameState(waitingState,nextGameState);
           //Si vuelve a hacer el ejercicio, se guarda el tiempo en que se muestra la pantalla nuevamente
           if (nextGameState == GameValues.completeIds){

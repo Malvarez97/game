@@ -4,8 +4,10 @@ import store from "../store.js"
 //Metodos del juego
 
 //Espera 2 segundos en un estado intermedio para luego ir al siguiente
-export function waitAndNextGameState(waitingState, nextGameState) {
-    store.dispatch('waitingStateToNextGameState',{miliseconds: 2000,waitingState: waitingState, nextGameState: nextGameState});
+export function waitAndNextGameState(waitingState, nextGameState, changeGeneralState, nextGeneralState, help) {
+    console.log("DATA CHANGE GS = "+changeGeneralState);
+    console.log("NGS = "+nextGeneralState);
+    store.dispatch('waitingStateToNextGameState',{miliseconds: 2000,waitingState: waitingState, nextGameState: nextGameState, changeGenS: changeGeneralState, nextGeneralState: nextGeneralState, help:help});
 }
 //Espera 2 segundos en un estado de cuadrante intermedio para luego ir al siguiente
 export function waitAndNextQuadrantState (waitingState, nextQuadrantState) {
@@ -32,9 +34,9 @@ export function changeGeneralState(nextGeneralState) {
     store.commit('changeCategory', nextGeneralState);
     store.dispatch('changeGeneralState', (nextGeneralState));
 }
-//Activa la ayuda en el ejercicio
+//Setea la ayuda para realizarla luego de la transicion
 export function changeHelp(){
-    store.commit('changeHelp');
+    store.state.help = true;
 }
 //Setea el tipo de ejercicio actual
 export function setTypeExercise(typeOfExercise){
@@ -104,6 +106,22 @@ export function showError(nroEjercicio) {
         //footer: '<a href="">¿Como no caerse a los pedazos?</a>'
     })
 }
+//Setea una alerta para mostrarse luego de una transicion
+export function setAlert(type, title, text){
+    store.state.typeOfAlert = type;
+    store.state.alert = true;
+    store.state.alertTitle = title;
+    store.state.alertText = text;
+}
+//Muestra una alerta por pantalla
+export function showAlert(icon,title,text) {
+    Swal.fire({
+        icon: icon,
+        title: title,
+        text: text,
+        showCloseButton: true
+    })
+}
 //Muestra un mensaje de advertencia por pantalla
 export function showWarning(text) {
     Swal.fire({
@@ -120,4 +138,18 @@ export function showCorrect() {
         title: 'Buena!',
         //text: 'Gran trabajo',
     })
+}
+//Muestra un mensaje de advertencia por pantalla con título por parametro
+export function showWarningTitle(text) {
+    Swal.fire({
+        icon: 'warning',
+        title: text,
+        //text: text,
+        showCloseButton: true
+    })
+}
+//Setea los atributos para ir al siguiente estado de juego luego de una transicion
+export function setNextGeneralState(nextGeneralState){
+    store.state.changeGeneralState = true;
+    store.state.nextGeneralState = nextGeneralState;
 }

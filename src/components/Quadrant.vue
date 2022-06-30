@@ -12,10 +12,10 @@
     </div>
   <!-- Complete words  -->
       <div v-show="$store.state.quadrantState==gameValues.completeWords"  >
-        <div v-show=!validateLong&&longIsEmpty class="game-container">
+        <div v-show=!validateLong&&longIsEmpty class="game-container" @click="setFocusStoppedWriting()">
           <input ref="wordStoppedWritingCW" class="positionCenter inputEmpty" v-model="inputCenter">
         </div>
-        <div v-show=!validateLong&&!longIsEmpty class="game-container">
+        <div v-show=!validateLong&&!longIsEmpty class="game-container" @click="setFocusWordWriting()">
           <input ref="wordWritingCW" class="positionCenter inputFail" v-model="inputCenter">
         </div>
         <div v-show=validateLong class="game-container">
@@ -24,33 +24,33 @@
     </div>
     <!-- Complete ids   -->
     <div v-show="$store.state.quadrantState==gameValues.completeIds"  >
-      <div v-show=!validateShort&&shortIsEmpty class="game-container">
+      <div v-show=!validateShort&&shortIsEmpty&&!blocking class="game-container" @click="setFocusStoppedWriting()">
         <input ref="wordStoppedWritingCI" class="positionUp inputEmpty id" v-model="input">
       </div>
-      <div v-show=!validateShort&&!shortIsEmpty class="game-container">
+      <div v-show=!validateShort&&!shortIsEmpty&&!blocking class="game-container" @click="setFocusWordWriting()">
         <input ref="wordWritingCI" class="positionUp inputFail id" v-model="input">
       </div>
-      <div v-show=validateShort class="game-container">
+      <div v-show=validateShort&&!blocking class="game-container">
         <h1 class="positionUp">{{ this.quadrant.Id.toUpperCase() }} ✔</h1>
       </div>
       <div  v-show=blocking class="game-container">
-        <input ref="wordWritingCI" class="positionUp inputFail id" v-model="input" readonly>
+        <input class="positionUp inputFail id" v-model="input" readonly>
       </div>
     </div>
     <!-- Show Words Complete Ids -->
     <div v-show="$store.state.quadrantState==gameValues.showWordsCompleteIds" class="game-container"  >
       <h1 v-if="this.quadrant.showWord" class="positionCenter"> {{ this.quadrant.word.toUpperCase() }} </h1>
-      <div v-show=!validateShort&&shortIsEmpty class="game-container">
+      <div v-show=!validateShort&&shortIsEmpty&&!blocking class="game-container" @click="setFocusStoppedWriting()">
         <input ref="wordStoppedWritingSWCI" class="positionUp inputEmpty id" v-model="input">
       </div>
-      <div v-show=!validateShort&&!shortIsEmpty class="game-container">
+      <div v-show=!validateShort&&!shortIsEmpty&&!blocking class="game-container" @click="setFocusWordWriting()">
         <input ref="wordWritingSWCI" class="positionUp inputFail id" v-model="input">
       </div>
-      <div v-show=validateShort class="game-container">
+      <div v-show=validateShort&&!blocking class="game-container">
         <h1 class="positionUp">{{ this.quadrant.Id.toUpperCase() }} ✔</h1>
       </div>
       <div  v-show=blocking class="game-container">
-        <input ref="wordWritingCI" class="positionUp inputFail id" v-model="input" readonly>
+        <input class="positionUp inputFail id" v-model="input" readonly>
       </div>
     </div>
   <!-- Butttons -->
@@ -68,10 +68,10 @@
   <!-- Show ids complete words  -->
   <div v-show="$store.state.quadrantState==gameValues.showIdsCompleteWords" class="game-container" >
     <h1 v-if="this.quadrant.showId" class="positionUp">{{ this.quadrant.Id.toUpperCase() }} </h1>
-    <div class="game-container" v-show=!validateLong&&longIsEmpty>
+    <div class="game-container" v-show=!validateLong&&longIsEmpty @click="setFocusStoppedWriting()">
       <input ref="wordStoppedWritingSICW" class="positionCenter inputEmpty" v-model="inputCenter">
     </div>
-    <div class="game-container" v-show=!validateLong&&!longIsEmpty>
+    <div class="game-container" v-show=!validateLong&&!longIsEmpty @click="setFocusWordWriting()">
       <input ref="wordWritingSICW" class="positionCenter inputFail" v-model="inputCenter">
     </div>
     <div class="game-container" v-show=validateLong>
@@ -83,26 +83,26 @@
     <div class="game-container" v-show=!this.quadrant.showWord >
       <h1 class="positionCenter" > {{this.quadrant.word.toUpperCase() }} </h1>
     </div>
-    <div class="game-container" v-show=this.quadrant.showWord&&!validateLong&&longIsEmpty>
+    <div class="game-container" v-show=this.quadrant.showWord&&!validateLong&&longIsEmpty @click="setFocusStoppedWriting()">
       <input ref="wordStoppedWritingSWCC" class="positionCenter inputEmpty" v-model="inputCenter">
     </div>
-    <div class="game-container" v-show=this.quadrant.showWord&&!validateLong&&!longIsEmpty>
+    <div class="game-container" v-show=this.quadrant.showWord&&!validateLong&&!longIsEmpty @click="setFocusWordWriting()">
       <input ref="wordWritingSWCC" class="positionCenter inputFail" v-model="inputCenter">
     </div>
     <div class="game-container" v-show=this.quadrant.showWord&&validateLong>
       <h1 class="positionCenter">{{ this.quadrant.category.toUpperCase() }} ✔</h1>
     </div>
   </div>
-  <!-- Ingresar palabras y chequear por palabra -->
+  <!-- Show ids show Words complete Words -->
   <div v-show="$store.state.quadrantState==gameValues.showIdsShowWordsCompleteWords" class="game-container" >
     <h1 class="positionUp">{{ this.quadrant.Id.toUpperCase() }} </h1>
     <div class="game-container" v-show=!this.quadrant.showWord >
       <h1 class="positionCenter" > {{this.quadrant.word.toUpperCase() }} </h1>
     </div>
-    <div class="game-container" v-show=this.quadrant.showWord&&!validateLong&&longIsEmpty>
+    <div class="game-container" v-show=this.quadrant.showWord&&!validateLong&&longIsEmpty @click="setFocusStoppedWriting()">
       <input ref="wordStoppedWritingSISWCW" class="positionCenter inputEmpty" v-model="inputCenter">
     </div>
-    <div class="game-container" v-show=this.quadrant.showWord&&!validateLong&&!longIsEmpty>
+    <div class="game-container" v-show=this.quadrant.showWord&&!validateLong&&!longIsEmpty @click="setFocusWordWriting()">
       <input ref="wordWritingSISWCW" class="positionCenter inputFail" v-model="inputCenter">
     </div>
     <div class="game-container" v-show=this.quadrant.showWord&&validateLong>
@@ -177,6 +177,8 @@ export default {
       focus:0,
       gameValues:GameValues,
       blocking:false,
+      amountBlocking:0,
+      limitBlocking:3
     }
   },
   methods: {
@@ -194,10 +196,15 @@ export default {
       }
     },
     idEmpty: function(){
-      if(this.input.length>=1) {
+      if(this.input.length==1) {
         // eslint-disable-next-line no-unreachable
         this.shortIsEmpty=false;
         this.setFocusWordWriting();
+        this.amountBlocking+=1;
+        if (this.amountBlocking == this.limitBlocking){
+          this.blocking = true;
+          GameMethods.showWarningTitle("Has alcanzado el límite de intentos para el cuadrante");
+        }
       }
       //Si se borraron todos los caracteres del input
       if (this.input.length==0){
@@ -264,6 +271,11 @@ export default {
             this.$emit('defaultWord');
           }
         }
+        else{
+          if (this.inputCenter == "") {
+            this.$emit('wordIncorrect');
+          }
+        }
     },
     //Chequeo que el ejercicio esté completado correctamente
     checkId() {
@@ -319,6 +331,7 @@ export default {
       this.correctClick = false;
       this.firstChoose = false;
       this.clicked = false;
+      this.blocking = false;
     },
     //Observo la variable help que cuando sea verdadera dará una ayuda al usuario para el siguiente intento del ejercicio
     helpQuadrant() {
@@ -365,6 +378,9 @@ export default {
     },
     onDrop : function(){
       this.$store.commit('setFinalQuadrant',this);
+    },
+    onClick : function(){
+      console.log("Cliqueado cuadrante "+this.idQuadrant);
     },
     //Metodo que recupera el focus cuando se empieza a escribir en un input
     setFocusWordWriting : function (){

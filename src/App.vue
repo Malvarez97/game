@@ -63,7 +63,7 @@ import Game8 from "@/Games/Game8";
 import Game9 from "@/Games/Game9";
 import Beginner from "@/components/Beginner";
 import Chart from "@/components/Chart";
-import {enterFullscreen} from 'request-fullscreen-js';
+//import {enterFullscreen} from 'request-fullscreen-js';
 import * as GameValues from './Games/gamevalues.js';
 import * as GameMethods from './Games/gamemethods.js';
 
@@ -151,7 +151,7 @@ export default {
     this.$store.commit('setAudioHint',audioHint);
     this.$store.commit('setAudioVictory',audioVictory);
     addEventListener("click", () => {
-      enterFullscreen();
+      //enterFullscreen();
       if (this.$store.state.pause){
         if (this.$store.state.seconds != 0){
           console.log("entro aca");
@@ -422,6 +422,9 @@ export default {
         this.$store.commit('setQuadrantsArrangement',this.quadrantsArrangement);
 
       }
+    },
+    resetExercise(exercise){
+      this.quadrantsArrangement[exercise-1] = this.copyQuadrant(this.rearrrengeQuadrants(),"show","show","");
     },
   },
   watch:{
