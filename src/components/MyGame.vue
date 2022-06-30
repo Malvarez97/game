@@ -62,7 +62,7 @@ export default {
     },
     addIncorrectClick: function(){
       this.clicks+=1;
-      //this.finishCheck(false);
+      this.finishCheck(false);
     },
     //Seteo la cantidad de palabras que no son necesarias escribir
     setCorrectWordsAndIds: function () {

@@ -1,5 +1,5 @@
 <template>
-  <div class="background game-container">
+  <div class=" game-container">
     <div  class="title">
         <v-img v-show="this.win" class="image"
             src="../assets/cup.png"

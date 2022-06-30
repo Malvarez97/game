@@ -316,8 +316,11 @@ export default {
     //Observo la variable help que cuando sea verdadera dará una ayuda al usuario para el siguiente intento del ejercicio
     helpQuadrant() {
       if (this.quadrant.showWord) {
-        console.log("llamo al help word");
-        this.inputCenter = this.quadrant.word.charAt(0);
+        if (this.$store.state.typeOfExercise=="words")
+          this.inputCenter = this.quadrant.word.charAt(0);
+        else if(this.$store.state.typeOfExercise=="category"){
+          this.inputCenter = this.quadrant.category.charAt(0);
+        }
       }
     },
     clickedWord(){

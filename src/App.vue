@@ -344,9 +344,9 @@ export default {
       { console.log("nada");
         //generar cuadrantes originales
         console.log("seteo las categorias");
-        this.$store.state.firstCategory = "nombresMasculino";
-        this.$store.state.secondCategory = "animales";
-        this.$store.commit("setCategory","nombresMasculino");
+        this.$store.state.firstCategory = "Masculino";
+        this.$store.state.secondCategory = "Animales";
+        this.$store.commit("setCategory","Masculino");
         let firstName = this.masculinoMedio[Math.floor(Math.random(0) * (9))].valor;
         let secondName = this.animalesMedio[Math.floor(Math.random(0) * (9))].valor;
 

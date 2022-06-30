@@ -14,7 +14,7 @@
       <v-btn  outline @click="changeValues();"  class="btn-global nextposition" color="#E74C3C" >
         Siguiente
       </v-btn>
-      <v-btn  outline @click="gameMethods.setPause(true);"  class="btn-global pauseposition" color="#01FFFF"  >
+      <v-btn  outline @click="gameMethods.setPause(true);"  class="btn-pause pauseposition" color="#2379BD"  >
         Pausa
       </v-btn>
     </div>
