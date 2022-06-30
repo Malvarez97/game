@@ -13,7 +13,7 @@
   <!-- Complete words  -->
       <div v-show="$store.state.quadrantState==gameValues.completeWords"  >
         <div v-show=!validateLong&&longIsEmpty class="game-container">
-          <input ref="wordStoppedWritingCW" class="positionCenter inputEmpty" v-model="inputCenter" >
+          <input ref="wordStoppedWritingCW" class="positionCenter inputEmpty" v-model="inputCenter">
         </div>
         <div v-show=!validateLong&&!longIsEmpty class="game-container">
           <input ref="wordWritingCW" class="positionCenter inputFail" v-model="inputCenter">
@@ -22,18 +22,21 @@
           <h1 class="positionCenter">{{ this.quadrant.word.toUpperCase()}} ✔</h1>
         </div>
     </div>
-  <!-- Complete ids   -->
-   <div v-show="$store.state.quadrantState==gameValues.completeIds"  >
-     <div v-show=!validateShort&&shortIsEmpty class="game-container">
-       <input ref="wordStoppedWritingCI" class="positionUp inputEmpty id" v-model="input">
-     </div>
-        <div v-show=!validateShort&&!shortIsEmpty class="game-container">
-           <input ref="wordWritingCI" class="positionUp inputFail id" v-model="input">
-         </div>
-        <div v-show=validateShort class="game-container">
-          <h1 class="positionUp">{{ this.quadrant.Id.toUpperCase() }} ✔</h1>
-        </div>
-       </div>
+    <!-- Complete ids   -->
+    <div v-show="$store.state.quadrantState==gameValues.completeIds"  >
+      <div v-show=!validateShort&&shortIsEmpty class="game-container">
+        <input ref="wordStoppedWritingCI" class="positionUp inputEmpty id" v-model="input">
+      </div>
+      <div v-show=!validateShort&&!shortIsEmpty class="game-container">
+        <input ref="wordWritingCI" class="positionUp inputFail id" v-model="input">
+      </div>
+      <div v-show=validateShort class="game-container">
+        <h1 class="positionUp">{{ this.quadrant.Id.toUpperCase() }} ✔</h1>
+      </div>
+      <div  v-show=blocking class="game-container">
+        <input ref="wordWritingCI" class="positionUp inputFail id" v-model="input" readonly>
+      </div>
+    </div>
     <!-- Show Words Complete Ids -->
     <div v-show="$store.state.quadrantState==gameValues.showWordsCompleteIds" class="game-container"  >
       <h1 v-if="this.quadrant.showWord" class="positionCenter"> {{ this.quadrant.word.toUpperCase() }} </h1>
@@ -45,6 +48,9 @@
       </div>
       <div v-show=validateShort class="game-container">
         <h1 class="positionUp">{{ this.quadrant.Id.toUpperCase() }} ✔</h1>
+      </div>
+      <div  v-show=blocking class="game-container">
+        <input ref="wordWritingCI" class="positionUp inputFail id" v-model="input" readonly>
       </div>
     </div>
   <!-- Butttons -->
@@ -170,6 +176,7 @@ export default {
       firstChoose:false,
       focus:0,
       gameValues:GameValues,
+      blocking:false,
     }
   },
   methods: {
