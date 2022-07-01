@@ -17,6 +17,7 @@
     "request-fullscreen-js": "^1.0.2",
     "roboto-fontface": "*",
     "vue": "^3.2.13",
+    "vue-chart.js": "^0.2.0",
     "vue-chartjs": "^4.1.1",
     "vue-draggable-next": "^2.1.1",
     "vue-sweetalert2": "^5.0.5",

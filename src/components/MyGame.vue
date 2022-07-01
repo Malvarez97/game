@@ -15,7 +15,8 @@
                          @quadrantCreated="addQuadrantCreated"
                          @correctClick="addCorrectClick"
                          @incorrectClick="addIncorrectClick"
-                         @checkDrag="addDragCheck"/>
+                         @checkDrag="addDragCheck"
+                         @setCorrectWord="setCorrectWord"/>
         </v-col>
       </v-row>
     </v-app>
@@ -74,11 +75,13 @@ export default {
           if (!this.$store.state.quadrantsMatrix[this.id*4+i].quadrant.showWord) {
             //console.log("es falsa la word");
             this.wordsCorrect+=1;
+            this.$store.state.quadrantsMatrix[this.id*4+i].correct = true;
           }
           //Seteo las ids
           if (!this.$store.state.quadrantsMatrix[this.id*4+i].quadrant.showId) {
             //console.log("es falsa la id");
             this.idsCorrect+=1;
+            this.$store.state.quadrantsMatrix[this.id*4+i].correct = true;
           }
         }
       }
@@ -127,6 +130,16 @@ export default {
       if (this.wordsCorrect !== 4){
         console.log("add default word");
         this.wordsChecked +=1;
+      }
+    },
+    setCorrectWord(correct){
+      if (correct){
+        console.log('Seteo la palabra como correcta');
+        this.wordsCorrect +=1;
+      }
+      else{
+        console.log('Seteo la palabra como incorrecta');
+        this.wordsCorrect -=1;
       }
     },
     addDragCheck : function(correctDrag){

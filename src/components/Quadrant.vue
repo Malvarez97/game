@@ -244,12 +244,22 @@ export default {
         //Se cambia la variable y se setea el focus
         this.longIsEmpty=false;
         this.setFocusWordWriting();
+        //Si la palabra es por defecto correcta
+        if(this.correct){
+          //La palabra pasa a tomarse como incorrecta
+          this.$emit('setCorrectWord',false);
+        }
       }
       //Si se borraron todos los caracteres del input
       if (this.inputCenter.length==0){
         //Se cambia la variable y se recupera el focus
         this.longIsEmpty = true;
         this.setFocusStoppedWriting();
+        //Si la palabra es por defecto correcta
+        if(this.correct){
+          //La palabra se vuelve a tomar como correcta
+          this.$emit('setCorrectWord',true);
+        }
       }
     },
     //Chequeo que el ejercicio esté completado correctamente
