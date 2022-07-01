@@ -75,13 +75,16 @@ export default {
           if (!this.$store.state.quadrantsMatrix[this.id*4+i].quadrant.showWord) {
             //console.log("es falsa la word");
             this.wordsCorrect+=1;
+            this.$store.state.quadrantsMatrix[this.id*4+i].defaultCorrect = true;
             this.$store.state.quadrantsMatrix[this.id*4+i].correct = true;
           }
           //Seteo las ids
           if (!this.$store.state.quadrantsMatrix[this.id*4+i].quadrant.showId) {
             //console.log("es falsa la id");
             this.idsCorrect+=1;
+            this.$store.state.quadrantsMatrix[this.id*4+i].defaultCorrect = true;
             this.$store.state.quadrantsMatrix[this.id*4+i].correct = true;
+
           }
         }
       }

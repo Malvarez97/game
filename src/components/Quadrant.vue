@@ -179,7 +179,8 @@ export default {
       gameValues:GameValues,
       blocking:false,
       amountBlocking:0,
-      limitBlocking:3
+      limitBlocking:3,
+      defaultCorrect:false
     }
   },
   methods: {
@@ -245,9 +246,10 @@ export default {
         this.longIsEmpty=false;
         this.setFocusWordWriting();
         //Si la palabra es por defecto correcta
-        if(this.correct){
+        if(this.defaultCorrect){
           //La palabra pasa a tomarse como incorrecta
           this.$emit('setCorrectWord',false);
+          this.correct=false;
         }
       }
       //Si se borraron todos los caracteres del input
@@ -256,9 +258,10 @@ export default {
         this.longIsEmpty = true;
         this.setFocusStoppedWriting();
         //Si la palabra es por defecto correcta
-        if(this.correct){
+        if(this.defaultCorrect){
           //La palabra se vuelve a tomar como correcta
           this.$emit('setCorrectWord',true);
+          this.correct=true;
         }
       }
     },
