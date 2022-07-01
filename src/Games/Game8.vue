@@ -83,8 +83,8 @@ export default {
       //Si fue incorrecta
       else {
         GameMethods.saveValue(parseInt(this.exerciseNumber,10),"finish failure",this.intentWord);
+        GameMethods.reproduceAudio('error');
         if (this.intentWord < this.hintAttempt) {
-          GameMethods.reproduceAudio('mistake');
           this.transition(GameValues.incorrectTransition, GameValues.showIdsCompleteWords);
         }
         else{
@@ -97,7 +97,6 @@ export default {
           }
           //Si es el error numero 3
           else {
-            GameMethods.reproduceAudio('error');
             /*this.showRightAnswer("\nid: " + this.$store.state.responseExercise10.id + " respuesta: " + this.$store.state.responseExercise10.word + "\n" +
                 "id: " + this.$store.state.responseExercise11.id + " respuesta: " + this.$store.state.responseExercise11.word + "\n" +
                 "id: " + this.$store.state.responseExercise12.id + " respuesta: " + this.$store.state.responseExercise12.word + "\n" +

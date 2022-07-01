@@ -35,6 +35,11 @@ export const loseGame12 = 13;
 export const loseGame13 = 14;
 export const loseGame14 = 10;
 
+//Intentos en cada uno de los juegos
+
+//Tiempo limite para los ejercicios
+
+
 //Variables de las alertas
 export const defaultWarningTitle = "Te queda 1 solo intento";
 export const warningHelpTitle = "Último intento. Recibirás una ayuda";
@@ -63,6 +68,9 @@ export const game6Type = category;
 export const game7Type = words;
 export const game8Type = words;
 export const game9Type = ids;
+
+//Tiempos espera
+export const showExerciseTime = 2000;
 
 
 

@@ -54,6 +54,8 @@ export default new Vuex.Store({
         alertText:"",
         alert:false,
         typeOfAlert:"",
+        quadrant5:null,
+        exerciseTime:0,
     },
     mutations:{
         setPause(state,pause){
@@ -75,6 +77,7 @@ export default new Vuex.Store({
           state.interval = setInterval( () => {
               //console.log("seconds = "+state.seconds);
               state.seconds+=1;
+              state.exerciseTime+=1;
           }, 1000)
         },
         clearStoreInterval(state){
@@ -193,6 +196,7 @@ export default new Vuex.Store({
             this.state.quadrant2.restoreQuadrant();
             this.state.quadrant3.restoreQuadrant();
             this.state.quadrant4.restoreQuadrant();
+            this.state.exerciseTime = 0;
         },
         checkExercise(){
             console.log("Type of exercise = "+this.state.typeOfExercise);

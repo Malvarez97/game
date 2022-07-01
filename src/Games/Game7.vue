@@ -97,10 +97,9 @@ export default {
       //Si fue incorrecta
       else {
         GameMethods.saveValue(parseInt(this.exerciseNumber,10),"finish failure",this.intentWord);
+        GameMethods.reproduceAudio('error');
         if (this.intentWord == 1) {
             if (GameMethods.getGeneralState() == 12) {
-              //GameMethods.reproduceAudio('hint');
-              //GameMethods.showWarning("Último intento. Recibirás una ayuda");
               this.transition(GameValues.incorrectTransition, GameValues.showIdsShowWordsCompleteWords);
               GameMethods.setAlert(GameValues.warningIcon,GameValues.warningHelpTitle,"");
               GameMethods.changeHelp();
@@ -121,8 +120,6 @@ export default {
               GameMethods.setNextGeneralState(GameValues.loseGame12);
             }
             else{
-              //GameMethods.reproduceAudio('hint');
-              //GameMethods.showWarning("Último intento. Recibirás una ayuda");
               this.transition(GameValues.incorrectTransition, GameValues.showIdsShowWordsCompleteWords);
               GameMethods.changeHelp();
               GameMethods.setAlert(GameValues.warningIcon,GameValues.warningHelpTitle,"");
@@ -131,15 +128,14 @@ export default {
           //Si es el error numero 3
           else{
             if (GameMethods.getGeneralState() == 10){
-              GameMethods.showError(GameValues.loseGame10);
-              GameMethods.reproduceAudio('error');
+              //GameMethods.showError(GameValues.loseGame10);
               this.transition(GameValues.incorrectTransition,GameValues.firstPartExplanation);
               //GameMethods.changeGeneralState(GameValues.loseGame10);
               GameMethods.setNextGeneralState(GameValues.loseGame10);
+              GameMethods.setAlert(GameValues.errorIcon,GameValues.defaultErrorTitle+GameValues.loseGame10,"");
             }
             else{
               //this.showRightAnswer(this.$store.state.responseExercise11.word);
-              GameMethods.reproduceAudio('error');
               this.transition(GameValues.incorrectTransition,GameValues.firstPartExplanation);
               //GameMethods.changeGeneralState(GameValues.loseGame11);
               GameMethods.setNextGeneralState(GameValues.loseGame11);

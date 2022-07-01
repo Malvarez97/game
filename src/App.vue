@@ -385,7 +385,8 @@ export default {
         this.quadrantsArrangement.push(this.copyQuadrant(this.quadrants,"first","hide",""));
         this.quadrantsArrangement.push(this.copyQuadrant(this.quadrants,"second","hide",""));
         //Reordenar cuadrantes originales para dragable
-        this.quadrantsArrangement.push(this.copyQuadrant(this.rearrrengeQuadrants(),"show","show",""));
+        this.$store.state.quadrant5 = this.copyQuadrant(this.rearrrengeQuadrants(),"show","show","");
+        this.quadrantsArrangement.push(this.copyQuadrant(this.$store.state.quadrant5));
         //Reordenar cuadrantes originales (disposicion numero 1)
         this.quadrantsArrangement.push(this.copyQuadrant(this.rearrrengeQuadrants(),"show","show",""));
         //Reordenar cuadrantes originales (disposicion numero 2)

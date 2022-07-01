@@ -51,6 +51,11 @@ export default {
       dragsChecked:0,
     }
   },
+  computed:{
+    exerciseTime(){
+      return this.$store.state.exerciseTime;
+    }
+  },
   methods: {
     setPause: function(){
       this.$store.commit('setPause');
@@ -228,6 +233,12 @@ export default {
         else{
           this.finishCheck(false);
         }
+      }
+    },
+    exerciseTime(){
+      if (this.$store.state.exerciseTime == GameMethods.getTimeLimit(this.id)){
+        GameMethods.checkExercise();
+        //GameMethods.showAlert(GameValues.warningIcon,"Te quedaste sin tiempo pa","Apurate la proxima");
       }
     },
   }

@@ -11,7 +11,7 @@
     <!-- 2)Mostrar palabras e ids 3)Completar palabras 4)Completar ids -->
     <div  v-show="$store.state.gameState==gameValues.showWordsAndIds || $store.state.gameState==gameValues.completeWords || $store.state.gameState==gameValues.completeIds">
       <Game @finishCheck="nextLocalState();" @firstLetter="gameMethods.saveValue(this.getExerciseNumber(),'start interacting',this.intentWord+1)" :id="this.id" ></Game>
-      <v-btn  outline @click="changeValues();"  class="btn-global nextposition" color="#E74C3C" >
+      <v-btn  outline @click="changeValues(); disableButton();" ref="game1NextButton" class="btn-global nextposition" color="#E74C3C" >
         Siguiente
       </v-btn>
       <v-btn  outline @click="gameMethods.setPause(true);"  class="btn-pause pauseposition" color="#2379BD"  >
@@ -124,11 +124,12 @@ export default {
             if (this.intentWord == 2) {
               //Si es el juego de las ids, se vuelve al ejercicio 1 y se le notifica al usuario
               if (GameMethods.getCurrentTypeOfExercise() == 'ids'){
-                GameMethods.showError(GameMethods.getGeneralState());
+                //GameMethods.showError(GameMethods.getGeneralState());
                 this.intentWord = 0;
                 this.subExerciseNumber = 1;
                 this.transition(GameValues.incorrectTransition,GameValues.firstPartExplanation);
                 GameMethods.setNextGeneralState(GameValues.loseGame1);
+                GameMethods.setAlert(GameValues.errorIcon,GameValues.defaultErrorTitle+GameValues.loseGame1,"");
               }
               //Si es el juego de las palabras, se carga la ayuda y se le avisa al usuario
               else{
@@ -208,6 +209,11 @@ export default {
     getExerciseNumber : function () {
       return parseFloat(this.exerciseNumber+'.'+this.subExerciseNumber,10)
     },
+    disableButton : function(){
+      console.log("Llamo al disable");
+      this.$refs.game1NextButton.disable = true;
+      //this.$nextTick(() =>this.$refs.game1NextButton.attr('disabled','disabled'));
+    }
   },
 }
 </script>

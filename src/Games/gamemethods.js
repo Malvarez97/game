@@ -173,3 +173,22 @@ export function getExerciseType(idExercise){
       case 14: return GameValues.game9Type;
   }
 }
+export function getTimeLimit(idExercise){
+    let exercise = idExercise + 1;
+    switch (exercise){
+        case 1: return 240;
+        case 2: return 240;
+        case 3: return 240;
+        case 4: return 240;
+        case 5: return 240;
+        case 6: return 240;
+        case 7: return 240;
+        case 8: return 240;
+        case 9: return 240;
+        case 10: return 240;
+        case 11: return 240;
+        case 12: return 240;
+        case 13: return 240;
+        case 14: return 240;
+    }
+}
