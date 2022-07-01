@@ -77,7 +77,9 @@ export default {
         this.intentWord = 0;
         //Si el usuario contesta correctamente se pasa al ejercicio siguiente
         this.transition(GameValues.correctTransition,GameValues.firstPartExplanation);
-        GameMethods.changeGeneralState(GameMethods.getGeneralState() + 1);
+        //GameMethods.changeGeneralState(GameMethods.getGeneralState() + 1);
+        GameMethods.setNextGeneralState(GameMethods.getGeneralState() + 1);
+
       }
       //Si fue incorrecta
       else {
@@ -91,12 +93,14 @@ export default {
         //Si es el ultimo intento
         else{
           GameMethods.reproduceAudio('error');
-          GameMethods.showError(GameValues.loseGame8);
+          //GameMethods.showError(GameValues.loseGame8);
           this.intentWord = 0;
           this.transition(GameValues.incorrectTransition,GameValues.firstPartExplanation);
-          GameMethods.changeGeneralState(GameValues.loseGame8);
-          }
+          GameMethods.setAlert(GameValues.errorIcon,GameValues.defaultErrorTitle+GameValues.loseGame8,"");
+          //GameMethods.changeGeneralState(GameValues.loseGame8);
+          GameMethods.setNextGeneralState(GameValues.loseGame8);
         }
+      }
     },
     transition : function(waitingState,nextGameState){
       switch(GameMethods.getGameState()){

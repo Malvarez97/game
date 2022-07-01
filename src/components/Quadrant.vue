@@ -55,13 +55,13 @@
     </div>
   <!-- Butttons -->
   <div v-show="$store.state.quadrantState==gameValues.buttons" class="game-container">
-    <v-btn v-show="clicked<0" @click="clicked+=1" outline rounded class=" positionCenter btn-8" fab color="#4758B8"  >
+    <v-btn v-show="clicked<1&&!correctClick&&!incorrectClick" @click="clicked+=1" outline rounded class=" positionCenter btn-8" fab color="#4758B8">
       {{this.quadrant.word.toUpperCase()}}
     </v-btn>
-    <v-btn v-show="clicked>=0&&correctClick" @click="clicked+=1" outline rounded class=" positionCenter btn-correct btn-8" fab color="#4758B8"  >
+    <v-btn v-show="clicked>=1&&correctClick" @click="clicked+=1" outline rounded class=" positionCenter btn-correct btn-8" fab color="#4758B8"  >
       {{this.quadrant.word.toUpperCase()}}
     </v-btn>
-    <v-btn v-show="clicked>=0&&!correctClick" @click="clicked+=1" outline rounded class=" positionCenter btn-incorrect btn-8" fab color="#4758B8"  >
+    <v-btn v-show="clicked>=1&&incorrectClick" @click="clicked+=1" outline rounded class=" positionCenter btn-incorrect btn-8" fab color="#4758B8"  >
       {{this.quadrant.word.toUpperCase()}}
     </v-btn>
   </div>
@@ -172,7 +172,8 @@ export default {
       correct:false,
       idCompleted:false,
       clicked:0,
-      correctClick:true,
+      correctClick:false,
+      incorrectClick:false,
       firstChoose:false,
       focus:0,
       gameValues:GameValues,
@@ -320,6 +321,7 @@ export default {
       console.log("Pregunto por " + this.input.toString());
       console.log("Pregunto por " + this.inputCenter.toString());
       console.log("Hago el restore" + this.input.toString());
+      /*
       this.inputCenter = "";
       this.input = "";
       this.longIsEmpty = true;
@@ -327,11 +329,29 @@ export default {
       this.shortIsEmpty = true;
       this.validateShort = false;
       this.correct = false;
+      this.incorrectClick = false;
       this.idCompleted = false;
       this.correctClick = false;
       this.firstChoose = false;
-      this.clicked = false;
-      this.blocking = false;
+      this.clicked = 1;
+      this.blocking = false;*/
+          this.validateShort=false;
+          this.validateLong=false;
+          this.shortIsEmpty=true;
+          this.longIsEmpty=true;
+          this.inputCenter="";
+          this.input="";
+          this.correct=false;
+          this.idCompleted=false;
+          this.clicked=0;
+          this.correctClick=false;
+          this.incorrectClick=false;
+          this.firstChoose=false;
+          this.focus=0;
+          this.gameValues=GameValues;
+          this.blocking=false;
+          this.amountBlocking=0;
+          this.limitBlocking=3;
     },
     //Observo la variable help que cuando sea verdadera dará una ayuda al usuario para el siguiente intento del ejercicio
     helpQuadrant() {
@@ -360,7 +380,7 @@ export default {
         else{
           console.log("Incorrecto");
           this.$emit('incorrectClick');
-          this.correctClick = false;
+          this.incorrectClick = true;
         }
       }
     },
@@ -516,20 +536,20 @@ input.id{
 .btn-global-8:hover {
   color:#2C3E50;
 }
-.btn-incorrect:focus {
+.btn-incorrect {
   border-color:darkred;
   box-shadow:0 0 25Px 0 darkred;
 }
-.btn-correct:focus {
+.btn-correct {
   border-color:springgreen;
   box-shadow:0 0 25Px 0 springgreen;
 }
-.btn-incorrect:focus {
+.btn-incorrect {
   border-color:darkred;
   box-shadow:0 0 40Px 0 darkred;
   color:darkred;
 }
-.btn-correct:focus {
+.btn-correct {
   border-color:springgreen;
   box-shadow:0 0 40Px 0 springgreen;
   color:springgreen;
