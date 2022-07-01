@@ -421,6 +421,7 @@ export default {
         this.quadrantsArrangement.push(this.copyQuadrant(this.quadrantsArrangement[7],"show","show",""));
         this.$store.commit('setQuadrantsArrangement',this.quadrantsArrangement);
 
+
       }
     },
     resetExercise(exercise){

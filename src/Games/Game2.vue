@@ -81,13 +81,15 @@ export default {
         GameMethods.saveValue(parseInt(this.exerciseNumber,10),"finish correct",this.intentWord);
         this.intentWord = 0;
         //Si el usuario contesta correctamente se pasa al ejercicio siguiente
-        this.transition(GameValues.correctTransition,GameValues.firstPartExplanation,true,GameMethods.getGeneralState() + 1);
+        this.transition(GameValues.correctTransition,GameValues.firstPartExplanation);
         //GameMethods.changeGeneralState(GameMethods.getGeneralState() + 1);
+        GameMethods.setNextGeneralState(GameMethods.getGeneralState() + 1);
       }
       //Si fue incorrecta
       else {
         //Se guarda el tiempo de fallo
         GameMethods.saveValue(parseInt(this.exerciseNumber,10),"finish failure",this.intentWord);
+        GameMethods.reproduceAudio('error');
         //Si no fue el ultimo intento se hace la transicion
         if (this.intentWord < this.limitAttempts) {
           GameMethods.reproduceAudio('mistake');
@@ -96,16 +98,15 @@ export default {
         //Si fue el ultimo intento, se notifica el fallo en el ejercicio al usuario y se transiciona hacia atras
         else {
           this.intentWord = 0;
-          GameMethods.reproduceAudio('error');
           this.transition(GameValues.incorrectTransition,GameValues.firstPartExplanation);
           if (GameMethods.getGeneralState() == 3) {
             //Si perdio en el ejercicio 3 vuelve al LoseGame3(1), si perdio en el 4 al LoseGame4(2)
-            this.showError(GameValues.loseGame3);
-            this.changeGeneralState(GameValues.loseGame3);
+            GameMethods.setAlert(GameValues.errorIcon,GameValues.defaultErrorTitle+GameValues.loseGame3,"");
+            GameMethods.setNextGeneralState(GameValues.loseGame3);
           }
           else {
-            this.showError(GameValues.loseGame4);
-            this.changeGeneralState(GameValues.loseGame4);
+            GameMethods.setAlert(GameValues.errorIcon,GameValues.defaultErrorTitle+GameValues.loseGame4,"");
+            GameMethods.setNextGeneralState(GameValues.loseGame4);
           }
         }
       }
@@ -130,7 +131,7 @@ export default {
         case GameValues.firstPartExplanation:
           GameMethods.changeState(GameValues.completeIds);
           GameMethods.saveValue(parseInt(this.exerciseNumber,10),"show",this.intentWord+1);
-          GameMethods.setTypeExercise("ids");
+          GameMethods.setTypeExercise(GameValues.game2Type);
           break;
         default:
           GameMethods.checkExercise();

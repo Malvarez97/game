@@ -73,7 +73,7 @@ export default new Vuex.Store({
         },
         setStoreInterval(state){
           state.interval = setInterval( () => {
-              console.log("seconds = "+state.seconds);
+              //console.log("seconds = "+state.seconds);
               state.seconds+=1;
           }, 1000)
         },
@@ -196,7 +196,7 @@ export default new Vuex.Store({
         },
         checkExercise(){
             console.log("Type of exercise = "+this.state.typeOfExercise);
-            if (this.state.typeOfExercise == "words"){
+            if (this.state.typeOfExercise == GameValues.words){
                 console.log("Hago el check de words");
                 this.state.quadrant1.checkWord();
                 this.state.quadrant2.checkWord();
@@ -204,7 +204,7 @@ export default new Vuex.Store({
                 this.state.quadrant4.checkWord();
             }
             else{
-                if (this.state.typeOfExercise == "ids"){
+                if (this.state.typeOfExercise == GameValues.ids){
                     console.log("Hago el check de ids");
                     this.state.quadrant1.checkId();
                     this.state.quadrant2.checkId();
@@ -212,7 +212,7 @@ export default new Vuex.Store({
                     this.state.quadrant4.checkId();
                 }
                 else{
-                    if (this.state.typeOfExercise == "category"){
+                    if (this.state.typeOfExercise == GameValues.category){
                         console.log("Hago el check de category");
                         this.state.quadrant1.checkCategory();
                         this.state.quadrant2.checkCategory();
@@ -220,7 +220,7 @@ export default new Vuex.Store({
                         this.state.quadrant4.checkCategory();
                     }
                     else{
-                        if (this.state.typeOfExercise == "drag"){
+                        if (this.state.typeOfExercise == GameValues.drag){
                             console.log("Hago el check de drag");
                             this.state.quadrant1.checkDrag();
                             this.state.quadrant2.checkDrag();

@@ -91,16 +91,18 @@ export default {
         else{
           this.transition(GameValues.correctTransition,GameValues.firstPartExplanation);
         }
-        GameMethods.changeGeneralState(GameMethods.getGeneralState() + 1);
+        //GameMethods.changeGeneralState(GameMethods.getGeneralState() + 1);
+        GameMethods.setNextGeneralState(GameMethods.getGeneralState() + 1);
       }
       //Si fue incorrecta
       else {
         GameMethods.saveValue(parseInt(this.exerciseNumber,10),"finish failure",this.intentWord);
         if (this.intentWord == 1) {
             if (GameMethods.getGeneralState() == 12) {
-              GameMethods.reproduceAudio('hint');
-              GameMethods.showWarning("Último intento. Recibirás una ayuda");
+              //GameMethods.reproduceAudio('hint');
+              //GameMethods.showWarning("Último intento. Recibirás una ayuda");
               this.transition(GameValues.incorrectTransition, GameValues.showIdsShowWordsCompleteWords);
+              GameMethods.setAlert(GameValues.warningIcon,GameValues.warningHelpTitle,"");
               GameMethods.changeHelp();
             }
             else{
@@ -115,13 +117,15 @@ export default {
               this.intentWord = 0;
               GameMethods.reproduceAudio('error');
               this.transition(GameValues.incorrectTransition,GameValues.firstPartExplanation);
-              GameMethods.changeGeneralState(GameValues.loseGame12);
+              //GameMethods.changeGeneralState(GameValues.loseGame12);
+              GameMethods.setNextGeneralState(GameValues.loseGame12);
             }
             else{
-              GameMethods.reproduceAudio('hint');
-              GameMethods.showWarning("Último intento. Recibirás una ayuda");
+              //GameMethods.reproduceAudio('hint');
+              //GameMethods.showWarning("Último intento. Recibirás una ayuda");
               this.transition(GameValues.incorrectTransition, GameValues.showIdsShowWordsCompleteWords);
               GameMethods.changeHelp();
+              GameMethods.setAlert(GameValues.warningIcon,GameValues.warningHelpTitle,"");
             }
           }
           //Si es el error numero 3
@@ -130,13 +134,15 @@ export default {
               GameMethods.showError(GameValues.loseGame10);
               GameMethods.reproduceAudio('error');
               this.transition(GameValues.incorrectTransition,GameValues.firstPartExplanation);
-              GameMethods.changeGeneralState(GameValues.loseGame10);
+              //GameMethods.changeGeneralState(GameValues.loseGame10);
+              GameMethods.setNextGeneralState(GameValues.loseGame10);
             }
             else{
               //this.showRightAnswer(this.$store.state.responseExercise11.word);
               GameMethods.reproduceAudio('error');
               this.transition(GameValues.incorrectTransition,GameValues.firstPartExplanation);
-              GameMethods.changeGeneralState(GameValues.loseGame11);
+              //GameMethods.changeGeneralState(GameValues.loseGame11);
+              GameMethods.setNextGeneralState(GameValues.loseGame11);
             }
             this.intentWord = 0;
           }
@@ -168,7 +174,7 @@ export default {
         case GameValues.secondPartExplanation:
           GameMethods.changeState(GameValues.showAll);
           GameMethods.saveValue(parseInt(this.exerciseNumber,10),"show",this.intentWord+1);
-          GameMethods.setTypeExercise("words");
+          GameMethods.setTypeExercise(GameValues.game7Type);
           break;
         default:
           GameMethods.checkExercise();

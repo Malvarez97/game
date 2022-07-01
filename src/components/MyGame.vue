@@ -16,13 +16,16 @@
                          @correctClick="addCorrectClick"
                          @incorrectClick="addIncorrectClick"
                          @checkDrag="addDragCheck"
-                         @setCorrectWord="setCorrectWord"/>
+                         @setCorrectWord="setCorrectWord"
+                         @setCorrectId="setCorrectId"/>
         </v-col>
       </v-row>
     </v-app>
 </template>
 <script>
 import MyQuadrantVue from "./Quadrant.vue"
+import * as GameMethods from '../Games/gamemethods.js';
+import * as GameValues from '../Games/gamevalues.js';
 
 export default {
   name: 'MyGame',
@@ -74,17 +77,18 @@ export default {
           //console.log(this.$store.state.quadrantsMatrix[this.id*4+i].quadrant);
           if (!this.$store.state.quadrantsMatrix[this.id*4+i].quadrant.showWord) {
             //console.log("es falsa la word");
-            this.wordsCorrect+=1;
-            this.$store.state.quadrantsMatrix[this.id*4+i].defaultCorrect = true;
-            this.$store.state.quadrantsMatrix[this.id*4+i].correct = true;
+            if (this.$store.state.quadrantsMatrix[this.id*4+i].inputCenter=="" && (GameMethods.getExerciseType(this.id) == GameValues.words || GameMethods.getExerciseType(this.id) == GameValues.wordsAndIds)){
+              this.wordsCorrect+=1;
+              this.$store.state.quadrantsMatrix[this.id*4+i].defaultCorrectWord = true;
+              this.$store.state.quadrantsMatrix[this.id*4+i].correctWord = true;
+            }
           }
           //Seteo las ids
-          if (!this.$store.state.quadrantsMatrix[this.id*4+i].quadrant.showId) {
+          if (!this.$store.state.quadrantsMatrix[this.id*4+i].quadrant.showId && (GameMethods.getExerciseType(this.id) == GameValues.ids || GameMethods.getExerciseType(this.id) == GameValues.wordsAndIds)) {
             //console.log("es falsa la id");
             this.idsCorrect+=1;
-            this.$store.state.quadrantsMatrix[this.id*4+i].defaultCorrect = true;
-            this.$store.state.quadrantsMatrix[this.id*4+i].correct = true;
-
+            this.$store.state.quadrantsMatrix[this.id*4+i].defaultCorrectId = true;
+            this.$store.state.quadrantsMatrix[this.id*4+i].correctId = true;
           }
         }
       }
@@ -139,11 +143,29 @@ export default {
       if (correct){
         console.log('Seteo la palabra como correcta');
         this.wordsCorrect +=1;
+        if (this.wordsChecked != 4 && this.wordsCorrect == 4){
+          this.finishCheck(true);
+        }
       }
       else{
         console.log('Seteo la palabra como incorrecta');
         this.wordsCorrect -=1;
       }
+    },
+    setCorrectId(correct){
+      console.log("ids correct = "+this.idsCorrect);
+      if (correct){
+        console.log('Seteo el id como correcto');
+        this.idsCorrect +=1;
+        if (this.idsChecked != 4 && this.idsCorrect == 4){
+          this.finishCheck(true);
+        }
+      }
+      else{
+        console.log('Seteo el id como incorrecto');
+        this.idsCorrect -=1;
+      }
+      console.log("ids correct = "+this.idsCorrect);
     },
     addDragCheck : function(correctDrag){
       this.dragsChecked += 1;

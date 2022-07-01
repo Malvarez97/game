@@ -89,7 +89,7 @@ export default {
         GameMethods.saveValue(this.getExerciseNumber(), "finish correct",this.intentWord);
         this.intentWord = 0;
         //Si estamos en el ejercicio de las palabras
-        if (GameMethods.getTypeOfExercise() == "words") {
+        if (GameMethods.getCurrentTypeOfExercise() == GameValues.words) {
           this.subExerciseNumber = 2;
           this.transition(GameValues.correctTransition,GameValues.secondPartExplanation);
         }
@@ -110,7 +110,7 @@ export default {
         //Si fue el primer intento
           if (this.intentWord == 1) {
             //Si es el ejercicio de las ids, se muestra una advertencia, ya que los intentos limite son 2
-            if (GameMethods.getTypeOfExercise() == "ids"){
+            if (GameMethods.getCurrentTypeOfExercise() == GameValues.ids){
               this.transition(GameValues.incorrectTransition,GameValues.completeIds);
               GameMethods.setAlert(GameValues.warningIcon,'Último intento.',"");
             }
@@ -123,7 +123,7 @@ export default {
           else {
             if (this.intentWord == 2) {
               //Si es el juego de las ids, se vuelve al ejercicio 1 y se le notifica al usuario
-              if (GameMethods.getTypeOfExercise() == 'ids'){
+              if (GameMethods.getCurrentTypeOfExercise() == 'ids'){
                 GameMethods.showError(GameMethods.getGeneralState());
                 this.intentWord = 0;
                 this.subExerciseNumber = 1;
@@ -190,7 +190,7 @@ export default {
         case GameValues.firstPartExplanation:
           GameMethods.changeState(GameValues.showWordsAndIds);
           GameMethods.saveValue(this.getExerciseNumber(),'show',this.intentWord+1);
-          GameMethods.setTypeExercise("words");
+          GameMethods.setTypeExercise(GameValues.game1sub1Type);
           break;
         case GameValues.showWordsAndIds:
           GameMethods.changeState(GameValues.completeWords);
@@ -198,7 +198,7 @@ export default {
         case GameValues.secondPartExplanation:
           GameMethods.changeState(GameValues.completeIds);
           GameMethods.saveValue(this.getExerciseNumber(),'show',this.intentWord+1);
-          GameMethods.setTypeExercise("ids");
+          GameMethods.setTypeExercise(GameValues.game1sub2Type);
           break;
         default:
           GameMethods.checkExercise();

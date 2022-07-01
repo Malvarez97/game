@@ -1,4 +1,5 @@
 import Swal from "sweetalert2";
+import * as GameValues from "./gamevalues.js";
 import store from "../store.js"
 
 //Metodos del juego
@@ -65,7 +66,7 @@ export function getCorrectResponse(){
     return store.state.correctResponse;
 }
 //Devuelve el tipo de ejercicio actual
-export function getTypeOfExercise(){
+export function getCurrentTypeOfExercise(){
     return store.state.typeOfExercise;
 }
 //Devuelve el estado actual del juego
@@ -152,4 +153,23 @@ export function showWarningTitle(text) {
 export function setNextGeneralState(nextGeneralState){
     store.state.changeGeneralState = true;
     store.state.nextGeneralState = nextGeneralState;
+}
+export function getExerciseType(idExercise){
+  let exercise = idExercise + 1;
+    switch(exercise) {
+      case 1: return GameValues.game1Type;
+      case 2: return GameValues.game1Type;
+      case 3: return GameValues.game2Type;
+      case 4: return GameValues.game2Type;
+      case 5: return GameValues.game3Type;
+      case 6: return GameValues.game4Type;
+      case 7: return GameValues.game4Type;
+      case 8: return GameValues.game5Type;
+      case 9: return GameValues.game6Type;
+      case 10: return GameValues.game7Type;
+      case 11: return GameValues.game7Type;
+      case 12: return GameValues.game7Type;
+      case 13: return GameValues.game8Type;
+      case 14: return GameValues.game9Type;
+  }
 }

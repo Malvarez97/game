@@ -76,7 +76,8 @@ export default {
         this.intentWord = 0;
         //Si el usuario contesta correctamente se pasa al ejercicio siguiente
         this.transition(GameValues.correctTransition,GameValues.firstPartExplanation);
-        GameMethods.changeGeneralState(GameMethods.getGeneralState() + 1);
+        //GameMethods.changeGeneralState(GameMethods.getGeneralState() + 1);
+        GameMethods.setNextGeneralState(GameMethods.getGeneralState() + 1);
       }
       //Si fue incorrecta
       else {
@@ -89,19 +90,21 @@ export default {
             this.transition(GameValues.incorrectTransition,GameValues.showWordsCompleteCategories);
           }
           if (this.intentWord == this.limitAttempts - 1){
-            GameMethods.reproduceAudio('hint');
-            GameMethods.showWarning('Último intento.');
+            //GameMethods.showWarning('Último intento.');
             this.transition(GameValues.incorrectTransition,GameValues.showWordsCompleteCategories);
+            GameMethods.setAlert(GameValues.warningIcon,GameValues.defaultWarningTitle,"");
             GameMethods.changeHelp();
           }
         }
         //Si es el ultimo intento
         else{
-          GameMethods.showError(GameValues.loseGame9);
+          //GameMethods.showError(GameValues.loseGame9);
           GameMethods.reproduceAudio('error');
           this.intentWord = 0;
           this.transition(GameValues.incorrectTransition,GameValues.firstPartExplanation);
-          GameMethods.changeGeneralState(GameValues.loseGame9);
+          //GameMethods.changeGeneralState(GameValues.loseGame9);
+          GameMethods.setNextGeneralState(GameValues.loseGame9);
+          GameMethods.setAlert(GameValues.errorIcon,GameValues.defaultErrorTitle+GameValues.loseGame9,"")
         }
       }
     },
@@ -122,7 +125,7 @@ export default {
         case GameValues.firstPartExplanation:
           GameMethods.changeState(GameValues.showWordsCompleteCategories);
           GameMethods.saveValue(parseInt(this.exerciseNumber,10),"show",this.intentWord+1);
-          GameMethods.setTypeExercise("category");
+          GameMethods.setTypeExercise(GameValues.game6Type);
           break;
         default:
           GameMethods.checkExercise();

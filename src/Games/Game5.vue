@@ -119,7 +119,7 @@ export default {
         case GameValues.firstPartExplanation:
           GameMethods.changeState(GameValues.buttons);
           GameMethods.saveValue(parseInt(this.exerciseNumber,10),"show",this.intentWord+1);
-          GameMethods.setTypeExercise("words");
+          GameMethods.setTypeExercise(GameValues.game5Type);
           break;
         default:
           GameMethods.checkExercise();

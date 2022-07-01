@@ -79,7 +79,8 @@ export default {
         this.intentWord = 0;
         //Si el usuario contesta correctamente se pasa al ejercicio siguiente
         this.transitionGame(GameValues.correctTransition,GameValues.firstPartExplanation);
-        GameMethods.changeGeneralState(GameMethods.getGeneralState() + 1);
+        //GameMethods.changeGeneralState(GameMethods.getGeneralState() + 1);
+        GameMethods.setNextGeneralState(GameMethods.getGeneralState() + 1);
       }
       //Si fue incorrecta
       else {
@@ -89,8 +90,6 @@ export default {
         {
           GameMethods.reproduceAudio('mistake');
           this.transitionQuadrant(GameValues.highlightWrongValues,GameValues.draggable);
-          // guardo el valor del tiempo del error  del primer fallo de Id
-          //this.saveValue('Incorrect Word Intent ' + (parseInt(this.intentWord, 10) + 1), this.exerciseNumber + 'a');
         }
         //Si es el ultimo intento
         else
@@ -99,8 +98,9 @@ export default {
           this.intentWord = 0;
           GameMethods.reproduceAudio('error');
           this.transitionGame(GameValues.incorrectTransition,GameValues.firstPartExplanation);
-          this.showError(GameValues.loseGame5);
-          this.changeGeneralState(GameValues.loseGame5);
+          //this.changeGeneralState(GameValues.loseGame5);
+          GameMethods.setNextGeneralState(GameValues.loseGame5);
+          GameMethods.setAlert(GameValues.errorIcon,GameValues.defaultErrorTitle+GameValues.loseGame5,"");
         }
       }
     },
@@ -127,7 +127,7 @@ export default {
         case GameValues.firstPartExplanation:
           GameMethods.changeState(GameValues.draggable);
           GameMethods.saveValue(parseInt(this.exerciseNumber,10),"show",this.intentWord+1);
-          GameMethods.setTypeExercise("drag");
+          GameMethods.setTypeExercise(GameValues.game3Type);
           break;
         default:
           GameMethods.checkExercise();

@@ -37,9 +37,33 @@ export const loseGame14 = 10;
 
 //Variables de las alertas
 export const defaultWarningTitle = "Te queda 1 solo intento";
+export const warningHelpTitle = "Último intento. Recibirás una ayuda";
 export const defaultSuccessTitle = "Respuesta correcta";
 export const defaultErrorTitle = "Inténtalo nuevamente. Volverás al ejercicio ";
 export const warningIcon = "warning";
 export const errorIcon = "error";
 export const successIcon = "success";
+
+//Tipos de ejercicios
+export const words = "words";
+export const ids = "ids";
+export const wordsAndIds = "words and ids";
+export const drag = "drag";
+export const category = "category";
+
+//Tipos de ejercicios de cada game
+export const game1Type = wordsAndIds;
+export const game1sub1Type = words;
+export const game1sub2Type = ids;
+export const game2Type = ids;
+export const game3Type = drag;
+export const game4Type = words;
+export const game5Type = words;
+export const game6Type = category;
+export const game7Type = words;
+export const game8Type = words;
+export const game9Type = ids;
+
+
+
 

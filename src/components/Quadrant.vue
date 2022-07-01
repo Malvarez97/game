@@ -169,8 +169,10 @@ export default {
       longIsEmpty:true,
       inputCenter:"",
       input:"",
-      correct:false,
-      idCompleted:false,
+      correctWord:false,
+      correctId:false,
+      defaultCorrectWord:false,
+      defaultCorrectId:false,
       clicked:0,
       correctClick:false,
       incorrectClick:false,
@@ -180,7 +182,6 @@ export default {
       blocking:false,
       amountBlocking:0,
       limitBlocking:3,
-      defaultCorrect:false
     }
   },
   methods: {
@@ -190,6 +191,8 @@ export default {
         this.$emit('writeLetter');
       }
       console.log("id que tengo = "+this.input.toUpperCase()+" \n id real = "+this.quadrant.Id.toUpperCase()+" \n id showeable? "+this.quadrant.showId);
+      console.log("Default true? "+this.defaultCorrectId);
+      console.log("Correct = "+this.correctId);
       if(this.quadrant.Id.toUpperCase()===this.input.toUpperCase() && this.quadrant.showId) {
         // eslint-disable-next-line no-unreachable
         this.validateShort=true;
@@ -203,9 +206,19 @@ export default {
         this.shortIsEmpty=false;
         this.setFocusWordWriting();
         this.amountBlocking+=1;
-        if (this.amountBlocking == this.limitBlocking){
+        console.log("Default correct id = "+this.defaultCorrectId);
+        console.log("La que escribi = "+this.input.toString().toUpperCase());
+        console.log("Palabra = "+this.quadrant.Id);
+        if (this.amountBlocking == this.limitBlocking && (this.defaultCorrectId || this.input.toString().toUpperCase() != this.quadrant.Id)){
           this.blocking = true;
           GameMethods.showWarningTitle("Has alcanzado el límite de intentos para el cuadrante");
+        }
+        console.log("Deberia entrar "+this.defaultCorrectId+" "+this.correctId);
+        //Si el id es por defecto correcto
+        if(this.defaultCorrectId && this.correctId){
+          //El id  pasa a tomarse como incorrecto
+          this.$emit('setCorrectId',false);
+          this.correctId=false;
         }
       }
       //Si se borraron todos los caracteres del input
@@ -213,6 +226,12 @@ export default {
         //Se cambia la variable y se recupera el focus
         this.shortIsEmpty = true;
         this.setFocusStoppedWriting();
+        //Si el id es por defecto correcto
+        if(this.defaultCorrectId && !this.correctId){
+          //El id se vuelve a tomar como correcta
+          this.$emit('setCorrectId',true);
+          this.correctId=true;
+        }
       }
     },
     //Chequeo que la palabra escrita por el usuario sea igual a la que pide el ejercicio
@@ -220,18 +239,18 @@ export default {
       if (this.inputCenter != ""){
         this.$emit('writeLetter');
       }
-      if(this.$store.state.typeOfExercise=="words"&&this.quadrant.word.toUpperCase()===this.inputCenter.toUpperCase()&&this.quadrant.showWord) {
+      if(this.$store.state.typeOfExercise==GameValues.words&&this.quadrant.word.toUpperCase()===this.inputCenter.toUpperCase()&&this.quadrant.showWord) {
         // eslint-disable-next-line no-unreachable
         console.log("La palabra es correcta");
         this.validateLong=true;
-        this.correct = true;
+        this.correctWord = true;
         this.$emit('wordCorrect');
       }
       else{
-        if(this.$store.state.typeOfExercise=="category"&&this.quadrant.category.toUpperCase()===this.inputCenter.toUpperCase()&&this.quadrant.showWord) {
+        if(this.$store.state.typeOfExercise==GameValues.category&&this.quadrant.category.toUpperCase()===this.inputCenter.toUpperCase()&&this.quadrant.showWord) {
           // eslint-disable-next-line no-unreachable
           this.validateLong=true;
-          this.correct = true;
+          this.correctWord = true;
           this.$emit('wordCorrect');
         }
       }
@@ -246,10 +265,10 @@ export default {
         this.longIsEmpty=false;
         this.setFocusWordWriting();
         //Si la palabra es por defecto correcta
-        if(this.defaultCorrect){
+        if(this.defaultCorrectWord && this.correctWord){
           //La palabra pasa a tomarse como incorrecta
           this.$emit('setCorrectWord',false);
-          this.correct=false;
+          this.correctWord=false;
         }
       }
       //Si se borraron todos los caracteres del input
@@ -258,17 +277,17 @@ export default {
         this.longIsEmpty = true;
         this.setFocusStoppedWriting();
         //Si la palabra es por defecto correcta
-        if(this.defaultCorrect){
+        if(this.defaultCorrectWord && !this.correctWord){
           //La palabra se vuelve a tomar como correcta
           this.$emit('setCorrectWord',true);
-          this.correct=true;
+          this.correctWord=true;
         }
       }
     },
     //Chequeo que el ejercicio esté completado correctamente
     checkWord() {
         //Si la palabra no se verifico como como correcta anteriormente
-        if(!this.correct){
+        if(!this.correctWord){
           //Si la palabra se mostró, entonces se tiene que chequear que sea correcta)
           if (this.quadrant.showWord){
             //Si la palabra necesita ser chequeada en caso de que el usuario pueda haberla escrito mal
@@ -293,16 +312,16 @@ export default {
     },
     //Chequeo que el ejercicio esté completado correctamente
     checkId() {
-      if (!this.idCompleted){
+      if (!this.correctId){
         this.$emit('idIncorrect');
       }
     },
     checkCategory(){
       //Si la palabra no se verifico como correcta anteriormente
       console.log("palabra = "+this.inputCenter.toString());
-      console.log("ES correcta? "+this.correct);
+      console.log("ES correcta? "+this.correctWord);
       console.log("This show word? "+this.showWord);
-      if (!this.correct){
+      if (!this.correctWord){
         //Si hay que completar la categoria hay que chequear que sea correcta
         if (this.quadrant.showWord){
           if ((wagnerFischer(this.inputCenter.toString().toUpperCase(), this.quadrant.category.toUpperCase()) <= 2)) {
@@ -354,8 +373,8 @@ export default {
           this.longIsEmpty=true;
           this.inputCenter="";
           this.input="";
-          this.correct=false;
-          this.idCompleted=false;
+          this.correctWord=false;
+          this.correctId=false;
           this.clicked=0;
           this.correctClick=false;
           this.incorrectClick=false;
@@ -369,9 +388,9 @@ export default {
     //Observo la variable help que cuando sea verdadera dará una ayuda al usuario para el siguiente intento del ejercicio
     helpQuadrant() {
       if (this.quadrant.showWord) {
-        if (this.$store.state.typeOfExercise=="words")
+        if (this.$store.state.typeOfExercise==GameValues.words)
           this.inputCenter = this.quadrant.word.charAt(0);
-        else if(this.$store.state.typeOfExercise=="category"){
+        else if(this.$store.state.typeOfExercise==GameValues.category){
           this.inputCenter = this.quadrant.category.charAt(0);
         }
       }

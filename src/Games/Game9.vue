@@ -95,18 +95,21 @@ export default {
         }
         else{
           if (this.intentWord == this.hintAttempt){
-            GameMethods.reproduceAudio('hint');
-            GameMethods.showWarning();
+            //GameMethods.reproduceAudio('hint');
+            //GameMethods.showWarning();
             this.transition(GameValues.incorrectTransition, GameValues.showWordsCompleteIds);
             GameMethods.changeHelp();
+            GameMethods.setAlert(GameValues.warningIcon,GameValues.defaultWarningTitle,"");
           }
           //Si es el error numero 3
           else {
             GameMethods.reproduceAudio('error');
-            GameMethods.showError(GameValues.loseGame14);
+            //GameMethods.showError(GameValues.loseGame14);
             this.intentWord = 0;
             this.transition(GameValues.incorrectTransition, GameValues.firstPartExplanation);
-            GameMethods.changeGeneralState(GameValues.loseGame14);
+            //GameMethods.changeGeneralState(GameValues.loseGame14);
+            GameMethods.setNextGeneralState(GameValues.loseGame14);
+            GameMethods.setAlert(GameValues.errorIcon,GameValues.defaultErrorTitle+GameValues.loseGame14,"");
           }
         }
       }
@@ -127,7 +130,7 @@ export default {
         case GameValues.firstPartExplanation:
           GameMethods.changeState(GameValues.showWordsCompleteIds);
           GameMethods.saveValue(parseInt(this.exerciseNumber,10),"show",this.intentWord+1);
-          GameMethods.setTypeExercise("ids");
+          GameMethods.setTypeExercise(GameValues.game9Type);
           break;
         default:
           GameMethods.checkExercise();

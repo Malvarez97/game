@@ -77,7 +77,8 @@ export default {
         this.intentWord = 0;
         //Si el usuario contesta correctamente se pasa al ejercicio siguiente
         this.transition(GameValues.correctTransition,GameValues.firstPartExplanation);
-        GameMethods.changeGeneralState(GameMethods.getGeneralState() + 1);
+        //GameMethods.changeGeneralState(GameMethods.getGeneralState() + 1);
+        GameMethods.setNextGeneralState(GameMethods.getGeneralState() + 1);
       }
       //Si fue incorrecta
       else {
@@ -88,10 +89,11 @@ export default {
         }
         else{
           if (this.intentWord == this.hintAttempt){
-            GameMethods.reproduceAudio('hint');
-            GameMethods.showWarning("Último intento. Recibirás una ayuda");
+            //GameMethods.reproduceAudio('hint');
+            //GameMethods.showWarning("Último intento. Recibirás una ayuda");
             this.transition(GameValues.incorrectTransition, GameValues.showIdsCompleteWords);
             GameMethods.changeHelp();
+            GameMethods.setAlert(GameValues.warningIcon,GameValues.warningHelpTitle,"");
           }
           //Si es el error numero 3
           else {
@@ -103,7 +105,8 @@ export default {
 
             this.intentWord = 0;
             this.transition(GameValues.incorrectTransition, GameValues.firstPartExplanation);
-            GameMethods.changeGeneralState(GameValues.loseGame13);
+            //GameMethods.changeGeneralState(GameValues.loseGame13);
+            GameMethods.setNextGeneralState(GameValues.loseGame13);
           }
         }
       }
@@ -124,7 +127,7 @@ export default {
         case GameValues.firstPartExplanation:
           GameMethods.changeState(GameValues.showIdsCompleteWords);
           GameMethods.saveValue(parseInt(this.exerciseNumber,10),"show",this.intentWord+1);
-          this.setTypeExercise("words");
+          this.setTypeExercise(GameValues.game8Type);
           break;
         default:
           GameMethods.checkExercise();
