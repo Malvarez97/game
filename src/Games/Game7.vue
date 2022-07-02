@@ -68,7 +68,7 @@ export default {
   data() {
     return {
       intentWord: 0,
-      explicationWord_introduction: "Trate de reocrdar lo escrito en cada cuadrante.",
+      explicationWord_introduction: "Trate de recordar lo escrito en cada cuadrante.",
       explicationWord_outcome: "Tenga en cuenta con que letra se identifica cada cuadrante.",
       explicationWord_end: "A continuación debe escribir el nombre faltante.",
       explication_nextGames: "Escriba el nombre que desaparece en la pantalla.",
@@ -105,7 +105,6 @@ export default {
               GameMethods.changeHelp();
             }
             else{
-              GameMethods.reproduceAudio('mistake');
               this.transition(GameValues.incorrectTransition, GameValues.showIdsShowWordsCompleteWords);
             }
         }
@@ -114,7 +113,6 @@ export default {
             if (GameMethods.getGeneralState() == 12){
               //this.showRightAnswer(this.$store.state.responseExercise12.word);
               this.intentWord = 0;
-              GameMethods.reproduceAudio('error');
               this.transition(GameValues.incorrectTransition,GameValues.firstPartExplanation);
               //GameMethods.changeGeneralState(GameValues.loseGame12);
               GameMethods.setNextGeneralState(GameValues.loseGame12);

@@ -341,9 +341,9 @@ export default new Vuex.Store({
                                 context.commit('changeCategory', context.state.nextGeneralState);
                                 context.dispatch('changeGeneralState', context.state.nextGeneralState);
                             }
-                        },data.miliseconds
+                        },GameValues.showCorrectIncorrectTime
                         ,)
-            },data.miliseconds
+            },GameValues.showExerciseTime
             ,)
         },
         waitingStateToNextQuadrantState(context,data){
@@ -351,7 +351,7 @@ export default new Vuex.Store({
             setTimeout ( ()=> {
                     context.commit('changeQuadrantState',data.nextQuadrantState);
                     console.log("El quadrant state es "+this.state.quadrantState);
-                },data.miliseconds
+                },GameValues.showExerciseTime
                 ,)
         },
         changeGeneralState(context,nextGeneralState){

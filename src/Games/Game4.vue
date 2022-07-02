@@ -89,10 +89,10 @@ export default {
       //Si fue incorrecta
       else {
         GameMethods.saveValue(parseInt(this.exerciseNumber,10),"finish failure",this.intentWord);
+        GameMethods.reproduceAudio('error');
         //Si no fue el ultimo intento
         if (this.intentWord < this.limitAttempts-1)
         {
-          GameMethods.reproduceAudio('mistake');
           this.transition(GameValues.incorrectTransition,GameValues.showIdsCompleteWords);
         }
         //Si es el ultimo intento
@@ -105,7 +105,6 @@ export default {
           else{
             this.intentWord = 0;
             this.transition(GameValues.incorrectTransition,GameValues.firstPartExplanation);
-            GameMethods.reproduceAudio('error');
             if (GameMethods.getGeneralState() == 6) {
               //Si perdi en el juego 6 vuelvo al 1
               GameMethods.setAlert(GameValues.errorIcon,GameValues.defaultErrorTitle+GameValues.loseGame6,"");

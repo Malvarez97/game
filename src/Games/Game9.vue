@@ -89,21 +89,18 @@ export default {
       //Si fue incorrecta
       else {
         GameMethods.saveValue(parseInt(this.exerciseNumber,10),"finish failure",this.intentWord);
+        GameMethods.reproduceAudio('error');
         if (this.intentWord < this.hintAttempt) {
-          GameMethods.reproduceAudio('mistake');
           this.transition(GameValues.incorrectTransition, GameValues.showWordsCompleteIds);
         }
         else{
           if (this.intentWord == this.hintAttempt){
-            //GameMethods.reproduceAudio('hint');
-            //GameMethods.showWarning();
             this.transition(GameValues.incorrectTransition, GameValues.showWordsCompleteIds);
             GameMethods.changeHelp();
             GameMethods.setAlert(GameValues.warningIcon,GameValues.defaultWarningTitle,"");
           }
           //Si es el error numero 3
           else {
-            GameMethods.reproduceAudio('error');
             //GameMethods.showError(GameValues.loseGame14);
             this.intentWord = 0;
             this.transition(GameValues.incorrectTransition, GameValues.firstPartExplanation);

@@ -81,14 +81,16 @@ export default {
         this.transitionGame(GameValues.correctTransition,GameValues.firstPartExplanation);
         //GameMethods.changeGeneralState(GameMethods.getGeneralState() + 1);
         GameMethods.setNextGeneralState(GameMethods.getGeneralState() + 1);
+        //Reordeno las ids por si se vuelve a hacer el ejercicio aparezcan en orden aleatorio
+        this.$emit('restoreExercise');
       }
       //Si fue incorrecta
       else {
         GameMethods.saveValue(parseInt(this.exerciseNumber,10),"finish failure",this.intentWord);
+        GameMethods.reproduceAudio('error');
         //Si no fue el ultimo intento
         if (this.intentWord < this.limitAttemps)
         {
-          GameMethods.reproduceAudio('mistake');
           this.transitionQuadrant(GameValues.highlightWrongValues,GameValues.draggable);
         }
         //Si es el ultimo intento
@@ -96,11 +98,12 @@ export default {
         {
           console.log("Quinta incorrecta")
           this.intentWord = 0;
-          GameMethods.reproduceAudio('error');
           this.transitionGame(GameValues.incorrectTransition,GameValues.firstPartExplanation);
           //this.changeGeneralState(GameValues.loseGame5);
           GameMethods.setNextGeneralState(GameValues.loseGame5);
           GameMethods.setAlert(GameValues.errorIcon,GameValues.defaultErrorTitle+GameValues.loseGame5,"");
+          //Reordeno las ids por si se vuelve a hacer el ejercicio aparezcan en orden aleatorio
+          this.$emit('restoreExercise');
         }
       }
     },

@@ -92,7 +92,6 @@ export default {
         GameMethods.reproduceAudio('error');
         //Si no fue el ultimo intento se hace la transicion
         if (this.intentWord < this.limitAttempts) {
-          GameMethods.reproduceAudio('mistake');
           this.transition(GameValues.incorrectTransition,GameValues.completeIds);
         }
         //Si fue el ultimo intento, se notifica el fallo en el ejercicio al usuario y se transiciona hacia atras

@@ -1,49 +1,49 @@
 <template>
 	<v-app style="box-sizing: content-box" >
     <div v-show="$store.state.generalState == 0">
-      <Beginner @finishBegin="$store.dispatch('changeGeneralState',1)"></Beginner>
+      <Beginner @finishBegin="$store.dispatch('changeGeneralState',9)"></Beginner>
     </div>
     <div v-show="$store.state.generalState == 1">
-      <Game1  @saveValue="writeState" :id="0" :category="this.$store.state.firstCategory" :exerciseNumber="this.$store.state.generalState" > </Game1>
+      <Game1 :id="0" :category="this.$store.state.firstCategory" :exerciseNumber="this.$store.state.generalState" > </Game1>
     </div>
     <div v-show="$store.state.generalState == 2">
-      <Game1  @saveValue="writeState" :id="1" :category="this.$store.state.secondCategory" :exerciseNumber="this.$store.state.generalState"> </Game1>
+      <Game1 :id="1" :category="this.$store.state.secondCategory" :exerciseNumber="this.$store.state.generalState"> </Game1>
     </div>
     <div v-show="$store.state.generalState==3">
-      <Game2  @saveValue="writeState" :id="2" :category="this.$store.state.firstCategory" :exerciseNumber="this.$store.state.generalState"></Game2>
+      <Game2 :id="2" :category="this.$store.state.firstCategory" :exerciseNumber="this.$store.state.generalState"></Game2>
     </div>
     <div v-show="$store.state.generalState==4">
-      <Game2  @saveValue="writeState" :id="3" :category="this.$store.state.secondCategory" :exerciseNumber="this.$store.state.generalState"></Game2>
+      <Game2 :id="3" :category="this.$store.state.secondCategory" :exerciseNumber="this.$store.state.generalState"></Game2>
     </div>
     <div v-show="$store.state.generalState==5" >
-      <Game3  @saveValue="writeState" :id="4" :category="this.$store.state.category" :exerciseNumber="this.$store.state.generalState"></Game3>
+      <Game3 @restoreExercise="restoreExercise()" :id="4" :category="this.$store.state.category" :exerciseNumber="this.$store.state.generalState"></Game3>
     </div>
     <div v-show="$store.state.generalState==6" >
-      <Game4  @saveValue="writeState" :id="5" :category="this.$store.state.firstCategory+' y '+this.$store.state.secondCategory" :exerciseNumber="this.$store.state.generalState"></Game4>
+      <Game4 :id="5" :category="this.$store.state.firstCategory+' y '+this.$store.state.secondCategory" :exerciseNumber="this.$store.state.generalState"></Game4>
     </div>
     <div v-show="$store.state.generalState==7" >
-      <Game4  @saveValue="writeState" :id="6" :category="this.$store.state.firstCategory+' y '+this.$store.state.secondCategory" :exerciseNumber="this.$store.state.generalState"></Game4>
+      <Game4 :id="6" :category="this.$store.state.firstCategory+' y '+this.$store.state.secondCategory" :exerciseNumber="this.$store.state.generalState"></Game4>
     </div>
     <div v-show="$store.state.generalState==8" >
-      <Game5  @saveValue="writeState" :id="7" :category="this.$store.state.firstCategory+' y '+this.$store.state.secondCategory" :exerciseNumber="this.$store.state.generalState"></Game5>
+      <Game5 :id="7" :category="this.$store.state.firstCategory+' y '+this.$store.state.secondCategory" :exerciseNumber="this.$store.state.generalState"></Game5>
     </div>
     <div v-show="$store.state.generalState==9" >
-      <Game6  @saveValue="writeState" :id="8" :category="this.$store.state.firstCategory+' y '+this.$store.state.secondCategory" :exerciseNumber="this.$store.state.generalState"></Game6>
+      <Game6 :id="8" :category="this.$store.state.firstCategory+' y '+this.$store.state.secondCategory" :exerciseNumber="this.$store.state.generalState"></Game6>
     </div>
     <div v-show="$store.state.generalState==10" >
-      <Game7  @saveValue="writeState" :id="9" :category="this.$store.state.firstCategory+' y '+this.$store.state.secondCategory" :exerciseNumber="this.$store.state.generalState"></Game7>
+      <Game7 :id="9" :category="this.$store.state.firstCategory+' y '+this.$store.state.secondCategory" :exerciseNumber="this.$store.state.generalState"></Game7>
     </div>
     <div v-show="$store.state.generalState==11" >
-      <Game7  @saveValue="writeState" :id="10" :category="this.$store.state.firstCategory+' y '+this.$store.state.secondCategory" :exerciseNumber="this.$store.state.generalState"></Game7>
+      <Game7 :id="10" :category="this.$store.state.firstCategory+' y '+this.$store.state.secondCategory" :exerciseNumber="this.$store.state.generalState"></Game7>
     </div>
     <div v-show="$store.state.generalState==12" >
-      <Game7  @saveValue="writeState" :id="11" :category="this.$store.state.firstCategory+' y '+this.$store.state.secondCategory" :exerciseNumber="this.$store.state.generalState"></Game7>
+      <Game7 :id="11" :category="this.$store.state.firstCategory+' y '+this.$store.state.secondCategory" :exerciseNumber="this.$store.state.generalState"></Game7>
     </div>
     <div v-show="$store.state.generalState==13" >
-      <Game8  @saveValue="writeState" :id="12" :category="this.$store.state.firstCategory+' y '+this.$store.state.secondCategory" :exerciseNumber="this.$store.state.generalState"></Game8>
+      <Game8 :id="12" :category="this.$store.state.firstCategory+' y '+this.$store.state.secondCategory" :exerciseNumber="this.$store.state.generalState"></Game8>
     </div>
     <div v-show="$store.state.generalState==14" >
-      <Game9  @saveValue="writeState" :id="13" :category="this.$store.state.firstCategory+' y '+this.$store.state.secondCategory" :exerciseNumber="this.$store.state.generalState"></Game9>
+      <Game9 :id="13" :category="this.$store.state.firstCategory+' y '+this.$store.state.secondCategory" :exerciseNumber="this.$store.state.generalState"></Game9>
     </div>
     <div v-show="$store.state.generalState==15" >
       <Chart ></Chart>
@@ -425,8 +425,11 @@ export default {
 
       }
     },
-    resetExercise(exercise){
-      this.quadrantsArrangement[exercise-1] = this.copyQuadrant(this.rearrrengeQuadrants(),"show","show","");
+    restoreExercise(){
+      setTimeout(()=>{
+            this.quadrantsArrangement[4] = this.copyQuadrant(this.$store.state.quadrant5);
+      },2000
+      ,)
     },
   },
   watch:{

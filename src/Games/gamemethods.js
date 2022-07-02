@@ -8,11 +8,11 @@ import store from "../store.js"
 export function waitAndNextGameState(waitingState, nextGameState, changeGeneralState, nextGeneralState, help) {
     console.log("DATA CHANGE GS = "+changeGeneralState);
     console.log("NGS = "+nextGeneralState);
-    store.dispatch('waitingStateToNextGameState',{miliseconds: 2000,waitingState: waitingState, nextGameState: nextGameState, changeGenS: changeGeneralState, nextGeneralState: nextGeneralState, help:help});
+    store.dispatch('waitingStateToNextGameState',{waitingState: waitingState, nextGameState: nextGameState, changeGenS: changeGeneralState, nextGeneralState: nextGeneralState, help:help});
 }
 //Espera 2 segundos en un estado de cuadrante intermedio para luego ir al siguiente
 export function waitAndNextQuadrantState (waitingState, nextQuadrantState) {
-    store.dispatch('waitingStateToNextQuadrantState',{miliseconds: 2000,waitingState: waitingState, nextQuadrantState: nextQuadrantState});
+    store.dispatch('waitingStateToNextQuadrantState',{waitingState: waitingState, nextQuadrantState: nextQuadrantState});
 }
 //Cambia el estado del juego
 export function changeGameState(nextGameState){
@@ -176,19 +176,19 @@ export function getExerciseType(idExercise){
 export function getTimeLimit(idExercise){
     let exercise = idExercise + 1;
     switch (exercise){
-        case 1: return 240;
-        case 2: return 240;
-        case 3: return 240;
-        case 4: return 240;
-        case 5: return 240;
-        case 6: return 240;
-        case 7: return 240;
-        case 8: return 240;
-        case 9: return 240;
-        case 10: return 240;
-        case 11: return 240;
-        case 12: return 240;
-        case 13: return 240;
-        case 14: return 240;
+        case 1: return GameValues.timeLimitEx1;
+        case 2: return GameValues.timeLimitEx2;
+        case 3: return GameValues.timeLimitEx3;
+        case 4: return GameValues.timeLimitEx4;
+        case 5: return GameValues.timeLimitEx5;
+        case 6: return GameValues.timeLimitEx6;
+        case 7: return GameValues.timeLimitEx7;
+        case 8: return GameValues.timeLimitEx8;
+        case 9: return GameValues.timeLimitEx9;
+        case 10: return GameValues.timeLimitEx10;
+        case 11: return GameValues.timeLimitEx11;
+        case 12: return GameValues.timeLimitEx12;
+        case 13: return GameValues.timeLimitEx13;
+        case 14: return GameValues.timeLimitEx14;
     }
 }

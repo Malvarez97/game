@@ -78,11 +78,8 @@ export default {
       if (this.quadrantsCreated == 4){
         for (let i = 0; i < 4; i++) {
           //Seteo las words
-          //console.log("seteo "+this.id+" "+i);
-          //console.log(this.$store.state.quadrantsMatrix[this.id*4+i].quadrant);
           if (!this.$store.state.quadrantsMatrix[this.id*4+i].quadrant.showWord) {
-            //console.log("es falsa la word");
-            if (this.$store.state.quadrantsMatrix[this.id*4+i].inputCenter=="" && (GameMethods.getExerciseType(this.id) == GameValues.words || GameMethods.getExerciseType(this.id) == GameValues.wordsAndIds)){
+            if (this.$store.state.quadrantsMatrix[this.id*4+i].inputCenter=="" && (GameMethods.getExerciseType(this.id) == GameValues.words || GameMethods.getExerciseType(this.id) == GameValues.category || GameMethods.getExerciseType(this.id) == GameValues.wordsAndIds)){
               this.wordsCorrect+=1;
               this.$store.state.quadrantsMatrix[this.id*4+i].defaultCorrectWord = true;
               this.$store.state.quadrantsMatrix[this.id*4+i].correctWord = true;
@@ -90,7 +87,6 @@ export default {
           }
           //Seteo las ids
           if (!this.$store.state.quadrantsMatrix[this.id*4+i].quadrant.showId && (GameMethods.getExerciseType(this.id) == GameValues.ids || GameMethods.getExerciseType(this.id) == GameValues.wordsAndIds)) {
-            //console.log("es falsa la id");
             this.idsCorrect+=1;
             this.$store.state.quadrantsMatrix[this.id*4+i].defaultCorrectId = true;
             this.$store.state.quadrantsMatrix[this.id*4+i].correctId = true;

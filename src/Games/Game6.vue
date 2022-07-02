@@ -82,11 +82,11 @@ export default {
       //Si fue incorrecta
       else {
         GameMethods.saveValue(parseInt(this.exerciseNumber,10),"finish failure",this.intentWord);
+        GameMethods.reproduceAudio('error');
         //Si no fue el ultimo intento
         if (this.intentWord < this.limitAttempts)
         {
           if (this.intentWord < this.limitAttempts - 1){
-            GameMethods.reproduceAudio('mistake');
             this.transition(GameValues.incorrectTransition,GameValues.showWordsCompleteCategories);
           }
           if (this.intentWord == this.limitAttempts - 1){
@@ -99,7 +99,6 @@ export default {
         //Si es el ultimo intento
         else{
           //GameMethods.showError(GameValues.loseGame9);
-          GameMethods.reproduceAudio('error');
           this.intentWord = 0;
           this.transition(GameValues.incorrectTransition,GameValues.firstPartExplanation);
           //GameMethods.changeGeneralState(GameValues.loseGame9);

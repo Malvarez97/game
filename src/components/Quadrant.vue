@@ -196,23 +196,26 @@ export default {
       if(this.quadrant.Id.toUpperCase()===this.input.toUpperCase() && this.quadrant.showId) {
         // eslint-disable-next-line no-unreachable
         this.validateShort=true;
-        this.idCompleted = true;
+        this.correctId = true;
         this.$emit('idCorrect')
       }
     },
     idEmpty: function(){
       if(this.input.length==1) {
         // eslint-disable-next-line no-unreachable
+        //Si el campo del id estaba vacio y se escribio, se cuenta como un intento
+        if(this.shortIsEmpty){
+          this.amountBlocking+=1;
+          if (this.amountBlocking == this.limitBlocking && (this.defaultCorrectId || this.input.toString().toUpperCase() != this.quadrant.Id)){
+            this.blocking = true;
+            GameMethods.showWarningTitle("Has alcanzado el límite de intentos para el cuadrante");
+          }
+        }
         this.shortIsEmpty=false;
         this.setFocusWordWriting();
-        this.amountBlocking+=1;
         console.log("Default correct id = "+this.defaultCorrectId);
         console.log("La que escribi = "+this.input.toString().toUpperCase());
         console.log("Palabra = "+this.quadrant.Id);
-        if (this.amountBlocking == this.limitBlocking && (this.defaultCorrectId || this.input.toString().toUpperCase() != this.quadrant.Id)){
-          this.blocking = true;
-          GameMethods.showWarningTitle("Has alcanzado el límite de intentos para el cuadrante");
-        }
         console.log("Deberia entrar "+this.defaultCorrectId+" "+this.correctId);
         //Si el id es por defecto correcto
         if(this.defaultCorrectId && this.correctId){

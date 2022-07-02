@@ -36,9 +36,36 @@ export const loseGame13 = 14;
 export const loseGame14 = 10;
 
 //Intentos en cada uno de los juegos
+export const limitIntentsEx1 = 3;
+export const limitIntentsEx2 = 3;
+export const limitIntentsEx3 = 3;
+export const limitIntentsEx4 = 3;
+export const limitIntentsEx5 = 3;
+export const limitIntentsEx6 = 3;
+export const limitIntentsEx7 = 3;
+export const limitIntentsEx8 = 3;
+export const limitIntentsEx9 = 3;
+export const limitIntentsEx10 = 3;
+export const limitIntentsEx11 = 3;
+export const limitIntentsEx12 = 3;
+export const limitIntentsEx13 = 3;
+export const limitIntentsEx14 = 3;
 
 //Tiempo limite para los ejercicios
-
+export const timeLimitEx1 = 240;
+export const timeLimitEx2 = 240;
+export const timeLimitEx3 = 240;
+export const timeLimitEx4 = 240;
+export const timeLimitEx5 = 240;
+export const timeLimitEx6 = 240;
+export const timeLimitEx7 = 240;
+export const timeLimitEx8 = 240;
+export const timeLimitEx9 = 240;
+export const timeLimitEx10 = 240;
+export const timeLimitEx11 = 240;
+export const timeLimitEx12 = 240;
+export const timeLimitEx13 = 240;
+export const timeLimitEx14 = 240;
 
 //Variables de las alertas
 export const defaultWarningTitle = "Te queda 1 solo intento";
@@ -71,6 +98,7 @@ export const game9Type = ids;
 
 //Tiempos espera
 export const showExerciseTime = 2000;
+export const showCorrectIncorrectTime = 2000;
 
 
 
