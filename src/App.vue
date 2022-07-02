@@ -1,10 +1,10 @@
 <template>
 	<v-app style="box-sizing: content-box" >
     <div v-show="$store.state.generalState == 0">
-      <Beginner @finishBegin="$store.dispatch('changeGeneralState',9)"></Beginner>
+      <Beginner @finishBegin="$store.dispatch('changeGeneralState',1.1)"></Beginner>
     </div>
     <div v-show="$store.state.generalState == 1">
-      <Game1 :id="0" :category="this.$store.state.firstCategory" :exerciseNumber="this.$store.state.generalState" > </Game1>
+      <Game1 :id="0" :category="this.$store.state.firstCategory"  > </Game1>
     </div>
     <div v-show="$store.state.generalState == 2">
       <Game1 :id="1" :category="this.$store.state.secondCategory" :exerciseNumber="this.$store.state.generalState"> </Game1>

@@ -20,6 +20,12 @@
                          @setCorrectId="setCorrectId"/>
         </v-col>
       </v-row>
+      <v-btn  outline @click="gameMethods.changeValues();" class="btn-global nextposition" color="#E74C3C" >
+        Siguiente
+      </v-btn>
+      <v-btn  outline @click="gameMethods.setPause(true);"  class="btn-pause pauseposition" color="#2379BD"  >
+        Pausa
+      </v-btn>
     </v-app>
 </template>
 <script>
@@ -49,6 +55,8 @@ export default {
       clicks:0,
       correctDrag:0,
       dragsChecked:0,
+      gameValues: GameValues,
+      gameMethods: GameMethods,
     }
   },
   computed:{
@@ -79,14 +87,14 @@ export default {
         for (let i = 0; i < 4; i++) {
           //Seteo las words
           if (!this.$store.state.quadrantsMatrix[this.id*4+i].quadrant.showWord) {
-            if (this.$store.state.quadrantsMatrix[this.id*4+i].inputCenter=="" && (GameMethods.getExerciseType(this.id) == GameValues.words || GameMethods.getExerciseType(this.id) == GameValues.category || GameMethods.getExerciseType(this.id) == GameValues.wordsAndIds)){
+            if (this.$store.state.quadrantsMatrix[this.id*4+i].inputCenter=="" && (GameMethods.getExerciseType(this.id+1) == GameValues.words || GameMethods.getExerciseType(this.id+1) == GameValues.category || GameMethods.getExerciseType(this.id+1) == GameValues.wordsAndIds)){
               this.wordsCorrect+=1;
               this.$store.state.quadrantsMatrix[this.id*4+i].defaultCorrectWord = true;
               this.$store.state.quadrantsMatrix[this.id*4+i].correctWord = true;
             }
           }
           //Seteo las ids
-          if (!this.$store.state.quadrantsMatrix[this.id*4+i].quadrant.showId && (GameMethods.getExerciseType(this.id) == GameValues.ids || GameMethods.getExerciseType(this.id) == GameValues.wordsAndIds)) {
+          if (!this.$store.state.quadrantsMatrix[this.id*4+i].quadrant.showId && (GameMethods.getExerciseType(this.id+1) == GameValues.ids || GameMethods.getExerciseType(this.id+1) == GameValues.wordsAndIds)) {
             this.idsCorrect+=1;
             this.$store.state.quadrantsMatrix[this.id*4+i].defaultCorrectId = true;
             this.$store.state.quadrantsMatrix[this.id*4+i].correctId = true;

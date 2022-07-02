@@ -7,8 +7,7 @@ export default new Vuex.Store({
         firstLetter:true,
         firstLetterWord:false,
         generalState: 0,
-        gameState: 0,
-        quadrantState: 0,
+        gameState: GameValues.firstPartExplanation,
         lastGameState: 0,
         exerciseExplanation: 0,
         times: [],
@@ -56,6 +55,8 @@ export default new Vuex.Store({
         typeOfAlert:"",
         quadrant5:null,
         exerciseTime:0,
+        intent:0,
+        currentExercise:1.1,
     },
     mutations:{
         setPause(state,pause){
@@ -119,16 +120,13 @@ export default new Vuex.Store({
             /*if (this.state.generalState == 5){
                 this.state.quadrant1 = this.state.originalQuadrant1
             }*/
-            this.state.generalState = nextGeneralState;
+            this.state.generalState = Math.floor(nextGeneralState);
+            this.state.currentExercise = nextGeneralState;
             //this.state.quadrants = this.state.quadrantsArrangement[parseInt(this.state.generalState,10)-1];
         },
         changeGameState(state,nextGameState){
             this.state.lastGameState = this.state.gameState;
             this.state.gameState = nextGameState;
-        },
-        changeQuadrantState(state,nextQuadrantState){
-            console.log("cambio al quadrant state = "+nextQuadrantState);
-            this.state.quadrantState = nextQuadrantState;
         },
         changeExerciseExplanation(state,nextExerciseExplanation){
             this.state.exerciseExplanation = nextExerciseExplanation;
@@ -243,11 +241,11 @@ export default new Vuex.Store({
         },
         setQuadrants(state, generalState){
             console.log("ENTRO A SET QUADRANTS-----------------")
-            this.state.quadrants = this.state.quadrantsArrangement[generalState-1];
-            this.state.quadrant1 = this.state.quadrantsMatrix[(generalState-1)*4];
-            this.state.quadrant2 = this.state.quadrantsMatrix[(generalState-1)*4+1];
-            this.state.quadrant3 = this.state.quadrantsMatrix[(generalState-1)*4+2];
-            this.state.quadrant4 = this.state.quadrantsMatrix[(generalState-1)*4+3];
+            this.state.quadrants = this.state.quadrantsArrangement[Math.floor(generalState)-1];
+            this.state.quadrant1 = this.state.quadrantsMatrix[(Math.floor(generalState)-1)*4];
+            this.state.quadrant2 = this.state.quadrantsMatrix[(Math.floor(generalState)-1)*4+1];
+            this.state.quadrant3 = this.state.quadrantsMatrix[(Math.floor(generalState)-1)*4+2];
+            this.state.quadrant4 = this.state.quadrantsMatrix[(Math.floor(generalState)-1)*4+3];
         },
         setQuadrant(state, quadrant){
             this.state.quadrantsMatrix[quadrant.idMyGame*4+quadrant.idQuadrant] = quadrant;
@@ -319,12 +317,16 @@ export default new Vuex.Store({
     },
     actions:{
         waitingStateToNextGameState(context,data){
+            console.log("entro al esperar");
+            context.commit('changeGameState',data.quadrantWaitingState);
             setTimeout ( () => {
+                console.log("Hago el restore");
                 GameMethods.restore();
+                console.log("cambio al estado "+data.waitingState);
                 context.commit('changeGameState',data.waitingState);
                 if (context.state.alert){
                     if (context.state.typeOfAlert == GameValues.warningIcon){
-                        GameMethods.reproduceAudio('hint');
+                        GameMethods.reproduceAudio(GameValues.hintAudio);
                     }
                     context.state.alert = false;
                     GameMethods.showAlert(context.state.typeOfAlert,context.state.alertTitle,context.state.alertText);
@@ -334,6 +336,7 @@ export default new Vuex.Store({
                     context.commit('changeHelp');
                 }
                     setTimeout ( ()=> {
+                        console.log("El next game state es ========= "+data.nextGameState);
                             context.commit('changeGameState',data.nextGameState);
                             console.log("El game state es "+this.state.gameState);
                             if (context.state.changeGeneralState) {
@@ -345,14 +348,6 @@ export default new Vuex.Store({
                         ,)
             },GameValues.showExerciseTime
             ,)
-        },
-        waitingStateToNextQuadrantState(context,data){
-            context.commit('changeQuadrantState',data.waitingState);
-            setTimeout ( ()=> {
-                    context.commit('changeQuadrantState',data.nextQuadrantState);
-                    console.log("El quadrant state es "+this.state.quadrantState);
-                },GameValues.showExerciseTime
-                ,)
         },
         changeGeneralState(context,nextGeneralState){
             context.commit('changeGeneralState',nextGeneralState);
@@ -372,18 +367,9 @@ export default new Vuex.Store({
         updateQuadrants(context,value){
           console.log("VEngo a hacer el update de quadrants"+context+" "+value);
         },
-        changeState(context,value){
-            context.commit('changeGameState',value);
-            context.commit('changeQuadrantState',value);
-            context.dispatch('restartInterval');
-        },
         changeGameState(context,value){
             context.commit('changeGameState',value);
             context.dispatch('restartInterval');
-        },
-        changeQuadrantState(context,value){
-          context.commit('changeQuadrantState',value);
-          context.dispatch('restartInterval');
         },
         restartInterval({commit}){
             commit('clearStoreInterval');

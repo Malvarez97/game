@@ -1,17 +1,17 @@
 <template>
   <div class="container">
   <!-- Show words and ids  -->
-      <div v-show="$store.state.quadrantState==gameValues.showWordsAndIds" class="game-container">
+      <div v-show="$store.state.gameState==gameValues.showWordsAndIds" class="game-container">
         <h1 v-if="this.quadrant.showId" class="positionUp">{{ this.quadrant.Id.toUpperCase() }} </h1>
         <h1 v-if="this.quadrant.showWord" class="positionCenter">{{ this.quadrant.word.toUpperCase() }} </h1>
       </div>
     <!-- Show all  -->
-    <div v-show="$store.state.quadrantState==gameValues.showAll" class="game-container">
+    <div v-show="$store.state.gameState==gameValues.showAll" class="game-container">
       <h1 class="positionUp">{{ this.quadrant.Id.toUpperCase() }} </h1>
       <h1 class="positionCenter">{{ this.quadrant.word.toUpperCase() }} </h1>
     </div>
   <!-- Complete words  -->
-      <div v-show="$store.state.quadrantState==gameValues.completeWords"  >
+      <div v-show="$store.state.gameState==gameValues.completeWords"  >
         <div v-show=!validateLong&&longIsEmpty class="game-container" @click="setFocusStoppedWriting()">
           <input ref="wordStoppedWritingCW" class="positionCenter inputEmpty" v-model="inputCenter">
         </div>
@@ -23,7 +23,7 @@
         </div>
     </div>
     <!-- Complete ids   -->
-    <div v-show="$store.state.quadrantState==gameValues.completeIds"  >
+    <div v-show="$store.state.gameState==gameValues.completeIds"  >
       <div v-show=!validateShort&&shortIsEmpty&&!blocking class="game-container" @click="setFocusStoppedWriting()">
         <input ref="wordStoppedWritingCI" class="positionUp inputEmpty id" v-model="input">
       </div>
@@ -38,7 +38,7 @@
       </div>
     </div>
     <!-- Show Words Complete Ids -->
-    <div v-show="$store.state.quadrantState==gameValues.showWordsCompleteIds" class="game-container"  >
+    <div v-show="$store.state.gameState==gameValues.showWordsCompleteIds" class="game-container"  >
       <h1 v-if="this.quadrant.showWord" class="positionCenter"> {{ this.quadrant.word.toUpperCase() }} </h1>
       <div v-show=!validateShort&&shortIsEmpty&&!blocking class="game-container" @click="setFocusStoppedWriting()">
         <input ref="wordStoppedWritingSWCI" class="positionUp inputEmpty id" v-model="input">
@@ -54,7 +54,7 @@
       </div>
     </div>
   <!-- Butttons -->
-  <div v-show="$store.state.quadrantState==gameValues.buttons" class="game-container">
+  <div v-show="$store.state.gameState==gameValues.buttons" class="game-container">
     <v-btn v-show="clicked<1&&!correctClick&&!incorrectClick" @click="clicked+=1" outline rounded class=" positionCenter btn-8" fab color="#4758B8">
       {{this.quadrant.word.toUpperCase()}}
     </v-btn>
@@ -66,7 +66,7 @@
     </v-btn>
   </div>
   <!-- Show ids complete words  -->
-  <div v-show="$store.state.quadrantState==gameValues.showIdsCompleteWords" class="game-container" >
+  <div v-show="$store.state.gameState==gameValues.showIdsCompleteWords" class="game-container" >
     <h1 v-if="this.quadrant.showId" class="positionUp">{{ this.quadrant.Id.toUpperCase() }} </h1>
     <div class="game-container" v-show=!validateLong&&longIsEmpty @click="setFocusStoppedWriting()">
       <input ref="wordStoppedWritingSICW" class="positionCenter inputEmpty" v-model="inputCenter">
@@ -79,7 +79,7 @@
     </div>
   </div>
   <!-- Show words complete categories -->
-  <div v-show="$store.state.quadrantState==gameValues.showWordsCompleteCategories" class="game-container" >
+  <div v-show="$store.state.gameState==gameValues.showWordsCompleteCategories" class="game-container" >
     <div class="game-container" v-show=!this.quadrant.showWord >
       <h1 class="positionCenter" > {{this.quadrant.word.toUpperCase() }} </h1>
     </div>
@@ -94,7 +94,7 @@
     </div>
   </div>
   <!-- Show ids show Words complete Words -->
-  <div v-show="$store.state.quadrantState==gameValues.showIdsShowWordsCompleteWords" class="game-container" >
+  <div v-show="$store.state.gameState==gameValues.showIdsShowWordsCompleteWords" class="game-container" >
     <h1 class="positionUp">{{ this.quadrant.Id.toUpperCase() }} </h1>
     <div class="game-container" v-show=!this.quadrant.showWord >
       <h1 class="positionCenter" > {{this.quadrant.word.toUpperCase() }} </h1>
@@ -110,13 +110,13 @@
     </div>
   </div>
   <!-- Draggable -->
-  <div v-show="$store.state.quadrantState==gameValues.draggable" >
+  <div v-show="$store.state.gameState==gameValues.draggable" >
     <draggable class="game-container" @move="onMove" @drop="onDrop" @start="onStart" @add="onAdd" @remove="onRemove" @update="onUpdate" @end="onEnd" @choose="onChoose" @unchoose="onUnchoose" @sort="onSort" @clone="onClone">
       <h1 class="draggable">{{ this.quadrant.Id.toUpperCase() }} </h1>
     </draggable>
   </div>
   <!-- Highlight wrong values  -->
-  <div v-show="$store.state.quadrantState==gameValues.highlightWrongValues">
+  <div v-show="$store.state.gameState==gameValues.highlightWrongValues">
     <div v-show="this.quadrant.Id == this.$store.state.quadrantsArrangement[0][this.idQuadrant].Id" class="game-container">
       <h1 class="draggable" > {{this.quadrant.Id.toUpperCase() }} </h1>
     </div>
@@ -177,7 +177,6 @@ export default {
       correctClick:false,
       incorrectClick:false,
       firstChoose:false,
-      focus:0,
       gameValues:GameValues,
       blocking:false,
       amountBlocking:0,
@@ -382,8 +381,6 @@ export default {
           this.correctClick=false;
           this.incorrectClick=false;
           this.firstChoose=false;
-          this.focus=0;
-          this.gameValues=GameValues;
           this.blocking=false;
           this.amountBlocking=0;
           this.limitBlocking=3;
@@ -439,7 +436,7 @@ export default {
     },
     //Metodo que recupera el focus cuando se empieza a escribir en un input
     setFocusWordWriting : function (){
-      switch (this.$store.state.quadrantState){
+      switch (this.$store.state.gameState){
         case GameValues.completeWords: this.$nextTick(() =>this.$refs.wordWritingCW.focus()); break;
         case GameValues.showIdsCompleteWords: this.$nextTick(() => this.$refs.wordWritingSICW.focus()); break;
         case GameValues.showWordsCompleteCategories: this.$nextTick(() => this.$refs.wordWritingSWCC.focus()); break;
@@ -450,7 +447,7 @@ export default {
     },
     //Metodo que recupera el focus cuando se borran todos los caracteres de un input
     setFocusStoppedWriting : function (){
-      switch (this.$store.state.quadrantState){
+      switch (this.$store.state.gameState){
         case GameValues.completeWords: this.$nextTick(() => this.$refs.wordStoppedWritingCW.focus()); break;
         case GameValues.showIdsCompleteWords: this.$nextTick(() => this.$refs.wordStoppedWritingSICW.focus()); break;
         case GameValues.showWordsCompleteCategories: this.$nextTick(() => this.$refs.wordStoppedWritingSWCC.focus()); break;

@@ -5,7 +5,7 @@
             src="../assets/cup.png"
         >
         </v-img>
-    <h1> {{this.exerciseNumber }}</h1>
+    <h1> {{"Ejercicio "+Math.floor($store.state.currentExercise) }}</h1>
     </div>
   <p class="introduction"> {{this.introduction}}</p>
   <p class="outcome">{{this.outcome}}</p>
@@ -22,16 +22,9 @@ import '../assets/common.scss'
 export default {
   name: "ExcerciseInstruction",
   props: {
-    exerciseNumber: {
-      type: Number,
-    },
     win:{
       type:Boolean,
       default:false,
-    },
-    subExerciseNumber : {
-      default : .1,
-      type : Number,
     },
     introduction: String,
     outcome: String,
