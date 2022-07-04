@@ -7,13 +7,20 @@
           src="../assets/good.png"
       ></v-img>
   </div>
-  <div  v-show="!pause&&!correct" class="game-container">
+  <div  v-show="!pause&&!correct&&$store.state.intent<gameMethods.getLimitAttempts()-1" class="game-container">
     <H1 class=" incorrect"> INCORRECTA,AUN TE QUEDAN INTENTOS</H1>
     <v-img
         class="image"
         src="../assets/bad.png"
     ></v-img>
   </div>
+    <div  v-show="!pause&&!correct&&$store.state.intent==gameMethods.getLimitAttempts()-1" class="game-container">
+      <H1 class=" incorrect"> INCORRECTA VOLVERAS A UN EJERCICIO ANTERIOR </H1>
+      <v-img
+          class="image"
+          src="../assets/bad.png"
+      ></v-img>
+    </div>
     <div  v-show="pause" class="game-container">
       <H1 class=" incorrect"> La sesion se encuentra en pausa </H1>
       <v-img
@@ -25,6 +32,7 @@
 </template>
 
 <script>
+import *as GameMethods from "../Games/gamemethods";
 export default {
   name: "MyResponse",
   props: {
@@ -37,6 +45,11 @@ export default {
       default:false,
     }
   },
+  data(){
+    return {
+      gameMethods:GameMethods
+    }
+    },
   methods: {
     response: function () {
       this.$emit('next',)// faltaria mandar el tiempo que tardo en entender como parametro

@@ -1,19 +1,24 @@
 <template>
-  <div class=" game-container">
-    <div  class="title">
-        <v-img v-show="this.win" class="image"
+    <div v-if="this.win" class=" game-container">
+        <div class="title">
+        <v-img class="image"
             src="../assets/cup.png"
         >
         </v-img>
-    <h1> {{"Ejercicio "+$store.state.generalState }}</h1>
+      <h1> {{"¡Felicitaciones!" }}</h1>
+        </div>
+      <p class="introduction"> {{"¡Ha completado con éxito los ejercicios!."}}</p>
+      <p class="outcome">{{"A continuación debe presionar el botón si quiere comenzar una nueva partida"}}</p>
     </div>
-  <p class="introduction"> {{gameMethods.getExerciseExplanation().introduction}}</p>
-  <p class="outcome">{{gameMethods.getExerciseExplanation().outcome}}</p>
-  <p class="end">{{gameMethods.getExerciseExplanation().end}}</p>
+    <div v-else class=" game-container" >
+    <h1 class="title"> {{"Ejercicio "+$store.state.generalState }}</h1>
+    <p class="introduction"> {{gameMethods.getExerciseExplanation().introduction}}</p>
+     <p class="outcome">{{gameMethods.getExerciseExplanation().outcome}}</p>
+      <p class="end">{{gameMethods.getExerciseExplanation().end}}</p>
+    </div>
     <v-btn  outline @click="finishExersiceInstruccion" rounded class="btn-global nextposition" color="#E74C3C" >
     Entendido
   </v-btn>
-  </div>
 </template>
 
 <script>
@@ -82,9 +87,10 @@ p {
   grid-row-start:1;
   grid-row-end: 1;
   grid-column-start:2 ;
-  grid-column-end:6;
+  grid-column-end:5;
 }
 p.introduction {
+  justify-content: flex-start;
   grid-row-start:2;
   grid-row-end: 3;
   grid-column-start:1 ;

@@ -1,7 +1,7 @@
 <template>
 	<v-app style="box-sizing: content-box" >
     <div v-show="$store.state.generalState == 0">
-      <Beginner @finishBegin="$store.dispatch('changeGeneralState',10)"></Beginner>
+      <Beginner @finishBegin="$store.dispatch('changeGeneralState',1.1)"></Beginner>
     </div>
     <div v-show="$store.state.generalState == 1">
       <Game1 :id="0" > </Game1>
@@ -46,9 +46,9 @@
       <Game1 :id="13" ></Game1>
     </div>
     <div v-show="$store.state.generalState==15" >
-      <ExcerciseInstruction :id="14" ></ExcerciseInstruction>
+      <ExcerciseInstruction :win="true" ></ExcerciseInstruction>
     </div>
-    <div v-show="$store.state.generalState==15" >
+    <div v-show="$store.state.generalState==16" >
       <Chart ></Chart>
     </div>
 	</v-app>
