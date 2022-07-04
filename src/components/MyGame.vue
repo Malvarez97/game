@@ -20,7 +20,7 @@
                          @setCorrectId="setCorrectId"/>
         </v-col>
       </v-row>
-      <v-btn  outline @click="gameMethods.changeValues();" class="btn-global nextposition" color="#E74C3C" >
+      <v-btn v-if="!$store.state.clicked" outline @click="this.hideButton();gameMethods.changeValues();" class="btn-global nextposition" color="#E74C3C" >
         Siguiente
       </v-btn>
       <v-btn  outline @click="gameMethods.setPause(true);"  class="btn-pause pauseposition" color="#2379BD"  >
@@ -213,6 +213,12 @@ export default {
       this.correctDrag = 0;
       this.dragsChecked = 0;
       this.writeLetters = 0;
+    },
+    hideButton: function (){
+      if (!GameMethods.isInIntermediateScreen()){
+         this.$store.state.clicked=true;
+      }
+
     },
   },
 

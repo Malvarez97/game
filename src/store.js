@@ -59,6 +59,7 @@ export default new Vuex.Store({
         currentExercise:1.1,
         explanations: [],
         resetIntent: false,
+        clicked:false,
     },
     mutations:{
         setPause(state,pause){
@@ -197,6 +198,7 @@ export default new Vuex.Store({
             this.state.quadrant3.restoreQuadrant();
             this.state.quadrant4.restoreQuadrant();
             this.state.exerciseTime = 0;
+            this.state.clicked=false;
         },
         checkExercise(){
             console.log("Type of exercise = "+this.state.typeOfExercise);

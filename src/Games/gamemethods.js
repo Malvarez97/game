@@ -344,6 +344,15 @@ export function getIntermediateScreen(){
         case 12: return GameValues.exercise12IntermediateScreen;
     }
 }
+export function isInIntermediateScreen() {
+    switch (store.state.gameState) {
+        case GameValues.showWordsAndIds:
+        case GameValues.showAll :
+            return true;
+        default:
+            return false;
+    }
+}
 export function nextLocalState(){
     //Se añade 1 al intento actual
     store.state.intent += 1;
