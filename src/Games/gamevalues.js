@@ -18,6 +18,8 @@ export const correctTransition = 13;
 export const incorrectTransition = 14;
 export const congratulationsScreen = 15;
 export const pauseScreen = 16;
+export const highlightWrongAnswer = 17;
+export const showWrongAnswer = 18;
 
 //Ejercicio al que se volveria si se pierde en determinado ejercicio
 export const loseExercise1 = 1.1;
@@ -164,22 +166,25 @@ export const exercise13Help = true;
 export const exercise14Help = false;
 
 //Quadrante de espera antes de pasar a la transicion de correcto/incorrecto
-export const exercise1sub1WaitingQuadrant = exercise1sub1State;
-export const exercise1sub2WaitingQuadrant = exercise1sub2State;
-export const exercise2sub1WaitingQuadrant = exercise2sub1State;
-export const exercise2sub2WaitingQuadrant = exercise2sub2State;
-export const exercise3WaitingQuadrant = exercise3State;
-export const exercise4WaitingQuadrant = exercise4State;
+export const exercise1sub1WaitingQuadrant = showWrongAnswer;
+export const exercise1sub2WaitingQuadrant = showWrongAnswer;
+export const exercise2sub1WaitingQuadrant = showWrongAnswer;
+export const exercise2sub2WaitingQuadrant = showWrongAnswer;
+export const exercise3WaitingQuadrant = showWrongAnswer;
+export const exercise4WaitingQuadrant = showWrongAnswer;
 export const exercise5WaitingQuadrant = highlightWrongValues;
-export const exercise6WaitingQuadrant = exercise6State;
-export const exercise7WaitingQuadrant = exercise7State;
+export const exercise6WaitingQuadrant = showWrongAnswer;
+export const exercise7WaitingQuadrant = showWrongAnswer;
 export const exercise8WaitingQuadrant = exercise8State;
-export const exercise9WaitingQuadrant = exercise9State;
-export const exercise10WaitingQuadrant = exercise10State;
-export const exercise11WaitingQuadrant = exercise11State;
-export const exercise12WaitingQuadrant = exercise12State;
-export const exercise13WaitingQuadrant = exercise13State;
-export const exercise14WaitingQuadrant = exercise14State;
+export const exercise9WaitingQuadrant = showWrongAnswer;
+export const exercise10WaitingQuadrant = showWrongAnswer;
+export const exercise11WaitingQuadrant = showWrongAnswer;
+export const exercise11FinalWaitingQuadrant = highlightWrongAnswer;
+export const exercise12WaitingQuadrant = showWrongAnswer;
+export const exercise12FinalWaitingQuadrant = highlightWrongAnswer;
+export const exercise13WaitingQuadrant = showWrongAnswer;
+export const exercise13FinalWaitingQuadrant = highlightWrongAnswer;
+export const exercise14WaitingQuadrant = showWrongAnswer;
 
 //El juego tiene pantalla intermedia?
 export const exercise1sub1HasIntermediateScreen = true;

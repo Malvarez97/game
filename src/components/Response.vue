@@ -7,15 +7,15 @@
           src="../assets/good.png"
       ></v-img>
   </div>
-  <div  v-show="!pause&&!correct&&$store.state.intent<gameMethods.getLimitAttempts()-1" class="game-container">
+  <div  v-show="!pause&&!correct&&$store.state.intent<gameMethods.getLimitAttempts()" class="game-container">
     <H1 class=" incorrect"> INCORRECTA,AUN TE QUEDAN INTENTOS</H1>
     <v-img
         class="image"
         src="../assets/bad.png"
     ></v-img>
   </div>
-    <div  v-show="!pause&&!correct&&$store.state.intent==gameMethods.getLimitAttempts()-1" class="game-container">
-      <H1 class=" incorrect"> INCORRECTA VOLVERAS A UN EJERCICIO ANTERIOR </H1>
+    <div  v-show="!pause&&!correct&&$store.state.intent==gameMethods.getLimitAttempts()" class="game-container">
+      <H1 class=" incorrect"> INCORRECTA, VOLVERÁS A UN EJERCICIO ANTERIOR </H1>
       <v-img
           class="image"
           src="../assets/bad.png"
@@ -32,7 +32,7 @@
 </template>
 
 <script>
-import *as GameMethods from "../Games/gamemethods";
+import * as GameMethods from "../Games/gamemethods";
 export default {
   name: "MyResponse",
   props: {

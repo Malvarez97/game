@@ -97,6 +97,9 @@ export function setAlert(type, title, text){
     store.state.alertTitle = title;
     store.state.alertText = text;
 }
+export function resetIntent(){
+    store.state.resetIntent = true;
+}
 //Muestra una alerta por pantalla
 export function showAlert(icon,title,text) {
     Swal.fire({
@@ -281,9 +284,13 @@ export function getWaitingQuadrant(){
         case 8: return GameValues.exercise8WaitingQuadrant;
         case 9: return GameValues.exercise9WaitingQuadrant;
         case 10: return GameValues.exercise10WaitingQuadrant;
-        case 11: return GameValues.exercise11WaitingQuadrant;
-        case 12: return GameValues.exercise12WaitingQuadrant;
-        case 13: return GameValues.exercise13WaitingQuadrant;
+        //Si no es el ultimo intento, no cambio de pantalla, sino muestro la respuesta correcta
+        case 11: if (store.state.intent < getLimitAttempts()){ return GameValues.exercise11WaitingQuadrant; }
+                 else{ return GameValues.exercise11FinalWaitingQuadrant; }
+        case 12: if (store.state.intent < getLimitAttempts()){return GameValues.exercise12WaitingQuadrant;}
+                 else{ return GameValues.exercise12FinalWaitingQuadrant; }
+        case 13: if (store.state.intent < getLimitAttempts()) { return GameValues.exercise13WaitingQuadrant; }
+                 else { return GameValues.exercise13FinalWaitingQuadrant; }
         case 14: return GameValues.exercise14WaitingQuadrant;
     }
 }
@@ -344,8 +351,8 @@ export function nextLocalState(){
     if (getCorrectResponse()){
         //Se ejecuta el audio de correcto, se guarda el tiempo, se resetean las variables y se realiza la transicion de pantallas
         reproduceAudio(GameValues.successAudio);
-        saveTime(parseInt(store.state.currentExercise,10),GameValues.actionFinishExercise,store.state.intentWord);
-        store.state.intent = 0;
+        saveTime(parseInt(store.state.currentExercise,10),GameValues.actionFinishExercise,store.state.intent);
+        resetIntent();
         //Si el usuario contesta correctamente se pasa al ejercicio siguiente
         let nextGeneralState = getNextGeneralState();
         console.log("NExt general state = "+getNextGeneralState());
@@ -367,7 +374,7 @@ export function nextLocalState(){
         console.log("LImite de intentos = "+getLimitAttempts());
         console.log("intet = "+store.state.intent);
         //Se guarda el tiempo de fallo
-        saveTime(parseInt(store.state.currentExercise,10),GameValues.actionFinishIncorrect,store.state.intentWord);
+        saveTime(parseInt(store.state.currentExercise,10),GameValues.actionFinishIncorrect,store.state.intent);
         reproduceAudio(GameValues.errorAudio);
         //Si no fue el ultimo intento se hace la transicion
         if (store.state.intent < getLimitAttempts()) {
@@ -388,10 +395,10 @@ export function nextLocalState(){
         }
         //Si fue el ultimo intento
         else {
-            //Se resetea la variable de cantidad de intentos
-            store.state.intent = 0;
             //Se notifica el fallo en el ejercicio al usuario y se transiciona hacia atras
             transition(getWaitingQuadrant(),GameValues.incorrectTransition,GameValues.firstPartExplanation);
+            //Se resetea la variable de cantidad de intentos
+            resetIntent();
             setAlert(GameValues.errorIcon,GameValues.defaultErrorTitle+Math.floor(getLoseExercise()),"");
             setNextGeneralState(getLoseExercise());
         }

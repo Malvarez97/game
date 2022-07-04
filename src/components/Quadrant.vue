@@ -19,7 +19,7 @@
           <input ref="wordWritingCW" class="positionCenter inputFail" v-model="inputCenter">
         </div>
         <div v-show=validateLong class="game-container">
-          <h1 class="positionCenter">{{ this.quadrant.word.toUpperCase()}} ✔</h1>
+          <h1 class="positionCenter correct">{{ this.quadrant.word.toUpperCase()}} ✔</h1>
         </div>
     </div>
     <!-- Complete ids   -->
@@ -31,7 +31,7 @@
         <input ref="wordWritingCI" class="positionUp inputFail id" v-model="input">
       </div>
       <div v-show=validateShort&&!blocking class="game-container">
-        <h1 class="positionUp">{{ this.quadrant.Id.toUpperCase() }} ✔</h1>
+        <h1 class="positionUp correct">{{ this.quadrant.Id.toUpperCase() }} ✔</h1>
       </div>
       <div  v-show=blocking class="game-container">
         <input class="positionUp inputFail id" v-model="input" readonly>
@@ -47,7 +47,7 @@
         <input ref="wordWritingSWCI" class="positionUp inputFail id" v-model="input">
       </div>
       <div v-show=validateShort&&!blocking class="game-container">
-        <h1 class="positionUp">{{ this.quadrant.Id.toUpperCase() }} ✔</h1>
+        <h1 class="positionUp correct">{{ this.quadrant.Id.toUpperCase() }} ✔</h1>
       </div>
       <div  v-show=blocking class="game-container">
         <input class="positionUp inputFail id" v-model="input" readonly>
@@ -75,13 +75,13 @@
       <input ref="wordWritingSICW" class="positionCenter inputFail" v-model="inputCenter">
     </div>
     <div class="game-container" v-show=validateLong>
-      <h1 class="positionCenter">{{ this.quadrant.word.toUpperCase() }} ✔</h1>
+      <h1 class="positionCenter correct">{{ this.quadrant.word.toUpperCase() }} ✔</h1>
     </div>
   </div>
   <!-- Show words complete categories -->
   <div v-show="$store.state.gameState==gameValues.showWordsCompleteCategories" class="game-container" >
     <div class="game-container" v-show=!this.quadrant.showWord >
-      <h1 class="positionCenter" > {{this.quadrant.word.toUpperCase() }} </h1>
+      <h1 class="positionCenter correct" > {{this.quadrant.word.toUpperCase() }} </h1>
     </div>
     <div class="game-container" v-show=this.quadrant.showWord&&!validateLong&&longIsEmpty @click="setFocusStoppedWriting()">
       <input ref="wordStoppedWritingSWCC" class="positionCenter inputEmpty" v-model="inputCenter">
@@ -90,14 +90,14 @@
       <input ref="wordWritingSWCC" class="positionCenter inputFail" v-model="inputCenter">
     </div>
     <div class="game-container" v-show=this.quadrant.showWord&&validateLong>
-      <h1 class="positionCenter">{{ this.quadrant.category.toUpperCase() }} ✔</h1>
+      <h1 class="positionCenter correct">{{ this.quadrant.category.toUpperCase() }} ✔</h1>
     </div>
   </div>
   <!-- Show ids show Words complete Words -->
   <div v-show="$store.state.gameState==gameValues.showIdsShowWordsCompleteWords" class="game-container" >
     <h1 class="positionUp">{{ this.quadrant.Id.toUpperCase() }} </h1>
     <div class="game-container" v-show=!this.quadrant.showWord >
-      <h1 class="positionCenter" > {{this.quadrant.word.toUpperCase() }} </h1>
+      <h1 class="positionCenter correct" > {{this.quadrant.word.toUpperCase() }} </h1>
     </div>
     <div class="game-container" v-show=this.quadrant.showWord&&!validateLong&&longIsEmpty @click="setFocusStoppedWriting()">
       <input ref="wordStoppedWritingSISWCW" class="positionCenter inputEmpty" v-model="inputCenter">
@@ -106,7 +106,7 @@
       <input ref="wordWritingSISWCW" class="positionCenter inputFail" v-model="inputCenter">
     </div>
     <div class="game-container" v-show=this.quadrant.showWord&&validateLong>
-      <h1 class="positionCenter">{{ this.quadrant.word.toUpperCase() }} ✔</h1>
+      <h1 class="positionCenter correct">{{ this.quadrant.word.toUpperCase() }} ✔</h1>
     </div>
   </div>
   <!-- Draggable -->
@@ -118,13 +118,41 @@
   <!-- Highlight wrong values  -->
   <div v-show="$store.state.gameState==gameValues.highlightWrongValues">
     <div v-show="this.quadrant.Id == this.$store.state.quadrantsArrangement[0][this.idQuadrant].Id" class="game-container">
-      <h1 class="draggable" > {{this.quadrant.Id.toUpperCase() }} </h1>
+      <h1 class="draggable correct" > {{this.quadrant.Id.toUpperCase() }} </h1>
     </div>
     <div v-show="this.quadrant.Id != this.$store.state.quadrantsArrangement[0][this.idQuadrant].Id" class="game-container">
       <h1 class="draggable incorrect" > {{this.quadrant.Id.toUpperCase() }} </h1>
+    </div>
   </div>
+  <!-- Highlight wrong answer  -->
+  <div v-show="$store.state.gameState==gameValues.highlightWrongAnswer" class="game-container">
+    <h1 class="positionUp correct">{{ this.quadrant.Id.toUpperCase() }} </h1>
+    <div v-show="this.correctWord||this.inputCenter.toUpperCase() == this.quadrant.word.toUpperCase()" class="game-container">
+      <h1 class="positionCenter correct" > {{this.quadrant.word.toUpperCase() }} </h1>
+    </div>
+    <div v-show="!this.correctWord&&this.inputCenter.toUpperCase() != this.quadrant.word.toUpperCase()" class="game-container">
+      <h1 class="positionCenter incorrect" > {{this.quadrant.word.toUpperCase() }} </h1>
+    </div>
   </div>
+  <!-- Show wrong answer  -->
+  <div v-show="$store.state.gameState==gameValues.showWrongAnswer" class="game-container">
+    <div v-show="this.quadrant.showId&&this.correctId" class="game-container">
+      <h1 class="positionUp correct" > {{this.quadrant.Id.toUpperCase() }} </h1>
+    </div>
+    <div v-show="this.quadrant.showId&&!this.correctId" class="game-container">
+      <h1 class="positionUp incorrect" > {{this.input.toUpperCase() }} </h1>
+    </div>
+    <div v-show="this.quadrant.showWord&&this.correctWord&&$store.state.typeOfExercise=='words'" class="game-container">
+      <h1 class="positionCenter correct" > {{this.quadrant.word.toUpperCase() }} </h1>
+    </div>
+    <div v-show="this.quadrant.showWord&&this.correctWord&&$store.state.typeOfExercise=='category'" class="game-container">
+      <h1 class="positionCenter correct" > {{this.quadrant.category.toUpperCase() }} </h1>
+    </div>
+    <div v-show="this.quadrant.showWord&&!this.correctWord" class="game-container">
+      <h1 class="positionCenter incorrect" > {{this.inputCenter.toUpperCase() }} </h1>
+    </div>
   </div>
+</div>
 </template>
 
 <script>
@@ -322,7 +350,7 @@ export default {
       //Si la palabra no se verifico como correcta anteriormente
       console.log("palabra = "+this.inputCenter.toString());
       console.log("ES correcta? "+this.correctWord);
-      console.log("This show word? "+this.showWord);
+      console.log("This show word? "+this.quadrant.showWord);
       if (!this.correctWord){
         //Si hay que completar la categoria hay que chequear que sea correcta
         if (this.quadrant.showWord){
@@ -339,6 +367,11 @@ export default {
             this.$emit('defaultWord');
           }
         }
+      else{
+        if (this.inputCenter == "") {
+          this.$emit('wordIncorrect');
+        }
+      }
       },
     checkDrag : function(){
       console.log("Checkeo el drag");
@@ -512,19 +545,24 @@ h1.draggable{
 h1{
   margin-right: -50%;
   font-size: 4rem;
-  color:greenyellow;
   display: flex;
+  color:white;
 }
 h1.positionCenter{
   margin-top:20%;
   font-size: 4rem;
-  color:greenyellow;
 }
 h1.positionUp{
   margin-left: 1%;
 }
 .incorrect{
   color:darkred;
+}
+.correct{
+  color:greenyellow;
+}
+.neutral{
+  color:white;
 }
 input {
   height: 8rem;

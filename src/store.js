@@ -58,6 +58,7 @@ export default new Vuex.Store({
         intent:0,
         currentExercise:1.1,
         explanations: [],
+        resetIntent: false,
     },
     mutations:{
         setPause(state,pause){
@@ -344,6 +345,10 @@ export default new Vuex.Store({
                                 context.state.changeGeneralState = false;
                                 context.commit('changeCategory', context.state.nextGeneralState);
                                 context.dispatch('changeGeneralState', context.state.nextGeneralState);
+                            }
+                            if (context.state.resetIntent){
+                                context.state.intent = 0;
+                                context.state.resetIntent = false;
                             }
                         },GameValues.showCorrectIncorrectTime
                         ,)

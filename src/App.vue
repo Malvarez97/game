@@ -1,7 +1,7 @@
 <template>
 	<v-app style="box-sizing: content-box" >
     <div v-show="$store.state.generalState == 0">
-      <Beginner @finishBegin="$store.dispatch('changeGeneralState',1.1)"></Beginner>
+      <Beginner @finishBegin="$store.dispatch('changeGeneralState',9)"></Beginner>
     </div>
     <div v-show="$store.state.generalState == 1">
       <Game1 :id="0" > </Game1>

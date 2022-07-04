@@ -11,6 +11,8 @@
                   $store.state.gameState==gameValues.completeIds ||
                   $store.state.gameState==gameValues.draggable ||
                   $store.state.gameState==gameValues.highlightWrongValues ||
+                  $store.state.gameState==gameValues.highlightWrongAnswer ||
+                  $store.state.gameState==gameValues.showWrongAnswer ||
                   $store.state.gameState==gameValues.showIdsCompleteWords ||
                   $store.state.gameState==gameValues.buttons ||
                   $store.state.gameState==gameValues.showWordsCompleteCategories ||
