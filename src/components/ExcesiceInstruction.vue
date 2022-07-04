@@ -5,11 +5,11 @@
             src="../assets/cup.png"
         >
         </v-img>
-    <h1> {{"Ejercicio "+Math.floor($store.state.currentExercise) }}</h1>
+    <h1> {{"Ejercicio "+$store.state.generalState }}</h1>
     </div>
-  <p class="introduction"> {{this.introduction}}</p>
-  <p class="outcome">{{this.outcome}}</p>
-  <p class="end">{{this.end}}</p>
+  <p class="introduction"> {{gameMethods.getExerciseExplanation().introduction}}</p>
+  <p class="outcome">{{gameMethods.getExerciseExplanation().outcome}}</p>
+  <p class="end">{{gameMethods.getExerciseExplanation().end}}</p>
     <v-btn  outline @click="finishExersiceInstruccion" rounded class="btn-global nextposition" color="#E74C3C" >
     Entendido
   </v-btn>
@@ -18,6 +18,7 @@
 
 <script>
 import '../assets/common.scss'
+import * as GameMethods from "../Games/gamemethods.js"
 
 export default {
   name: "ExcerciseInstruction",
@@ -30,7 +31,11 @@ export default {
     outcome: String,
     end: String,
   },
-
+  data(){
+    return {
+      gameMethods:GameMethods,
+    }
+  },
   methods: {
     finishExersiceInstruccion: function(){
       this.$emit('finishExplanation');

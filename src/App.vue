@@ -1,49 +1,52 @@
 <template>
 	<v-app style="box-sizing: content-box" >
     <div v-show="$store.state.generalState == 0">
-      <Beginner @finishBegin="$store.dispatch('changeGeneralState',1.1)"></Beginner>
+      <Beginner @finishBegin="$store.dispatch('changeGeneralState',10)"></Beginner>
     </div>
     <div v-show="$store.state.generalState == 1">
-      <Game1 :id="0" :category="this.$store.state.firstCategory"  > </Game1>
+      <Game1 :id="0" > </Game1>
     </div>
     <div v-show="$store.state.generalState == 2">
-      <Game1 :id="1" :category="this.$store.state.secondCategory" :exerciseNumber="this.$store.state.generalState"> </Game1>
+      <Game1 :id="1" > </Game1>
     </div>
     <div v-show="$store.state.generalState==3">
-      <Game2 :id="2" :category="this.$store.state.firstCategory" :exerciseNumber="this.$store.state.generalState"></Game2>
+      <Game1 :id="2" ></Game1>
     </div>
     <div v-show="$store.state.generalState==4">
-      <Game2 :id="3" :category="this.$store.state.secondCategory" :exerciseNumber="this.$store.state.generalState"></Game2>
+      <Game1 :id="3" ></Game1>
     </div>
     <div v-show="$store.state.generalState==5" >
-      <Game3 @restoreExercise="restoreExercise()" :id="4" :category="this.$store.state.category" :exerciseNumber="this.$store.state.generalState"></Game3>
+      <Game1 @restoreExercise="restoreExercise()" :id="4" ></Game1>
     </div>
     <div v-show="$store.state.generalState==6" >
-      <Game4 :id="5" :category="this.$store.state.firstCategory+' y '+this.$store.state.secondCategory" :exerciseNumber="this.$store.state.generalState"></Game4>
+      <Game1 :id="5" ></Game1>
     </div>
     <div v-show="$store.state.generalState==7" >
-      <Game4 :id="6" :category="this.$store.state.firstCategory+' y '+this.$store.state.secondCategory" :exerciseNumber="this.$store.state.generalState"></Game4>
+      <Game1 :id="6" ></Game1>
     </div>
     <div v-show="$store.state.generalState==8" >
-      <Game5 :id="7" :category="this.$store.state.firstCategory+' y '+this.$store.state.secondCategory" :exerciseNumber="this.$store.state.generalState"></Game5>
+      <Game1 :id="7" ></Game1>
     </div>
     <div v-show="$store.state.generalState==9" >
-      <Game6 :id="8" :category="this.$store.state.firstCategory+' y '+this.$store.state.secondCategory" :exerciseNumber="this.$store.state.generalState"></Game6>
+      <Game1 :id="8" ></Game1>
     </div>
     <div v-show="$store.state.generalState==10" >
-      <Game7 :id="9" :category="this.$store.state.firstCategory+' y '+this.$store.state.secondCategory" :exerciseNumber="this.$store.state.generalState"></Game7>
+      <Game1 :id="9" ></Game1>
     </div>
     <div v-show="$store.state.generalState==11" >
-      <Game7 :id="10" :category="this.$store.state.firstCategory+' y '+this.$store.state.secondCategory" :exerciseNumber="this.$store.state.generalState"></Game7>
+      <Game1 :id="10" ></Game1>
     </div>
     <div v-show="$store.state.generalState==12" >
-      <Game7 :id="11" :category="this.$store.state.firstCategory+' y '+this.$store.state.secondCategory" :exerciseNumber="this.$store.state.generalState"></Game7>
+      <Game1 :id="11" ></Game1>
     </div>
     <div v-show="$store.state.generalState==13" >
-      <Game8 :id="12" :category="this.$store.state.firstCategory+' y '+this.$store.state.secondCategory" :exerciseNumber="this.$store.state.generalState"></Game8>
+      <Game1 :id="12" ></Game1>
     </div>
     <div v-show="$store.state.generalState==14" >
-      <Game9 :id="13" :category="this.$store.state.firstCategory+' y '+this.$store.state.secondCategory" :exerciseNumber="this.$store.state.generalState"></Game9>
+      <Game1 :id="13" ></Game1>
+    </div>
+    <div v-show="$store.state.generalState==15" >
+      <ExcerciseInstruction :id="14" ></ExcerciseInstruction>
     </div>
     <div v-show="$store.state.generalState==15" >
       <Chart ></Chart>
@@ -53,34 +56,20 @@
 <script>
 
 import Game1 from "@/Games/Game1";
-import Game2 from "@/Games/Game2";
-import Game3 from "@/Games/Game3";
-import Game4 from "@/Games/Game4";
-import Game5 from "@/Games/Game5";
-import Game6 from "@/Games/Game6";
-import Game7 from "@/Games/Game7";
-import Game8 from "@/Games/Game8";
-import Game9 from "@/Games/Game9";
 import Beginner from "@/components/Beginner";
 import Chart from "@/components/Chart";
 //import {enterFullscreen} from 'request-fullscreen-js';
 import * as GameValues from './Games/gamevalues.js';
 import * as GameMethods from './Games/gamemethods.js';
+import ExcerciseInstruction from "@/components/ExcesiceInstruction";
 
 
 export default {
 	components: {
+    ExcerciseInstruction,
     Beginner,
     Chart,
     Game1,
-    Game2,
-    Game3,
-    Game4,
-    Game5,
-    Game6,
-    Game7,
-    Game8,
-    Game9,
 	},
   data() {
     return {
@@ -134,6 +123,21 @@ export default {
       timeLimitToPause:3000000,
       gameValues:GameValues,
       gameMethods:GameMethods,
+      /*explanationEx1sub2:
+      explanationEx2sub1:
+      explanationEx2sub2:
+      explanationEx3:
+      explanationEx4:
+      explanationEx5:
+      explanationEx6:
+      explanationEx7:
+      explanationEx8:
+      explanationEx9:
+      explanationEx10:
+      explanationEx11:
+      explanationEx12:
+      explanationEx13:
+      explanationEx14:*/
     }
   },
     created(){
@@ -422,8 +426,90 @@ export default {
         this.quadrantsArrangement.push(this.copyQuadrant(this.quadrantsArrangement[7],"show","show",""));
         this.$store.commit('setQuadrantsArrangement',this.quadrantsArrangement);
 
-
+        this.generateExerciseExplanations();
       }
+    },
+    generateExerciseExplanations(){
+      //Explicacion ejercicio 1.1
+      this.$store.state.explanations[GameValues.explanationIdEx1sub1] = {
+          introduction:"Se divide la pantalla en 4 cuadrantes.",
+          outcome:"A continuacion trate de recordar la palabra perteneciente a la categoria " + this.$store.state.firstCategory + " y los cuadrantes (letra identificatoria) donde se halla.",
+          end:"Cuando las palabras desaparezcan de la pantalla, debe escribirlas en los cuadrantes correspondientes."};
+      //Explicacion ejercicio 1.2
+      this.$store.state.explanations[GameValues.explanationIdEx1sub2] = {
+          introduction: "Escriba las letras de los cuadrantes en los que aparecieron las palabras de "+this.$store.state.firstCategory+".",
+          outcome: "",
+          end: ""};
+      //Explicacion ejercicio 2.1
+      this.$store.state.explanations[GameValues.explanationIdEx2sub1] = {
+        introduction:"Se divide la pantalla en 4 cuadrantes.",
+        outcome:"A continuacion trate de recordar la palabra perteneciente a la categoria " + this.$store.state.secondCategory + " y los cuadrantes (letra identificatoria) donde se halla.",
+        end:"Cuando las palabras desaparezcan de la pantalla, debe escribirlas en los cuadrantes correspondientes."};
+      //Explicacion ejercicio 2.2
+      this.$store.state.explanations[GameValues.explanationIdEx2sub2] = {
+        introduction: "Escriba las letras de los cuadrantes en los que aparecieron las palabras de "+this.$store.state.secondCategory+".",
+        outcome: "",
+        end: ""};
+      //Explicacion ejercicio 3
+      this.$store.state.explanations[GameValues.explanationIdEx3] = {
+        introduction:"Escriba las letras de los cuadrantes en los que aparecieron las palabras de "+this.$store.state.firstCategory+".",
+        outcome:"",
+        end:""};
+      //Explicacion ejercicio 4
+      this.$store.state.explanations[GameValues.explanationIdEx4] = {
+        introduction: "Escriba las letras de los cuadrantes en los que aparecieron las palabras de "+this.$store.state.secondCategory+".",
+        outcome: "",
+        end: ""};
+      //Explicacion ejercicio 5
+      this.$store.state.explanations[GameValues.explanationIdEx5] = {
+        introduction: "Modifique las letras en los cuadrantes acomodándolas como eran en los ejercicios anteriores.",
+        outcome: "",
+        end: ""};
+      //Explicacion ejercicio 6
+      this.$store.state.explanations[GameValues.explanationIdEx6] = {
+        introduction: "Escriba en los cuadrantes las palabras pertenecientes a las categorias "+this.$store.state.firstCategory+" y "+this.$store.state.secondCategory+", anteriormente memorizadas.",
+        outcome: "Tenga en cuenta que cambió la posición de las letras.",
+        end: "Debe poner las palabras de acuerdo a las letras identificatorias, sin importar la posición de las mismas."};
+      //Explicacion ejercicio 7
+      this.$store.state.explanations[GameValues.explanationIdEx7] = {
+        introduction: "Al igual que en el ejercicio anterior, escriba las palabras pertenecientes a las categorias "+this.$store.state.firstCategory+" y "+this.$store.state.secondCategory+" anteriormente memorizadas.",
+        outcome: "",
+        end: ""};
+      //Explicacion ejercicio 8
+      this.$store.state.explanations[GameValues.explanationIdEx8] = {
+        introduction: "Haga click en aquellas palabras que no aparecieron previamente.",
+        outcome: "",
+        end: ""};
+      //Explicacion ejercicio 9
+      this.$store.state.explanations[GameValues.explanationIdEx9] = {
+        introduction: "En los ejercicios anteriores se presentaron palabras pertenecientes a dos categorías.",
+        outcome: "A continuación escriba la categoría que falta en los lugares donde se encontraba la palabra.",
+        end: "Debe escribir el nombre de la categoria, NO de la palabra. Las categorías posibles son: "+this.$store.state.firstCategory+", "+this.$store.state.secondCategory+"."};
+      //Explicacion ejercicio 10
+      this.$store.state.explanations[GameValues.explanationIdEx10] = {
+        introduction: "Trate de recordar lo escrito en cada cuadrante.",
+        outcome: "Tenga en cuenta con que letra se identifica cada cuadrante.",
+        end: "A continuación debe escribir el nombre faltante."};
+      //Explicacion ejercicio 11
+      this.$store.state.explanations[GameValues.explanationIdEx11] = {
+        introduction: "Escriba el nombre que desaparece en la pantalla.",
+        outcome: "",
+        end: ""};
+      //Explicacion ejercicio 12
+      this.$store.state.explanations[GameValues.explanationIdEx12] = {
+        introduction: "Escriba el nombre que desaparece en la pantalla.",
+        outcome: "",
+        end: ""};
+      //Explicacion ejercicio 13
+      this.$store.state.explanations[GameValues.explanationIdEx13] = {
+        introduction: "Escriba los nombres del ejercicio anterior en cada cuadrante.",
+        outcome: "",
+        end: ""};
+      //Explicacion ejercicio 14
+      this.$store.state.explanations[GameValues.explanationIdEx14] = {
+        introduction: "Complete las letras que identifican cada cuadrante como estaban en los últimos ejercicios.",
+        outcome: "",
+        end: ""};
     },
     restoreExercise(){
       setTimeout(()=>{

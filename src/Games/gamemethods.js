@@ -146,7 +146,7 @@ export function getExerciseType(exercise){
       case 2.1: return GameValues.exercise2sub1Type;
       case 2.2: return GameValues.exercise2sub2Type;
       case 3: return GameValues.exercise3Type;
-      case "4": return GameValues.exercise4Type;
+      case 4: return GameValues.exercise4Type;
       case 5: return GameValues.exercise5Type;
       case 6: return GameValues.exercise6Type;
       case 7: return GameValues.exercise7Type;
@@ -247,6 +247,26 @@ export function getNextGeneralState(){
         default: return parseInt(store.state.currentExercise,10) + 1;
     }
 }
+export function getExerciseExplanation(){
+    switch (store.state.currentExercise){
+        case 1.1: return store.state.explanations[GameValues.explanationIdEx1sub1];
+        case 1.2: return store.state.explanations[GameValues.explanationIdEx1sub2];
+        case 2.1: return store.state.explanations[GameValues.explanationIdEx2sub1];
+        case 2.2: return store.state.explanations[GameValues.explanationIdEx2sub2];
+        case 3: return store.state.explanations[GameValues.explanationIdEx3];
+        case 4: return store.state.explanations[GameValues.explanationIdEx4];
+        case 5: return store.state.explanations[GameValues.explanationIdEx5];
+        case 6: return store.state.explanations[GameValues.explanationIdEx6];
+        case 7: return store.state.explanations[GameValues.explanationIdEx7];
+        case 8: return store.state.explanations[GameValues.explanationIdEx8];
+        case 9: return store.state.explanations[GameValues.explanationIdEx9];
+        case 10: return store.state.explanations[GameValues.explanationIdEx10];
+        case 11: return store.state.explanations[GameValues.explanationIdEx11];
+        case 12: return store.state.explanations[GameValues.explanationIdEx12];
+        case 13: return store.state.explanations[GameValues.explanationIdEx13];
+        case 14: return store.state.explanations[GameValues.explanationIdEx14];
+    }
+}
 export function getWaitingQuadrant(){
     switch (store.state.currentExercise){
         case 1.1: return GameValues.exercise1sub1WaitingQuadrant;
@@ -332,7 +352,7 @@ export function nextLocalState(){
         console.log("Esta mal "+((nextGeneralState - Math.floor(nextGeneralState)).toFixed(1)));
         //Si el ejercicio tiene segunda parte, pasamos a la segunda parte de la explicacion, sino a la primera
         switch (((nextGeneralState - Math.floor(nextGeneralState)).toFixed(1))){
-            case "0": transition(getWaitingQuadrant(),GameValues.correctTransition,GameValues.firstPartExplanation); break;
+            case "0.0": transition(getWaitingQuadrant(),GameValues.correctTransition,GameValues.firstPartExplanation); break;
             case "0.1": transition(getWaitingQuadrant(),GameValues.correctTransition,GameValues.firstPartExplanation); break;
             //Si el ejercicio tiene segunda parte, tambien guardamos el tiempo de cuando se empieza a leer el otro ejercicio
             case "0.2": console.log("entro al 0.2"); transition(getWaitingQuadrant(),GameValues.correctTransition,GameValues.secondPartExplanation);
@@ -344,6 +364,8 @@ export function nextLocalState(){
     }
     //Si fue incorrecta
     else {
+        console.log("LImite de intentos = "+getLimitAttempts());
+        console.log("intet = "+store.state.intent);
         //Se guarda el tiempo de fallo
         saveTime(parseInt(store.state.currentExercise,10),GameValues.actionFinishIncorrect,store.state.intentWord);
         reproduceAudio(GameValues.errorAudio);
@@ -367,10 +389,10 @@ export function nextLocalState(){
         //Si fue el ultimo intento
         else {
             //Se resetea la variable de cantidad de intentos
-            store.state.intentWord = 0;
+            store.state.intent = 0;
             //Se notifica el fallo en el ejercicio al usuario y se transiciona hacia atras
             transition(getWaitingQuadrant(),GameValues.incorrectTransition,GameValues.firstPartExplanation);
-            setAlert(GameValues.errorIcon,GameValues.defaultErrorTitle+getLoseExercise(),"");
+            setAlert(GameValues.errorIcon,GameValues.defaultErrorTitle+Math.floor(getLoseExercise()),"");
             setNextGeneralState(getLoseExercise());
         }
     }

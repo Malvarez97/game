@@ -57,6 +57,7 @@ export default new Vuex.Store({
         exerciseTime:0,
         intent:0,
         currentExercise:1.1,
+        explanations: [],
     },
     mutations:{
         setPause(state,pause){
