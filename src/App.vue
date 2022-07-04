@@ -1,7 +1,7 @@
 <template>
 	<v-app style="box-sizing: content-box" >
     <div v-show="$store.state.generalState == 0">
-      <Beginner @finishBegin="$store.dispatch('changeGeneralState',1.1)"></Beginner>
+      <Beginner @finishBegin="$store.dispatch('changeGeneralState',5)"></Beginner>
     </div>
     <div v-show="$store.state.generalState == 1">
       <Game1 :id="0" > </Game1>
@@ -391,9 +391,9 @@ export default {
         //Reordenar cuadrantes originales para dragable
         this.$store.state.quadrant5 = this.copyQuadrant(this.rearrrengeQuadrants(),"show","show","");
         this.quadrantsArrangement.push(this.copyQuadrant(this.$store.state.quadrant5));
-        //Reordenar cuadrantes originales (disposicion numero 1)
+        //Reordenar cuadrantes originales (disposicion numero 1) Ejercicio 6
         this.quadrantsArrangement.push(this.copyQuadrant(this.rearrrengeQuadrants(),"show","show",""));
-        //Reordenar cuadrantes originales (disposicion numero 2)
+        //Reordenar cuadrantes originales (disposicion numero 2) Ejercicio 7
         this.quadrantsArrangement.push(this.copyQuadrant(this.rearrrengeQuadrants(),"show","show",""));
         //Crear cuadrantes con dos palabras nuevas para clickable
         this.quadrantsArrangement.push(this.copyQuadrant(this.copyQuadrantWithNewWords(this.quadrants),"hide","show",""));

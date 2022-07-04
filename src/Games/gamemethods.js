@@ -271,27 +271,46 @@ export function getExerciseExplanation(){
     }
 }
 export function getWaitingQuadrant(){
-    switch (store.state.currentExercise){
-        case 1.1: return GameValues.exercise1sub1WaitingQuadrant;
-        case 1.2: return GameValues.exercise1sub2WaitingQuadrant;
-        case 2.1: return GameValues.exercise2sub1WaitingQuadrant;
-        case 2.2: return GameValues.exercise2sub2WaitingQuadrant;
-        case 3: return GameValues.exercise3WaitingQuadrant;
-        case 4: return GameValues.exercise4WaitingQuadrant;
-        case 5: return GameValues.exercise5WaitingQuadrant;
-        case 6: return GameValues.exercise6WaitingQuadrant;
-        case 7: return GameValues.exercise7WaitingQuadrant;
-        case 8: return GameValues.exercise8WaitingQuadrant;
-        case 9: return GameValues.exercise9WaitingQuadrant;
-        case 10: return GameValues.exercise10WaitingQuadrant;
-        //Si no es el ultimo intento, no cambio de pantalla, sino muestro la respuesta correcta
-        case 11: if (store.state.intent < getLimitAttempts()){ return GameValues.exercise11WaitingQuadrant; }
-                 else{ return GameValues.exercise11FinalWaitingQuadrant; }
-        case 12: if (store.state.intent < getLimitAttempts()){return GameValues.exercise12WaitingQuadrant;}
-                 else{ return GameValues.exercise12FinalWaitingQuadrant; }
-        case 13: if (store.state.intent < getLimitAttempts()) { return GameValues.exercise13WaitingQuadrant; }
-                 else { return GameValues.exercise13FinalWaitingQuadrant; }
-        case 14: return GameValues.exercise14WaitingQuadrant;
+    if (store.state.intent < getLimitAttempts()){
+        switch (store.state.currentExercise){
+            case 1.1: return GameValues.exercise1sub1WaitingQuadrant;
+            case 1.2: return GameValues.exercise1sub2WaitingQuadrant;
+            case 2.1: return GameValues.exercise2sub1WaitingQuadrant;
+            case 2.2: return GameValues.exercise2sub2WaitingQuadrant;
+            case 3: return GameValues.exercise3WaitingQuadrant;
+            case 4: return GameValues.exercise4WaitingQuadrant;
+            case 5: return GameValues.exercise5WaitingQuadrant;
+            case 6: return GameValues.exercise6WaitingQuadrant;
+            case 7: return GameValues.exercise7WaitingQuadrant;
+            case 8: return GameValues.exercise8WaitingQuadrant;
+            case 9: return GameValues.exercise9WaitingQuadrant;
+            case 10: return GameValues.exercise10WaitingQuadrant;
+            case 11: return GameValues.exercise11WaitingQuadrant;
+            case 12: return GameValues.exercise12WaitingQuadrant;
+            case 13: return GameValues.exercise13WaitingQuadrant;
+            case 14: return GameValues.exercise14WaitingQuadrant;
+        }
+    }
+    //Si es el ultimo intento muestro el cuadrante con las respuestas correctas
+    else{
+        switch (store.state.currentExercise){
+            case 1.1: return GameValues.exercise1sub1FinalWaitingQuadrant;
+            case 1.2: return GameValues.exercise1sub2FinalWaitingQuadrant;
+            case 2.1: return GameValues.exercise2sub1FinalWaitingQuadrant;
+            case 2.2: return GameValues.exercise2sub2FinalWaitingQuadrant;
+            case 3: return GameValues.exercise3FinalWaitingQuadrant;
+            case 4: return GameValues.exercise4FinalWaitingQuadrant;
+            case 5: return GameValues.exercise5FinalWaitingQuadrant;
+            case 6: return GameValues.exercise6FinalWaitingQuadrant;
+            case 7: return GameValues.exercise7FinalWaitingQuadrant;
+            case 8: return GameValues.exercise8FinalWaitingQuadrant;
+            case 9: return GameValues.exercise9FinalWaitingQuadrant;
+            case 10: return GameValues.exercise10FinalWaitingQuadrant;
+            case 11: return GameValues.exercise11FinalWaitingQuadrant;
+            case 12: return GameValues.exercise12FinalWaitingQuadrant;
+            case 13: return GameValues.exercise13FinalWaitingQuadrant;
+            case 14: return GameValues.exercise14FinalWaitingQuadrant;
+        }
     }
 }
 export function getExerciseState(){

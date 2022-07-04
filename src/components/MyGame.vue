@@ -11,6 +11,7 @@
                          @writeLetter="addLetter"
                          @wordIncorrect="addIncorrectWord"
                          @defaultWord="addDefaultWord"
+                         @defaultId="addDefaultId"
                          @setWordsAndIds="setCorrectWordsAndIds"
                          @quadrantCreated="addQuadrantCreated"
                          @correctClick="addCorrectClick"
@@ -73,13 +74,21 @@ export default {
     },
     addCorrectClick: function(){
       this.correctClick += 1;
-      if (this.correctClick == 2){
-        this.finishCheck(true);
+      this.clicks+=1;
+      if (this.clicks==2){
+        if (this.correctClick == 2){
+          this.finishCheck(true);
+        }
+        else{
+          this.finishCheck(false);
+        }
       }
     },
     addIncorrectClick: function(){
       this.clicks+=1;
-      this.finishCheck(false);
+      if (this.clicks == 2){
+        this.finishCheck(false);
+      }
     },
     //Seteo la cantidad de palabras que no son necesarias escribir
     setCorrectWordsAndIds: function () {
@@ -94,10 +103,12 @@ export default {
             }
           }
           //Seteo las ids
-          if (!this.$store.state.quadrantsMatrix[this.id*4+i].quadrant.showId && (GameMethods.getExerciseType(this.id+1) == GameValues.ids || GameMethods.getExerciseType(this.id+1) == GameValues.wordsAndIds)) {
-            this.idsCorrect+=1;
-            this.$store.state.quadrantsMatrix[this.id*4+i].defaultCorrectId = true;
-            this.$store.state.quadrantsMatrix[this.id*4+i].correctId = true;
+          if (!this.$store.state.quadrantsMatrix[this.id*4+i].quadrant.showId){
+            if (this.$store.state.quadrantsMatrix[this.id*4+i].input=="" && (GameMethods.getExerciseType(this.id+1) == GameValues.ids || GameMethods.getExerciseType(this.id+1) == GameValues.wordsAndIds)){
+              this.idsCorrect+=1;
+              this.$store.state.quadrantsMatrix[this.id*4+i].defaultCorrectId = true;
+              this.$store.state.quadrantsMatrix[this.id*4+i].correctId = true;
+            }
           }
         }
       }
@@ -148,6 +159,12 @@ export default {
         this.wordsChecked +=1;
       }
     },
+    addDefaultId : function(){
+      if (this.idsCorrect !== 4){
+        console.log("add default id");
+        this.idsChecked += 1;
+      }
+    },
     setCorrectWord(correct){
       if (correct){
         console.log('Seteo la palabra como correcta');
@@ -188,6 +205,7 @@ export default {
         else{
           if (this.$store.state.dragEnd){
             this.finishCheck(false);
+            this.$store.state.dragEnd = false;
           }
           else{
             this.restoreVariables();
@@ -200,6 +218,7 @@ export default {
       this.restoreVariables();
       console.log("Se emite finishcheck");
       console.log("estado actual = "+this.$store.state.gameState);
+      this.$store.state.clicked = true;
       this.$emit('finishCheck');
     },
     restoreVariables: function() {
@@ -210,6 +229,7 @@ export default {
       this.wordsChecked = 0;
       this.idsChecked = 0;
       this.correctClick = 0;
+      this.clicks = 0;
       this.correctDrag = 0;
       this.dragsChecked = 0;
       this.writeLetters = 0;

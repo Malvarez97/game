@@ -167,24 +167,37 @@ export const exercise14Help = false;
 
 //Quadrante de espera antes de pasar a la transicion de correcto/incorrecto
 export const exercise1sub1WaitingQuadrant = showWrongAnswer;
+export const exercise1sub1FinalWaitingQuadrant = showWrongAnswer;
 export const exercise1sub2WaitingQuadrant = showWrongAnswer;
+export const exercise1sub2FinalWaitingQuadrant = showWrongAnswer;
 export const exercise2sub1WaitingQuadrant = showWrongAnswer;
+export const exercise2sub1FinalWaitingQuadrant = showWrongAnswer;
 export const exercise2sub2WaitingQuadrant = showWrongAnswer;
+export const exercise2sub2FinalWaitingQuadrant = showWrongAnswer;
 export const exercise3WaitingQuadrant = showWrongAnswer;
+export const exercise3FinalWaitingQuadrant = showWrongAnswer;
 export const exercise4WaitingQuadrant = showWrongAnswer;
+export const exercise4FinalWaitingQuadrant = showWrongAnswer;
 export const exercise5WaitingQuadrant = highlightWrongValues;
-export const exercise6WaitingQuadrant = showWrongAnswer;
-export const exercise7WaitingQuadrant = showWrongAnswer;
+export const exercise5FinalWaitingQuadrant = highlightWrongValues;
+export const exercise6WaitingQuadrant = exercise6State;
+export const exercise6FinalWaitingQuadrant = showWrongAnswer;
+export const exercise7WaitingQuadrant = exercise7State;
+export const exercise7FinalWaitingQuadrant = showWrongAnswer;
 export const exercise8WaitingQuadrant = exercise8State;
-export const exercise9WaitingQuadrant = showWrongAnswer;
-export const exercise10WaitingQuadrant = showWrongAnswer;
-export const exercise11WaitingQuadrant = showWrongAnswer;
+export const exercise8FinalWaitingQuadrant = showWrongAnswer;
+export const exercise9WaitingQuadrant = exercise9State;
+export const exercise9FinalWaitingQuadrant = showWrongAnswer;
+export const exercise10WaitingQuadrant = exercise10State;
+export const exercise10FinalWaitingQuadrant = showWrongAnswer;
+export const exercise11WaitingQuadrant = exercise11State;
 export const exercise11FinalWaitingQuadrant = highlightWrongAnswer;
-export const exercise12WaitingQuadrant = showWrongAnswer;
+export const exercise12WaitingQuadrant = exercise12State;
 export const exercise12FinalWaitingQuadrant = highlightWrongAnswer;
-export const exercise13WaitingQuadrant = showWrongAnswer;
+export const exercise13WaitingQuadrant = exercise13State;
 export const exercise13FinalWaitingQuadrant = highlightWrongAnswer;
-export const exercise14WaitingQuadrant = showWrongAnswer;
+export const exercise14WaitingQuadrant = exercise14State;
+export const exercise14FinalWaitingQuadrant = showWrongAnswer;
 
 //El juego tiene pantalla intermedia?
 export const exercise1sub1HasIntermediateScreen = true;
@@ -237,3 +250,6 @@ export const explanationIdEx11 = 12;
 export const explanationIdEx12 = 13;
 export const explanationIdEx13 = 14;
 export const explanationIdEx14 = 15;
+
+//Limite de intentos para escribir un id
+export const limitBlocking = 3;

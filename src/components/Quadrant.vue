@@ -95,7 +95,7 @@
   </div>
   <!-- Show ids show Words complete Words -->
   <div v-show="$store.state.gameState==gameValues.showIdsShowWordsCompleteWords" class="game-container" >
-    <h1 class="positionUp">{{ this.quadrant.Id.toUpperCase() }} </h1>
+    <h1 class="positionUp correct">{{ this.quadrant.Id.toUpperCase() }} </h1>
     <div class="game-container" v-show=!this.quadrant.showWord >
       <h1 class="positionCenter correct" > {{this.quadrant.word.toUpperCase() }} </h1>
     </div>
@@ -136,11 +136,18 @@
   </div>
   <!-- Show wrong answer  -->
   <div v-show="$store.state.gameState==gameValues.showWrongAnswer" class="game-container">
+    <div v-show="!this.quadrant.showId&&this.input!=''" class="game-container">
+      <h1 class="positionUp incorrect" > {{this.input.toUpperCase() }} </h1>
+    </div>
     <div v-show="this.quadrant.showId&&this.correctId" class="game-container">
       <h1 class="positionUp correct" > {{this.quadrant.Id.toUpperCase() }} </h1>
     </div>
     <div v-show="this.quadrant.showId&&!this.correctId" class="game-container">
       <h1 class="positionUp incorrect" > {{this.input.toUpperCase() }} </h1>
+    </div>
+
+    <div v-show="!this.quadrant.showWord&&this.inputCenter!=''" class="game-container">
+      <h1 class="positionCenter incorrect" > {{this.inputCenter.toUpperCase() }} </h1>
     </div>
     <div v-show="this.quadrant.showWord&&this.correctWord&&$store.state.typeOfExercise=='words'" class="game-container">
       <h1 class="positionCenter correct" > {{this.quadrant.word.toUpperCase() }} </h1>
@@ -208,7 +215,7 @@ export default {
       gameValues:GameValues,
       blocking:false,
       amountBlocking:0,
-      limitBlocking:3,
+      limitBlocking:GameValues.limitBlocking,
     }
   },
   methods: {
@@ -343,7 +350,14 @@ export default {
     //Chequeo que el ejercicio esté completado correctamente
     checkId() {
       if (!this.correctId){
+        console.log("ID INCORRECTO");
         this.$emit('idIncorrect');
+      }
+      else{
+        if (!this.quadrant.showId){
+          console.log("ID POR DEFECTO");
+          this.$emit('defaultId');
+        }
       }
     },
     checkCategory(){
@@ -388,35 +402,21 @@ export default {
       console.log("Pregunto por " + this.input.toString());
       console.log("Pregunto por " + this.inputCenter.toString());
       console.log("Hago el restore" + this.input.toString());
-      /*
-      this.inputCenter = "";
-      this.input = "";
-      this.longIsEmpty = true;
-      this.validateLong = false;
-      this.shortIsEmpty = true;
-      this.validateShort = false;
-      this.correct = false;
-      this.incorrectClick = false;
-      this.idCompleted = false;
-      this.correctClick = false;
-      this.firstChoose = false;
-      this.clicked = 1;
-      this.blocking = false;*/
-          this.validateShort=false;
-          this.validateLong=false;
-          this.shortIsEmpty=true;
-          this.longIsEmpty=true;
-          this.inputCenter="";
-          this.input="";
-          this.correctWord=false;
-          this.correctId=false;
-          this.clicked=0;
-          this.correctClick=false;
-          this.incorrectClick=false;
-          this.firstChoose=false;
-          this.blocking=false;
-          this.amountBlocking=0;
-          this.limitBlocking=3;
+      this.validateShort=false;
+      this.validateLong=false;
+      this.shortIsEmpty=true;
+      this.longIsEmpty=true;
+      this.inputCenter="";
+      this.input="";
+      this.correctWord=false;
+      this.correctId=false;
+      this.clicked=0;
+      this.correctClick=false;
+      this.incorrectClick=false;
+      this.firstChoose=false;
+      this.blocking=false;
+      this.amountBlocking=0;
+      this.limitBlocking=GameValues.limitBlocking;
     },
     //Observo la variable help que cuando sea verdadera dará una ayuda al usuario para el siguiente intento del ejercicio
     helpQuadrant() {
@@ -556,7 +556,7 @@ h1.positionUp{
   margin-left: 1%;
 }
 .incorrect{
-  color:darkred;
+  color:red;
 }
 .correct{
   color:greenyellow;
