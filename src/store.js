@@ -45,6 +45,7 @@ export default new Vuex.Store({
         seconds:0,
         pause:false,
         secondsPaused:0,
+        secondsTransition:0,
         exerciseData: [],
         warning:false,
         nextGeneralState:0,
@@ -125,6 +126,7 @@ export default new Vuex.Store({
             }*/
             this.state.generalState = Math.floor(nextGeneralState);
             this.state.currentExercise = nextGeneralState;
+            this.firstLetter = true;
             //this.state.quadrants = this.state.quadrantsArrangement[parseInt(this.state.generalState,10)-1];
         },
         changeGameState(state,nextGameState){
@@ -136,30 +138,30 @@ export default new Vuex.Store({
         },
         writeTimes(state,data){
             let date = new Date();
-            if (data.action===("start write")){
+            if (data.action===(GameValues.actionStartInteracting)){
                 if(this.firstLetter){
                     console.log("entro");
-                    this.firsLetter=false;
+                    this.firstLetter=false;
                     let time = date;
-                    time = time.setSeconds(time.getSeconds()-state.secondsPaused);
-                    console.log("le resto "+state.secondsPaused+" segundos");
-                    console.log("time = "+time);
-                    this.state.times.push({exercise:this.generalstate,action:data.action,intent: data.intent,time:time });
+                    console.log("seconds paused = "+state.secondsPaused);
+                    console.log("seconds transition = "+state.secondsTransition);
+                    time.setSeconds(time.getSeconds()-state.secondsPaused-state.secondsTransition);
+                    this.state.times.push({exercise:data.exercisenumber,action:data.action,intent: data.intent,time:time });
                }
             }
             else {
                 let time = date;
-                time = time.setSeconds(time.getSeconds()-state.secondsPaused);
-                console.log("le resto "+state.secondsPaused+" segundos");
-                console.log("time = "+time);
+                time.setSeconds(time.getSeconds()-state.secondsPaused-state.secondsTransition);
+                console.log("seconds paused = "+state.secondsPaused);
+                console.log("seconds transition = "+state.secondsTransition);
                 this.state.times.push({
                     exercise: data.exercisenumber,
                     action: data.action,
                     intent: data.intent,
                     time: date
                 });
-                console.log(this.state.times);
             }
+            console.log(this.state.times);
         },
         changeExerciseNumber(state,nextExerciseNumber){
             this.state.exerciseNumber = nextExerciseNumber;
@@ -323,6 +325,8 @@ export default new Vuex.Store({
         waitingStateToNextGameState(context,data){
             console.log("entro al esperar");
             context.commit('changeGameState',data.quadrantWaitingState);
+            context.state.secondsTransition += (GameValues.showCorrectIncorrectTime + GameValues.showExerciseTime)/1000;
+            console.log("SECONDS TRANSITION = "+context.state.secondsTransition);
             setTimeout ( () => {
                 console.log("Hago el restore");
                 GameMethods.restore();
@@ -352,6 +356,15 @@ export default new Vuex.Store({
                                 context.state.intent = 0;
                                 context.state.resetIntent = false;
                             }
+                            //Si cambio de ejercicio guardo el tiempo en que el paciente empieza a leer el ejercicio
+                            if (data.nextGameState == GameValues.firstPartExplanation || data.nextGameState == GameValues.secondPartExplanation){
+                                console.log("CAMBIO DE EJERCICIO, ACTION = "+GameValues.actionStartReading);
+                                context.commit('writeTimes',{exercisenumber:context.state.nextGeneralState,action:GameValues.actionStartReading,intent:context.state.intent+1});
+                            }
+                            //Si vuelve a hacer el ejercicio, guardo el tiempo en que se muestra la pantalla nuevamente
+                            /*else{
+                                context.commit('writeTimes',{exercisenumber:context.state.nextGeneralState,action:GameValues.actionShowExercise,intent:context.state.intent});
+                            }*/
                         },GameValues.showCorrectIncorrectTime
                         ,)
             },GameValues.showExerciseTime
@@ -360,12 +373,6 @@ export default new Vuex.Store({
         changeGeneralState(context,nextGeneralState){
             context.commit('changeGeneralState',nextGeneralState);
             context.commit('setQuadrants',nextGeneralState);
-            if (nextGeneralState == 1 || nextGeneralState == 2){
-                context.commit('writeTimes', {exercisenumber:parseFloat(nextGeneralState+".1",10), action:"start reading",intent:1});
-            }
-            else{
-                context.commit('writeTimes', {exercisenumber:parseInt(nextGeneralState,10), action:"start reading",intent:1});
-            }
             context.dispatch('restartInterval');
         },
         restore(context, words){
@@ -408,13 +415,14 @@ export default new Vuex.Store({
             let interactionTime = 0;
             let readingTime = 0;
             let exercise = 0;
+            let hits = 0;
+            let failures = 0;
             for (let i = 0; i < context.state.times.length;) {
                 console.log("i = "+i);
                 console.log(context.state.times[i]);
-                if (context.state.times[i].action == "start reading"){
+                if (context.state.times[i].action == GameValues.actionStartReading){
                     let data = null;
-                    initialReadingTime = 0;
-                    lastAction = "start reading";
+                    lastAction = GameValues.actionStartReading;
                     initialReadingTime = context.state.times[i].time;
                     intents = 0;
                     exercise = context.state.times[i].exercise;
@@ -422,6 +430,8 @@ export default new Vuex.Store({
                     exerciseTime = 0;
                     interactionTime = 0;
                     readingTime = 0;
+                    hits=0;
+                    failures=0;
                     switch (exercise){
                         case 1.1: exercise = 1; break;
                         case 1.2: exercise = 2; break;
@@ -431,78 +441,104 @@ export default new Vuex.Store({
                     }
                     i+=1;
                     if( i<context.state.times.length ) {
-                        while (context.state.times[i].action != "start reading") {
+                        while (i<context.state.times.length && context.state.times[i].action != GameValues.actionStartReading) {
                             console.log("i = " + i);
                             switch (context.state.times[i].action) {
-                                case "show":
+                                case GameValues.actionShowExercise:
                                     console.log("Entra a show");
-                                    if (lastAction == "start reading") {
+                                    if (lastAction == GameValues.actionStartReading) {
                                         initialShowTime = context.state.times[i].time;
-                                        readingTime = context.state.times[i].time - initialReadingTime;
-                                    } else {
+                                        readingTime = initialShowTime - initialReadingTime;
+                                    }/* else {
                                         initialShowTime = context.state.times[i].time;
-                                        initialShowTime.setSeconds(initialShowTime.getSeconds()+2);
-                                    }
+                                        //initialShowTime.setSeconds(initialShowTime.getSeconds()+(GameValues.showExerciseTime+GameValues.showCorrectIncorrectTime)*intents);
+                                    }*/
                                     break;
-                                case "start interacting":
+                                case GameValues.actionStartInteracting:
                                     console.log("Entra a start interacting");
                                     interactionTime = context.state.times[i].time - initialShowTime;
                                     break;
-                                case "finish correct":
+                                case GameValues.actionFinishCorrect:
+                                    intents+=1;
+                                    hits+=1;
                                     console.log("Entra a finish correct");
-                                    exerciseTime = context.state.times[i].time - initialShowTime + readingTime;
+                                    exerciseTime = context.state.times[i].time - initialReadingTime;
                                     data = {
                                         exercise: exercise,
                                         codificationTime: interactionTime,
                                         completionTime: exerciseTime,
-                                        intents: 1,
-                                        readingTime: readingTime
+                                        intents: intents,
+                                        readingTime: readingTime,
+                                        hits: hits,
+                                        failures: failures,
                                     }
+                                    //Si todavia no se crearon los datos del ejercicio, se crean a partir de los datos obtenidos
                                     if (context.state.exerciseData[exercise - 1] == null){
-                                        console.log("push exercise "+(exercise-1));
-                                        console.log(data);
                                         context.state.exerciseData.push(data);
                                     }
+                                    //Si ya se creo el ejercicio, se saca el promedio de los tiempos
                                     else {
-                                        console.log(data);
-                                        console.log("exercise -1="+ (exercise-1));
-                                        intents = parseInt(context.state.exerciseData[exercise - 1].intents,10) + 1;
-                                        console.log("INTENTS = "+intents);
+                                        let prevAmountHits = parseInt(context.state.exerciseData[exercise-1].hits,10);
+                                        let prevAmountfailures = parseInt(context.state.exerciseData[exercise - 1].failures, 10);
+                                        let prevHitsPlusFailures = prevAmountHits + prevAmountfailures;
+                                        let prevAmountIntents = context.state.exerciseData[exercise-1].intents * (prevAmountHits+prevAmountfailures);
+                                        let prevCodTime = parseFloat(context.state.exerciseData[exercise - 1].codificationTime,10);
+                                        let prevCompletionTime = parseFloat(context.state.exerciseData[exercise - 1].completionTime,10);
+                                        let prevReadingTime = parseFloat(context.state.exerciseData[exercise - 1].readingTime,10);
+
                                         context.state.exerciseData[exercise - 1].exercise = data.exercise;
-                                        context.state.exerciseData[exercise - 1].codificationTime = (parseFloat(context.state.exerciseData[exercise - 1].codificationTime,10) + parseFloat(data.codificationTime,10)) / intents;
-                                        context.state.exerciseData[exercise - 1].completionTime = (parseFloat(context.state.exerciseData[exercise - 1].completionTime,10) + parseFloat(data.completionTime,10));
-                                        context.state.exerciseData[exercise - 1].intents = intents;
-                                        context.state.exerciseData[exercise - 1].readingTime = (parseFloat(context.state.exerciseData[exercise - 1].readingTime,10) + parseFloat(data.readingTime,10)) / intents;
+                                        context.state.exerciseData[exercise - 1].codificationTime = (prevCodTime*prevHitsPlusFailures + parseFloat(data.codificationTime,10)) / (prevHitsPlusFailures+1);
+                                        context.state.exerciseData[exercise - 1].completionTime = ((prevCompletionTime*prevHitsPlusFailures) + parseFloat(data.completionTime,10)) / (prevHitsPlusFailures+1);
+                                        context.state.exerciseData[exercise - 1].intents = (prevAmountIntents * prevHitsPlusFailures + intents) / (prevHitsPlusFailures+1);
+                                        context.state.exerciseData[exercise - 1].readingTime = ((prevReadingTime*prevHitsPlusFailures) + parseFloat(data.readingTime,10)) / (prevHitsPlusFailures+1);
+                                        context.state.exerciseData[exercise - 1].hits = prevAmountHits + hits;
+                                        //context.state.exerciseData[exercise - 1].failures = (parseInt(context.state.exerciseData[exercise - 1].failures,10)+failures);
                                     }
                                     console.log(context.state.exerciseData);
                                     break;
-                                case "finish failure":
-                                    console.log("ENTR AA FNISH FAILURE");
-                                    exerciseTime = context.state.times[i].time - initialShowTime + readingTime;
+                                //Si la respuesta es incorrecta, se añade un intento
+                                case GameValues.actionFinishIncorrect:
+                                    intents+=1;
+                                break;
+                                //Si el ejercicio se responde incorrectamente, se añade un fallo y se guardan los tiempos
+                                case GameValues.actionFinishExercise: {
+                                    failures+=1;
+                                    console.log("ENTR AA FNISH EXERCISE WRONG");
+                                    exerciseTime = context.state.times[i].time - initialReadingTime;
                                     data = {
                                         exercise: exercise,
                                         codificationTime: interactionTime,
                                         completionTime: exerciseTime,
-                                        intents: 1,
-                                        readingTime: readingTime
+                                        intents: intents,
+                                        readingTime: readingTime,
+                                        hits: hits,
+                                        failures: failures,
                                     }
                                     if (context.state.exerciseData[exercise - 1] == null){
-                                        console.log("push exercise "+(exercise-1));
-                                        console.log(data);
                                         context.state.exerciseData.push(data);
                                     }
                                     else {
-                                        intents = parseInt(context.state.exerciseData[exercise - 1],10) + 1;
+                                        let prevAmountHits = parseInt(context.state.exerciseData[exercise-1].hits,10);
+                                        let prevAmountfailures = parseInt(context.state.exerciseData[exercise - 1].failures, 10);
+                                        let prevHitsPlusFailures = prevAmountHits + prevAmountfailures;
+                                        let prevAmountIntents = context.state.exerciseData[exercise-1].intents * (prevAmountHits+prevAmountfailures);
+                                        let prevCodTime = parseFloat(context.state.exerciseData[exercise - 1].codificationTime,10);
+                                        let prevCompletionTime = parseFloat(context.state.exerciseData[exercise - 1].completionTime,10);
+                                        let prevReadingTime = parseFloat(context.state.exerciseData[exercise - 1].readingTime,10);
+
                                         context.state.exerciseData[exercise - 1].exercise = data.exercise;
-                                        context.state.exerciseData[exercise - 1].codificationTime = (parseInt(context.state.exerciseData[exercise - 1].codificationTime,10) + parseInt(data.codificationTime),10) / intents;
-                                        context.state.exerciseData[exercise - 1].completionTime = (parseInt(context.state.exerciseData[exercise - 1].completionTime,10) + parseInt(data.completionTime,10));
-                                        context.state.exerciseData[exercise - 1].intents = intents;
-                                        context.state.exerciseData[exercise - 1].readingTime = (parseInt(context.state.exerciseData[exercise - 1].readingTime,10) + parseInt(data.readingTime,10)) / intents;
+                                        context.state.exerciseData[exercise - 1].codificationTime = (prevCodTime*prevHitsPlusFailures + parseFloat(data.codificationTime,10)) / (prevHitsPlusFailures+1);
+                                        context.state.exerciseData[exercise - 1].completionTime = ((prevCompletionTime*prevHitsPlusFailures) + parseFloat(data.completionTime,10)) / (prevHitsPlusFailures+1);
+                                        context.state.exerciseData[exercise - 1].intents = (prevAmountIntents * prevHitsPlusFailures + intents) (prevHitsPlusFailures+1);
+                                        context.state.exerciseData[exercise - 1].readingTime = ((prevReadingTime*prevHitsPlusFailures) + parseFloat(data.readingTime,10)) / (prevHitsPlusFailures+1);
+                                        //context.state.exerciseData[exercise - 1].hits = prevAmountHits + hits;
+                                        context.state.exerciseData[exercise - 1].failures = prevAmountfailures + 1;
                                     }
                                     console.log("DDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDD")
                                     console.log(context.state.exerciseData);
-                                    lastAction = "finishFailure";
+                                    lastAction = GameValues.actionFinishIncorrect;
                                     break;
+                                }
                                     default: console.log("Entra a default"); break;
                             }
                             i += 1;

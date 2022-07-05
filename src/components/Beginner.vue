@@ -28,13 +28,23 @@
 
 <script>
 import '../assets/common.scss'
+import * as GameValues from "@/Games/gamevalues";
+import * as GameMethods from "@/Games/gamemethods";
+
 export default {
   name: "MyStart",
+  data() {
+    return {
+      gameValues: GameValues,
+      gameMethods: GameMethods,
+    }
+  },
   methods: {
     finishBegin: function(){
       this.$emit('finishBegin')
+      GameMethods.saveTime(1.1, GameValues.actionStartReading,this.$store.state.intent+1);
       }
-    },
+  },
 }
 
 </script>

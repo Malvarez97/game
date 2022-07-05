@@ -125,7 +125,7 @@ export const actionFinishCorrect = "finish correct";
 export const actionFinishIncorrect = "finish failure";
 export const actionShowExercise = "show";
 export const actionStartReading = "start reading";
-export const actionFinishReading = "finish reading";
+//export const actionFinishReading = "finish reading";
 export const actionFinishExercise = "finish exercise";
 export const actionStartInteracting = "start interacting";
 

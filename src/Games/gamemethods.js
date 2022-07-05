@@ -243,7 +243,7 @@ export function getLoseExercise(){
 export function getNextGeneralState(){
     console.log("El estado actual es = "+store.state.currentExercise);
     switch (store.state.currentExercise){
-        case 1.1: console.log("Entra al 1.1"); return 1.2;
+        case 1.1: return 1.2;
         case 1.2: return 2.1;
         case 2.1: return 2.2;
         case 2.2: return 3;
@@ -379,30 +379,29 @@ export function nextLocalState(){
     if (getCorrectResponse()){
         //Se ejecuta el audio de correcto, se guarda el tiempo, se resetean las variables y se realiza la transicion de pantallas
         reproduceAudio(GameValues.successAudio);
-        saveTime(parseInt(store.state.currentExercise,10),GameValues.actionFinishExercise,store.state.intent);
+        saveTime(store.state.currentExercise,GameValues.actionFinishCorrect,store.state.intent);
         resetIntent();
         //Si el usuario contesta correctamente se pasa al ejercicio siguiente
         let nextGeneralState = getNextGeneralState();
-        console.log("NExt general state = "+getNextGeneralState());
+        console.log("NExt general state = "+nextGeneralState);
         console.log("Esta mal "+((nextGeneralState - Math.floor(nextGeneralState)).toFixed(1)));
         //Si el ejercicio tiene segunda parte, pasamos a la segunda parte de la explicacion, sino a la primera
         switch (((nextGeneralState - Math.floor(nextGeneralState)).toFixed(1))){
             case "0.0": transition(getWaitingQuadrant(),GameValues.correctTransition,GameValues.firstPartExplanation); break;
             case "0.1": transition(getWaitingQuadrant(),GameValues.correctTransition,GameValues.firstPartExplanation); break;
             //Si el ejercicio tiene segunda parte, tambien guardamos el tiempo de cuando se empieza a leer el otro ejercicio
-            case "0.2": console.log("entro al 0.2"); transition(getWaitingQuadrant(),GameValues.correctTransition,GameValues.secondPartExplanation);
-                saveTime(nextGeneralState, GameValues.actionStartReading, store.state.intent+1);
-                break;
+            case "0.2": console.log("entro al 0.2"); transition(getWaitingQuadrant(),GameValues.correctTransition,GameValues.secondPartExplanation); break;
         }
         //Guardamos el estado siguiente para cambiarse luego de la transicion
-        setNextGeneralState(getNextGeneralState());
+        setNextGeneralState(nextGeneralState);
+        //store.dispatch('calculateSessionValues');
     }
     //Si fue incorrecta
     else {
         console.log("LImite de intentos = "+getLimitAttempts());
         console.log("intet = "+store.state.intent);
         //Se guarda el tiempo de fallo
-        saveTime(parseInt(store.state.currentExercise,10),GameValues.actionFinishIncorrect,store.state.intent);
+        saveTime(store.state.currentExercise,GameValues.actionFinishIncorrect,store.state.intent);
         reproduceAudio(GameValues.errorAudio);
         //Si no fue el ultimo intento se hace la transicion
         if (store.state.intent < getLimitAttempts()) {
@@ -427,8 +426,10 @@ export function nextLocalState(){
             transition(getWaitingQuadrant(),GameValues.incorrectTransition,GameValues.firstPartExplanation);
             //Se resetea la variable de cantidad de intentos
             resetIntent();
+            saveTime(store.state.currentExercise,GameValues.actionFinishExercise,store.state.intent);
             setAlert(GameValues.errorIcon,GameValues.defaultErrorTitle+Math.floor(getLoseExercise()),"");
             setNextGeneralState(getLoseExercise());
+            store.dispatch('calculateSessionValues');
         }
     }
 }
@@ -436,10 +437,6 @@ export function nextLocalState(){
 //dos segundos y luego vuelve al estado indicado
 export function transition(quadrantWaitingState,waitingState,nextGameState){
     waitAndNextGameState(quadrantWaitingState,waitingState,nextGameState);
-    //Si vuelve a hacer el ejercicio, guardo el tiempo en que se muestra la pantalla nuevamente
-    if (nextGameState == store.state.gameState){
-        saveTime(parseInt(store.state.currentExercise,10),GameValues.actionShowExercise,store.state.intent+1);
-    }
 }
 //Metodo que se ejecuta al clickear el boton de siguiente o completar el ejercicio correctamente\
 //Este metodo setea los valores del juego, estado, tipo de ejercicio y guarda tiempos en pantallas explicativas
