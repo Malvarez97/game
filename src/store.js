@@ -61,6 +61,8 @@ export default new Vuex.Store({
         explanations: [],
         resetIntent: false,
         clicked:false,
+        backgroundColor:"#2C3E50",
+        letterColor:"white"
     },
     mutations:{
         setPause(state,pause){
@@ -322,6 +324,14 @@ export default new Vuex.Store({
         },
     },
     actions:{
+        changeBackgroundColor(context,color){
+            context.state.backgroundColor=color.toString();
+            console.log("cambio al color  del fondo a "+color);
+        },
+        changeLetterColor(context,color){
+            context.state.letterColor=color.toString();
+            console.log("cambio al color de la letra  "+color);
+        },
         waitingStateToNextGameState(context,data){
             console.log("entro al esperar");
             context.commit('changeGameState',data.quadrantWaitingState);

@@ -58,7 +58,7 @@
 import Game1 from "@/Games/Game1";
 import Beginner from "@/components/Beginner";
 import Chart from "@/components/Chart";
-//import {enterFullscreen} from 'request-fullscreen-js';
+import {enterFullscreen} from 'request-fullscreen-js';
 import * as GameValues from './Games/gamevalues.js';
 import * as GameMethods from './Games/gamemethods.js';
 import ExcerciseInstruction from "@/components/ExcesiceInstruction";
@@ -141,6 +141,9 @@ export default {
     }
   },
     created(){
+    // Metodos listos para cambiar de color cuando el Profrsional lo desee
+    //GameMethods.changeBackgroundColor("orange");
+      //GameMethods.changeLetterColor("black");
     //this.idsOrder = this.generateQuadrantsPosition(4);
     //this.generateRandomIds(this.quadrantIds,4);
     this.generateQuadrants();
@@ -155,7 +158,7 @@ export default {
     this.$store.commit('setAudioHint',audioHint);
     this.$store.commit('setAudioVictory',audioVictory);
     addEventListener("click", () => {
-      //enterFullscreen();
+      enterFullscreen();
       if (this.$store.state.pause){
         if (this.$store.state.seconds != 0){
           console.log("entro aca");

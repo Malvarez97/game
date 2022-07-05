@@ -1,7 +1,11 @@
 <template>
     <v-app >
-      <v-row  class="col" :key="col" v-for="col in 2" >
-        <v-col class="row" :key="row" v-for="row in 2">
+      <v-row  :style="{backgroundColor: this.$store.state.backgroundColor}"
+              class="col" :key="col" v-for="col in 2" >
+        <v-col class="row"
+               :key="row"
+               v-for="row in 2"
+                >
           <MyQuadrantVue :quadrant="this.$store.state.quadrantsArrangement[parseInt(this.id,10)][(row-1)+(col-1)*2]"
                          :idMyGame="this.id"
                          :idQuadrant="(row-1)+(col-1)*2"
@@ -58,6 +62,7 @@ export default {
       dragsChecked:0,
       gameValues: GameValues,
       gameMethods: GameMethods,
+      backgroundColor:"#2C3E50"
     }
   },
   computed:{
@@ -279,7 +284,6 @@ export default {
 .row {
   height: 50vh;
   width: 50vw;
-  background-color: #2C3E50;
   border:white;
   border:2px solid greenyellow;
 }

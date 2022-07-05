@@ -2,13 +2,13 @@
   <div class="container">
   <!-- Show words and ids  -->
       <div v-show="$store.state.gameState==gameValues.showWordsAndIds" class="game-container">
-        <h1 v-if="this.quadrant.showId" class="positionUp">{{ this.quadrant.Id.toUpperCase() }} </h1>
-        <h1 v-if="this.quadrant.showWord" class="positionCenter">{{ this.quadrant.word.toUpperCase() }} </h1>
+        <h1 v-if="this.quadrant.showId" :style="{color: this.$store.state.letterColor}"  class="positionUp">{{ this.quadrant.Id.toUpperCase() }} </h1>
+        <h1 v-if="this.quadrant.showWord" :style="{color: this.$store.state.letterColor}"  class="positionCenter">{{ this.quadrant.word.toUpperCase() }} </h1>
       </div>
     <!-- Show all  -->
     <div v-show="$store.state.gameState==gameValues.showAll" class="game-container">
-      <h1 class="positionUp">{{ this.quadrant.Id.toUpperCase() }} </h1>
-      <h1 class="positionCenter">{{ this.quadrant.word.toUpperCase() }} </h1>
+      <h1 :style="{color: this.$store.state.letterColor}"  class="positionUp">{{ this.quadrant.Id.toUpperCase() }} </h1>
+      <h1 :style="{color: this.$store.state.letterColor}" class="positionCenter">{{ this.quadrant.word.toUpperCase() }} </h1>
     </div>
   <!-- Complete words  -->
       <div v-show="$store.state.gameState==gameValues.completeWords"  >
@@ -39,7 +39,7 @@
     </div>
     <!-- Show Words Complete Ids -->
     <div v-show="$store.state.gameState==gameValues.showWordsCompleteIds" class="game-container"  >
-      <h1 v-if="this.quadrant.showWord" class="positionCenter"> {{ this.quadrant.word.toUpperCase() }} </h1>
+      <h1 v-if="this.quadrant.showWord" :style="{color: this.$store.state.letterColor}"   class="positionCenter"> {{ this.quadrant.word.toUpperCase() }} </h1>
       <div v-show=!validateShort&&shortIsEmpty&&!blocking class="game-container" @click="setFocusStoppedWriting()">
         <input ref="wordStoppedWritingSWCI" class="positionUp inputEmpty id" v-model="input">
       </div>
@@ -67,7 +67,7 @@
   </div>
   <!-- Show ids complete words  -->
   <div v-show="$store.state.gameState==gameValues.showIdsCompleteWords" class="game-container" >
-    <h1 v-if="this.quadrant.showId" class="positionUp">{{ this.quadrant.Id.toUpperCase() }} </h1>
+    <h1 v-if="this.quadrant.showId" :style="{color: this.$store.state.letterColor}"  class="positionUp">{{ this.quadrant.Id.toUpperCase() }} </h1>
     <div class="game-container" v-show=!validateLong&&longIsEmpty @click="setFocusStoppedWriting()">
       <input ref="wordStoppedWritingSICW" class="positionCenter inputEmpty" v-model="inputCenter">
     </div>

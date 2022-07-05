@@ -17,6 +17,14 @@ export function restore(){
 export function setPause(pause){
     store.dispatch('setPause',pause);
 }
+//Cambia el color del fondo de la explicacion
+export function changeBackgroundColor(color){
+    store.dispatch('changeBackgroundColor',color);
+}
+//Cambia el color de la letra
+export function changeLetterColor(color){
+    store.dispatch('changeLetterColor',color);
+}
 //Restaura el cronometro que lleva la cuenta del tiempo de inactividad del usuario en el juego
 export function restartInterval(){
     store.dispatch('restartInterval');
