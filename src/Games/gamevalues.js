@@ -20,6 +20,11 @@ export const congratulationsScreen = 15;
 export const pauseScreen = 16;
 export const highlightWrongAnswer = 17;
 export const showWrongAnswer = 18;
+export const showIdsAndWrongWords = 19;
+export const showHideWordsAndWrongWords = 20;
+export const showIdsShowHideWordsAndWrongWords = 21;
+export const showWordsAndWrongIds = 22;
+export const showIds = 23;
 
 //Ejercicio al que se volveria si se pierde en determinado ejercicio
 export const loseExercise1 = 1.1;
@@ -180,24 +185,24 @@ export const exercise4WaitingQuadrant = showWrongAnswer;
 export const exercise4FinalWaitingQuadrant = showWrongAnswer;
 export const exercise5WaitingQuadrant = highlightWrongValues;
 export const exercise5FinalWaitingQuadrant = highlightWrongValues;
-export const exercise6WaitingQuadrant = exercise6State;
-export const exercise6FinalWaitingQuadrant = showWrongAnswer;
-export const exercise7WaitingQuadrant = exercise7State;
-export const exercise7FinalWaitingQuadrant = showWrongAnswer;
+export const exercise6WaitingQuadrant = showIdsAndWrongWords;
+export const exercise6FinalWaitingQuadrant = showIdsAndWrongWords;
+export const exercise7WaitingQuadrant = showIdsAndWrongWords;
+export const exercise7FinalWaitingQuadrant = showIdsAndWrongWords;
 export const exercise8WaitingQuadrant = exercise8State;
-export const exercise8FinalWaitingQuadrant = showWrongAnswer;
-export const exercise9WaitingQuadrant = exercise9State;
-export const exercise9FinalWaitingQuadrant = showWrongAnswer;
-export const exercise10WaitingQuadrant = exercise10State;
-export const exercise10FinalWaitingQuadrant = showWrongAnswer;
-export const exercise11WaitingQuadrant = exercise11State;
+export const exercise8FinalWaitingQuadrant = exercise8State;
+export const exercise9WaitingQuadrant = showHideWordsAndWrongWords;
+export const exercise9FinalWaitingQuadrant = showHideWordsAndWrongWords;
+export const exercise10WaitingQuadrant = showIdsShowHideWordsAndWrongWords;
+export const exercise10FinalWaitingQuadrant = showIdsShowHideWordsAndWrongWords;
+export const exercise11WaitingQuadrant = showIdsShowHideWordsAndWrongWords;
 export const exercise11FinalWaitingQuadrant = highlightWrongAnswer;
-export const exercise12WaitingQuadrant = exercise12State;
+export const exercise12WaitingQuadrant = showIdsShowHideWordsAndWrongWords;
 export const exercise12FinalWaitingQuadrant = highlightWrongAnswer;
-export const exercise13WaitingQuadrant = exercise13State;
+export const exercise13WaitingQuadrant = showIdsShowHideWordsAndWrongWords;
 export const exercise13FinalWaitingQuadrant = highlightWrongAnswer;
-export const exercise14WaitingQuadrant = exercise14State;
-export const exercise14FinalWaitingQuadrant = showWrongAnswer;
+export const exercise14WaitingQuadrant = showWordsAndWrongIds;
+export const exercise14FinalWaitingQuadrant = showWordsAndWrongIds;
 
 //El juego tiene pantalla intermedia?
 export const exercise1sub1HasIntermediateScreen = true;
@@ -223,6 +228,29 @@ export const exercise2sub1IntermediateScreen = showWordsAndIds;
 export const exercise10IntermediateScreen = showAll;
 export const exercise11IntermediateScreen = showAll;
 export const exercise12IntermediateScreen = showAll;
+
+//El juego tiene explicacion intermedia?
+export const exercise1sub1HasIntermediateExplanation = false;
+export const exercise1sub2HasIntermediateExplanation = true;
+export const exercise2sub1HasIntermediateExplanation = false;
+export const exercise2sub2HasIntermediateExplanation = true;
+export const exercise3HasIntermediateExplanation = false;
+export const exercise4HasIntermediateExplanation = false;
+export const exercise5HasIntermediateExplanation = false;
+export const exercise6HasIntermediateExplanation = false;
+export const exercise7HasIntermediateExplanation = false;
+export const exercise8HasIntermediateExplanation = false;
+export const exercise9HasIntermediateExplanation = false;
+export const exercise10HasIntermediateExplanation = false;
+export const exercise11HasIntermediateExplanation = false;
+export const exercise12HasIntermediateExplanation = false;
+export const exercise13HasIntermediateExplanation = false;
+export const exercise14HasIntermediateExplanation = false;
+
+//Pantalla intermedia de los ejercicios
+export const exercise1sub2IntermediateExplanation = showIds;
+export const exercise2sub2IntermediateExplanation = showIds;
+
 
 //Pantalla siguiente de ejercicios que muestran la solucion y hay que poner siguiente
 export const exercise1sub1StateAfterShow = completeWords;

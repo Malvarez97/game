@@ -62,7 +62,8 @@ export default new Vuex.Store({
         resetIntent: false,
         clicked:false,
         backgroundColor:"#2C3E50",
-        letterColor:"white"
+        letterColor:"white",
+        permissionToClick: true,
     },
     mutations:{
         setPause(state,pause){
@@ -203,6 +204,7 @@ export default new Vuex.Store({
             this.state.quadrant4.restoreQuadrant();
             this.state.exerciseTime = 0;
             this.state.clicked=false;
+            this.state.permissionToClick = true;
         },
         checkExercise(){
             console.log("Type of exercise = "+this.state.typeOfExercise);

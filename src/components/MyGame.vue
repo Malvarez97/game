@@ -62,7 +62,7 @@ export default {
       dragsChecked:0,
       gameValues: GameValues,
       gameMethods: GameMethods,
-      backgroundColor:"#2C3E50"
+      backgroundColor:"#2C3E50",
     }
   },
   computed:{
@@ -91,7 +91,7 @@ export default {
     },
     addIncorrectClick: function(){
       this.clicks+=1;
-      if (this.clicks == 2){
+      if (this.clicks == 2) {
         this.finishCheck(false);
       }
     },
@@ -234,6 +234,7 @@ export default {
       this.wordsChecked = 0;
       this.idsChecked = 0;
       this.correctClick = 0;
+      this.$store.state.permissionToClick = false;
       this.clicks = 0;
       this.correctDrag = 0;
       this.dragsChecked = 0;
@@ -243,7 +244,6 @@ export default {
       if (!GameMethods.isInIntermediateScreen()){
          this.$store.state.clicked=true;
       }
-
     },
   },
 

@@ -371,12 +371,42 @@ export function getIntermediateScreen(){
         case 12: return GameValues.exercise12IntermediateScreen;
     }
 }
+export function hasIntermediateExplanation(){
+    console.log("INTERMEDIATE EXERCISE ="+store.state.currentExercise);
+    switch(store.state.currentExercise){
+        case 1.1: return GameValues.exercise1sub1HasIntermediateExplanation;
+        case 1.2: return GameValues.exercise1sub2HasIntermediateExplanation;
+        case 2.1: return GameValues.exercise2sub1HasIntermediateExplanation;
+        case 2.2: return GameValues.exercise2sub2HasIntermediateExplanation;
+        case 3: return GameValues.exercise3HasIntermediateExplanation;
+        case 4: return GameValues.exercise4HasIntermediateExplanation;
+        case 5: return GameValues.exercise5HasIntermediateExplanation;
+        case 6: return GameValues.exercise6HasIntermediateExplanation;
+        case 7: return GameValues.exercise7HasIntermediateExplanation;
+        case 8: return GameValues.exercise8HasIntermediateExplanation;
+        case 9: return GameValues.exercise9HasIntermediateExplanation;
+        case 10: return GameValues.exercise10HasIntermediateExplanation;
+        case 11: return GameValues.exercise11HasIntermediateExplanation;
+        case 12: return GameValues.exercise12HasIntermediateExplanation;
+        case 13: return GameValues.exercise13HasIntermediateExplanation;
+        case 14: return GameValues.exercise14HasIntermediateExplanation;
+    }
+}
+export function getIntermediateExplanation(){
+    switch(store.state.currentExercise){
+        case 1.2: return GameValues.exercise1sub2IntermediateExplanation;
+        case 2.2: return GameValues.exercise2sub2IntermediateExplanation;
+    }
+}
 export function isInIntermediateScreen() {
     switch (store.state.gameState) {
         case GameValues.showWordsAndIds:
         case GameValues.showAll :
+        case GameValues.showIds :
+            console.log("Estoy en UNAAAAAAAAAAAA DE LAS 333333333333333333333333333333333333333333");
             return true;
         default:
+            console.log("ESTOY EN NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN "+getGameState());
             return false;
     }
 }
@@ -414,7 +444,13 @@ export function nextLocalState(){
         //Si no fue el ultimo intento se hace la transicion
         if (store.state.intent < getLimitAttempts()) {
             //Transiciono a un estado incorrecto y luego al mismo estado de juego
-            transition(getWaitingQuadrant(),GameValues.incorrectTransition,store.state.gameState);
+            if (hasIntermediateExplanation()){
+                console.log("TIENE EXPLICACION INTERMEDIA");
+                transition(getWaitingQuadrant(),GameValues.incorrectTransition,getIntermediateExplanation());
+            }
+            else{
+                transition(getWaitingQuadrant(),GameValues.incorrectTransition,store.state.gameState);
+            }
             //Si queda solo 1 intento restante
             if (store.state.intent == getLimitAttempts() - 1){
                 //Si el ejercicio tiene ayuda, la activo y le notifico al usuario
@@ -475,6 +511,7 @@ export function changeValues() {
         //Estados en los cuales se muestra la solucion del juego como estado intermedio entre la explicacion y el ejercicio
         case GameValues.showWordsAndIds:
         case GameValues.showAll:
+        case GameValues.showIds:
             changeGameState(getExerciseState());
             break;
         default:

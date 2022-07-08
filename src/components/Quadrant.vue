@@ -5,6 +5,10 @@
         <h1 v-if="this.quadrant.showId" :style="{color: this.$store.state.letterColor}"  class="positionUp">{{ this.quadrant.Id.toUpperCase() }} </h1>
         <h1 v-if="this.quadrant.showWord" :style="{color: this.$store.state.letterColor}"  class="positionCenter">{{ this.quadrant.word.toUpperCase() }} </h1>
       </div>
+    <!-- Show ids  -->
+    <div v-show="$store.state.gameState==gameValues.showIds" class="game-container">
+      <h1 v-if="this.quadrant.showId" :style="{color: this.$store.state.letterColor}"  class="positionUp">{{ this.quadrant.Id.toUpperCase() }} </h1>
+    </div>
     <!-- Show all  -->
     <div v-show="$store.state.gameState==gameValues.showAll" class="game-container">
       <h1 :style="{color: this.$store.state.letterColor}"  class="positionUp">{{ this.quadrant.Id.toUpperCase() }} </h1>
@@ -55,7 +59,7 @@
     </div>
   <!-- Butttons -->
   <div v-show="$store.state.gameState==gameValues.buttons" class="game-container">
-    <v-btn v-show="clicked<1&&!correctClick&&!incorrectClick" @click="clicked+=1" outline rounded class=" positionCenter btn-8" fab color="#4758B8">
+    <v-btn v-show="!correctClick&&!incorrectClick" @click="clicked+=1" outline rounded class=" positionCenter btn-8" fab color="#4758B8">
       {{this.quadrant.word.toUpperCase()}}
     </v-btn>
     <v-btn v-show="clicked>=1&&correctClick" @click="clicked+=1" outline rounded class=" positionCenter btn-correct btn-8" fab color="#4758B8"  >
@@ -95,9 +99,9 @@
   </div>
   <!-- Show ids show Words complete Words -->
   <div v-show="$store.state.gameState==gameValues.showIdsShowWordsCompleteWords" class="game-container" >
-    <h1 class="positionUp correct">{{ this.quadrant.Id.toUpperCase() }} </h1>
+    <h1 class="positionUp">{{ this.quadrant.Id.toUpperCase() }} </h1>
     <div class="game-container" v-show=!this.quadrant.showWord >
-      <h1 class="positionCenter correct" > {{this.quadrant.word.toUpperCase() }} </h1>
+      <h1 class="positionCenter" > {{this.quadrant.word.toUpperCase() }} </h1>
     </div>
     <div class="game-container" v-show=this.quadrant.showWord&&!validateLong&&longIsEmpty @click="setFocusStoppedWriting()">
       <input ref="wordStoppedWritingSISWCW" class="positionCenter inputEmpty" v-model="inputCenter">
@@ -106,7 +110,7 @@
       <input ref="wordWritingSISWCW" class="positionCenter inputFail" v-model="inputCenter">
     </div>
     <div class="game-container" v-show=this.quadrant.showWord&&validateLong>
-      <h1 class="positionCenter correct">{{ this.quadrant.word.toUpperCase() }} ✔</h1>
+      <h1 class="positionCenter">{{ this.quadrant.word.toUpperCase() }} ✔</h1>
     </div>
   </div>
   <!-- Draggable -->
@@ -159,6 +163,66 @@
       <h1 class="positionCenter incorrect" > {{this.inputCenter.toUpperCase() }} </h1>
     </div>
   </div>
+    <!-- Show ids and wrong words -->
+    <div v-show="$store.state.gameState==gameValues.showIdsAndWrongWords" class="game-container">
+      <h1 class="positionUp correct">{{ this.quadrant.Id.toUpperCase() }} </h1>
+      <div v-show="!this.quadrant.showWord&&this.inputCenter!=''" class="game-container">
+        <h1 class="positionCenter incorrect" > {{this.inputCenter.toUpperCase() }} </h1>
+      </div>
+      <div v-show="this.quadrant.showWord&&this.correctWord&&$store.state.typeOfExercise=='words'" class="game-container">
+        <h1 class="positionCenter correct" > {{this.quadrant.word.toUpperCase() }} </h1>
+      </div>
+      <div v-show="this.quadrant.showWord&&this.correctWord&&$store.state.typeOfExercise=='category'" class="game-container">
+        <h1 class="positionCenter correct" > {{this.quadrant.category.toUpperCase() }} </h1>
+      </div>
+      <div v-show="this.quadrant.showWord&&!this.correctWord" class="game-container">
+        <h1 class="positionCenter incorrect" > {{this.inputCenter.toUpperCase() }} </h1>
+      </div>
+    </div>
+    <!-- Show hide words and wrong words -->
+    <div v-show="$store.state.gameState==gameValues.showHideWordsAndWrongWords" class="game-container">
+      <div v-show="!this.quadrant.showWord" class="game-container">
+        <h1 class="positionCenter correct" > {{this.quadrant.word.toUpperCase() }} </h1>
+      </div>
+      <div v-show="this.quadrant.showWord&&this.correctWord&&$store.state.typeOfExercise=='words'" class="game-container">
+        <h1 class="positionCenter correct" > {{this.quadrant.word.toUpperCase() }} </h1>
+      </div>
+      <div v-show="this.quadrant.showWord&&this.correctWord&&$store.state.typeOfExercise=='category'" class="game-container">
+        <h1 class="positionCenter correct" > {{this.quadrant.category.toUpperCase() }} </h1>
+      </div>
+      <div v-show="this.quadrant.showWord&&!this.correctWord" class="game-container">
+        <h1 class="positionCenter incorrect" > {{this.inputCenter.toUpperCase() }} </h1>
+      </div>
+    </div>
+    <!-- Show ids show hide words and wrong words -->
+    <div v-show="$store.state.gameState==gameValues.showIdsShowHideWordsAndWrongWords" class="game-container">
+      <h1 class="positionUp correct">{{ this.quadrant.Id.toUpperCase() }} </h1>
+      <div v-show="!this.quadrant.showWord" class="game-container">
+        <h1 class="positionCenter correct" > {{this.quadrant.word.toUpperCase() }} </h1>
+      </div>
+      <div v-show="this.quadrant.showWord&&this.correctWord&&$store.state.typeOfExercise=='words'" class="game-container">
+        <h1 class="positionCenter correct" > {{this.quadrant.word.toUpperCase() }} </h1>
+      </div>
+      <div v-show="this.quadrant.showWord&&this.correctWord&&$store.state.typeOfExercise=='category'" class="game-container">
+        <h1 class="positionCenter correct" > {{this.quadrant.category.toUpperCase() }} </h1>
+      </div>
+      <div v-show="this.quadrant.showWord&&!this.correctWord" class="game-container">
+        <h1 class="positionCenter incorrect" > {{this.inputCenter.toUpperCase() }} </h1>
+      </div>
+    </div>
+    <!-- Show words and wrong ids -->
+    <div v-show="$store.state.gameState==gameValues.showWordsAndWrongIds" class="game-container">
+      <div v-show="!this.quadrant.showId&&this.input!=''" class="game-container">
+        <h1 class="positionUp incorrect" > {{this.input.toUpperCase() }} </h1>
+      </div>
+      <div v-show="this.quadrant.showId&&this.correctId" class="game-container">
+        <h1 class="positionUp correct" > {{this.quadrant.Id.toUpperCase() }} </h1>
+      </div>
+      <div v-show="this.quadrant.showId&&!this.correctId" class="game-container">
+        <h1 class="positionUp incorrect" > {{this.input.toUpperCase() }} </h1>
+      </div>
+      <h1 class="positionCenter correct">{{ this.quadrant.word.toUpperCase() }} </h1>
+    </div>
 </div>
 </template>
 
@@ -430,22 +494,24 @@ export default {
     },
     clickedWord(){
       //this.clicked = true;
-      if (this.clicked==1){
-        console.log("entro al click bien");
-        if (!this.$store.state.buttonEnd){
-          this.$store.commit('changeButtonEnd',true);
-          this.$emit('writeLetter');
-        }
+      if (this.$store.state.permissionToClick){
+        if (this.clicked==1){
+          console.log("entro al click bien");
+          if (!this.$store.state.buttonEnd){
+            this.$store.commit('changeButtonEnd',true);
+            this.$emit('writeLetter');
+          }
 
-        if (this.quadrant.category != this.$store.state.firstCategory && this.quadrant.category != this.$store.state.secondCategory){
-          console.log("Correcto");
-          this.$emit('correctClick');
-          this.correctClick = true;
-        }
-        else{
-          console.log("Incorrecto");
-          this.$emit('incorrectClick');
-          this.incorrectClick = true;
+          if (this.quadrant.category != this.$store.state.firstCategory && this.quadrant.category != this.$store.state.secondCategory){
+            console.log("Correcto");
+            this.$emit('correctClick',this);
+            this.correctClick = true;
+          }
+          else{
+            console.log("Incorrecto");
+            this.$emit('incorrectClick',this);
+            this.incorrectClick = true;
+          }
         }
       }
     },

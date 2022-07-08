@@ -7,12 +7,17 @@
     <!-- Pantallas de juego -->
     <div  v-show="$store.state.gameState == gameValues.showAll ||
                   $store.state.gameState==gameValues.showWordsAndIds ||
+                  $store.state.gameState==gameValues.showIds ||
                   $store.state.gameState==gameValues.completeWords ||
                   $store.state.gameState==gameValues.completeIds ||
                   $store.state.gameState==gameValues.draggable ||
                   $store.state.gameState==gameValues.highlightWrongValues ||
                   $store.state.gameState==gameValues.highlightWrongAnswer ||
                   $store.state.gameState==gameValues.showWrongAnswer ||
+                  $store.state.gameState==gameValues.showIdsAndWrongWords ||
+                  $store.state.gameState==gameValues.showHideWordsAndWrongWords ||
+                  $store.state.gameState==gameValues.showIdsShowHideWordsAndWrongWords ||
+                  $store.state.gameState==gameValues.showWordsAndWrongIds ||
                   $store.state.gameState==gameValues.showIdsCompleteWords ||
                   $store.state.gameState==gameValues.buttons ||
                   $store.state.gameState==gameValues.showWordsCompleteCategories ||
