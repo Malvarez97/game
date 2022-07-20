@@ -7,7 +7,7 @@ export default new Vuex.Store({
         firstLetter:true,
         firstLetterWord:false,
         generalState: 0,
-        gameState: GameValues.firstPartExplanation,
+        gameState: GameValues.explanation,
         lastGameState: 0,
         exerciseExplanation: 0,
         times: [],
@@ -64,6 +64,11 @@ export default new Vuex.Store({
         backgroundColor:"#2C3E50",
         letterColor:"white",
         permissionToClick: true,
+        explanationAudios: [],
+        categoryAudios: [],
+        audioPointer: 0,
+        audioArray: [],
+        currentAudio: null,
     },
     mutations:{
         setPause(state,pause){
@@ -369,7 +374,7 @@ export default new Vuex.Store({
                                 context.state.resetIntent = false;
                             }
                             //Si cambio de ejercicio guardo el tiempo en que el paciente empieza a leer el ejercicio
-                            if (data.nextGameState == GameValues.firstPartExplanation || data.nextGameState == GameValues.secondPartExplanation){
+                            if (data.nextGameState == GameValues.explanation){
                                 console.log("CAMBIO DE EJERCICIO, ACTION = "+GameValues.actionStartReading);
                                 context.commit('writeTimes',{exercisenumber:context.state.nextGeneralState,action:GameValues.actionStartReading,intent:context.state.intent+1});
                             }

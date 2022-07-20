@@ -1,7 +1,7 @@
 <template>
   <v-app >
     <!-- Explicaciones del juego  -->
-    <div v-show="$store.state.gameState==gameValues.firstPartExplanation || $store.state.gameState==gameValues.secondPartExplanation" >
+    <div v-show="$store.state.gameState==gameValues.explanation || $store.state.gameState==gameValues.secondExplanation" >
       <ExerciseInstruction @finishExplanation="gameMethods.changeValues();" ></ExerciseInstruction>
     </div>
     <!-- Pantallas de juego -->

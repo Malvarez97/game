@@ -166,6 +166,12 @@ export default {
         }
       }
     });
+    var audioEjercicio1_1 = new Audio(require('./assets/Audios/Ejercicios/Ejercicio1_1.mp3'));
+    var audioEjercicio1_2 = new Audio(require('./assets/Audios/Ejercicios/Ejercicio1_2.mp3'));
+    var audioCategoria_masculino = new Audio(require('./assets/Audios/Ejercicios/Masculino.mp3'));
+    this.$store.state.explanationAudios.push(audioEjercicio1_1);
+    this.$store.state.explanationAudios.push(audioEjercicio1_2);
+    this.$store.state.categoryAudios.push(audioCategoria_masculino);
    /* addEventListener("mousedown", () => {
       if (this.$store.state.generalState == 5){
         let mousex = event.clientX; // Gets Mouse X

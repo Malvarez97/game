@@ -43,7 +43,27 @@ export default {
     finishBegin: function(){
       this.$emit('finishBegin')
       GameMethods.saveTime(1.1, GameValues.actionStartReading,this.$store.state.intent+1);
+      let audioArray = [];
+      this.$store.state.audioArray.push(this.$store.state.explanationAudios[0]);
+      this.$store.state.audioArray.push(this.$store.state.categoryAudios[0]);
+      this.$store.state.audioArray.push(this.$store.state.explanationAudios[1]);
+      this.playAudios(audioArray);
+
+     },
+    playAudios: function(){
+      console.log("llamo al audio pla");
+      console.log("audio array length = "+this.$store.state.audioArray.length);
+      console.log("audio pointer = "+this.$store.state.audioPointer);
+      if (this.$store.state.audioPointer < this.$store.state.audioArray.length) {
+        this.$store.state.currentAudio = this.$store.state.audioArray[this.$store.state.audioPointer];
+        this.$store.state.currentAudio.addEventListener("ended", this.playAudios);
+        this.$store.state.currentAudio.play();
+        this.$store.state.audioPointer = this.$store.state.audioPointer + 1;
+        console.log("sumo 1");
+      } else {
+        console.log("finished");
       }
+    }
   },
 }
 

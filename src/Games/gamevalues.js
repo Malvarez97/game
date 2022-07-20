@@ -1,8 +1,8 @@
 //Valores constantes del juego
 
 //Estados del juego
-export const firstPartExplanation = 0;
-export const secondPartExplanation = 1;
+export const explanation = 0;
+export const secondExplanation = 1;
 export const showWordsAndIds = 2;
 export const completeWords = 3;
 export const completeIds = 4;
@@ -80,6 +80,7 @@ export const timeLimitEx14 = 240;
 //Variables de las alertas
 export const defaultWarningTitle = "Te queda 1 solo intento";
 export const warningHelpTitle = "Último intento. Recibirás una ayuda";
+export const warningHelpAndExplanation = "Último intento. Se te mostrará la consigna nuevamente y luego recibirás una ayuda.";
 export const defaultSuccessTitle = "Respuesta correcta";
 export const defaultErrorTitle = "Inténtalo nuevamente. Volverás al ejercicio ";
 export const warningIcon = "warning";

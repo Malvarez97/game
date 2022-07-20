@@ -44,6 +44,7 @@ export default {
   methods: {
     finishExersiceInstruccion: function(){
       this.$emit('finishExplanation');
+      this.$store.state.currentAudio.pause();
     }
   },
 }

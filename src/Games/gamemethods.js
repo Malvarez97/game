@@ -423,13 +423,7 @@ export function nextLocalState(){
         let nextGeneralState = getNextGeneralState();
         console.log("NExt general state = "+nextGeneralState);
         console.log("Esta mal "+((nextGeneralState - Math.floor(nextGeneralState)).toFixed(1)));
-        //Si el ejercicio tiene segunda parte, pasamos a la segunda parte de la explicacion, sino a la primera
-        switch (((nextGeneralState - Math.floor(nextGeneralState)).toFixed(1))){
-            case "0.0": transition(getWaitingQuadrant(),GameValues.correctTransition,GameValues.firstPartExplanation); break;
-            case "0.1": transition(getWaitingQuadrant(),GameValues.correctTransition,GameValues.firstPartExplanation); break;
-            //Si el ejercicio tiene segunda parte, tambien guardamos el tiempo de cuando se empieza a leer el otro ejercicio
-            case "0.2": console.log("entro al 0.2"); transition(getWaitingQuadrant(),GameValues.correctTransition,GameValues.secondPartExplanation); break;
-        }
+        transition(getWaitingQuadrant(),GameValues.correctTransition,GameValues.explanation);
         //Guardamos el estado siguiente para cambiarse luego de la transicion
         setNextGeneralState(nextGeneralState);
         //store.dispatch('calculateSessionValues');
@@ -443,31 +437,33 @@ export function nextLocalState(){
         reproduceAudio(GameValues.errorAudio);
         //Si no fue el ultimo intento se hace la transicion
         if (store.state.intent < getLimitAttempts()) {
-            //Transiciono a un estado incorrecto y luego al mismo estado de juego
-            if (hasIntermediateExplanation()){
-                console.log("TIENE EXPLICACION INTERMEDIA");
-                transition(getWaitingQuadrant(),GameValues.incorrectTransition,getIntermediateExplanation());
-            }
-            else{
-                transition(getWaitingQuadrant(),GameValues.incorrectTransition,store.state.gameState);
-            }
             //Si queda solo 1 intento restante
             if (store.state.intent == getLimitAttempts() - 1){
                 //Si el ejercicio tiene ayuda, la activo y le notifico al usuario
                 if (hasHelp()){
                     changeHelp();
-                    setAlert(GameValues.warningIcon,GameValues.warningHelpTitle,"");
+                    setAlert(GameValues.warningIcon,GameValues.warningHelpAndExplanation,"");
+                    transition(getWaitingQuadrant(),GameValues.incorrectTransition,GameValues.explanation);
                 }
                 //Si el ejercicio no tiene ayuda, le notifico al usuario que le queda solo 1 intento
                 else{
                     setAlert(GameValues.warningIcon,GameValues.defaultWarningTitle,"");
                 }
             }
+            else{
+                if (hasIntermediateExplanation()){
+                    console.log("TIENE EXPLICACION INTERMEDIA");
+                    transition(getWaitingQuadrant(),GameValues.incorrectTransition,getIntermediateExplanation());
+                }
+                else{
+                    transition(getWaitingQuadrant(),GameValues.incorrectTransition,store.state.gameState);
+                }
+            }
         }
         //Si fue el ultimo intento
         else {
             //Se notifica el fallo en el ejercicio al usuario y se transiciona hacia atras
-            transition(getWaitingQuadrant(),GameValues.incorrectTransition,GameValues.firstPartExplanation);
+            transition(getWaitingQuadrant(),GameValues.incorrectTransition,GameValues.explanation);
             //Se resetea la variable de cantidad de intentos
             resetIntent();
             saveTime(store.state.currentExercise,GameValues.actionFinishExercise,store.state.intent);
@@ -494,14 +490,13 @@ export function changeValues() {
     }
     switch (store.state.gameState) {
         //Explicaciones de los ejercicios
-        case GameValues.firstPartExplanation:
-        case GameValues.secondPartExplanation:
+        case GameValues.explanation:
             //Si el juego tiene pantalla intermedia
             if (hasIntermediateScreen()){
                 console.log("cambio al estado = "+getIntermediateScreen());
                 changeGameState(getIntermediateScreen());
             }
-            //Si directamente va al juego
+            //Si no va directamente al juego
             else{
                 changeGameState(getExerciseState());
             }
@@ -512,6 +507,7 @@ export function changeValues() {
         case GameValues.showWordsAndIds:
         case GameValues.showAll:
         case GameValues.showIds:
+        case GameValues.secondExplanation:
             changeGameState(getExerciseState());
             break;
         default:
